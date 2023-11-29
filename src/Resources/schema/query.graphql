@@ -1,0 +1,34 @@
+type Resource {
+  id: ID!
+  name: String!
+  location: String!
+  objectType: String!
+  contentSectionTypes: [String!]
+  teaser: Teaser!
+  navigation: Hierarchy!
+}
+
+type Hierarchy {
+    root: Resource!
+    parent: Resource
+    path: [Resource!]!
+    children: [Resource!]!
+}
+
+type FacetGroup {
+    key: String!
+    facetList: [Facet!]
+}
+
+type Facet {
+    key: String!
+    hits: Int!
+}
+
+type ResourceSearchResult {
+  total: Int!
+  queryTime: Int!
+  offset: Int!
+  resourceList: [Resource!]!
+    facetGroupList: [FacetGroup!]!
+}

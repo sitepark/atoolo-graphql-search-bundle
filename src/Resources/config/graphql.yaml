@@ -1,0 +1,16 @@
+overblog_graphql:
+  definitions:
+    mappings:
+      types:
+        - type: attribute
+          dir: "%atoolo_graphql_search_bundle_src_dir%/Input"
+          suffix: ~
+        - type: attribute
+          dir: "%atoolo_graphql_search_bundle_src_dir%/Types"
+          suffix: ~
+        - type: attribute
+          dir: "%atoolo_graphql_search_bundle_src_dir%/Query"
+          suffix: ~
+        - type: graphql
+          dir: "%atoolo_graphql_search_bundle_src_dir%/Resources/schema"
+          suffix: ~

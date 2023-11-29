@@ -1,0 +1,91 @@
+services:
+    atoolo.resource.resourceLoader:
+        class: Atoolo\Resource\Loader\SiteKitLoader
+        arguments:
+            - '%env(resolve:RESOURCE_ROOT)%/objects'
+    atoolo.resource.navigationHierarchyLoader:
+        class: Atoolo\Resource\Loader\SiteKitNavigationHierarchyLoader
+        arguments:
+            - "@atoolo.resource.resourceLoader"
+    atoolo.resource.categoryHierarchyLoader:
+        class: Atoolo\Resource\Loader\SiteKitResourceHierarchyLoader
+        arguments:
+            - "@atoolo.resource.resourceLoader"
+            - "category"
+    atoolo.search.solariumClientFactory:
+        class: Atoolo\Search\Service\SolrParameterClientFactory
+
+    ###
+    # Query Modifiers
+    ###
+    atoolo.search.solrBoostStrategy:
+        class: Atoolo\Search\Service\Search\SiteKit\DefaultBoostModifier
+        tags:
+            - { name: 'atoolo.search.queryModifier', priority: 10 }
+
+    ###
+    # Resource Factories
+    ##ä
+    Atoolo\Search\Service\Search\InternalResourceFactory:
+        arguments:
+            - "@atoolo.resource.resourceLoader"
+        tags:
+            - { name: 'atoolo.search.resourceFactory', priority: 10 }
+    Atoolo\Search\Service\Search\InternalMediaResourceFactory:
+        arguments:
+            - "@atoolo.resource.resourceLoader"
+        tags:
+            - { name: 'atoolo.search.resourceFactory', priority: 11 }
+    Atoolo\Search\Service\Search\ExternalResourceFactory:
+        tags:
+            - { name: 'atoolo.search.resourceFactory', priority: 11 }
+
+    atoolo.search.resultToResourceResolver:
+        class: Atoolo\Search\Service\Search\SolrResultToResourceResolver
+        arguments:
+            - !tagged_iterator atoolo.search.resourceFactory
+            - '@logger'
+
+    SP\GraphQL\Query\RootQuery:
+        public: true
+
+    atoolo.search.selectSearcher:
+        class: Atoolo\Search\Service\Search\SolrSelect
+        arguments:
+            - '@atoolo.search.solariumClientFactory'
+            - !tagged_iterator atoolo.search.queryModifier
+            - '@atoolo.search.resultToResourceResolver'
+    Atoolo\GraphQL\Search\Query\Select:
+        public: true
+        arguments:
+            - "@atoolo.search.selectSearcher"
+
+    Atoolo\GraphQL\Search\Resolver\ClassNameTypeResolver:
+        tags:
+            - { name: overblog_graphql.query, alias: "typeByClassName", method: "resolveType" }
+
+    Atoolo\GraphQL\Search\Resolver\ResolverMapRegistry:
+        arguments:
+            - !tagged_iterator atoolo.graphql.resolver
+        tags:
+            - { name: overblog_graphql.resolver_map, schema: default }
+
+    Atoolo\GraphQL\Search\Resolver\ResourceToTeaserResolver:
+
+    Atoolo\GraphQL\Search\Resolver\ResourceResolver:
+        arguments:
+            - "@Atoolo\\GraphQL\\Search\\Resolver\\ResourceToTeaserResolver"
+        tags:
+            - { name: 'atoolo.graphql.resolver', priority: 10 }
+
+    Atoolo\GraphQL\Search\Resolver\HierarchyResolver:
+        arguments:
+            - "@atoolo.resource.navigationHierarchyLoader"
+            - "@atoolo.resource.categoryHierarchyLoader"
+        tags:
+            - { name: 'atoolo.graphql.resolver', priority: 10 }
+
+    Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver:
+        tags:
+            - { name: 'atoolo.graphql.resolver', priority: 10 }
+
