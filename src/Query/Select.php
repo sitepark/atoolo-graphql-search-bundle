@@ -20,11 +20,14 @@ class Select
     /**
      * @return Resource[]
      */
-    #[GQL\Query(name: 'selectResources', type: 'ResourceSearchResult!')]
-    public function selectResources(SelectQueryInput $input): iterable
+    #[GQL\Query(name: 'search', type: 'ResourceSearchResult!')]
+    public function search(SelectQueryInput $input): iterable
     {
         $factory = new SelectQueryFactory();
         $query = $factory->create($input);
         return $this->searcher->select($query);
     }
+
+    // public function suggest()
+    // public function moreLikeThis()
 }

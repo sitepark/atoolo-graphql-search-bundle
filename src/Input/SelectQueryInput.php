@@ -11,7 +11,7 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 class SelectQueryInput
 {
     #[GQL\Field(type:"String!")]
-    public ?string $core;
+    public ?string $index;
     #[GQL\Field(type:"String")]
     public string $text;
     #[GQL\Field(type:"Int")]
@@ -24,11 +24,10 @@ class SelectQueryInput
      * @var InputFilter[]
      */
     #[GQL\Field(type:"[InputFilter!]")]
-    public array $filterList;
-
+    public array $filter;
     /**
      * @var InputFacet[]
      */
     #[GQL\Field(type:"[InputFacet!]")]
-    public array $facetList;
+    public array $facets;
 }

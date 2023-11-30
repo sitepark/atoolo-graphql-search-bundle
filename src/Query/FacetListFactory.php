@@ -30,6 +30,9 @@ class FacetListFactory
 
     private function createFacet(InputFacet $facet): Facet
     {
+        if (!isset($facet->key)) {
+            throw new InvalidArgumentException('key missing');
+        }
         if (isset($facet->objectTypes)) {
             return $this->createObjectTypeFacet($facet);
         }
@@ -39,10 +42,10 @@ class FacetListFactory
         if (isset($facet->categories)) {
             return $this->createCategoryFacet($facet);
         }
-        if (isset($facet->site)) {
+        if (isset($facet->sites)) {
             return $this->createSiteFacet($facet);
         }
-        if (isset($facet->group)) {
+        if (isset($facet->groups)) {
             return $this->createGroupFacet($facet);
         }
         throw new InvalidArgumentException(
@@ -53,60 +56,50 @@ class FacetListFactory
     private function createObjectTypeFacet(
         InputFacet $facet
     ): ObjectTypeFacet {
-        if (!isset($facet->key)) {
-            throw new InvalidArgumentException('key missing');
-        }
         return new ObjectTypeFacet(
             $facet->key,
-            ...$facet->objectTypes
+            $facet->objectTypes,
+            $facet->excludeFilter
         );
     }
 
     private function createContentSectionTypeFacet(
         InputFacet $facet
     ): ContentSectionTypeFacet {
-        if (!isset($facet->key)) {
-            throw new InvalidArgumentException('key missing');
-        }
         return new ContentSectionTypeFacet(
             $facet->key,
-            ...$facet->contentSectionTypes
+            $facet->contentSectionTypes,
+            $facet->excludeFilter
         );
     }
 
     private function createCategoryFacet(
         InputFacet $facet
     ): CategoryFacet {
-        if (!isset($facet->key)) {
-            throw new InvalidArgumentException('key missing');
-        }
         return new CategoryFacet(
             $facet->key,
-            ...$facet->categories
+            $facet->categories,
+            $facet->excludeFilter
         );
     }
 
     private function createSiteFacet(
         InputFacet $facet
     ): SiteFacet {
-        if (!isset($facet->key)) {
-            throw new InvalidArgumentException('key missing');
-        }
         return new SiteFacet(
             $facet->key,
-            ...$facet->site
+            $facet->sites,
+            $facet->excludeFilter
         );
     }
 
     private function createGroupFacet(
         InputFacet $facet
     ): GroupFacet {
-        if (!isset($facet->key)) {
-            throw new InvalidArgumentException('key missing');
-        }
         return new GroupFacet(
             $facet->key,
-            ...$facet->group
+            $facet->groups,
+            $facet->excludeFilter
         );
     }
 }

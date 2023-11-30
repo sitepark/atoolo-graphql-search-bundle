@@ -30,12 +30,12 @@ class InputFilter
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public array $site;
+    public array $sites;
     /**
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public array $group;
+    public array $groups;
     #[GQL\Field(type:"Boolean")]
     public bool $archive;
 }

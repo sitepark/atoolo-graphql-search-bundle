@@ -17,7 +17,7 @@ type Hierarchy {
 
 type FacetGroup {
     key: String!
-    facetList: [Facet!]
+    facets: [Facet!]
 }
 
 type Facet {
@@ -29,6 +29,7 @@ type ResourceSearchResult {
   total: Int!
   queryTime: Int!
   offset: Int!
-  resourceList: [Resource!]!
-    facetGroupList: [FacetGroup!]!
+  limit: Int!
+  results: [Resource!]!
+  facetGroups: [FacetGroup!]!
 }

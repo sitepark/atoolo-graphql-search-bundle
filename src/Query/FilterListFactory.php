@@ -24,6 +24,9 @@ class FilterListFactory
     {
         $filterList = [];
         foreach ($inputFilterList as $inputFilter) {
+            if (isset($inputFilter->archive)) {
+                continue;
+            }
             $filterList[] = $this->createFilter($inputFilter);
         }
         if ($this->withArchiveFilter($inputFilterList)) {
@@ -43,10 +46,10 @@ class FilterListFactory
         if (isset($filter->categories)) {
             return $this->createCategoryFilter($filter);
         }
-        if (isset($filter->site)) {
+        if (isset($filter->sites)) {
             return $this->createSiteFilter($filter);
         }
-        if (isset($filter->group)) {
+        if (isset($filter->groups)) {
             return $this->createGroupFilter($filter);
         }
         throw new InvalidArgumentException(
@@ -119,7 +122,7 @@ class FilterListFactory
         }
         return new SiteFilter(
             $filter->key,
-            ...$filter->site
+            ...$filter->sites
         );
     }
 
@@ -131,7 +134,7 @@ class FilterListFactory
         }
         return new GroupFilter(
             $filter->key,
-            ...$filter->group
+            ...$filter->groups
         );
     }
 }

@@ -11,6 +11,9 @@ class InputFacet
 {
     #[GQL\Field(type:"String")]
     public string $key;
+
+    #[GQL\Field(type:"String")]
+    public ?string $excludeFilter = null;
     /**
      * @var string[]
      */
@@ -30,10 +33,10 @@ class InputFacet
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public array $site;
+    public array $sites;
     /**
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public array $group;
+    public array $groups;
 }

@@ -14,7 +14,14 @@ class SelectQueryFactory
     public function create(SelectQueryInput $input): SelectQuery
     {
         $builder = SelectQuery::builder()
-            ->core($input->core);
+            ->index($input->index);
+
+        if (isset($input->limit)) {
+            $builder->limit($input->limit);
+        }
+        if (isset($input->offset)) {
+            $builder->offset($input->offset);
+        }
 
         $this->addTextFilter($builder, $input);
         $this->addPagination($builder, $input);
@@ -57,11 +64,11 @@ class SelectQueryFactory
         SelectQueryBuilder $builder,
         SelectQueryInput $input
     ): void {
-        if (!isset($input->filterList)) {
+        if (!isset($input->filter)) {
             return;
         }
         $factory = new FilterListFactory();
-        foreach ($factory->create($input->filterList) as $filter) {
+        foreach ($factory->create($input->filter) as $filter) {
             $builder->filter($filter);
         }
     }
@@ -70,11 +77,11 @@ class SelectQueryFactory
         SelectQueryBuilder $builder,
         SelectQueryInput $input
     ): void {
-        if (!isset($input->facetList)) {
+        if (!isset($input->facets)) {
             return;
         }
         $factory = new FacetListFactory();
-        foreach ($factory->create($input->facetList) as $facet) {
+        foreach ($factory->create($input->facets) as $facet) {
             $builder->facet($facet);
         }
     }
