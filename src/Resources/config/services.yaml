@@ -49,16 +49,30 @@ services:
     SP\GraphQL\Query\RootQuery:
         public: true
 
+    Atoolo\GraphQL\Search\Query\Ping:
+        public: true
+
     atoolo.search.selectSearcher:
         class: Atoolo\Search\Service\Search\SolrSelect
         arguments:
             - '@atoolo.search.solariumClientFactory'
             - !tagged_iterator atoolo.search.queryModifier
             - '@atoolo.search.resultToResourceResolver'
+
+    atoolo.search.suggestSearcher:
+        class: Atoolo\Search\Service\Search\SolrSuggest
+        arguments:
+            - '@atoolo.search.solariumClientFactory'
+
     Atoolo\GraphQL\Search\Query\Select:
         public: true
         arguments:
             - "@atoolo.search.selectSearcher"
+
+    Atoolo\GraphQL\Search\Query\Suggest:
+        public: true
+        arguments:
+            - "@atoolo.search.suggestSearcher"
 
     Atoolo\GraphQL\Search\Resolver\ClassNameTypeResolver:
         tags:

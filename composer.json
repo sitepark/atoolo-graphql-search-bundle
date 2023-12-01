@@ -75,5 +75,19 @@
             "infection/extension-installer": true,
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
+    },
+    "extra": {
+        "composer-link": {
+            "atoolo/search": {
+                "dev": false,
+                "version": "dev-feature/initial-implementation"
+            }
+        }
+    },
+    "repositories": {
+        "atoolo/search": {
+            "type": "path",
+            "url": "/home/veltrup/.cache/composer/link/atoolo/search"
+        }
     }
 }

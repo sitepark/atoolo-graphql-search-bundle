@@ -8,7 +8,7 @@ use Atoolo\GraphQL\Search\Types\QueryDefaultOperator;
 use Overblog\GraphQLBundle\Annotation as GQL;
 
 #[GQL\Input]
-class SelectQueryInput
+class SearchInput
 {
     #[GQL\Field(type:"String!")]
     public ?string $index;

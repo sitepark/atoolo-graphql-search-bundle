@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Query;
 
-use Atoolo\GraphQL\Search\Input\SelectQueryInput;
+use Atoolo\GraphQL\Search\Input\SearchInput;
 use Atoolo\GraphQL\Search\Types\QueryDefaultOperator;
 use Atoolo\Search\Dto\Search\Query\SelectQuery;
 use Atoolo\Search\Dto\Search\Query\SelectQueryBuilder;
 
 class SelectQueryFactory
 {
-    public function create(SelectQueryInput $input): SelectQuery
+    public function create(SearchInput $input): SelectQuery
     {
         $builder = SelectQuery::builder()
             ->index($input->index);
@@ -33,7 +33,7 @@ class SelectQueryFactory
 
     private function addTextFilter(
         SelectQueryBuilder $builder,
-        SelectQueryInput $input
+        SearchInput $input
     ): void {
         if (
             isset($input->queryDefaultOperator) &&
@@ -54,7 +54,7 @@ class SelectQueryFactory
 
     private function addPagination(
         SelectQueryBuilder $builder,
-        SelectQueryInput $input
+        SearchInput $input
     ): void {
         if (isset($input->offset)) {
             $builder->offset($input->offset);
@@ -62,7 +62,7 @@ class SelectQueryFactory
     }
     private function addFilterList(
         SelectQueryBuilder $builder,
-        SelectQueryInput $input
+        SearchInput $input
     ): void {
         if (!isset($input->filter)) {
             return;
@@ -75,7 +75,7 @@ class SelectQueryFactory
 
     private function addFacetList(
         SelectQueryBuilder $builder,
-        SelectQueryInput $input
+        SearchInput $input
     ): void {
         if (!isset($input->facets)) {
             return;

@@ -81,11 +81,8 @@ class FilterListFactory
     private function createObjectTypeFilter(
         InputFilter $filter
     ): ObjectTypeFilter {
-        if (!isset($filter->key)) {
-            throw new InvalidArgumentException('key missing');
-        }
         return new ObjectTypeFilter(
-            $filter->key,
+            $filter->key ?? null,
             ...$filter->objectTypes
         );
     }
@@ -93,11 +90,8 @@ class FilterListFactory
     private function createContentSectionTypeFilter(
         InputFilter $filter
     ): ContentSectionTypeFilter {
-        if (!isset($filter->key)) {
-            throw new InvalidArgumentException('key missing');
-        }
         return new ContentSectionTypeFilter(
-            $filter->key,
+            $filter->key ?? null,
             ...$filter->contentSectionTypes
         );
     }
@@ -105,11 +99,8 @@ class FilterListFactory
     private function createCategoryFilter(
         InputFilter $filter
     ): CategoryFilter {
-        if (!isset($filter->key)) {
-            throw new InvalidArgumentException('key missing');
-        }
         return new CategoryFilter(
-            $filter->key,
+            $filter->key ?? null,
             ...$filter->categories
         );
     }
@@ -117,11 +108,8 @@ class FilterListFactory
     private function createSiteFilter(
         InputFilter $filter
     ): SiteFilter {
-        if (!isset($filter->key)) {
-            throw new InvalidArgumentException('key missing');
-        }
         return new SiteFilter(
-            $filter->key,
+            $filter->key ?? null,
             ...$filter->sites
         );
     }
@@ -129,11 +117,8 @@ class FilterListFactory
     private function createGroupFilter(
         InputFilter $filter
     ): GroupFilter {
-        if (!isset($filter->key)) {
-            throw new InvalidArgumentException('key missing');
-        }
         return new GroupFilter(
-            $filter->key,
+            $filter->key ?? null,
             ...$filter->groups
         );
     }

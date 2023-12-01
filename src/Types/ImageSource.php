@@ -6,7 +6,6 @@ namespace Atoolo\GraphQL\Search\Types;
 
 use Overblog\GraphQLBundle\Annotation as GQL;
 
-#[GQL\Type(name:'ImageSource')]
 class ImageSource
 {
     #[GQL\Field]

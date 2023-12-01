@@ -52,7 +52,18 @@ class ResolverMapRegistry extends ResolverMap
                 self::RESOLVE_FIELD => $this->buildResolverFunction($fieldMap)
             ];
         }
+        $map['Teaser'] = [
+            self::RESOLVE_TYPE => function ($value) {
+                return $this->resolveType($value);
+            }
+        ];
         return $map;
+    }
+
+    private function resolveType($value)
+    {
+        $className = get_class($value);
+        return (substr($className, strrpos($className, '\\') + 1));
     }
 
     /**

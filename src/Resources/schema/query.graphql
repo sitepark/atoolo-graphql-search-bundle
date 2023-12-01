@@ -17,7 +17,7 @@ type Hierarchy {
 
 type FacetGroup {
     key: String!
-    facets: [Facet!]
+    facets: [Facet!]!
 }
 
 type Facet {
@@ -33,3 +33,63 @@ type ResourceSearchResult {
   results: [Resource!]!
   facetGroups: [FacetGroup!]!
 }
+
+type SuggestResult {
+    suggestions: [Suggestion!]!
+    queryTime: Int!
+}
+
+type Suggestion {
+    term: String!
+    hits: Int!
+}
+
+# Base Type for all Teaser
+interface Teaser {
+    url: String!
+}
+
+type ArticleTeaser implements Teaser {
+    url: String!
+    headline: String
+    text: String
+    # Asset of the teaser. E.g. a image or a video
+    asset(variant: String!): Asset
+}
+
+interface Asset {
+    copyright: String
+    caption: String
+    description: String
+}
+
+type Image implements Asset {
+    copyright: String
+    caption: String
+    description: String
+    alternativeText: String
+    original: ImageSource
+    characteristic: ImageCharacteristic
+    sources: [ImageSource]
+}
+
+type ImageSource {
+    variant: String!
+    url: String!
+    width: Int!
+    height: Int!
+    mediaQuery: String
+}
+
+enum ImageCharacteristic {
+    NORMAL
+    INFOGRAPHIC
+    DECORATIVE_IMAGE
+    DECORATIVE_IMAGE_NOT_CUT
+}
+
+enum QueryDefaultOperator {
+    AND
+    OR
+}
+

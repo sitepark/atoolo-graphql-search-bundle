@@ -1,0 +1,5 @@
+overblog_graphiql:
+  javascript_libraries:
+    graphiql: "3.0.10"
+    react: "18.2.0"
+    fetch: "3.6.19"
