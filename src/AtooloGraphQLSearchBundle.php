@@ -24,6 +24,5 @@ class AtooloGraphQLSearchBundle extends AbstractBundle
         );
         $loader->load('services.yaml');
         $loader->load('graphql.yaml');
-        $loader->load('graphiql.yaml');
     }
 }
