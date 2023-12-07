@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search;
 
+use Symfony\Component\Config\Loader\GlobFileLoader;
+use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -18,11 +21,17 @@ class AtooloGraphQLSearchBundle extends AbstractBundle
             __DIR__
         );
 
-        $loader = new YamlFileLoader(
-            $container,
-            new FileLocator(__DIR__ . '/Resources/config')
+        $configDir = __DIR__ . '/Resources/config';
+
+        $loader = new GlobFileLoader(new FileLocator($configDir));
+        $loader->setResolver(
+            new LoaderResolver(
+                [
+                    new YamlFileLoader($container, new FileLocator($configDir)),
+                ]
+            )
         );
-        $loader->load('services.yaml');
-        $loader->load('graphql.yaml');
+
+        $loader->load('*.yaml', 'glob');
     }
 }

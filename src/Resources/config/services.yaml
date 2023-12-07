@@ -1,8 +1,23 @@
+parameters:
+    atoolo.search.solr.connection.scheme.default: 'http'
+    atoolo.search.solr.connection.host.default: 'localhost'
+    atoolo.search.solr.connection.port.default: 8382
+    atoolo.search.solr.connection.path.default: ''
+    atoolo.search.solr.connection.proxy.default: ''
+    atoolo.search.solr.connection.timeout.default: 0
+    atoolo.search.solr.connection.scheme: '%env(default:atoolo.search.solr.connection.scheme.default:SOLR_SCHEME)%'
+    atoolo.search.solr.connection.host: '%env(default:atoolo.search.solr.connection.host.default:SOLR_HOST)%'
+    atoolo.search.solr.connection.port: '%env(default:atoolo.search.solr.connection.port.default:SOLR_PORT)%'
+    atoolo.search.solr.connection.path: '%env(default:atoolo.search.solr.connection.path.default:SOLR_PATH)%'
+    atoolo.search.solr.connection.proxy: '%env(default:atoolo.search.solr.connection.proxy.default:SOLR_PROXY)%'
+    atoolo.search.solr.connection.timeout: '%env(default:atoolo.search.solr.connection.timeout.default:SOLR_TIMEOUT)%'
 services:
+    atoolo.resource.resourceBaseLocator:
+        class: Atoolo\Resource\Loader\ResourceLayoutResourceBaseLocator
     atoolo.resource.resourceLoader:
         class: Atoolo\Resource\Loader\SiteKitLoader
         arguments:
-            - '%env(resolve:RESOURCE_ROOT)%/objects'
+            - '@atoolo.resource.resourceBaseLocator'
     atoolo.resource.navigationHierarchyLoader:
         class: Atoolo\Resource\Loader\SiteKitNavigationHierarchyLoader
         arguments:
@@ -14,6 +29,13 @@ services:
             - "category"
     atoolo.search.solariumClientFactory:
         class: Atoolo\Search\Service\SolrParameterClientFactory
+        arguments:
+            - '%atoolo.search.solr.connection.scheme%'
+            - '%atoolo.search.solr.connection.host%'
+            - '%atoolo.search.solr.connection.port%'
+            - '%atoolo.search.solr.connection.path%'
+            - '%atoolo.search.solr.connection.proxy%'
+            - '%atoolo.search.solr.connection.timeout%'
 
     ###
     # Query Modifiers
@@ -46,9 +68,6 @@ services:
             - !tagged_iterator atoolo.search.resourceFactory
             - '@logger'
 
-    SP\GraphQL\Query\RootQuery:
-        public: true
-
     Atoolo\GraphQL\Search\Query\Ping:
         public: true
 
@@ -64,6 +83,27 @@ services:
         arguments:
             - '@atoolo.search.solariumClientFactory'
 
+    atoolo.search.indexerProgressHandler:
+        class: Atoolo\Search\Service\Indexer\IndexerProgressStateToJsonFile
+        arguments:
+            - '%kernel.project_dir%/var/cache/'
+
+    Atoolo\Search\Service\Indexer\SiteKit\DefaultSchema21DocumentEnricher:
+        arguments:
+            - '@atoolo.resource.navigationHierarchyLoader'
+        tags:
+            - { name: 'atoolo.search.indexer.documentEnricher', priority: 10 }
+
+    atoolo.search.indexer:
+        class: Atoolo\Search\Service\Indexer\BackgroundIndexer
+        arguments:
+            - !tagged_iterator atoolo.search.indexer.documentEnricher
+            - '@atoolo.resource.resourceBaseLocator'
+            - '@atoolo.resource.resourceLoader'
+            - '@atoolo.search.solariumClientFactory'
+            - 'internal'
+            - '%kernel.cache_dir%'
+
     Atoolo\GraphQL\Search\Query\Select:
         public: true
         arguments:
@@ -73,6 +113,16 @@ services:
         public: true
         arguments:
             - "@atoolo.search.suggestSearcher"
+
+    Atoolo\GraphQL\Search\Query\Indexer:
+        public: true
+        arguments:
+            - "@atoolo.search.indexer"
+
+    Atoolo\GraphQL\Search\Mutation\Indexer:
+        public: true
+        arguments:
+            - "@atoolo.search.indexer"
 
     Atoolo\GraphQL\Search\Resolver\ClassNameTypeResolver:
         tags:

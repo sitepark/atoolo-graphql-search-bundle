@@ -57,6 +57,14 @@ type ArticleTeaser implements Teaser {
     asset(variant: String!): Asset
 }
 
+type MediaTeaser implements Teaser {
+    url: String!
+    headline: String
+    text: String
+    contentType: String!
+    contentLength: Int!
+}
+
 interface Asset {
     copyright: String
     caption: String
@@ -93,3 +101,10 @@ enum QueryDefaultOperator {
     OR
 }
 
+type IndexerStatus {
+    startTime : Int
+    total: Int
+    processed: Int
+    errors: Int
+    statusLine: String
+}

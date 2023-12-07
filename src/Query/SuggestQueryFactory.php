@@ -12,9 +12,11 @@ class SuggestQueryFactory
     public function create(SuggestInput $input): SuggestQuery
     {
         $filterList = [];
-        $factory = new FilterListFactory();
-        foreach ($factory->create($input->filter) as $filter) {
-            $filterList[] = $filter;
+        if (isset($input->filter)) {
+            $factory = new FilterListFactory();
+            foreach ($factory->create($input->filter) as $filter) {
+                $filterList[] = $filter;
+            }
         }
 
         return new SuggestQuery(

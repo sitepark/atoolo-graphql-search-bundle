@@ -2,6 +2,7 @@ overblog_graphql:
   definitions:
     schema:
       query: RootQuery
+      mutation: RootMutation
       types: [ArticleTeaser]
     mappings:
       types:
@@ -13,6 +14,9 @@ overblog_graphql:
           suffix: ~
         - type: attribute
           dir: "%atoolo_graphql_search_bundle_src_dir%/Query"
+          suffix: ~
+        - type: attribute
+          dir: "%atoolo_graphql_search_bundle_src_dir%/Mutation"
           suffix: ~
         - type: graphql
           dir: "%atoolo_graphql_search_bundle_src_dir%/Resources/schema"
