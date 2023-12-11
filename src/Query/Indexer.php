@@ -16,7 +16,7 @@ class Indexer
     ) {
     }
 
-    #[GQL\Query(name: 'getIndexerStatus', type: 'IndexerStatus!')]
+    #[GQL\Query(name: 'indexerStatus', type: 'IndexerStatus!')]
     #[GQL\Access("hasRole('ROLE_API')")]
     public function indexerStatus(string $index): IndexerStatus
     {
