@@ -6,6 +6,7 @@ namespace Atoolo\GraphQL\Search\Mutation;
 
 use Atoolo\GraphQL\Search\Input\IndexerInput;
 use Atoolo\Search\Dto\Indexer\IndexerParameter;
+use Atoolo\Search\Dto\Indexer\IndexerStatus;
 use Atoolo\Search\Service\Indexer\BackgroundIndexer;
 use Atoolo\Search\Service\Indexer\BackgroundIndexerStatus;
 use Overblog\GraphQLBundle\Annotation as GQL;
@@ -18,9 +19,9 @@ class Indexer
     ) {
     }
 
-    #[GQL\Mutation(name: 'index', type: 'String!')]
+    #[GQL\Mutation(name: 'index', type: 'IndexerStatus!')]
     #[GQL\Access("hasRole('ROLE_API')")]
-    public function index(IndexerInput $input): string
+    public function index(IndexerInput $input): IndexerStatus
     {
         $parameter = new IndexerParameter(
             $input->index,

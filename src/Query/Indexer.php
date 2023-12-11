@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Query;
 
-use Atoolo\GraphQL\Search\Input\IndexerInput;
-use Atoolo\Search\Dto\Indexer\IndexerParameter;
+use Atoolo\Search\Dto\Indexer\IndexerStatus;
 use Atoolo\Search\Service\Indexer\BackgroundIndexer;
-use Atoolo\Search\Service\Indexer\BackgroundIndexerStatus;
 use Overblog\GraphQLBundle\Annotation as GQL;
 
 #[GQL\Provider]
@@ -18,9 +16,9 @@ class Indexer
     ) {
     }
 
-    #[GQL\Query(name: 'getIndexerStatus', type: 'IndexerStatus')]
+    #[GQL\Query(name: 'getIndexerStatus', type: 'IndexerStatus!')]
     #[GQL\Access("hasRole('ROLE_API')")]
-    public function getIndexerStatus(string $index): ?BackgroundIndexerStatus
+    public function indexerStatus(string $index): IndexerStatus
     {
         return $this->indexer->getStatus($index);
     }

@@ -11,8 +11,9 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class AtooloGraphQLSearchBundle extends AbstractBundle
+class AtooloGraphQLSearchBundle extends Bundle
 {
     public function build(ContainerBuilder $container): void
     {
@@ -32,6 +33,12 @@ class AtooloGraphQLSearchBundle extends AbstractBundle
             )
         );
 
-        $loader->load('*.yaml', 'glob');
+        $loader->load('graphql.yaml');
+        $loader->load('services.yaml');
+
+        $bundles = $container->getParameter('kernel.bundles');
+        if (isset($bundles['OverblogGraphiQLBundle'])) {
+            $loader->load('graphiql.yaml');
+        }
     }
 }
