@@ -30,4 +30,21 @@ class Indexer
         );
         return $this->indexer->index($parameter);
     }
+
+    #[GQL\Mutation(name: 'indexRemove', type: 'Boolean!')]
+    #[GQL\Access("hasRole('ROLE_API')")]
+    public function indexRemove(string $index, string $id): bool
+    {
+        $this->indexer->remove($index, $id);
+        return true;
+    }
+
+    #[GQL\Mutation(name: 'indexAbort', type: 'Boolean!')]
+    #[GQL\Access("hasRole('ROLE_API')")]
+    public function indexAbort(string $index): bool
+    {
+        $this->indexer->abort($index);
+        return true;
+    }
+
 }

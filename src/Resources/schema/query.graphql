@@ -104,8 +104,11 @@ enum QueryDefaultOperator {
 type IndexerStatus {
     startTime : DateTime
     endTime : DateTime
+    lastUpdate : DateTime
     total: Int
     processed: Int
+    skipped: Int
+    updated: Int
     errors: Int
     statusLine: String
 }

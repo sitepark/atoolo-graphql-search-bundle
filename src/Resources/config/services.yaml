@@ -94,6 +94,11 @@ services:
         tags:
             - { name: 'atoolo.search.indexer.documentEnricher', priority: 10 }
 
+    atoolo.search.indexer.aborter:
+        class: Atoolo\Search\Service\Indexer\IndexingAborter
+        arguments:
+            - '%kernel.project_dir%/var/cache/'
+
     atoolo.search.indexer:
         class: Atoolo\Search\Service\Indexer\BackgroundIndexer
         arguments:
@@ -101,6 +106,7 @@ services:
             - '@atoolo.resource.resourceBaseLocator'
             - '@atoolo.resource.resourceLoader'
             - '@atoolo.search.solariumClientFactory'
+            - '@atoolo.search.indexer.aborter'
             - 'internal'
             - '%kernel.cache_dir%'
 
