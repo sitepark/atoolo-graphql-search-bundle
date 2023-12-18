@@ -13,6 +13,8 @@ class IndexerInput
     public string $index;
     #[GQL\Field(type:"Int")]
     public ?int $cleanupThreshold;
+    #[GQL\Field(type:"Int")]
+    public ?int $chunkSize;
     /**
      * @var string[]
      */

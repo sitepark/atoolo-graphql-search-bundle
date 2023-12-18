@@ -13,7 +13,10 @@ parameters:
     atoolo.search.solr.connection.timeout: '%env(default:atoolo.search.solr.connection.timeout.default:SOLR_TIMEOUT)%'
 services:
     atoolo.resource.resourceBaseLocator:
-        class: Atoolo\Resource\Loader\ResourceLayoutResourceBaseLocator
+        class: Atoolo\Resource\Loader\ServerVarResourceBaseLocator
+        arguments:
+            - 'RESOURCE_ROOT'
+            - 'objects'
     atoolo.resource.resourceLoader:
         class: Atoolo\Resource\Loader\SiteKitLoader
         arguments:

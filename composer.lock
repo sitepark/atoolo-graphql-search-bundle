@@ -4,21 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1992aa6dd0e0d2fe1fcf56cbb77efc33",
+    "content-hash": "80a71fdd593df7de60cf1a44d5530f70",
     "packages": [
         {
             "name": "atoolo/resource",
             "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sitepark/atoolo-resource.git",
-                "reference": "aee298b8f61ecffc27b035640f6ba30c3aa74f6a"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sitepark/atoolo-resource/zipball/aee298b8f61ecffc27b035640f6ba30c3aa74f6a",
-                "reference": "aee298b8f61ecffc27b035640f6ba30c3aa74f6a",
-                "shasum": ""
+                "type": "path",
+                "url": "/home/veltrup/.cache/composer/link/atoolo/resource",
+                "reference": "aee298b8f61ecffc27b035640f6ba30c3aa74f6a"
             },
             "require": {
                 "php": ">=8.1 <8.4.0"
@@ -31,14 +25,65 @@
                 "roave/security-advisories": "dev-latest",
                 "squizlabs/php_codesniffer": "^3.7"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "Atoolo\\Resource\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Atoolo\\Resource\\Test\\": "test"
+                }
+            },
+            "scripts": {
+                "post-install-cmd": [
+                    "phive --no-progress install --force-accept-unsigned --trust-gpg-keys C00543248C87FB13,4AA394086372C20A,CF1A108D0E7AE720,51C67305FFC2E5C0"
+                ],
+                "analyse": [
+                    "@analyse:phplint",
+                    "@analyse:phpstan",
+                    "@analyse:phpcs",
+                    "@analyse:compatibilitycheck"
+                ],
+                "analyse:compatibilitycheck": [
+                    "./vendor/bin/phpcs --standard=./phpcs.compatibilitycheck.xml"
+                ],
+                "analyse:phpcs": [
+                    "./vendor/bin/phpcs"
+                ],
+                "analyse:phplint": [
+                    "./tools/phplint"
+                ],
+                "analyse:phpstan": [
+                    "./tools/phpstan analyse"
+                ],
+                "cs-fix": [
+                    "@cs-fix:phpcbf"
+                ],
+                "cs-fix:phpcbf": [
+                    "./vendor/bin/phpcbf"
+                ],
+                "report": [
+                    "@report:phpcs",
+                    "@report:phpstan"
+                ],
+                "report:phpcs": [
+                    "./vendor/bin/phpcs || exit 0"
+                ],
+                "report:phpstan": [
+                    "./tools/phpstan analyse --no-progress --no-ansi --no-interaction --error-format=checkstyle > ./var/log/phpstan-report.xml || exit 0"
+                ],
+                "test": [
+                    "@test:phpunit"
+                ],
+                "test:phpunit": [
+                    "./tools/phpunit.phar -c phpunit.xml --coverage-text"
+                ],
+                "test:infection": [
+                    "vendor/bin/infection --threads=8 --no-progress --only-covered -s || exit 0"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -49,25 +94,17 @@
                 }
             ],
             "description": "Handle pre-produced data",
-            "support": {
-                "issues": "https://github.com/sitepark/atoolo-resource/issues",
-                "source": "https://github.com/sitepark/atoolo-resource/tree/main"
-            },
-            "time": "2023-12-12T07:10:53+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "atoolo/search",
             "version": "dev-feature/initial-implementation",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sitepark/atoolo-search.git",
-                "reference": "2b7fcc927ef9ae89055718cd9400493ccd885d8f"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sitepark/atoolo-search/zipball/2b7fcc927ef9ae89055718cd9400493ccd885d8f",
-                "reference": "2b7fcc927ef9ae89055718cd9400493ccd885d8f",
-                "shasum": ""
+                "type": "path",
+                "url": "/home/veltrup/.cache/composer/link/atoolo/search",
+                "reference": "b49edc76e1cdd5f19af4a33d3ea0c83dcf350ea1"
             },
             "require": {
                 "atoolo/resource": "dev-main",
@@ -94,7 +131,7 @@
                 "composer-link": {
                     "atoolo/resource": {
                         "dev": false,
-                        "version": "dev-feature/hierarchy-loader"
+                        "version": "dev-main"
                     }
                 }
             },
@@ -103,7 +140,59 @@
                     "Atoolo\\Search\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Atoolo\\Search\\Test\\": "test"
+                }
+            },
+            "scripts": {
+                "post-install-cmd": [
+                    "phive --no-progress install --force-accept-unsigned --trust-gpg-keys C00543248C87FB13,4AA394086372C20A,CF1A108D0E7AE720,51C67305FFC2E5C0"
+                ],
+                "analyse": [
+                    "@analyse:phplint",
+                    "@analyse:phpstan",
+                    "@analyse:phpcs",
+                    "@analyse:compatibilitycheck"
+                ],
+                "analyse:compatibilitycheck": [
+                    "./vendor/bin/phpcs --standard=./phpcs.compatibilitycheck.xml"
+                ],
+                "analyse:phpcs": [
+                    "./vendor/bin/phpcs"
+                ],
+                "analyse:phplint": [
+                    "./tools/phplint"
+                ],
+                "analyse:phpstan": [
+                    "./tools/phpstan analyse"
+                ],
+                "cs-fix": [
+                    "@cs-fix:phpcbf"
+                ],
+                "cs-fix:phpcbf": [
+                    "./vendor/bin/phpcbf"
+                ],
+                "report": [
+                    "@report:phpcs",
+                    "@report:phpstan"
+                ],
+                "report:phpcs": [
+                    "./vendor/bin/phpcs || exit 0"
+                ],
+                "report:phpstan": [
+                    "./tools/phpstan analyse --no-progress --no-ansi --no-interaction --error-format=checkstyle > ./var/log/phpstan-report.xml || exit 0"
+                ],
+                "test": [
+                    "@test:phpunit"
+                ],
+                "test:phpunit": [
+                    "./tools/phpunit.phar -c phpunit.xml --coverage-text"
+                ],
+                "test:infection": [
+                    "vendor/bin/infection --threads=8 --no-progress --only-covered -s || exit 0"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -114,11 +203,9 @@
                 }
             ],
             "description": "Indexing und searching",
-            "support": {
-                "issues": "https://github.com/sitepark/atoolo-search/issues",
-                "source": "https://github.com/sitepark/atoolo-search/tree/feature/initial-implementation"
-            },
-            "time": "2023-12-13T12:33:20+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "doctrine/deprecations",
@@ -7299,6 +7386,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "atoolo/resource": 20,
         "atoolo/search": 20,
         "roave/security-advisories": 20
     },

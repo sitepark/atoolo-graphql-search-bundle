@@ -23,19 +23,40 @@ class Indexer
     #[GQL\Access("hasRole('ROLE_API')")]
     public function index(IndexerInput $input): IndexerStatus
     {
-        $parameter = new IndexerParameter(
-            $input->index,
-            $input->cleanupThreshold ?? 0,
-            $input->paths ?? []
-        );
-        return $this->indexer->index($parameter);
+        set_time_limit(60 * 60 * 2);
+        $oldLimit = ini_get('memory_limit');
+        ini_set('memory_limit', '512M');
+        try {
+            $parameter = new IndexerParameter(
+                $input->index,
+                $input->cleanupThreshold ?? 0,
+                $input->chunkSize ?? 500,
+                $input->paths ?? []
+            );
+            return $this->indexer->index($parameter);
+        } finally {
+            ini_set('memory_limit', $oldLimit);
+        }
     }
 
     #[GQL\Mutation(name: 'indexRemove', type: 'Boolean!')]
     #[GQL\Access("hasRole('ROLE_API')")]
-    public function indexRemove(string $index, string $id): bool
+    #[GQL\Arg(
+        name:"index",
+        type:"String!",
+        description:"index from which the entry is to be deleted"
+    )]
+    #[GQL\Arg(
+        name:"idList",
+        type:"[String!]",
+        description:"list of id's of the entries to be deleted"
+    )]
+    /**
+     * @param string[] $idList
+     */
+    public function indexRemove(string $index, array $idList): bool
     {
-        $this->indexer->remove($index, $id);
+        $this->indexer->remove($index, $idList);
         return true;
     }
 
@@ -46,5 +67,4 @@ class Indexer
         $this->indexer->abort($index);
         return true;
     }
-
 }
