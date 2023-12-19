@@ -25,7 +25,7 @@ type Facet {
     hits: Int!
 }
 
-type ResourceSearchResult {
+type SearchResult {
   total: Int!
   queryTime: Int!
   offset: Int!
