@@ -14,6 +14,7 @@ use Atoolo\Search\Dto\Search\Query\Filter\GroupFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\NotFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ObjectTypeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\OrFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\QueryFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SiteFilter;
 use InvalidArgumentException;
 
@@ -63,6 +64,9 @@ class FilterListFactory
         }
         if (isset($filter->not)) {
             return $this->createNotFilter($filter);
+        }
+        if (isset($filter->query)) {
+            return $this->createQueryFilter($filter);
         }
         throw new InvalidArgumentException(
             "Unable to create filter\n" . print_r($filter, true)
@@ -167,6 +171,15 @@ class FilterListFactory
         return new NotFilter(
             $filter->key ?? null,
             $this->createFilter($filter->not)
+        );
+    }
+
+    private function createQueryFilter(
+        InputFilter $filter
+    ): QueryFilter {
+        return new QueryFilter(
+            $filter->key ?? null,
+            $filter->query
         );
     }
 }

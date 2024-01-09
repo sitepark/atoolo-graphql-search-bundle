@@ -44,4 +44,6 @@ class InputFilter
     public array $or;
     #[GQL\Field(type:"InputFilter")]
     public InputFilter $not;
+    #[GQL\Field(type:"String")]
+    public string $query;
 }
