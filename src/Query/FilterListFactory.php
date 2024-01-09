@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Query;
 
 use Atoolo\GraphQL\Search\Input\InputFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\AndFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ArchiveFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\CategoryFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ContentSectionTypeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\Filter;
 use Atoolo\Search\Dto\Search\Query\Filter\GroupFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\NotFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ObjectTypeFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\OrFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SiteFilter;
 use InvalidArgumentException;
 
@@ -51,6 +54,15 @@ class FilterListFactory
         }
         if (isset($filter->groups)) {
             return $this->createGroupFilter($filter);
+        }
+        if (isset($filter->and)) {
+            return $this->createAndFilter($filter);
+        }
+        if (isset($filter->or)) {
+            return $this->createOrFilter($filter);
+        }
+        if (isset($filter->not)) {
+            return $this->createNotFilter($filter);
         }
         throw new InvalidArgumentException(
             "Unable to create filter\n" . print_r($filter, true)
@@ -120,6 +132,41 @@ class FilterListFactory
         return new GroupFilter(
             $filter->key ?? null,
             ...$filter->groups
+        );
+    }
+
+    private function createAndFilter(
+        InputFilter $filter
+    ): AndFilter {
+        $filterList = [];
+        foreach ($filter->and as $filterItem) {
+            $filterList[] = $this->createFilter($filterItem);
+        }
+        return new AndFilter(
+            $filter->key ?? null,
+            $filterList
+        );
+    }
+
+    private function createOrFilter(
+        InputFilter $filter
+    ): OrFilter {
+        $filterList = [];
+        foreach ($filter->or as $filterItem) {
+            $filterList[] = $this->createFilter($filterItem);
+        }
+        return new OrFilter(
+            $filter->key ?? null,
+            $filterList
+        );
+    }
+
+    private function createNotFilter(
+        InputFilter $filter
+    ): NotFilter {
+        return new NotFilter(
+            $filter->key ?? null,
+            $this->createFilter($filter->not)
         );
     }
 }
