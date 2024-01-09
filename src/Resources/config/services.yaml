@@ -144,6 +144,8 @@ services:
             - { name: overblog_graphql.resolver_map, schema: default }
 
     Atoolo\GraphQL\Search\Resolver\ResourceToTeaserResolver:
+      arguments:
+        - !tagged_iterator atoolo.graphql.teaserResolver
 
     Atoolo\GraphQL\Search\Resolver\ResourceResolver:
         arguments:
@@ -158,7 +160,12 @@ services:
         tags:
             - { name: 'atoolo.graphql.resolver', priority: 10 }
 
+    Atoolo\GraphQL\Search\Resolver\MediaTeaserResolver:
+      tags:
+        - { name: 'atoolo.graphql.teaserResolver', priority: 10 }
+
     Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver:
         tags:
             - { name: 'atoolo.graphql.resolver', priority: 10 }
+            - { name: 'atoolo.graphql.teaserResolver', priority: 1 }
 

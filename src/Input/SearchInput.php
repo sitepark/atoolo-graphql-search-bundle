@@ -21,6 +21,11 @@ class SearchInput
     #[GQL\Field(type:"QueryDefaultOperator")]
     public QueryDefaultOperator $queryDefaultOperator;
     /**
+     * @var InputSortCriteria[]
+     */
+    #[GQL\Field(type:"[InputSortCriteria!]")]
+    public array $sort;
+    /**
      * @var InputFilter[]
      */
     #[GQL\Field(type:"[InputFilter!]")]

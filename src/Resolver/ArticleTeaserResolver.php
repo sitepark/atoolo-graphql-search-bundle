@@ -8,10 +8,29 @@ use Atoolo\GraphQL\Search\Types\ArticleTeaser;
 use Atoolo\GraphQL\Search\Types\Image;
 use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
 use Atoolo\GraphQL\Search\Types\ImageSource;
+use Atoolo\GraphQL\Search\Types\Teaser;
+use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 
-class ArticleTeaserResolver implements Resolver
+class ArticleTeaserResolver implements Resolver, TeaserResolver
 {
+
+    public function accept(Resource $resource): bool
+    {
+        return true;
+    }
+
+    public function resolve(Resource $resource): Teaser
+    {
+        $teaser = new ArticleTeaser();
+        $teaser->url = $resource->getLocation();
+        $teaser->headline = $resource->getData('base.teaser.headline')
+            ?? $resource->getName();
+        $teaser->text = $resource->getData('base.teaser.text');
+        $teaser->resource = $resource;
+        return $teaser;
+    }
+
     public function getAsset(
         ArticleTeaser $teaser,
         ArgumentInterface $args
@@ -99,4 +118,5 @@ class ArticleTeaserResolver implements Resolver
         $source->mediaQuery = $sourceData['mediaQuery'] ?? null;
         return $source;
     }
+
 }

@@ -12,45 +12,25 @@ use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 
 class ResourceToTeaserResolver
 {
+    /**
+     * @param iterable<TeaserResolver> $resolverList
+     */
+    public function __construct(
+        private readonly iterable $resolverList
+    ) {
+    }
+
     public function resolve(Resource $resource): Teaser
     {
-        if ($this->isMedia($resource)) {
-            return $this->createMediaTeaser($resource);
+        foreach ($this->resolverList as $resolver) {
+            if (!$resolver->accept($resource)) {
+                continue;
+            }
+            return $resolver->resolve($resource);
         }
-        return $this->createArticleTeaser($resource);
-    }
 
-    private function createArticleTeaser(Resource $resource): ArticleTeaser
-    {
-        $teaser = new ArticleTeaser();
-        $teaser->url = $resource->getLocation();
-        $teaser->headline = $resource->getData('base.teaser.headline')
-            ?? $resource->getName();
-        $teaser->text = $resource->getData('base.teaser.text');
-        $teaser->resource = $resource;
-        return $teaser;
-    }
-
-    private function isMedia(Resource $resource): bool
-    {
-        if ($resource->getObjectType() === 'media') {
-            return true;
-        }
-        if ($resource->getObjectType() === 'embedded-media') {
-            return true;
-        }
-        return false;
-    }
-
-    private function createMediaTeaser(Resource $resource): MediaTeaser
-    {
-        $teaser = new MediaTeaser();
-        $teaser->url = $resource->getData('init.mediaUrl');
-        $teaser->headline = $resource->getData('base.teaser.headline')
-            ?? $resource->getName();
-        $teaser->text = $resource->getData('base.teaser.text');
-        $teaser->contentType = $resource->getData('base.mime');
-        $teaser->contentLength = $resource->getData('base.filesize');
-        return $teaser;
+        throw new \InvalidArgumentException(
+            'Unresolvable resource ' . $resource->getLocation()
+        );
     }
 }

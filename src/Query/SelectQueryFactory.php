@@ -6,8 +6,10 @@ namespace Atoolo\GraphQL\Search\Query;
 
 use Atoolo\GraphQL\Search\Input\SearchInput;
 use Atoolo\GraphQL\Search\Types\QueryDefaultOperator;
+use Atoolo\GraphQL\Search\Types\SortDirection;
 use Atoolo\Search\Dto\Search\Query\SelectQuery;
 use Atoolo\Search\Dto\Search\Query\SelectQueryBuilder;
+use Atoolo\Search\Dto\Search\Query\Sort\Direction;
 
 class SelectQueryFactory
 {
@@ -24,6 +26,7 @@ class SelectQueryFactory
         }
 
         $this->addTextFilter($builder, $input);
+        $this->addSort($builder, $input);
         $this->addPagination($builder, $input);
         $this->addFilterList($builder, $input);
         $this->addFacetList($builder, $input);
@@ -50,6 +53,52 @@ class SelectQueryFactory
         if (isset($input->text)) {
             $builder->text($input->text);
         }
+    }
+
+    private function addSort(
+        SelectQueryBuilder $builder,
+        SearchInput $input
+    ): void {
+        if (!isset($input->sort)) {
+            return;
+        }
+        foreach ($input->sort as $criteria) {
+            if (isset($criteria->name)) {
+                $direction = $this->mapDirection($criteria->name);
+                $builder->sort(
+                    new \Atoolo\Search\Dto\Search\Query\Sort\Name($direction)
+                );
+            } elseif (isset($criteria->headline)) {
+                $direction = $this->mapDirection($criteria->headline);
+                $builder->sort(
+                    new \Atoolo\Search\Dto\Search\Query\Sort\Headline($direction)
+                );
+            } elseif (isset($criteria->date)) {
+                $direction = $this->mapDirection($criteria->date);
+                $builder->sort(
+                    new \Atoolo\Search\Dto\Search\Query\Sort\Date($direction)
+                );
+            } elseif (isset($criteria->natural)) {
+                $direction = $this->mapDirection($criteria->natural);
+                $builder->sort(
+                    new \Atoolo\Search\Dto\Search\Query\Sort\Natural($direction)
+                );
+            } elseif (isset($criteria->score)) {
+                $direction = $this->mapDirection($criteria->score);
+                $builder->sort(
+                    new \Atoolo\Search\Dto\Search\Query\Sort\Score($direction)
+                );
+            } else {
+                throw new \InvalidArgumentException('Sort criteria not found');
+            }
+        }
+    }
+
+    private function mapDirection(SortDirection $direction): Direction
+    {
+        return $direction === SortDirection::ASC
+            ? Direction::ASC
+            : Direction::DESC;
     }
 
     private function addPagination(

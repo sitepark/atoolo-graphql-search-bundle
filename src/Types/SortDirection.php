@@ -4,10 +4,9 @@ namespace Atoolo\GraphQL\Search\Types;
 
 use Overblog\GraphQLBundle\Annotation as GQL;
 
-
 #[GQL\Enum]
-enum QueryDefaultOperator
+enum SortDirection
 {
-    case AND;
-    case OR;
+    case ASC;
+    case DESC;
 }

@@ -96,11 +96,6 @@ enum ImageCharacteristic {
     DECORATIVE_IMAGE_NOT_CUT
 }
 
-enum QueryDefaultOperator {
-    AND
-    OR
-}
-
 type IndexerStatus {
     startTime : DateTime
     endTime : DateTime

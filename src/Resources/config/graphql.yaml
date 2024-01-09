@@ -3,7 +3,7 @@ overblog_graphql:
     schema:
       query: RootQuery
       mutation: RootMutation
-      types: [ArticleTeaser]
+      types: [ArticleTeaser, MediaTeaser]
     mappings:
       types:
         - type: attribute
