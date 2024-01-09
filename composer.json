@@ -78,21 +78,5 @@
         }
     },
     "repositories": {
-        "atoolo/search": {
-            "type": "path",
-            "url": "/home/veltrup/.cache/composer/link/atoolo/search"
-        },
-        "atoolo/resource": {
-            "type": "path",
-            "url": "/home/veltrup/.cache/composer/link/atoolo/resource"
-        }
-    },
-    "extra": {
-        "composer-link": {
-            "atoolo/search": {
-                "dev": false,
-                "version": "dev-feature/initial-implementation"
-            }
-        }
     }
 }
