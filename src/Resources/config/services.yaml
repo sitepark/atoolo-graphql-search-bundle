@@ -95,19 +95,28 @@ services:
         arguments:
             - '@atoolo.resource.navigationHierarchyLoader'
         tags:
-            - { name: 'atoolo.search.indexer.documentEnricher', priority: 10 }
+            - { name: 'atoolo.search.indexer.documentEnricher', priority: 100 }
+
+    atoolo.search.indexer.translationSplitter:
+      class: Atoolo\Search\Service\Indexer\SiteKit\SubDirTranslationSplitter
 
     atoolo.search.indexer.aborter:
         class: Atoolo\Search\Service\Indexer\IndexingAborter
         arguments:
             - '%kernel.project_dir%/var/cache/'
 
+    atoolo.search.indexer.locationFinder:
+      class: Atoolo\Search\Service\Indexer\LocationFinder
+      arguments:
+          - '@atoolo.resource.resourceBaseLocator'
+
     atoolo.search.indexer:
         class: Atoolo\Search\Service\Indexer\BackgroundIndexer
         arguments:
             - !tagged_iterator atoolo.search.indexer.documentEnricher
-            - '@atoolo.resource.resourceBaseLocator'
+            - '@atoolo.search.indexer.locationFinder'
             - '@atoolo.resource.resourceLoader'
+            - '@atoolo.search.indexer.translationSplitter'
             - '@atoolo.search.solariumClientFactory'
             - '@atoolo.search.indexer.aborter'
             - 'internal'

@@ -24,9 +24,11 @@ class ArticleTeaserResolver implements Resolver, TeaserResolver
     {
         $teaser = new ArticleTeaser();
         $teaser->url = $resource->getLocation();
-        $teaser->headline = $resource->getData('base.teaser.headline')
-            ?? $resource->getName();
-        $teaser->text = $resource->getData('base.teaser.text');
+        $teaser->headline = $resource->getData()->getString(
+            'base.teaser.headline',
+            $resource->getName()
+        );
+        $teaser->text = $resource->getData()->getString('base.teaser.text');
         $teaser->resource = $resource;
         return $teaser;
     }

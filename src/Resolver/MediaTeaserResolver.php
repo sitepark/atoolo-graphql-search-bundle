@@ -20,12 +20,14 @@ class MediaTeaserResolver implements TeaserResolver
     public function resolve(Resource $resource): Teaser
     {
         $teaser = new MediaTeaser();
-        $teaser->url = $resource->getData('init.mediaUrl');
-        $teaser->headline = $resource->getData('base.teaser.headline')
-            ?? $resource->getName();
-        $teaser->text = $resource->getData('base.teaser.text');
-        $teaser->contentType = $resource->getData('base.mime');
-        $teaser->contentLength = $resource->getData('base.filesize');
+        $teaser->url = $resource->getData()->getString('init.mediaUrl');
+        $teaser->headline = $resource->getData()->getString(
+            'base.teaser.headline',
+            $resource->getName()
+        );
+        $teaser->text = $resource->getData()->getString('base.teaser.text');
+        $teaser->contentType = $resource->getData()->getString('base.mime');
+        $teaser->contentLength = $resource->getData()->getInt('base.filesize');
         return $teaser;
     }
 

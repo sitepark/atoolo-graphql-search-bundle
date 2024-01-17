@@ -26,10 +26,10 @@ class ResourceResolver implements Resolver
     }
 
     /**
-     * @return string[]|null
+     * @return string[]
      */
-    public function getContentSectionTypes(Resource $resource): ?array
+    public function getContentSectionTypes(Resource $resource): array
     {
-        return $resource->getData('init.contentSectionTypes');
+        return $resource->getData()->getArray('init.contentSectionTypes');
     }
 }
