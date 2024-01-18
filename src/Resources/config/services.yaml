@@ -91,11 +91,11 @@ services:
         arguments:
             - '%kernel.project_dir%/var/cache/'
 
-    Atoolo\Search\Service\Indexer\SiteKit\DefaultSchema21DocumentEnricher:
+    Atoolo\Search\Service\Indexer\SiteKit\DefaultSchema2xDocumentEnricher:
         arguments:
             - '@atoolo.resource.navigationHierarchyLoader'
         tags:
-            - { name: 'atoolo.search.indexer.documentEnricher', priority: 100 }
+            - { name: 'atoolo.search.indexer.documentEnricher.schema2x', priority: 100 }
 
     atoolo.search.indexer.translationSplitter:
       class: Atoolo\Search\Service\Indexer\SiteKit\SubDirTranslationSplitter
@@ -113,7 +113,7 @@ services:
     atoolo.search.indexer:
         class: Atoolo\Search\Service\Indexer\BackgroundIndexer
         arguments:
-            - !tagged_iterator atoolo.search.indexer.documentEnricher
+            - !tagged_iterator atoolo.search.indexer.documentEnricher.schema2x
             - '@atoolo.search.indexer.locationFinder'
             - '@atoolo.resource.resourceLoader'
             - '@atoolo.search.indexer.translationSplitter'
