@@ -116,6 +116,7 @@ services:
             - '@atoolo.search.indexer.aborter'
             - 'internal'
             - '%kernel.cache_dir%'
+            - '@logger'
 
     Atoolo\GraphQL\Search\Query\Select:
         public: true
