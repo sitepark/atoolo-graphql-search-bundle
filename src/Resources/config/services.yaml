@@ -86,11 +86,6 @@ services:
         arguments:
             - '@atoolo.search.solariumClientFactory'
 
-    atoolo.search.indexerProgressHandler:
-        class: Atoolo\Search\Service\Indexer\IndexerProgressStateToJsonFile
-        arguments:
-            - '%kernel.project_dir%/var/cache/'
-
     Atoolo\Search\Service\Indexer\SiteKit\DefaultSchema2xDocumentEnricher:
         arguments:
             - '@atoolo.resource.navigationHierarchyLoader'
