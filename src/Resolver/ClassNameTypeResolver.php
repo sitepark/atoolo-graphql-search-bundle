@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Resolver;
 
+// phpcs:disable
 /**
  * For the GraphQL interfaces, the specific class must be determined using a
  * data set.
  * Type resolvers are used for this purpose. See
+ *
  * {@link https://github.com/overblog/GraphQLBundle/blob/master/docs/definitions/type-system/interface.md#using-resolvetype using-resolvetype}
  *
  * This `ClassNameTypeResolver` determines the class name of the object and
@@ -28,6 +30,7 @@ namespace Atoolo\GraphQL\Search\Resolver;
  * }
  * ```
  */
+// phpcs:enable
 class ClassNameTypeResolver
 {
     public function resolveType(object $value): string
