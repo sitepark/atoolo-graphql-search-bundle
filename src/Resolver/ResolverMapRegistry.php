@@ -4,18 +4,21 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Resolver;
 
+use ArrayObject;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use Overblog\GraphQLBundle\Resolver\ResolverMap;
-use ArrayObject;
 use ReflectionClass;
+use ReflectionException;
 use ReflectionMethod;
+use ReflectionNamedType;
 
+// phpcs:disable
 /**
  * Defining resolvers to extend individual fields is a bit cumbersome and not
  * easy to extend. The best method here is to use the ResolverMap. See
- * - {@link https://github.com/overblog/GraphQLBundle/blob/master/docs/definitions/resolver.md resolver.md}
+ * - {@link https://github.com/overblog/GraphQLBundle/blob/master/docs/definitions/resolver.md resolver.md} // phpcs:ignore
  * - {@link https://github.com/overblog/GraphQLBundle/blob/master/docs/definitions/resolver-map.md resolver-map.md}
  *
  * Inspired by the possibilities in Java (see
@@ -27,10 +30,11 @@ use ReflectionMethod;
  * The ResolverMapRegistry is registered as a service and collects all
  * resolvers that are tagged via `atoolo.graphql.resolver`.
  */
+// phpcs:enable
 class ResolverMapRegistry extends ResolverMap
 {
     /**
-     * @var array<string,array<string,ResolverMethod>
+     * @var array<string,array<string,ResolverMethod>>
      */
     private ?array $resolverMap = null;
     /**
@@ -41,6 +45,9 @@ class ResolverMapRegistry extends ResolverMap
     ) {
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     protected function map(): array
     {
         if ($this->resolverMap === null) {
@@ -60,14 +67,14 @@ class ResolverMapRegistry extends ResolverMap
         return $map;
     }
 
-    private function resolveType($value)
+    private function resolveType(object $value): string
     {
         $className = get_class($value);
         return (substr($className, strrpos($className, '\\') + 1));
     }
 
     /**
-     * @return array<string,array<string,ResolverMethod>
+     * @return array<string,array<string,ResolverMethod>>
      */
     private function loadResolverMap(): array
     {
@@ -104,6 +111,9 @@ class ResolverMapRegistry extends ResolverMap
         };
     }
 
+    /**
+     * @throws ReflectionException
+     */
     private function invokeGetter(
         ResolverMethod $resolverMethod,
         object $obj,
@@ -119,6 +129,9 @@ class ResolverMapRegistry extends ResolverMap
         return $method->invoke($resolverMethod->resolver, $obj, $args);
     }
 
+    /**
+     * @throws ReflectionException
+     */
     private function resolveProperty(
         object $obj,
         string $fieldName
@@ -129,6 +142,9 @@ class ResolverMapRegistry extends ResolverMap
             ->getValue($obj);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getResolverGetterMap(Resolver $resolver): array
     {
         $class = new ReflectionClass(get_class($resolver));
@@ -140,6 +156,9 @@ class ResolverMapRegistry extends ResolverMap
             }
             $param = $method->getParameters()[0];
             if ($param->getType() === null) {
+                continue;
+            }
+            if (!($param->getType() instanceof ReflectionNamedType)) {
                 continue;
             }
             $fullTypeName = $param->getType()->getName();
@@ -183,6 +202,10 @@ class ResolverMapRegistry extends ResolverMap
         }
 
         if ($params[1]->getType() === null) {
+            return false;
+        }
+
+        if (!($params[1]->getType() instanceof ReflectionNamedType)) {
             return false;
         }
 

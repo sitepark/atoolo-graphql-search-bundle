@@ -38,8 +38,14 @@ class InputFilter
     public array $groups;
     #[GQL\Field(type:"Boolean")]
     public bool $archive;
+    /**
+     * @var array<InputFilter>
+     */
     #[GQL\Field(type:"[InputFilter!]")]
     public array $and;
+    /**
+     * @var array<InputFilter>
+     */
     #[GQL\Field(type:"[InputFilter!]")]
     public array $or;
     #[GQL\Field(type:"InputFilter")]

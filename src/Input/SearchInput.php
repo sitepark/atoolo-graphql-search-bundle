@@ -10,8 +10,8 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 #[GQL\Input]
 class SearchInput
 {
-    #[GQL\Field(type:"String!")]
-    public ?string $index;
+    #[GQL\Field(type:"String")]
+    public string $index;
     #[GQL\Field(type:"String")]
     public string $text;
     #[GQL\Field(type:"Int")]

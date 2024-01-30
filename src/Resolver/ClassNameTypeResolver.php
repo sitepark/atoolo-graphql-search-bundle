@@ -4,11 +4,6 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Resolver;
 
-use Atoolo\GraphQL\Search\Types\ArticleTeaser;
-use Atoolo\GraphQL\Search\Types\MediaTeaser;
-use Atoolo\GraphQL\Search\Types\Teaser;
-use Atoolo\Resource\Resource;
-
 /**
  * For the GraphQL interfaces, the specific class must be determined using a
  * data set.
@@ -35,7 +30,7 @@ use Atoolo\Resource\Resource;
  */
 class ClassNameTypeResolver
 {
-    public function resolveType($value)
+    public function resolveType(object $value): string
     {
         $className = get_class($value);
         return (substr($className, strrpos($className, '\\') + 1));

@@ -2,7 +2,7 @@
 
 namespace Atoolo\GraphQL\Search\Types;
 
-use Overblog\GraphQLBundle\Annotation as GQL;
+use InvalidArgumentException;
 
 enum ImageCharacteristic
 {
@@ -14,9 +14,9 @@ enum ImageCharacteristic
     public static function valueOfCamelCase(
         string $name
     ): ?ImageCharacteristic {
-        $name = ImageCharacteristic::camelCaseToSnakeCase(trim($name));
-        foreach (ImageCharacteristic::cases() as $case) {
-            if ($case->name == $name) {
+        $name = self::camelCaseToSnakeCase(trim($name));
+        foreach (self::cases() as $case) {
+            if ($case->name === $name) {
                 return $case;
             }
         }
@@ -26,10 +26,16 @@ enum ImageCharacteristic
     private static function camelCaseToSnakeCase(
         string $camelCaseString
     ): string {
-        return strtoupper(preg_replace(
+        $snakeCase = preg_replace(
             '/(?<!^)[A-Z]/',
             '_$0',
             $camelCaseString
-        ));
+        );
+        if (!is_string($snakeCase)) {
+            throw new InvalidArgumentException(
+                'unable to transform string from camel-case to snake-case'
+            );
+        }
+        return strtoupper($snakeCase);
     }
 }

@@ -11,7 +11,6 @@ use Atoolo\Resource\Resource;
 
 class MediaTeaserResolver implements TeaserResolver
 {
-
     public function accept(Resource $resource): bool
     {
         return $this->isMedia($resource);

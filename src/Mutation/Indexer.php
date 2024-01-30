@@ -8,7 +8,6 @@ use Atoolo\GraphQL\Search\Input\IndexerInput;
 use Atoolo\Search\Dto\Indexer\IndexerParameter;
 use Atoolo\Search\Dto\Indexer\IndexerStatus;
 use Atoolo\Search\Service\Indexer\BackgroundIndexer;
-use Atoolo\Search\Service\Indexer\BackgroundIndexerStatus;
 use Overblog\GraphQLBundle\Annotation as GQL;
 
 #[GQL\Provider]
@@ -39,6 +38,9 @@ class Indexer
         }
     }
 
+    /**
+     * @param string[] $idList
+     */
     #[GQL\Mutation(name: 'indexRemove', type: 'Boolean!')]
     #[GQL\Access("hasRole('ROLE_API')")]
     #[GQL\Arg(

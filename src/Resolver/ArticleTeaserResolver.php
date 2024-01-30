@@ -12,9 +12,26 @@ use Atoolo\GraphQL\Search\Types\Teaser;
 use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 
+/**
+ * @phpstan-type ImageData array{
+ *     characteristic: ?string,
+ *     copyright: ?string,
+ *     text: ?string,
+ *     legend: ?string,
+ *     description: ?string,
+ *     original : ?ImageSourceData,
+ *     variants: ?array<string,array<ImageSourceData>>
+ * }
+ *
+ * @phpstan-type ImageSourceData array{
+ *     url: string,
+ *     width: int,
+ *     height: int,
+ *     mediaQuery: ?string
+ * }
+ */
 class ArticleTeaserResolver implements Resolver, TeaserResolver
 {
-
     public function accept(Resource $resource): bool
     {
         return true;
@@ -38,7 +55,8 @@ class ArticleTeaserResolver implements Resolver, TeaserResolver
         ArgumentInterface $args
     ): ?Image {
 
-        $imageData = $teaser->resource->getData(
+        /** @var ImageData $imageData */
+        $imageData = $teaser->resource->getData()->getAssociativeArray(
             'base.teaser.image'
         );
         if (!is_array($imageData)) {
@@ -62,13 +80,16 @@ class ArticleTeaserResolver implements Resolver, TeaserResolver
             );
         }
 
+        /** @var string $variant */
+        $variant = $args['variant'];
+
         if (
-            isset($imageData['variants'][$args->variant]) &&
-            is_array($imageData['variants'][$args->variant])
+            $imageData['variants'] !== null &&
+            is_array($imageData['variants'][$variant])
         ) {
             $image->sources = $this->toImageSourceList(
-                $args->variant,
-                $imageData['variants'][$args->variant]
+                $variant,
+                $imageData['variants'][$variant]
             );
         } else {
             $image->sources = [];
@@ -78,15 +99,12 @@ class ArticleTeaserResolver implements Resolver, TeaserResolver
 
     private function toImageCharacteristic(string $type): ImageCharacteristic
     {
-        $characteristic = ImageCharacteristic::valueOfCamelCase($type);
-        if ($characteristic !== null) {
-            return $characteristic;
-        }
-        return ImageCharacteristic::NORMAL;
+        return ImageCharacteristic::valueOfCamelCase($type)
+            ?? ImageCharacteristic::NORMAL;
     }
 
     /**
-     * @param array<array<string,string|int>> $sourceData
+     * @param array<ImageSourceData> $variantData
      * @return ImageSource[]
      */
     private function toImageSourceList(
@@ -106,7 +124,7 @@ class ArticleTeaserResolver implements Resolver, TeaserResolver
     }
 
     /**
-     * @param array<string,string|int> $sourceData
+     * @param ImageSourceData $sourceData
      */
     private function toImageSource(
         string $variant,
@@ -120,5 +138,4 @@ class ArticleTeaserResolver implements Resolver, TeaserResolver
         $source->mediaQuery = $sourceData['mediaQuery'] ?? null;
         return $source;
     }
-
 }

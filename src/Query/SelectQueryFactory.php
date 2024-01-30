@@ -9,7 +9,13 @@ use Atoolo\GraphQL\Search\Types\QueryDefaultOperator;
 use Atoolo\GraphQL\Search\Types\SortDirection;
 use Atoolo\Search\Dto\Search\Query\SelectQuery;
 use Atoolo\Search\Dto\Search\Query\SelectQueryBuilder;
+use Atoolo\Search\Dto\Search\Query\Sort\Date;
 use Atoolo\Search\Dto\Search\Query\Sort\Direction;
+use Atoolo\Search\Dto\Search\Query\Sort\Headline;
+use Atoolo\Search\Dto\Search\Query\Sort\Name;
+use Atoolo\Search\Dto\Search\Query\Sort\Natural;
+use Atoolo\Search\Dto\Search\Query\Sort\Score;
+use InvalidArgumentException;
 
 class SelectQueryFactory
 {
@@ -66,30 +72,30 @@ class SelectQueryFactory
             if (isset($criteria->name)) {
                 $direction = $this->mapDirection($criteria->name);
                 $builder->sort(
-                    new \Atoolo\Search\Dto\Search\Query\Sort\Name($direction)
+                    new Name($direction)
                 );
             } elseif (isset($criteria->headline)) {
                 $direction = $this->mapDirection($criteria->headline);
                 $builder->sort(
-                    new \Atoolo\Search\Dto\Search\Query\Sort\Headline($direction)
+                    new Headline($direction)
                 );
             } elseif (isset($criteria->date)) {
                 $direction = $this->mapDirection($criteria->date);
                 $builder->sort(
-                    new \Atoolo\Search\Dto\Search\Query\Sort\Date($direction)
+                    new Date($direction)
                 );
             } elseif (isset($criteria->natural)) {
                 $direction = $this->mapDirection($criteria->natural);
                 $builder->sort(
-                    new \Atoolo\Search\Dto\Search\Query\Sort\Natural($direction)
+                    new Natural($direction)
                 );
             } elseif (isset($criteria->score)) {
                 $direction = $this->mapDirection($criteria->score);
                 $builder->sort(
-                    new \Atoolo\Search\Dto\Search\Query\Sort\Score($direction)
+                    new Score($direction)
                 );
             } else {
-                throw new \InvalidArgumentException('Sort criteria not found');
+                throw new InvalidArgumentException('Sort criteria not found');
             }
         }
     }
