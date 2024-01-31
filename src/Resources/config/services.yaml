@@ -105,6 +105,11 @@ services:
       arguments:
           - '@atoolo.resource.resourceBaseLocator'
 
+    atoolo.search.indexer.statusStore:
+      class: Atoolo\Search\Service\Indexer\IndexerStatusStore
+      arguments:
+        - '%kernel.cache_dir%'
+
     atoolo.search.indexer:
         class: Atoolo\Search\Service\Indexer\BackgroundIndexer
         arguments:
@@ -115,7 +120,7 @@ services:
             - '@atoolo.search.solariumClientFactory'
             - '@atoolo.search.indexer.aborter'
             - 'internal'
-            - '%kernel.cache_dir%'
+            - '@atoolo.search.indexer.statusStore'
             - '@logger'
 
     Atoolo\GraphQL\Search\Query\Select:
