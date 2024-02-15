@@ -86,9 +86,27 @@ services:
         arguments:
             - '@atoolo.search.solariumClientFactory'
 
+    atoolo.search.indexer.contentCollector.sitekit:
+      class: Atoolo\Search\Service\Indexer\ContentCollector
+      arguments:
+        - !tagged_iterator atoolo.search.indexer.sitekit.contentMatcher
+
+    Atoolo\Search\Service\Indexer\SiteKit\HeadlineMatcher:
+      tags:
+        - { name: 'atoolo.search.indexer.sitekit.contentMatcher', priority: 10 }
+
+    Atoolo\Search\Service\Indexer\SiteKit\RichtTextMatcher:
+      tags:
+        - { name: 'atoolo.search.indexer.sitekit.contentMatcher', priority: 20 }
+
+    Atoolo\Search\Service\Indexer\SiteKit\QuoteSectionMatcher:
+      tags:
+        - { name: 'atoolo.search.indexer.sitekit.contentMatcher', priority: 20 }
+
     Atoolo\Search\Service\Indexer\SiteKit\DefaultSchema2xDocumentEnricher:
         arguments:
             - '@atoolo.resource.navigationHierarchyLoader'
+            - '@atoolo.search.indexer.contentCollector.sitekit'
         tags:
             - { name: 'atoolo.search.indexer.documentEnricher.schema2x', priority: 100 }
 
