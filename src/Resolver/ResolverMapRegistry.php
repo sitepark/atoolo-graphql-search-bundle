@@ -64,6 +64,11 @@ class ResolverMapRegistry extends ResolverMap
                 return $this->resolveType($value);
             }
         ];
+        $map['Asset'] = [
+            self::RESOLVE_TYPE => function ($value) {
+                return $this->resolveType($value);
+            }
+        ];
         return $map;
     }
 

@@ -89,13 +89,6 @@ type ImageSource {
     mediaQuery: String
 }
 
-enum ImageCharacteristic {
-    NORMAL
-    INFOGRAPHIC
-    DECORATIVE_IMAGE
-    DECORATIVE_IMAGE_NOT_CUT
-}
-
 type IndexerStatus {
     startTime : DateTime
     endTime : DateTime

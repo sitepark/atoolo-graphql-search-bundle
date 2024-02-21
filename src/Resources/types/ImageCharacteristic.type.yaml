@@ -1,0 +1,4 @@
+ImageCharacteristic:
+  type: enum
+  config:
+    enumClass: Atoolo\GraphQL\Search\Types\ImageCharacteristic

@@ -3,13 +3,14 @@
 namespace Atoolo\GraphQL\Search\Types;
 
 use InvalidArgumentException;
+use Overblog\GraphQLBundle\Annotation as GQL;
 
-enum ImageCharacteristic
+enum ImageCharacteristic: string
 {
-    case NORMAL;
-    case INFOGRAPHIC;
-    case DECORATIVE_IMAGE;
-    case DECORATIVE_IMAGE_NOT_CUT;
+    case NORMAL = 'NORMAL';
+    case INFOGRAPHIC = 'INFOGRAPHIC';
+    case DECORATIVE_IMAGE = 'DECORATIVE_IMAGE';
+    case DECORATIVE_IMAGE_NOT_CUT = 'DECORATIVE_IMAGE_NOT_CUT';
 
     public static function valueOfCamelCase(
         string $name
