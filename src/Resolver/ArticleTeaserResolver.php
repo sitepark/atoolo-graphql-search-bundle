@@ -32,6 +32,10 @@ use Overblog\GraphQLBundle\Definition\ArgumentInterface;
  */
 class ArticleTeaserResolver implements Resolver, TeaserResolver
 {
+    public function __construct(private readonly UrlRewriter $urlRewriter)
+    {
+    }
+
     public function accept(Resource $resource): bool
     {
         return true;
@@ -40,7 +44,11 @@ class ArticleTeaserResolver implements Resolver, TeaserResolver
     public function resolve(Resource $resource): Teaser
     {
         $teaser = new ArticleTeaser();
-        $teaser->url = $resource->getLocation();
+        $teaser->url = $this->urlRewriter->rewrite(
+            UrlRewriterType::LINK,
+            $resource->getLocation()
+        );
+
         $teaser->headline = $resource->getData()->getString(
             'base.teaser.headline',
             $resource->getName()
@@ -132,7 +140,10 @@ class ArticleTeaserResolver implements Resolver, TeaserResolver
     ): ImageSource {
         $source = new ImageSource();
         $source->variant = $variant;
-        $source->url = $sourceData['url'];
+        $source->url = $this->urlRewriter->rewrite(
+            UrlRewriterType::IMAGE,
+            $sourceData['url']
+        );
         $source->width = $sourceData['width'];
         $source->height = $sourceData['height'];
         $source->mediaQuery = $sourceData['mediaQuery'] ?? null;

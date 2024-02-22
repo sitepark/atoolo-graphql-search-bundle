@@ -11,6 +11,10 @@ use Atoolo\Resource\Resource;
 
 class MediaTeaserResolver implements TeaserResolver
 {
+    public function __construct(private readonly UrlRewriter $urlRewriter)
+    {
+    }
+
     public function accept(Resource $resource): bool
     {
         return $this->isMedia($resource);
@@ -19,7 +23,10 @@ class MediaTeaserResolver implements TeaserResolver
     public function resolve(Resource $resource): Teaser
     {
         $teaser = new MediaTeaser();
-        $teaser->url = $resource->getData()->getString('init.mediaUrl');
+        $teaser->url = $this->urlRewriter->rewrite(
+            UrlRewriterType::MEDIA,
+            $resource->getData()->getString('init.mediaUrl')
+        );
         $teaser->headline = $resource->getData()->getString(
             'base.teaser.headline',
             $resource->getName()

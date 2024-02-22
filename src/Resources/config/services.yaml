@@ -161,6 +161,9 @@ services:
         arguments:
             - "@atoolo.search.indexer"
 
+    atoolo.graphql.resolver.urlRewriter:
+      class: Atoolo\GraphQL\Search\Resolver\DoNothingUrlRewriter
+
     Atoolo\GraphQL\Search\Resolver\ClassNameTypeResolver:
         tags:
             - { name: overblog_graphql.query, alias: "typeByClassName", method: "resolveType" }
@@ -189,10 +192,14 @@ services:
             - { name: 'atoolo.graphql.resolver', priority: 10 }
 
     Atoolo\GraphQL\Search\Resolver\MediaTeaserResolver:
+      arguments:
+        - "@atoolo.graphql.resolver.urlRewriter"
       tags:
         - { name: 'atoolo.graphql.teaserResolver', priority: 10 }
 
     Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver:
+        arguments:
+          - "@atoolo.graphql.resolver.urlRewriter"
         tags:
             - { name: 'atoolo.graphql.resolver', priority: 10 }
             - { name: 'atoolo.graphql.teaserResolver', priority: 1 }
