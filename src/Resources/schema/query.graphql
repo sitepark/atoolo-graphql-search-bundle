@@ -49,13 +49,13 @@ interface Teaser {
     url: String!
 }
 
-type ArticleTeaser implements Teaser {
-    url: String!
-    headline: String
-    text: String
-    # Asset of the teaser. E.g. a image or a video
-    asset(variant: String!): Asset
-}
+#type ArticleTeaser implements Teaser {
+#    url: String!
+#    headline: String
+#    text: String
+#    # Asset of the teaser. E.g. a image or a video
+#    asset(variant: String!): Asset
+#}
 
 type MediaTeaser implements Teaser {
     url: String!

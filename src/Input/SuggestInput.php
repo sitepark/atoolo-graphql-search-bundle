@@ -14,10 +14,10 @@ class SuggestInput
     #[GQL\Field(type:"String")]
     public string $text;
     #[GQL\Field(type:"Int")]
-    public int $limit;
+    public ?int $limit;
     /**
      * @var InputFilter[]
      */
     #[GQL\Field(type:"[InputFilter!]")]
-    public array $filter;
+    public ?array $filter;
 }

@@ -18,25 +18,25 @@ class InputFacet
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public array $objectTypes;
+    public ?array $objectTypes;
     /**
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public array $contentSectionTypes;
+    public ?array $contentSectionTypes;
     /**
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public array $categories;
+    public ?array $categories;
     /**
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public array $sites;
+    public ?array $sites;
     /**
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public array $groups;
+    public ?array $groups;
 }

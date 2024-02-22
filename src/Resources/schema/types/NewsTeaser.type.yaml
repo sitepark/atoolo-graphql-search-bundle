@@ -1,0 +1,6 @@
+NewsTeaser:
+  type: object
+  inherits: [ArticleTeaser]
+  config:
+    fields:
+      date: { type: String }

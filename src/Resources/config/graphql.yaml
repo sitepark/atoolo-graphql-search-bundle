@@ -1,9 +1,16 @@
 overblog_graphql:
+#  errors_handler:
+#    enabled: true # false will totally disabled errors handling
+#    internal_error_message: 'Internal error occurred' # custom generic error message
+#    rethrow_internal_exceptions: false # re-throw internal exception
+#    debug: false # will add trace stack and debugMessage to error
+#    log: true # false will disabled the default logging behavior
+#    logger_service: logger # the service to use to log
   definitions:
     schema:
       query: RootQuery
       mutation: RootMutation
-      types: [ArticleTeaser, MediaTeaser, Image]
+      types: [ArticleTeaser, MediaTeaser, NewsTeaser, Image]
     mappings:
       types:
         - type: attribute
@@ -18,9 +25,13 @@ overblog_graphql:
         - type: attribute
           dir: "%atoolo_graphql_search_bundle_src_dir%/Mutation"
           suffix: ~
-        - type: graphql
+        - types: [graphql]
           dir: "%atoolo_graphql_search_bundle_src_dir%/Resources/schema"
           suffix: ~
-        - type: yaml
-          dir: "%atoolo_graphql_search_bundle_src_dir%/Resources/types"
+        - types: [yaml]
+          dir: "%atoolo_graphql_search_bundle_src_dir%/Resources/schema/types"
           suffix: ~
+        - types: [yaml]
+          dir: "%atoolo_graphql_search_bundle_src_dir%/Resources/schema/decorators"
+          suffix: ~
+
