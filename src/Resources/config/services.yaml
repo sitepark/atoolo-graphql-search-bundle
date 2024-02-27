@@ -128,16 +128,21 @@ services:
       arguments:
         - '%kernel.cache_dir%'
 
+    atoolo.search.indexer.solrIndexerFactory:
+      class: Atoolo\Search\Service\Indexer\SolrIndexerFactory
+      arguments:
+        - !tagged_iterator atoolo.search.indexer.documentEnricher.schema2x
+        - '@atoolo.search.indexer.locationFinder'
+        - '@atoolo.resource.resourceLoader'
+        - '@atoolo.search.indexer.translationSplitter'
+        - '@atoolo.search.solariumClientFactory'
+        - '@atoolo.search.indexer.aborter'
+        - 'internal'
+
     atoolo.search.indexer:
         class: Atoolo\Search\Service\Indexer\BackgroundIndexer
         arguments:
-            - !tagged_iterator atoolo.search.indexer.documentEnricher.schema2x
-            - '@atoolo.search.indexer.locationFinder'
-            - '@atoolo.resource.resourceLoader'
-            - '@atoolo.search.indexer.translationSplitter'
-            - '@atoolo.search.solariumClientFactory'
-            - '@atoolo.search.indexer.aborter'
-            - 'internal'
+            - '@atoolo.search.indexer.solrIndexerFactory'
             - '@atoolo.search.indexer.statusStore'
             - '@logger'
 
