@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Types;
 
-use Overblog\GraphQLBundle\Annotation as GQL;
-
 abstract class Asset
 {
-    public ?string $copyright;
-    public ?string $caption;
-    public ?string $description;
+    public function __construct(
+        public readonly ?string $copyright,
+        public readonly ?string $caption,
+        public readonly ?string $description
+    ) {
+    }
 }

@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Types;
 
-use Overblog\GraphQLBundle\Annotation as GQL;
-
 class MediaTeaser extends Teaser
 {
-    public ?string $headline;
-
-    public ?string $text;
-
-    public string $contentType;
-
-    public int $contentLength;
+    public function __construct(
+        ?string $url,
+        public readonly ?string $headline,
+        public readonly ?string $text,
+        public ?string $contentType,
+        public ?int $contentLength,
+        public readonly ?Asset $asset,
+        public readonly Resource $resource
+    ) {
+        parent::__construct($url);
+    }
 }

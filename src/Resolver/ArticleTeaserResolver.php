@@ -43,19 +43,24 @@ class ArticleTeaserResolver implements Resolver, TeaserResolver
 
     public function resolve(Resource $resource): Teaser
     {
-        $teaser = new ArticleTeaser();
-        $teaser->url = $this->urlRewriter->rewrite(
+        $url = $this->urlRewriter->rewrite(
             UrlRewriterType::LINK,
             $resource->getLocation()
         );
 
-        $teaser->headline = $resource->getData()->getString(
+        $headline = $resource->getData()->getString(
             'base.teaser.headline',
             $resource->getName()
         );
-        $teaser->text = $resource->getData()->getString('base.teaser.text');
-        $teaser->resource = $resource;
-        return $teaser;
+        $text = $resource->getData()->getString('base.teaser.text');
+
+        return new ArticleTeaser(
+            $url,
+            $headline,
+            $text,
+            null,
+            $resource
+        );
     }
 
     public function getAsset(
@@ -71,18 +76,17 @@ class ArticleTeaserResolver implements Resolver, TeaserResolver
             return null;
         }
 
-        $image = new Image();
-        $image->characteristic = $this->toImageCharacteristic(
+        $characteristic = $this->toImageCharacteristic(
             $imageData['characteristic'] ?? 'normal'
         );
 
-        $image->copyright = $imageData['copyright'] ?? null;
-        $image->alternativeText = $imageData['text'] ?? null;
-        $image->caption = $imageData['legend'] ?? null;
-        $image->description = $imageData['description'] ?? null;
-
+        $copyright = $imageData['copyright'] ?? null;
+        $alternativeText = $imageData['text'] ?? null;
+        $caption = $imageData['legend'] ?? null;
+        $description = $imageData['description'] ?? null;
+        $original = null;
         if (isset($imageData['original'])) {
-            $image->original = $this->toImageSource(
+            $original = $this->toImageSource(
                 'original',
                 $imageData['original']
             );
@@ -91,18 +95,26 @@ class ArticleTeaserResolver implements Resolver, TeaserResolver
         /** @var string $variant */
         $variant = $args['variant'];
 
+        $sources = [];
         if (
             $imageData['variants'] !== null &&
             is_array($imageData['variants'][$variant])
         ) {
-            $image->sources = $this->toImageSourceList(
+            $sources = $this->toImageSourceList(
                 $variant,
                 $imageData['variants'][$variant]
             );
-        } else {
-            $image->sources = [];
         }
-        return $image;
+
+        return new Image(
+            $copyright,
+            $caption,
+            $description,
+            $alternativeText,
+            $original,
+            $characteristic,
+            $sources
+        );
     }
 
     private function toImageCharacteristic(string $type): ImageCharacteristic
@@ -138,15 +150,20 @@ class ArticleTeaserResolver implements Resolver, TeaserResolver
         string $variant,
         array $sourceData
     ): ImageSource {
-        $source = new ImageSource();
-        $source->variant = $variant;
-        $source->url = $this->urlRewriter->rewrite(
+        $url = $this->urlRewriter->rewrite(
             UrlRewriterType::IMAGE,
             $sourceData['url']
         );
-        $source->width = $sourceData['width'];
-        $source->height = $sourceData['height'];
-        $source->mediaQuery = $sourceData['mediaQuery'] ?? null;
-        return $source;
+        $width = $sourceData['width'];
+        $height = $sourceData['height'];
+        $mediaQuery = $sourceData['mediaQuery'] ?? null;
+
+        return new ImageSource(
+            $variant,
+            $url,
+            $width,
+            $height,
+            $mediaQuery
+        );
     }
 }

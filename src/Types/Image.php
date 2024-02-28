@@ -4,15 +4,20 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Types;
 
-use Overblog\GraphQLBundle\Annotation as GQL;
-
 class Image extends Asset
 {
-    public ?string $alternativeText;
-    public ?ImageSource $original;
-    public ?ImageCharacteristic $characteristic;
     /**
-     * @var ImageSource[]
+     * @param ImageSource[] $sources
      */
-    public array $sources;
+    public function __construct(
+        ?string $copyright,
+        ?string $caption,
+        ?string $description,
+        public ?string $alternativeText,
+        public ?ImageSource $original,
+        public ?ImageCharacteristic $characteristic,
+        public array $sources
+    ) {
+        parent::__construct($copyright, $caption, $description);
+    }
 }
