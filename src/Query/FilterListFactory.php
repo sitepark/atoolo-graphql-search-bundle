@@ -98,8 +98,8 @@ class FilterListFactory
         InputFilter $filter
     ): ObjectTypeFilter {
         return new ObjectTypeFilter(
-            $filter->key ?? null,
-            ...$filter->objectTypes
+            $filter->objectTypes,
+            $filter->key ?? null
         );
     }
 
@@ -107,8 +107,8 @@ class FilterListFactory
         InputFilter $filter
     ): ContentSectionTypeFilter {
         return new ContentSectionTypeFilter(
-            $filter->key ?? null,
-            ...$filter->contentSectionTypes
+            $filter->contentSectionTypes,
+            $filter->key ?? null
         );
     }
 
@@ -116,8 +116,8 @@ class FilterListFactory
         InputFilter $filter
     ): CategoryFilter {
         return new CategoryFilter(
-            $filter->key ?? null,
-            ...$filter->categories
+            $filter->categories,
+            $filter->key ?? null
         );
     }
 
@@ -125,8 +125,8 @@ class FilterListFactory
         InputFilter $filter
     ): SiteFilter {
         return new SiteFilter(
-            $filter->key ?? null,
-            ...$filter->sites
+            $filter->sites,
+            $filter->key ?? null
         );
     }
 
@@ -134,8 +134,8 @@ class FilterListFactory
         InputFilter $filter
     ): GroupFilter {
         return new GroupFilter(
-            $filter->key ?? null,
-            ...$filter->groups
+            $filter->groups,
+            $filter->key ?? null
         );
     }
 
@@ -147,8 +147,8 @@ class FilterListFactory
             $filterList[] = $this->createFilter($filterItem);
         }
         return new AndFilter(
-            $filter->key ?? null,
-            $filterList
+            $filterList,
+            $filter->key ?? null
         );
     }
 
@@ -160,8 +160,8 @@ class FilterListFactory
             $filterList[] = $this->createFilter($filterItem);
         }
         return new OrFilter(
-            $filter->key ?? null,
-            $filterList
+            $filterList,
+            $filter->key ?? null
         );
     }
 
@@ -169,8 +169,8 @@ class FilterListFactory
         InputFilter $filter
     ): NotFilter {
         return new NotFilter(
-            $filter->key ?? null,
-            $this->createFilter($filter->not)
+            $this->createFilter($filter->not),
+            $filter->key ?? null
         );
     }
 
@@ -178,8 +178,8 @@ class FilterListFactory
         InputFilter $filter
     ): QueryFilter {
         return new QueryFilter(
-            $filter->key ?? null,
-            $filter->query
+            $filter->query,
+            $filter->key ?? null
         );
     }
 }
