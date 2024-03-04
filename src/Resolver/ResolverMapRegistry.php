@@ -161,7 +161,8 @@ class ResolverMapRegistry extends ResolverMap
                 continue;
             }
             $param = $method->getParameters()[0];
-            // @codeCoverageIgnoreStart not reachable
+
+            // @codeCoverageIgnoreStart
             if ($param->getType() === null) {
                 throw new LogicException('param has no type');
             }
