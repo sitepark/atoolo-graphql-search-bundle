@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Types;
 
+use Atoolo\Resource\Resource;
+
+/**
+ * @codeCoverageIgnore
+ */
 class MediaTeaser extends Teaser
 {
     public function __construct(

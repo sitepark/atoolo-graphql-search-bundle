@@ -8,6 +8,10 @@ use Overblog\GraphQLBundle\Error\ExceptionConverterInterface;
 use Overblog\GraphQLBundle\Error\UserError;
 use Throwable;
 
+/**
+ * Error-Handling is experimental at the moment.
+ * @codeCoverageIgnore
+ */
 final class ExceptionConverter implements ExceptionConverterInterface
 {
     public function convertException(Throwable $exception): Throwable

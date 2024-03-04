@@ -11,6 +11,9 @@ use Overblog\GraphQLBundle\Annotation as GQL;
  * should not be in this search bundle. However, there is no general Atoolo
  * GraphQL bundle yet and is therefore stored here for the time being.
  */
+/**
+ * @codeCoverageIgnore
+ */
 #[GQL\Type]
 class RootMutation
 {

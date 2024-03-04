@@ -7,6 +7,7 @@ namespace Atoolo\GraphQL\Search\Resolver;
 use ArrayObject;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
+use LogicException;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use Overblog\GraphQLBundle\Resolver\ResolverMap;
 use ReflectionClass;
@@ -18,7 +19,7 @@ use ReflectionNamedType;
 /**
  * Defining resolvers to extend individual fields is a bit cumbersome and not
  * easy to extend. The best method here is to use the ResolverMap. See
- * - {@link https://github.com/overblog/GraphQLBundle/blob/master/docs/definitions/resolver.md resolver.md} // phpcs:ignore
+ * - {@link https://github.com/overblog/GraphQLBundle/blob/master/docs/definitions/resolver.md resolver.md}
  * - {@link https://github.com/overblog/GraphQLBundle/blob/master/docs/definitions/resolver-map.md resolver-map.md}
  *
  * Inspired by the possibilities in Java (see
@@ -160,12 +161,15 @@ class ResolverMapRegistry extends ResolverMap
                 continue;
             }
             $param = $method->getParameters()[0];
+            // @codeCoverageIgnoreStart not reachable
             if ($param->getType() === null) {
-                continue;
+                throw new LogicException('param has no type');
             }
             if (!($param->getType() instanceof ReflectionNamedType)) {
-                continue;
+                throw new LogicException('param has no named type');
             }
+            // @codeCoverageIgnoreEnd
+
             $fullTypeName = $param->getType()->getName();
             $typeName = substr(
                 $fullTypeName,
@@ -195,6 +199,10 @@ class ResolverMapRegistry extends ResolverMap
         }
 
         if ($params[0]->getType() === null) {
+            return false;
+        }
+
+        if (!($params[0]->getType() instanceof ReflectionNamedType)) {
             return false;
         }
 

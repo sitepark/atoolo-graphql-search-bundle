@@ -17,6 +17,7 @@ use Atoolo\Search\Dto\Search\Query\Filter\OrFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\QueryFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SiteFilter;
 use InvalidArgumentException;
+use LogicException;
 
 class FilterListFactory
 {
@@ -41,25 +42,25 @@ class FilterListFactory
 
     private function createFilter(InputFilter $filter): Filter
     {
-        if (isset($filter->objectTypes)) {
+        if (!empty($filter->objectTypes)) {
             return $this->createObjectTypeFilter($filter);
         }
-        if (isset($filter->contentSectionTypes)) {
+        if (!empty($filter->contentSectionTypes)) {
             return $this->createContentSectionTypeFilter($filter);
         }
-        if (isset($filter->categories)) {
+        if (!empty($filter->categories)) {
             return $this->createCategoryFilter($filter);
         }
-        if (isset($filter->sites)) {
+        if (!empty($filter->sites)) {
             return $this->createSiteFilter($filter);
         }
-        if (isset($filter->groups)) {
+        if (!empty($filter->groups)) {
             return $this->createGroupFilter($filter);
         }
-        if (isset($filter->and)) {
+        if (!empty($filter->and)) {
             return $this->createAndFilter($filter);
         }
-        if (isset($filter->or)) {
+        if (!empty($filter->or)) {
             return $this->createOrFilter($filter);
         }
         if (isset($filter->not)) {
@@ -98,7 +99,7 @@ class FilterListFactory
         InputFilter $filter
     ): ObjectTypeFilter {
         return new ObjectTypeFilter(
-            $filter->objectTypes,
+            $filter->objectTypes ?? [],
             $filter->key ?? null
         );
     }
@@ -107,7 +108,7 @@ class FilterListFactory
         InputFilter $filter
     ): ContentSectionTypeFilter {
         return new ContentSectionTypeFilter(
-            $filter->contentSectionTypes,
+            $filter->contentSectionTypes ?? [],
             $filter->key ?? null
         );
     }
@@ -116,7 +117,7 @@ class FilterListFactory
         InputFilter $filter
     ): CategoryFilter {
         return new CategoryFilter(
-            $filter->categories,
+            $filter->categories ?? [],
             $filter->key ?? null
         );
     }
@@ -125,7 +126,7 @@ class FilterListFactory
         InputFilter $filter
     ): SiteFilter {
         return new SiteFilter(
-            $filter->sites,
+            $filter->sites ?? [],
             $filter->key ?? null
         );
     }
@@ -134,7 +135,7 @@ class FilterListFactory
         InputFilter $filter
     ): GroupFilter {
         return new GroupFilter(
-            $filter->groups,
+            $filter->groups ?? [],
             $filter->key ?? null
         );
     }
@@ -143,7 +144,7 @@ class FilterListFactory
         InputFilter $filter
     ): AndFilter {
         $filterList = [];
-        foreach ($filter->and as $filterItem) {
+        foreach ($filter->and ?? [] as $filterItem) {
             $filterList[] = $this->createFilter($filterItem);
         }
         return new AndFilter(
@@ -156,7 +157,7 @@ class FilterListFactory
         InputFilter $filter
     ): OrFilter {
         $filterList = [];
-        foreach ($filter->or as $filterItem) {
+        foreach ($filter->or ?? [] as $filterItem) {
             $filterList[] = $this->createFilter($filterItem);
         }
         return new OrFilter(
@@ -168,6 +169,11 @@ class FilterListFactory
     private function createNotFilter(
         InputFilter $filter
     ): NotFilter {
+        // @codeCoverageIgnoreStart
+        if ($filter->not === null) {
+            throw new LogicException('not-field missing');
+        }
+        // @codeCoverageIgnoreEnd
         return new NotFilter(
             $this->createFilter($filter->not),
             $filter->key ?? null
@@ -177,6 +183,11 @@ class FilterListFactory
     private function createQueryFilter(
         InputFilter $filter
     ): QueryFilter {
+        // @codeCoverageIgnoreStart
+        if ($filter->query === null) {
+            throw new LogicException('query-field missing');
+        }
+        // @codeCoverageIgnoreEnd
         return new QueryFilter(
             $filter->query,
             $filter->key ?? null

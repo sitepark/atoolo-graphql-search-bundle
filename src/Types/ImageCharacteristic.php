@@ -3,7 +3,6 @@
 namespace Atoolo\GraphQL\Search\Types;
 
 use InvalidArgumentException;
-use Overblog\GraphQLBundle\Annotation as GQL;
 
 enum ImageCharacteristic: string
 {
@@ -32,11 +31,13 @@ enum ImageCharacteristic: string
             '_$0',
             $camelCaseString
         );
+        // @codeCoverageIgnoreStart
         if (!is_string($snakeCase)) {
             throw new InvalidArgumentException(
                 'unable to transform string from camel-case to snake-case'
             );
         }
+        // @codeCoverageIgnoreEnd
         return strtoupper($snakeCase);
     }
 }

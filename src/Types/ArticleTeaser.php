@@ -6,6 +6,9 @@ namespace Atoolo\GraphQL\Search\Types;
 
 use Atoolo\Resource\Resource;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ArticleTeaser extends Teaser
 {
     public function __construct(

@@ -7,6 +7,9 @@ namespace Atoolo\GraphQL\Search\Input;
 use Atoolo\GraphQL\Search\Types\SortDirection;
 use Overblog\GraphQLBundle\Annotation as GQL;
 
+/**
+ * @codeCoverageIgnore
+ */
 #[GQL\Input(name:"InputSortCriteria")]
 class InputSortCriteria
 {

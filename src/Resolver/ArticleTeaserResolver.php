@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Resolver;
 
 use Atoolo\GraphQL\Search\Types\ArticleTeaser;
+use Atoolo\GraphQL\Search\Types\Asset;
 use Atoolo\GraphQL\Search\Types\Image;
 use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
 use Atoolo\GraphQL\Search\Types\ImageSource;
@@ -66,13 +67,13 @@ class ArticleTeaserResolver implements Resolver, TeaserResolver
     public function getAsset(
         ArticleTeaser $teaser,
         ArgumentInterface $args
-    ): ?Image {
+    ): ?Asset {
 
-        /** @var ImageData $imageData */
+        /** @var ImageData|array{} $imageData */
         $imageData = $teaser->resource->getData()->getAssociativeArray(
             'base.teaser.image'
         );
-        if (!is_array($imageData)) {
+        if (empty($imageData)) {
             return null;
         }
 

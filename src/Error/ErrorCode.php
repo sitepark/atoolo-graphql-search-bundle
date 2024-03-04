@@ -6,6 +6,10 @@ namespace Atoolo\GraphQL\Search\Error;
 
 use Overblog\GraphQLBundle\Event\ErrorFormattingEvent;
 
+/**
+ * Error-Handling is experimental at the moment.
+ * @codeCoverageIgnore
+ */
 class ErrorCode
 {
     public function onErrorFormatting(ErrorFormattingEvent $event): void
@@ -17,6 +21,9 @@ class ErrorCode
             $code = $error->getCode();
         }
         $formattedError = $event->getFormattedError();
-        $formattedError->offsetSet('code', $code); // or $formattedError['code'] = $code;
+        $formattedError->offsetSet(
+            'code',
+            $code
+        ); // or $formattedError['code'] = $code;
     }
 }

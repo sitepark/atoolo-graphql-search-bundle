@@ -18,15 +18,15 @@ class HierarchyResolver implements Resolver
 
     public function getRoot(Hierarchy $hierarchy): Resource
     {
-        $resource = $hierarchy->getResource();
-        return $this->getLoader($hierarchy->getType())
+        $resource = $hierarchy->resource;
+        return $this->getLoader($hierarchy->type)
             ->loadRoot($resource->getLocation());
     }
 
     public function getParent(Hierarchy $hierarchy): ?Resource
     {
-        $resource = $hierarchy->getResource();
-        return $this->getLoader($hierarchy->getType())
+        $resource = $hierarchy->resource;
+        return $this->getLoader($hierarchy->type)
             ->loadParent($resource->getLocation());
     }
 
@@ -35,8 +35,8 @@ class HierarchyResolver implements Resolver
      */
     public function getPath(Hierarchy $hierarchy): array
     {
-        $resource = $hierarchy->getResource();
-        return $this->getLoader($hierarchy->getType())
+        $resource = $hierarchy->resource;
+        return $this->getLoader($hierarchy->type)
             ->loadPath($resource->getLocation());
     }
 
@@ -45,8 +45,8 @@ class HierarchyResolver implements Resolver
      */
     public function getChildren(Hierarchy $hierarchy): array
     {
-        $resource = $hierarchy->getResource();
-        return $this->getLoader($hierarchy->getType())
+        $resource = $hierarchy->resource;
+        return $this->getLoader($hierarchy->type)
             ->loadChildren($resource->getLocation());
     }
 

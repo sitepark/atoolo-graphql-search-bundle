@@ -6,6 +6,9 @@ namespace Atoolo\GraphQL\Search\Input;
 
 use Overblog\GraphQLBundle\Annotation as GQL;
 
+/**
+ * @codeCoverageIgnore
+ */
 #[GQL\Input]
 class SuggestInput
 {

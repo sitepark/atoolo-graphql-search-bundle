@@ -7,6 +7,9 @@ namespace Atoolo\GraphQL\Search\Input;
 use Atoolo\GraphQL\Search\Types\QueryDefaultOperator;
 use Overblog\GraphQLBundle\Annotation as GQL;
 
+/**
+ * @codeCoverageIgnore
+ */
 #[GQL\Input]
 class SearchInput
 {

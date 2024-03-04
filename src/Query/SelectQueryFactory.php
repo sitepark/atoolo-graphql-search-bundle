@@ -24,13 +24,6 @@ class SelectQueryFactory
         $builder = new SelectQueryBuilder();
         $builder->index($input->index);
 
-        if (isset($input->limit)) {
-            $builder->limit($input->limit);
-        }
-        if (isset($input->offset)) {
-            $builder->offset($input->offset);
-        }
-
         $this->addTextFilter($builder, $input);
         $this->addSort($builder, $input);
         $this->addPagination($builder, $input);
@@ -111,10 +104,14 @@ class SelectQueryFactory
         SelectQueryBuilder $builder,
         SearchInput $input
     ): void {
+        if (isset($input->limit)) {
+            $builder->limit($input->limit);
+        }
         if (isset($input->offset)) {
             $builder->offset($input->offset);
         }
     }
+
     private function addFilterList(
         SelectQueryBuilder $builder,
         SearchInput $input

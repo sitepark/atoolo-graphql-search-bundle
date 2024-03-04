@@ -8,6 +8,10 @@ use GraphQL\Error\Error;
 use GraphQL\Error\FormattedError;
 use Overblog\GraphQLBundle\Event\ExecutorResultEvent;
 
+/**
+ * Error-Handling is experimental at the moment.
+ * @codeCoverageIgnore
+ */
 class ErrorHandler
 {
     public function onPostExecutor(ExecutorResultEvent $event): void
@@ -21,6 +25,7 @@ class ErrorHandler
         };
 
         $event->getResult()
+            /* @phpstan-ignore-next-line */
             ->setErrorFormatter($myErrorFormatter)
             ->setErrorsHandler($myErrorHandler);
     }

@@ -8,6 +8,7 @@ use ReflectionMethod;
 
 /**
  * A method of a resolver determined by the {@link ResolverMapRegistry}
+ * @codeCoverageIgnore
  */
 class ResolverMethod
 {
