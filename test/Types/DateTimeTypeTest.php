@@ -7,7 +7,7 @@ namespace Atoolo\GraphQL\Search\Test\Types;
 use Atoolo\GraphQL\Search\Types\DateTimeType;
 use DateTime;
 use DateTimeInterface;
-use GraphQL\Language\AST\Node;
+use GraphQL\Language\AST\StringValueNode;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -36,8 +36,7 @@ class DateTimeTypeTest extends TestCase
     public function testParseLiteral(): void
     {
         $value = '2021-01-01T00:00:00+00:00';
-        $valueNode = $this->createStub(Node::class);
-        $valueNode->value = $value; // phsptan-ignore-line
+        $valueNode = new StringValueNode(['value' => $value]);
         $dateTime = DateTimeType::parseLiteral($valueNode);
         self::assertSame(
             $value,
