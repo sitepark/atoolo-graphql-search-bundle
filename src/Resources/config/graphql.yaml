@@ -25,13 +25,13 @@ overblog_graphql:
         - type: attribute
           dir: "%atoolo_graphql_search_bundle_src_dir%/Mutation"
           suffix: ~
-        - types: [graphql]
-          dir: "%atoolo_graphql_search_bundle_src_dir%/Resources/schema"
+        - types: [yaml]
+          dir: "%atoolo_graphql_search_bundle_src_dir%/Resources/schema/decorators"
           suffix: ~
         - types: [yaml]
           dir: "%atoolo_graphql_search_bundle_src_dir%/Resources/schema/types"
           suffix: ~
-        - types: [yaml]
-          dir: "%atoolo_graphql_search_bundle_src_dir%/Resources/schema/decorators"
-          suffix: ~
+#        - types: [graphql]
+#          dir: "%atoolo_graphql_search_bundle_src_dir%/Resources/schema"
+#          suffix: ~
 

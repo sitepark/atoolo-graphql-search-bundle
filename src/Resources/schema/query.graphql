@@ -45,9 +45,9 @@ type Suggestion {
 }
 
 # Base Type for all Teaser
-interface Teaser {
-    url: String!
-}
+#interface Teaser {
+#    url: String!
+#}
 
 #type ArticleTeaser implements Teaser {
 #    url: String!
@@ -57,13 +57,12 @@ interface Teaser {
 #    asset(variant: String!): Asset
 #}
 
-type MediaTeaser implements Teaser {
-    url: String!
-    headline: String
-    text: String
-    contentType: String!
-    contentLength: Int!
-}
+#type MediaTeaser extend Teaser {
+#    headline: String
+#    text: String
+#    contentType: String!
+#    contentLength: Int!
+#}
 
 interface Asset {
     copyright: String

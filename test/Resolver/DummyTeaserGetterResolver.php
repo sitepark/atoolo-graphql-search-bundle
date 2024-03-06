@@ -6,6 +6,7 @@ namespace Atoolo\GraphQL\Search\Test\Resolver;
 
 use Atoolo\GraphQL\Search\Resolver\Resolver;
 use Atoolo\GraphQL\Search\Types\ArticleTeaser;
+use Atoolo\GraphQL\Search\Types\MediaTeaser;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 
 class DummyTeaserGetterResolver implements Resolver
@@ -48,6 +49,12 @@ class DummyTeaserGetterResolver implements Resolver
         return 'dummy';
     }
 
+    public function getWithArgOneIsIntersectionType(
+        ArticleTeaser&MediaTeaser $a
+    ): string {
+        return 'dummy';
+    }
+
     public function getWithArgTwoAsNoType(
         int $a,
         $b // phpstan-ignore-line
@@ -60,7 +67,7 @@ class DummyTeaserGetterResolver implements Resolver
         return 'dummy';
     }
 
-    public function getWihtArgTwoNamedTypeButNotArgumentInterface(
+    public function getWithArgTwoNamedTypeButNotArgumentInterface(
         int $a,
         int $b
     ): string {

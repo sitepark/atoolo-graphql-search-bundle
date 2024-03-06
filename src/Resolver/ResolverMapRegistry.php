@@ -10,10 +10,12 @@ use GraphQL\Type\Definition\ResolveInfo;
 use LogicException;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use Overblog\GraphQLBundle\Resolver\ResolverMap;
+use Overblog\GraphQLBundle\Resolver\UnresolvableException;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionNamedType;
+use ReflectionUnionType;
 
 // phpcs:disable
 /**
@@ -38,6 +40,7 @@ class ResolverMapRegistry extends ResolverMap
      * @var array<string,array<string,ResolverMethod>>
      */
     private ?array $resolverMap = null;
+
     /**
      * @param iterable<Resolver> $resolverList
      */
@@ -60,6 +63,7 @@ class ResolverMapRegistry extends ResolverMap
                 self::RESOLVE_FIELD => $this->buildResolverFunction($fieldMap)
             ];
         }
+
         $map['Teaser'] = [
             self::RESOLVE_TYPE => function ($value) {
                 return $this->resolveType($value);
@@ -113,6 +117,7 @@ class ResolverMapRegistry extends ResolverMap
                     $args
                 );
             }
+
             return $this->resolveProperty($value, $fieldName);
         };
     }
@@ -157,76 +162,75 @@ class ResolverMapRegistry extends ResolverMap
         $publicMethods = $class->getMethods(ReflectionMethod::IS_PUBLIC);
         $map = [];
         foreach ($publicMethods as $method) {
-            if (!$this->isResolverGetter($method)) {
+            $types = $this->getTypesToResolve($method);
+            if (empty($types)) {
                 continue;
             }
-            $param = $method->getParameters()[0];
 
-            // @codeCoverageIgnoreStart
-            if ($param->getType() === null) {
-                throw new LogicException('param has no type');
+            foreach ($types as $fullTypeName) {
+                $typeName = substr(
+                    $fullTypeName,
+                    strrpos($fullTypeName, '\\') + 1
+                );
+                $fieldName = lcfirst(substr($method->getName(), 3));
+
+                $map[$typeName][$fieldName] = new ResolverMethod(
+                    $resolver,
+                    $fieldName,
+                    $method
+                );
             }
-            if (!($param->getType() instanceof ReflectionNamedType)) {
-                throw new LogicException('param has no named type');
-            }
-            // @codeCoverageIgnoreEnd
-
-            $fullTypeName = $param->getType()->getName();
-            $typeName = substr(
-                $fullTypeName,
-                strrpos($fullTypeName, '\\') + 1
-            );
-            $fieldName = lcfirst(substr($method->getName(), 3));
-
-            $map[$typeName][$fieldName] = new ResolverMethod(
-                $resolver,
-                $fieldName,
-                $method
-            );
         }
         return $map;
     }
 
-    private function isResolverGetter(ReflectionMethod $method): bool
+    /**
+     * @return string[]
+     */
+    private function getTypesToResolve(ReflectionMethod $method): array
     {
         if (!str_starts_with($method->getName(), 'get')) {
-            return false;
+            return [];
         }
 
         $params = $method->getParameters();
         $paramLength = count($params);
-        if ($paramLength === 0) {
-            return false;
+        if ($paramLength === 0 || $paramLength > 2) {
+            return [];
         }
 
-        if ($params[0]->getType() === null) {
-            return false;
+        $objectType = $params[0]->getType();
+
+        if ($objectType === null) {
+            return [];
         }
 
-        if (!($params[0]->getType() instanceof ReflectionNamedType)) {
-            return false;
+        if (
+            (!($objectType instanceof ReflectionNamedType)) &&
+            (!($objectType instanceof ReflectionUnionType))
+        ) {
+            return [];
         }
 
-        if ($paramLength === 1) {
-            return true;
+        if ($paramLength === 2) {
+            $argumentsType = $params[1]->getType();
+            if (
+                !($argumentsType instanceof ReflectionNamedType) ||
+                $argumentsType->getName() !== ArgumentInterface::class
+            ) {
+                return [];
+            }
         }
 
-        if ($paramLength > 2) {
-            return false;
+        $fullTypeNames = [];
+        if ($objectType instanceof ReflectionNamedType) {
+            $fullTypeNames[] = $objectType->getName();
+        } elseif ($objectType instanceof ReflectionUnionType) {
+            foreach ($objectType->getTypes() as $unionType) {
+                $fullTypeNames[] = $unionType->getName();
+            }
         }
 
-        if ($params[1]->getType() === null) {
-            return false;
-        }
-
-        if (!($params[1]->getType() instanceof ReflectionNamedType)) {
-            return false;
-        }
-
-        if ($params[1]->getType()->getName() !== ArgumentInterface::class) {
-            return false;
-        }
-
-        return true;
+        return $fullTypeNames;
     }
 }

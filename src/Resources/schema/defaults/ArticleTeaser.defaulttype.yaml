@@ -2,3 +2,4 @@ ArticleTeaser:
   type: "object"
   inherits: [ArticleTeaserDecorator]
 
+

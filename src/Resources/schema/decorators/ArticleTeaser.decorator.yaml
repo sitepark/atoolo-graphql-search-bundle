@@ -1,13 +1,11 @@
 ArticleTeaserDecorator:
   type: object
   decorator: true
+  inherits: [Teaser]
   config:
-    description: An article teaser is a short summary or preview designed to pique the reader's interest by highlighting the main points or most exciting aspects of an article.
     interfaces: [Teaser]
+    description: An article teaser is a short summary or preview designed to pique the reader's interest by highlighting the main points or most exciting aspects of an article.
     fields:
-      url:
-        type: "String!"
-        description: Teaser URL
       headline:
         type: "String"
         description: Teaser headline

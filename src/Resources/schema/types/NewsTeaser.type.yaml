@@ -3,4 +3,4 @@ NewsTeaser:
   inherits: [ArticleTeaser]
   config:
     fields:
-      date: { type: String }
+      date: { type: "String" }

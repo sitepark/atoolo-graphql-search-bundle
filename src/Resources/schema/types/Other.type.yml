@@ -1,0 +1,102 @@
+Resource:
+  type: "object"
+  config:
+    fields:
+      id: { type: "ID!" }
+      name: { type: "String!" }
+      location: { type: "String!" }
+      objectType: { type: "String!" }
+      contentSectionTypes: { type: "[String!]" }
+      teaser: { type: "Teaser!" }
+      navigation: { type: "Hierarchy!" }
+
+Hierarchy:
+  type: "object"
+  config:
+    fields:
+      root: { type: "Resource!" }
+      parent: { type: "Resource" }
+      path: { type: "[Resource!]" }
+      children: { type: "[Resource!]" }
+
+FacetGroup:
+  type: "object"
+  config:
+    fields:
+      key: { type: "String!" }
+      facets: { type: "[Facet!]!" }
+
+Facet:
+  type: "object"
+  config:
+      fields:
+        key: { type: "String!" }
+        hits: { type: "Int!" }
+
+SearchResult:
+  type: "object"
+  config:
+      fields:
+        total: { type: "Int!" }
+        queryTime: { type: "Int!" }
+        offset: { type: "Int!" }
+        limit: { type: "Int!" }
+        results: { type: "[Resource!]!" }
+        facetGroups: { type: "[FacetGroup!]!" }
+
+SuggestResult:
+  type: "object"
+  config:
+    fields:
+      suggestions: { type: "[Suggestion!]!" }
+      queryTime: { type: "Int!" }
+
+Suggestion:
+  type: "object"
+  config:
+    fields:
+      term: { type: "String!" }
+      hits: { type: "Int!" }
+
+Asset:
+  type: "interface"
+  config:
+    fields:
+      copyright: { type: "String" }
+      caption: { type: "String" }
+      description:  { type: "String" }
+
+Image:
+  type: "object"
+  inherits: [Asset]
+  config:
+    interfaces: [Asset]
+    fields:
+      alternativeText: { type: "String" }
+      original: { type: "ImageSource!" }
+      characteristic: { type: "ImageCharacteristic" }
+      sources: { type: "[ImageSource!]!" }
+
+ImageSource:
+  type: "object"
+  config:
+    fields:
+      variant: { type: "String!" }
+      url: { type: "String!" }
+      width: { type: "Int!" }
+      height: { type: "Int!" }
+      mediaQuery: { type: "String" }
+
+IndexerStatus:
+  type: "object"
+  config:
+    fields:
+      startTime : { type: "DateTime" }
+      endTime : { type: "DateTime" }
+      lastUpdate : { type: "DateTime" }
+      total: { type: "Int" }
+      processed: { type: "Int" }
+      skipped: { type: "Int" }
+      updated: { type: "Int" }
+      errors: { type: "Int" }
+      statusLine: { type: "String" }
