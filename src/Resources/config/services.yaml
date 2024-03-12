@@ -40,6 +40,11 @@ services:
             - '%atoolo.search.solr.connection.proxy%'
             - '%atoolo.search.solr.connection.timeout%'
 
+    atoolo.search.indexer.solrIndexService:
+        class: Atoolo\Search\Service\Search\SolrIndexService
+        arguments:
+            - '@atoolo.search.solariumClientFactory'
+
     ###
     # Query Modifiers
     ###
@@ -128,21 +133,21 @@ services:
       arguments:
         - '%kernel.cache_dir%'
 
-    atoolo.search.indexer.solrIndexerFactory:
-      class: Atoolo\Search\Service\Indexer\SolrIndexerFactory
+    atoolo.search.indexer.internalResourceIndexerFactory:
+      class: Atoolo\Search\Service\Indexer\InternalResourceIndexerFactory
       arguments:
         - !tagged_iterator atoolo.search.indexer.documentEnricher.schema2x
         - '@atoolo.search.indexer.locationFinder'
         - '@atoolo.resource.resourceLoader'
         - '@atoolo.search.indexer.translationSplitter'
-        - '@atoolo.search.solariumClientFactory'
+        - '@atoolo.search.indexer.solrIndexService'
         - '@atoolo.search.indexer.aborter'
         - 'internal'
 
     atoolo.search.indexer:
         class: Atoolo\Search\Service\Indexer\BackgroundIndexer
         arguments:
-            - '@atoolo.search.indexer.solrIndexerFactory'
+            - '@atoolo.search.indexer.internalResourceIndexerFactory'
             - '@atoolo.search.indexer.statusStore'
             - '@logger'
 
