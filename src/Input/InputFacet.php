@@ -17,29 +17,34 @@ class InputFacet
 
     #[GQL\Field(type:"String")]
     public ?string $excludeFilter = null;
+
     /**
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public ?array $objectTypes;
+    public ?array $objectTypes = null;
+
     /**
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public ?array $contentSectionTypes;
+    public ?array $contentSectionTypes = null;
+
     /**
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public ?array $categories;
+    public ?array $categories = null;
+
     /**
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public ?array $sites;
+    public ?array $sites = null;
+
     /**
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public ?array $groups;
+    public ?array $groups = null;
 }

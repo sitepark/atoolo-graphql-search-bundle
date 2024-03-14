@@ -14,13 +14,16 @@ class IndexerInput
 {
     #[GQL\Field(type:"String!")]
     public string $index;
+
     #[GQL\Field(type:"Int")]
-    public ?int $cleanupThreshold;
+    public ?int $cleanupThreshold = null;
+
     #[GQL\Field(type:"Int")]
-    public ?int $chunkSize;
+    public ?int $chunkSize = null;
+
     /**
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public ?array $paths;
+    public ?array $paths = null;
 }

@@ -14,17 +14,17 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 class InputSortCriteria
 {
     #[GQL\Field(type:"SortDirection")]
-    public ?SortDirection $name;
+    public ?SortDirection $name = null;
 
     #[GQL\Field(type:"SortDirection")]
-    public ?SortDirection $headline;
+    public ?SortDirection $headline = null;
 
     #[GQL\Field(type:"SortDirection")]
-    public ?SortDirection $date;
+    public ?SortDirection $date = null;
 
     #[GQL\Field(type:"SortDirection")]
-    public ?SortDirection $natural;
+    public ?SortDirection $natural = null;
 
     #[GQL\Field(type:"SortDirection")]
-    public ?SortDirection $score;
+    public ?SortDirection $score = null;
 }

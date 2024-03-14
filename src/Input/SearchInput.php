@@ -15,27 +15,34 @@ class SearchInput
 {
     #[GQL\Field(type:"String")]
     public string $index;
+
     #[GQL\Field(type:"String")]
-    public ?string $text;
+    public ?string $text = null;
+
     #[GQL\Field(type:"Int")]
-    public ?int $offset;
+    public ?int $offset = null;
+
     #[GQL\Field(type:"Int")]
-    public ?int $limit;
+    public ?int $limit = null;
+
     #[GQL\Field(type:"QueryDefaultOperator")]
-    public ?QueryDefaultOperator $queryDefaultOperator;
+    public ?QueryDefaultOperator $queryDefaultOperator = null;
+
     /**
      * @var InputSortCriteria[]
      */
     #[GQL\Field(type:"[InputSortCriteria!]")]
-    public ?array $sort;
+    public ?array $sort = null;
+
     /**
      * @var InputFilter[]
      */
     #[GQL\Field(type:"[InputFilter!]")]
-    public ?array $filter;
+    public ?array $filter = null;
+
     /**
      * @var InputFacet[]
      */
     #[GQL\Field(type:"[InputFacet!]")]
-    public ?array $facets;
+    public ?array $facets = null;
 }
