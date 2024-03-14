@@ -57,7 +57,7 @@ class Indexer
     public function indexRemove(string $index, array $idList): bool
     {
         $this->indexer->remove($index, $idList);
-        return true;
+        return true; // graphql requires a return value
     }
 
     #[GQL\Mutation(name: 'indexAbort', type: 'Boolean!')]
@@ -65,6 +65,6 @@ class Indexer
     public function indexAbort(string $index): bool
     {
         $this->indexer->abort($index);
-        return true;
+        return true; // graphql requires a return value
     }
 }
