@@ -25,11 +25,12 @@ class AtooloGraphQLSearchBundle extends Bundle
 
         $configDir = __DIR__ . '/Resources/config';
 
-        $loader = new GlobFileLoader(new FileLocator($configDir));
+        $locator = new FileLocator($configDir);
+        $loader = new GlobFileLoader($locator);
         $loader->setResolver(
             new LoaderResolver(
                 [
-                    new YamlFileLoader($container, new FileLocator($configDir)),
+                    new YamlFileLoader($container, $locator),
                 ]
             )
         );
