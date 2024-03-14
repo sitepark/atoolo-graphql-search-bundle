@@ -30,9 +30,6 @@ class FacetListFactory
 
     private function createFacet(InputFacet $facet): Facet
     {
-        if (!isset($facet->key)) {
-            throw new InvalidArgumentException('key missing');
-        }
         if (!empty($facet->objectTypes)) {
             return $this->createObjectTypeFacet($facet);
         }
