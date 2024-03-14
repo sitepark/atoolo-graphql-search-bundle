@@ -11,13 +11,13 @@ use Atoolo\Resource\Resource;
 class ResourceResolver implements Resolver
 {
     public function __construct(
-        private readonly TeaserFactory $resourceToTeaserResolver
+        private readonly TeaserFactory $teaserFactory
     ) {
     }
 
     public function getTeaser(Resource $resource): Teaser
     {
-        return $this->resourceToTeaserResolver->resolve($resource);
+        return $this->teaserFactory->resolve($resource);
     }
 
     public function getNavigation(Resource $resource): Hierarchy

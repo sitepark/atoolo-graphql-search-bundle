@@ -184,7 +184,7 @@ services:
         tags:
             - { name: overblog_graphql.resolver_map, schema: default }
 
-    Atoolo\GraphQL\Search\Resolver\ResourceToTeaserResolver:
+    Atoolo\GraphQL\Search\Resolver\TeaserFactory:
       arguments:
         - !tagged_iterator atoolo.graphql.teaserResolver
 
