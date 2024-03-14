@@ -7,6 +7,7 @@ namespace Atoolo\GraphQL\Search\Resolver;
 use Atoolo\GraphQL\Search\Types\Hierarchy;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceHierarchyLoader;
+use InvalidArgumentException;
 
 class HierarchyResolver implements Resolver
 {
@@ -20,6 +21,9 @@ class HierarchyResolver implements Resolver
     ) {
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function getRoot(Hierarchy $hierarchy): Resource
     {
         $resource = $hierarchy->resource;
@@ -27,6 +31,9 @@ class HierarchyResolver implements Resolver
             ->loadRoot($resource->getLocation());
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function getParent(Hierarchy $hierarchy): ?Resource
     {
         $resource = $hierarchy->resource;
@@ -36,6 +43,7 @@ class HierarchyResolver implements Resolver
 
     /**
      * @return Resource[]
+     * @throws InvalidArgumentException
      */
     public function getPath(Hierarchy $hierarchy): array
     {
@@ -46,6 +54,7 @@ class HierarchyResolver implements Resolver
 
     /**
      * @return Resource[]
+     * @throws InvalidArgumentException
      */
     public function getChildren(Hierarchy $hierarchy): array
     {
@@ -54,6 +63,9 @@ class HierarchyResolver implements Resolver
             ->loadChildren($resource->getLocation());
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     private function getLoader(string $type): ResourceHierarchyLoader
     {
         if ($type === self::TYPE_NAVIGATION) {
@@ -62,7 +74,7 @@ class HierarchyResolver implements Resolver
         if ($type === self::TYPE_CATEGORY) {
             return $this->categoryHierarchyLoader;
         }
-        throw new \InvalidArgumentException(
+        throw new InvalidArgumentException(
             'unknown tree type ' .
             '"' . $type . '"'
         );
