@@ -21,8 +21,8 @@ namespace Atoolo\GraphQL\Search\Resolver;
  *
  * ```
  * #[GQL\TypeInterface(
- * name:'Asset',
- * resolveType:"@=query('typeByClassName', value)"
+ *    name:'Asset',
+ *    resolveType:"@=query('typeByClassName', value)"
  * )]
  * abstract class Asset
  * {
