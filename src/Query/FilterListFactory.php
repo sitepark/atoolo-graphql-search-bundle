@@ -28,15 +28,19 @@ class FilterListFactory
     public function create(array $inputFilterList): array
     {
         $filterList = [];
+        $includeArchived = false;
         foreach ($inputFilterList as $inputFilter) {
-            if (isset($inputFilter->archive)) {
+            if ($inputFilter->archive !== null) {
+                $includeArchived = $includeArchived || $inputFilter->archive;
                 continue;
             }
             $filterList[] = $this->createFilter($inputFilter);
         }
-        if ($this->withArchiveFilter($inputFilterList)) {
+
+        if (!$includeArchived) {
             $filterList[] = new ArchiveFilter();
         }
+
         return $filterList;
     }
 
@@ -74,33 +78,12 @@ class FilterListFactory
         );
     }
 
-    /**
-     * Normally, the archived entries should not be part of the search result.
-     * In this case, the archive filter must also be set. Archived entries
-     * should only be found in exceptional cases. This must then be specified
-     * explicitly. In this case, the filter is not added.
-     *
-     * @param InputFilter[] $inputFilterList
-     */
-    private function withArchiveFilter(array $inputFilterList): bool
-    {
-        foreach ($inputFilterList as $inputFilter) {
-            if (
-                isset($inputFilter->archive) &&
-                $inputFilter->archive === true
-            ) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     private function createObjectTypeFilter(
         InputFilter $filter
     ): ObjectTypeFilter {
         return new ObjectTypeFilter(
-            $filter->objectTypes ?? [],
-            $filter->key ?? null
+            $filter->objectTypes,
+            $filter->key
         );
     }
 
@@ -108,8 +91,8 @@ class FilterListFactory
         InputFilter $filter
     ): ContentSectionTypeFilter {
         return new ContentSectionTypeFilter(
-            $filter->contentSectionTypes ?? [],
-            $filter->key ?? null
+            $filter->contentSectionTypes,
+            $filter->key
         );
     }
 
@@ -117,8 +100,8 @@ class FilterListFactory
         InputFilter $filter
     ): CategoryFilter {
         return new CategoryFilter(
-            $filter->categories ?? [],
-            $filter->key ?? null
+            $filter->categories,
+            $filter->key
         );
     }
 
@@ -126,8 +109,8 @@ class FilterListFactory
         InputFilter $filter
     ): SiteFilter {
         return new SiteFilter(
-            $filter->sites ?? [],
-            $filter->key ?? null
+            $filter->sites,
+            $filter->key
         );
     }
 
@@ -135,8 +118,8 @@ class FilterListFactory
         InputFilter $filter
     ): GroupFilter {
         return new GroupFilter(
-            $filter->groups ?? [],
-            $filter->key ?? null
+            $filter->groups,
+            $filter->key
         );
     }
 
@@ -144,12 +127,12 @@ class FilterListFactory
         InputFilter $filter
     ): AndFilter {
         $filterList = [];
-        foreach ($filter->and ?? [] as $filterItem) {
+        foreach ($filter->and as $filterItem) {
             $filterList[] = $this->createFilter($filterItem);
         }
         return new AndFilter(
             $filterList,
-            $filter->key ?? null
+            $filter->key
         );
     }
 
@@ -157,12 +140,12 @@ class FilterListFactory
         InputFilter $filter
     ): OrFilter {
         $filterList = [];
-        foreach ($filter->or ?? [] as $filterItem) {
+        foreach ($filter->or as $filterItem) {
             $filterList[] = $this->createFilter($filterItem);
         }
         return new OrFilter(
             $filterList,
-            $filter->key ?? null
+            $filter->key
         );
     }
 
@@ -176,7 +159,7 @@ class FilterListFactory
         // @codeCoverageIgnoreEnd
         return new NotFilter(
             $this->createFilter($filter->not),
-            $filter->key ?? null
+            $filter->key
         );
     }
 
@@ -190,7 +173,7 @@ class FilterListFactory
         // @codeCoverageIgnoreEnd
         return new QueryFilter(
             $filter->query,
-            $filter->key ?? null
+            $filter->key
         );
     }
 }

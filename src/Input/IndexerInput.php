@@ -25,5 +25,5 @@ class IndexerInput
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public ?array $paths = null;
+    public array $paths = [];
 }

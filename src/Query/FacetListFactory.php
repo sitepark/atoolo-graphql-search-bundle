@@ -68,7 +68,7 @@ class FacetListFactory
     ): ContentSectionTypeFacet {
         return new ContentSectionTypeFacet(
             $facet->key,
-            $facet->contentSectionTypes ?? [],
+            $facet->contentSectionTypes,
             $facet->excludeFilter
         );
     }
@@ -78,7 +78,7 @@ class FacetListFactory
     ): CategoryFacet {
         return new CategoryFacet(
             $facet->key,
-            $facet->categories ?? [],
+            $facet->categories,
             $facet->excludeFilter
         );
     }
@@ -88,7 +88,7 @@ class FacetListFactory
     ): SiteFacet {
         return new SiteFacet(
             $facet->key,
-            $facet->sites ?? [],
+            $facet->sites,
             $facet->excludeFilter
         );
     }
@@ -98,7 +98,7 @@ class FacetListFactory
     ): GroupFacet {
         return new GroupFacet(
             $facet->key,
-            $facet->groups ?? [],
+            $facet->groups,
             $facet->excludeFilter
         );
     }
