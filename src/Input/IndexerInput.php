@@ -16,10 +16,10 @@ class IndexerInput
     public string $index;
 
     #[GQL\Field(type:"Int")]
-    public ?int $cleanupThreshold = null;
+    public int $cleanupThreshold = 0;
 
     #[GQL\Field(type:"Int")]
-    public ?int $chunkSize = null;
+    public int $chunkSize = 500;
 
     /**
      * @var string[]

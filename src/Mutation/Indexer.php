@@ -28,8 +28,8 @@ class Indexer
         try {
             $parameter = new IndexerParameter(
                 $input->index,
-                $input->cleanupThreshold ?? 0,
-                $input->chunkSize ?? 500,
+                $input->cleanupThreshold,
+                $input->chunkSize,
                 $input->paths ?? []
             );
             return $this->indexer->index($parameter);
