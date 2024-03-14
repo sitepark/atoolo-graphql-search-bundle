@@ -11,6 +11,9 @@ parameters:
     atoolo.search.solr.connection.path: '%env(default:atoolo.search.solr.connection.path.default:SOLR_PATH)%'
     atoolo.search.solr.connection.proxy: '%env(default:atoolo.search.solr.connection.proxy.default:SOLR_PROXY)%'
     atoolo.search.solr.connection.timeout: '%env(default:atoolo.search.solr.connection.timeout.default:SOLR_TIMEOUT)%'
+    atoolo.search.indexer.timeLimit: 7200
+    atoolo.search.indexer.memoryLimit: '512M'
+
 services:
     atoolo.resource.resourceBaseLocator:
         class: Atoolo\Resource\Loader\ServerVarResourceBaseLocator
@@ -24,12 +27,12 @@ services:
     atoolo.resource.navigationHierarchyLoader:
         class: Atoolo\Resource\Loader\SiteKitNavigationHierarchyLoader
         arguments:
-            - "@atoolo.resource.resourceLoader"
+            - '@atoolo.resource.resourceLoader'
     atoolo.resource.categoryHierarchyLoader:
         class: Atoolo\Resource\Loader\SiteKitResourceHierarchyLoader
         arguments:
-            - "@atoolo.resource.resourceLoader"
-            - "category"
+            - '@atoolo.resource.resourceLoader'
+            - 'category'
     atoolo.search.solariumClientFactory:
         class: Atoolo\Search\Service\SolrParameterClientFactory
         arguments:
@@ -58,12 +61,12 @@ services:
     ##ä
     Atoolo\Search\Service\Search\InternalResourceFactory:
         arguments:
-            - "@atoolo.resource.resourceLoader"
+            - '@atoolo.resource.resourceLoader'
         tags:
             - { name: 'atoolo.search.resourceFactory', priority: 10 }
     Atoolo\Search\Service\Search\InternalMediaResourceFactory:
         arguments:
-            - "@atoolo.resource.resourceLoader"
+            - '@atoolo.resource.resourceLoader'
         tags:
             - { name: 'atoolo.search.resourceFactory', priority: 11 }
     Atoolo\Search\Service\Search\ExternalResourceFactory:
@@ -154,29 +157,35 @@ services:
     Atoolo\GraphQL\Search\Query\Select:
         public: true
         arguments:
-            - "@atoolo.search.selectSearcher"
+            - '@atoolo.search.selectSearcher'
 
     Atoolo\GraphQL\Search\Query\Suggest:
         public: true
         arguments:
-            - "@atoolo.search.suggestSearcher"
+            - '@atoolo.search.suggestSearcher'
+
+    Atoolo\GraphQL\Service\PhpLimitIncreaser:
+        arguments:
+            - '%atoolo.search.indexer.timeLimit%'
+            - '%atoolo.search.indexer.memoryLimit%'
 
     Atoolo\GraphQL\Search\Query\Indexer:
         public: true
         arguments:
-            - "@atoolo.search.indexer"
+            - ''@atoolo.search.indexer'
+            - '@Atoolo\GraphQL\Service\PhpLimitIncreaser'
 
     Atoolo\GraphQL\Search\Mutation\Indexer:
         public: true
         arguments:
-            - "@atoolo.search.indexer"
+            - '@atoolo.search.indexer'
 
     atoolo.graphql.resolver.urlRewriter:
       class: Atoolo\GraphQL\Search\Resolver\DoNothingUrlRewriter
 
     Atoolo\GraphQL\Search\Resolver\ClassNameTypeResolver:
         tags:
-            - { name: overblog_graphql.query, alias: "typeByClassName", method: "resolveType" }
+            - { name: overblog_graphql.query, alias: 'typeByClassName', method: 'resolveType' }
 
     Atoolo\GraphQL\Search\Resolver\ResolverMapRegistry:
         arguments:
@@ -190,26 +199,26 @@ services:
 
     Atoolo\GraphQL\Search\Resolver\ResourceResolver:
         arguments:
-            - "@Atoolo\\GraphQL\\Search\\Resolver\\TeaserFactory"
+            - '@Atoolo\\GraphQL\\Search\\Resolver\\TeaserFactory'
         tags:
             - { name: 'atoolo.graphql.resolver', priority: 10 }
 
     Atoolo\GraphQL\Search\Resolver\HierarchyResolver:
         arguments:
-            - "@atoolo.resource.navigationHierarchyLoader"
-            - "@atoolo.resource.categoryHierarchyLoader"
+            - '@atoolo.resource.navigationHierarchyLoader'
+            - '@atoolo.resource.categoryHierarchyLoader'
         tags:
             - { name: 'atoolo.graphql.resolver', priority: 10 }
 
     Atoolo\GraphQL\Search\Resolver\MediaTeaserResolver:
       arguments:
-        - "@atoolo.graphql.resolver.urlRewriter"
+        - '@atoolo.graphql.resolver.urlRewriter'
       tags:
         - { name: 'atoolo.graphql.teaserResolver', priority: 10 }
 
     Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver:
         arguments:
-          - "@atoolo.graphql.resolver.urlRewriter"
+          - '@atoolo.graphql.resolver.urlRewriter'
         tags:
             - { name: 'atoolo.graphql.resolver', priority: 10 }
             - { name: 'atoolo.graphql.teaserResolver', priority: 1 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Mutation;
 
 use Atoolo\GraphQL\Search\Input\IndexerInput;
+use Atoolo\GraphQL\Search\Service\PhpLimitIncreaser;
 use Atoolo\Search\Dto\Indexer\IndexerParameter;
 use Atoolo\Search\Dto\Indexer\IndexerStatus;
 use Atoolo\Search\Service\Indexer\BackgroundIndexer;
@@ -14,7 +15,8 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 class Indexer
 {
     public function __construct(
-        private readonly BackgroundIndexer $indexer
+        private readonly BackgroundIndexer $indexer,
+        private readonly PhpLimitIncreaser $limitIncreaser
     ) {
     }
 
@@ -22,9 +24,7 @@ class Indexer
     #[GQL\Access("hasRole('ROLE_API')")]
     public function index(IndexerInput $input): IndexerStatus
     {
-        set_time_limit(60 * 60 * 2);
-        $oldLimit = ini_get('memory_limit');
-        ini_set('memory_limit', '512M');
+        $this->limitIncreaser->increase();
         try {
             $parameter = new IndexerParameter(
                 $input->index,
@@ -34,9 +34,10 @@ class Indexer
             );
             return $this->indexer->index($parameter);
         } finally {
-            ini_set('memory_limit', $oldLimit);
+            $this->limitIncreaser->reset();
         }
     }
+
 
     /**
      * @param string[] $idList
