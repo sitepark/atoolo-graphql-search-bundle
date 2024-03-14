@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Resolver;
 
-use Atoolo\GraphQL\Search\Resolver\ResourceToTeaserResolver;
+use Atoolo\GraphQL\Search\Resolver\TeaserFactory;
 use Atoolo\GraphQL\Search\Resolver\TeaserResolver;
 use Atoolo\GraphQL\Search\Types\Teaser;
 use Atoolo\Resource\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(ResourceToTeaserResolver::class)]
-class ResourceToTeaserResolverTest extends TestCase
+#[CoversClass(TeaserFactory::class)]
+class TeaserFactoryTest extends TestCase
 {
     public function testResolve(): void
     {
@@ -22,7 +22,7 @@ class ResourceToTeaserResolverTest extends TestCase
             ->willReturn(true);
         $teaserResolver->method('resolve')
             ->willReturn($teaser);
-        $resolver = new ResourceToTeaserResolver([$teaserResolver]);
+        $resolver = new TeaserFactory([$teaserResolver]);
 
         $this->assertEquals(
             $teaser,
@@ -36,7 +36,7 @@ class ResourceToTeaserResolverTest extends TestCase
         $teaserResolver = $this->createStub(TeaserResolver::class);
         $teaserResolver->method('accept')
             ->willReturn(false);
-        $resolver = new ResourceToTeaserResolver([$teaserResolver]);
+        $resolver = new TeaserFactory([$teaserResolver]);
 
         $this->expectException(\InvalidArgumentException::class);
         $resolver->resolve($this->createStub(Resource::class));

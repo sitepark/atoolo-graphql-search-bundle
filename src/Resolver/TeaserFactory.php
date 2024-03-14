@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Resolver;
 
-use Atoolo\GraphQL\Search\Types\ArticleTeaser;
-use Atoolo\GraphQL\Search\Types\MediaTeaser;
 use Atoolo\GraphQL\Search\Types\Teaser;
 use Atoolo\Resource\Resource;
-use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 
-class ResourceToTeaserResolver
+class TeaserFactory
 {
     /**
      * @param iterable<TeaserResolver> $resolverList

@@ -11,7 +11,7 @@ use Atoolo\Resource\Resource;
 class ResourceResolver implements Resolver
 {
     public function __construct(
-        private readonly ResourceToTeaserResolver $resourceToTeaserResolver
+        private readonly TeaserFactory $resourceToTeaserResolver
     ) {
     }
 

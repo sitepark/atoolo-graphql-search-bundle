@@ -190,7 +190,7 @@ services:
 
     Atoolo\GraphQL\Search\Resolver\ResourceResolver:
         arguments:
-            - "@Atoolo\\GraphQL\\Search\\Resolver\\ResourceToTeaserResolver"
+            - "@Atoolo\\GraphQL\\Search\\Resolver\\TeaserFactory"
         tags:
             - { name: 'atoolo.graphql.resolver', priority: 10 }
 
