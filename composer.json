@@ -50,14 +50,6 @@
         },
         "sort-packages": true
     },
-    "extra": {
-        "composer-link": {
-            "atoolo/search": {
-                "dev": false,
-                "version": "dev-feature/initial-implementation"
-            }
-        }
-    },
     "scripts": {
         "post-install-cmd": "phive --no-progress install --force-accept-unsigned --trust-gpg-keys C00543248C87FB13,4AA394086372C20A,CF1A108D0E7AE720,51C67305FFC2E5C0",
         "analyse": [
