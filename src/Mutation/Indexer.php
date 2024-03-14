@@ -54,9 +54,6 @@ class Indexer
         type:"[String!]",
         description:"list of id's of the entries to be deleted"
     )]
-    /**
-     * @param string[] $idList
-     */
     public function indexRemove(string $index, array $idList): bool
     {
         $this->indexer->remove($index, $idList);
