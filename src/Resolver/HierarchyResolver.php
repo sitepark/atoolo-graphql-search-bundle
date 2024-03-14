@@ -10,6 +10,10 @@ use Atoolo\Resource\ResourceHierarchyLoader;
 
 class HierarchyResolver implements Resolver
 {
+    private const TYPE_NAVIGATION = 'navigation';
+
+    private const TYPE_CATEGORY = 'category';
+
     public function __construct(
         private readonly ResourceHierarchyLoader $navigationLoader,
         private readonly ResourceHierarchyLoader $categoryHierarchyLoader
@@ -52,10 +56,10 @@ class HierarchyResolver implements Resolver
 
     private function getLoader(string $type): ResourceHierarchyLoader
     {
-        if ($type === 'navigation') {
+        if ($type === self::TYPE_NAVIGATION) {
             return $this->navigationLoader;
         }
-        if ($type === 'category') {
+        if ($type === self::TYPE_CATEGORY) {
             return $this->categoryHierarchyLoader;
         }
         throw new \InvalidArgumentException(
