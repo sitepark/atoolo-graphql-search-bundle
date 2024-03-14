@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eee68faeb92ea3e3c8911f9213ff3a8c",
+    "content-hash": "0b8d30c12c736be15d5620e3a5f8e384",
     "packages": [
         {
             "name": "atoolo/resource",
@@ -61,12 +61,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sitepark/atoolo-search.git",
-                "reference": "a644145345895f729393fef1c7759aa21ac9ada9"
+                "reference": "8f95a63e8cc37c7816305a766a7df3e357df8688"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sitepark/atoolo-search/zipball/a644145345895f729393fef1c7759aa21ac9ada9",
-                "reference": "a644145345895f729393fef1c7759aa21ac9ada9",
+                "url": "https://api.github.com/repos/sitepark/atoolo-search/zipball/8f95a63e8cc37c7816305a766a7df3e357df8688",
+                "reference": "8f95a63e8cc37c7816305a766a7df3e357df8688",
                 "shasum": ""
             },
             "require": {
@@ -113,7 +113,7 @@
                 "issues": "https://github.com/sitepark/atoolo-search/issues",
                 "source": "https://github.com/sitepark/atoolo-search/tree/feature/initial-implementation"
             },
-            "time": "2024-03-12T16:05:31+00:00"
+            "time": "2024-03-13T14:09:05+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -5285,12 +5285,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "c02629d91815a7c173f0b4ed4cb7d90eb37f5709"
+                "reference": "eedc674d89085b0199bd96bfad410404fb2f5dbf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/c02629d91815a7c173f0b4ed4cb7d90eb37f5709",
-                "reference": "c02629d91815a7c173f0b4ed4cb7d90eb37f5709",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/eedc674d89085b0199bd96bfad410404fb2f5dbf",
+                "reference": "eedc674d89085b0199bd96bfad410404fb2f5dbf",
                 "shasum": ""
             },
             "conflict": {
@@ -5442,7 +5442,7 @@
                 "ezsystems/ezplatform-solr-search-engine": ">=1.7,<1.7.12|>=2,<2.0.2|>=3.3,<3.3.15",
                 "ezsystems/ezplatform-user": ">=1,<1.0.1",
                 "ezsystems/ezpublish-kernel": "<6.13.8.2-dev|>=7,<7.5.31",
-                "ezsystems/ezpublish-legacy": "<=2017.12.7.3|>=2018.06,<=2019.03.5.1",
+                "ezsystems/ezpublish-legacy": "<=2017.12.7.3|>=2018.6,<=2019.03.5.1",
                 "ezsystems/platform-ui-assets-bundle": ">=4.2,<4.2.3",
                 "ezsystems/repository-forms": ">=2.3,<2.3.2.1-dev|>=2.5,<2.5.15",
                 "ezyang/htmlpurifier": "<4.1.1",
@@ -6017,7 +6017,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-12T13:04:19+00:00"
+            "time": "2024-03-13T21:04:41+00:00"
         },
         {
             "name": "sanmai/later",
