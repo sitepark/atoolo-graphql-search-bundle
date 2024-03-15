@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Types;
 
+use DateMalformedStringException;
 use DateTimeInterface;
-use Exception;
 use GraphQL\Language\AST\Node;
 use Overblog\GraphQLBundle\Annotation as GQL;
 
@@ -18,7 +18,7 @@ class DateTime
     }
 
     /**
-     * @throws Exception
+     * @throws DateMalformedStringException
      */
     public static function parseValue(string $value): \DateTime
     {
@@ -26,7 +26,7 @@ class DateTime
     }
 
     /**
-     * @throws Exception
+     * @throws DateMalformedStringException
      */
     public static function parseLiteral(Node $valueNode): \DateTime
     {
