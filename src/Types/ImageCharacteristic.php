@@ -28,18 +28,12 @@ enum ImageCharacteristic: string
     private static function camelCaseToSnakeCase(
         string $camelCaseString
     ): string {
+        /** @var string $snakeCase */
         $snakeCase = preg_replace(
             '/(?<!^)[A-Z]/',
             '_$0',
             $camelCaseString
         );
-        // @codeCoverageIgnoreStart
-        if (!is_string($snakeCase)) {
-            throw new InvalidArgumentException(
-                'unable to transform string from camel-case to snake-case'
-            );
-        }
-        // @codeCoverageIgnoreEnd
         return strtoupper($snakeCase);
     }
 }
