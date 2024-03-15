@@ -222,16 +222,3 @@ services:
         tags:
             - { name: 'atoolo_graphql_search.resolver', priority: 10 }
             - { name: 'atoolo_graphql_search.teaserResolver', priority: 1 }
-
-    Atoolo\GraphQL\Search\Error\ExceptionConverter: ~
-
-    Overblog\GraphQLBundle\Error\ExceptionConverterInterface:
-      alias: 'Atoolo\GraphQL\Search\Error\ExceptionConverter'
-
-    Atoolo\GraphQL\Search\Error\ErrorHandler:
-      tags:
-        - { name: kernel.event_listener, event: graphql.post_executor, method: onPostExecutor }
-
-    Atoolo\GraphQL\Search\Error\ErrorCode:
-      tags:
-        - { name: kernel.event_listener, event: graphql.error_formatting, method: onErrorFormatting }
