@@ -133,9 +133,7 @@ class ArticleTeaserResolver implements Resolver, TeaserResolver
         array $variantData
     ): array {
         $sources = [];
-        foreach (
-            $variantData as $sourceData
-        ) {
+        foreach ($variantData as $sourceData) {
             $sources[] = $this->toImageSource(
                 $variant,
                 $sourceData
