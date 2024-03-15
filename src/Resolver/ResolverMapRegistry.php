@@ -197,19 +197,6 @@ class ResolverMapRegistry extends ResolverMap
             return [];
         }
 
-        $objectType = $params[0]->getType();
-
-        if ($objectType === null) {
-            return [];
-        }
-
-        if (
-            (!($objectType instanceof ReflectionNamedType)) &&
-            (!($objectType instanceof ReflectionUnionType))
-        ) {
-            return [];
-        }
-
         if ($paramLength === 2) {
             $argumentsType = $params[1]->getType();
             if (
@@ -219,16 +206,17 @@ class ResolverMapRegistry extends ResolverMap
                 return [];
             }
         }
-
-        $fullTypeNames = [];
+        $objectType = $params[0]->getType();
         if ($objectType instanceof ReflectionNamedType) {
-            $fullTypeNames[] = $objectType->getName();
-        } elseif ($objectType instanceof ReflectionUnionType) {
-            foreach ($objectType->getTypes() as $unionType) {
-                $fullTypeNames[] = $unionType->getName();
-            }
+            return [$objectType->getName()];
+        }
+        if ($objectType instanceof ReflectionUnionType) {
+            return array_map(
+                static fn($type) => $type->getName(),
+                $objectType->getTypes()
+            );
         }
 
-        return $fullTypeNames;
+        return [];
     }
 }
