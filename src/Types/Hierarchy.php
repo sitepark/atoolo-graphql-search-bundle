@@ -11,7 +11,7 @@ class Hierarchy
 {
     public function __construct(
         public readonly string $type,
-        public readonly \Atoolo\Resource\Resource $resource
+        public readonly \Atoolo\Resource\Resource $root
     ) {
     }
 }
