@@ -15,8 +15,8 @@ class MediaTeaser extends Teaser
         ?string $url,
         public readonly ?string $headline,
         public readonly ?string $text,
-        public ?string $contentType,
-        public ?int $contentLength,
+        public readonly ?string $contentType,
+        public readonly ?int $contentLength,
         public readonly ?Asset $asset,
         public readonly Resource $resource
     ) {

@@ -14,7 +14,7 @@ class ImageSource
         public readonly string $url,
         public readonly int $width,
         public readonly int $height,
-        public ?string $mediaQuery = null
+        public readonly ?string $mediaQuery = null
     ) {
     }
 }
