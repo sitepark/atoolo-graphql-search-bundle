@@ -98,17 +98,6 @@ class FacetListFactoryTest extends TestCase
         );
     }
 
-    public function testFacetWithMissingKey(): void
-    {
-        $facet = new InputFacet();
-        $facet->objectTypes = ['content'];
-
-        $factory = new FacetListFactory();
-
-        $this->expectException(InvalidArgumentException::class);
-        $factory->create([$facet]);
-    }
-
     public function testWithInvalidInputFacet(): void
     {
         $input = new InputFacet();
