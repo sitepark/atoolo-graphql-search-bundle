@@ -69,9 +69,9 @@ type ImageSource {
 }
 
 type IndexerStatus {
-    startTime : DateTime
-    endTime : DateTime
-    lastUpdate : DateTime
+    startTime: DateTime
+    endTime: DateTime
+    lastUpdate: DateTime
     total: Int
     processed: Int
     skipped: Int
