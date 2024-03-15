@@ -4,29 +4,28 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Types;
 
-use Atoolo\GraphQL\Search\Types\DateTimeType;
-use DateTime;
+use Atoolo\GraphQL\Search\Types\DateTime;
 use DateTimeInterface;
 use GraphQL\Language\AST\StringValueNode;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(DateTimeType::class)]
-class DateTimeTypeTest extends TestCase
+#[CoversClass(DateTime::class)]
+class DateTimeTest extends TestCase
 {
     public function testSerialize(): void
     {
-        $value = new DateTime('2021-01-01T00:00:00+00:00');
+        $value = new \DateTime('2021-01-01T00:00:00+00:00');
         self::assertSame(
             '2021-01-01T00:00:00+00:00',
-            DateTimeType::serialize($value)
+            DateTime::serialize($value)
         );
     }
 
     public function testParseValue(): void
     {
         $value = '2021-01-01T00:00:00+00:00';
-        $dateTime = DateTimeType::parseValue($value);
+        $dateTime = DateTime::parseValue($value);
         self::assertSame(
             $value,
             $dateTime->format(DateTimeInterface::RFC3339)
@@ -37,7 +36,7 @@ class DateTimeTypeTest extends TestCase
     {
         $value = '2021-01-01T00:00:00+00:00';
         $valueNode = new StringValueNode(['value' => $value]);
-        $dateTime = DateTimeType::parseLiteral($valueNode);
+        $dateTime = DateTime::parseLiteral($valueNode);
         self::assertSame(
             $value,
             $dateTime->format(DateTimeInterface::RFC3339)
