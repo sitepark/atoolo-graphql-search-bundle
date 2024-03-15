@@ -59,7 +59,7 @@ class ArticleTeaserResolver implements Resolver, TeaserResolver
             $url,
             $headline,
             $text,
-            null,
+            null, // will be resolved by getAsset()
             $resource
         );
     }
