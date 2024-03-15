@@ -37,18 +37,12 @@ class SelectQueryFactory
         SelectQueryBuilder $builder,
         SearchInput $input
     ): void {
-        if (
-            isset($input->queryDefaultOperator) &&
-            $input->queryDefaultOperator === QueryDefaultOperator::OR
-        ) {
-            $builder->queryDefaultOperator(
-                \Atoolo\Search\Dto\Search\Query\QueryDefaultOperator::OR
-            );
-        } else {
-            $builder->queryDefaultOperator(
-                \Atoolo\Search\Dto\Search\Query\QueryDefaultOperator::AND
-            );
-        }
+        $builder->queryDefaultOperator(
+            ($input->queryDefaultOperator ?? null) === QueryDefaultOperator::OR
+                ? \Atoolo\Search\Dto\Search\Query\QueryDefaultOperator::OR
+                : \Atoolo\Search\Dto\Search\Query\QueryDefaultOperator::AND
+        );
+
         if (isset($input->text)) {
             $builder->text($input->text);
         }
