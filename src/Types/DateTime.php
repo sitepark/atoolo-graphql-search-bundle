@@ -9,6 +9,10 @@ use DateTimeInterface;
 use GraphQL\Language\AST\Node;
 use Overblog\GraphQLBundle\Annotation as GQL;
 
+/**
+ * This is specified by overblog/GraphQLBundle
+ * https://github.com/overblog/GraphQLBundle/blob/master/docs/definitions/type-system/scalars.md#custom-scalar
+ */
 #[GQL\Scalar('DateTime')]
 class DateTime
 {
