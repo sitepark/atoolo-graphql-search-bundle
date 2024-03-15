@@ -44,26 +44,6 @@ type Suggestion {
     hits: Int!
 }
 
-# Base Type for all Teaser
-#interface Teaser {
-#    url: String!
-#}
-
-#type ArticleTeaser implements Teaser {
-#    url: String!
-#    headline: String
-#    text: String
-#    # Asset of the teaser. E.g. a image or a video
-#    asset(variant: String!): Asset
-#}
-
-#type MediaTeaser extend Teaser {
-#    headline: String
-#    text: String
-#    contentType: String!
-#    contentLength: Int!
-#}
-
 interface Asset {
     copyright: String
     caption: String
