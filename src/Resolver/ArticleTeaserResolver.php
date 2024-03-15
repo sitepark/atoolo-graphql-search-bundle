@@ -15,20 +15,20 @@ use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 
 /**
  * @phpstan-type ImageData array{
- *     characteristic: ?string,
- *     copyright: ?string,
- *     text: ?string,
- *     legend: ?string,
- *     description: ?string,
- *     original : ?ImageSourceData,
- *     variants: ?array<string,array<ImageSourceData>>
+ *     characteristic?: string,
+ *     copyright?: string,
+ *     text?: string,
+ *     legend?: string,
+ *     description?: string,
+ *     original? : ImageSourceData,
+ *     variants?: array<string,array<ImageSourceData>>
  * }
  *
  * @phpstan-type ImageSourceData array{
  *     url: string,
  *     width: int,
  *     height: int,
- *     mediaQuery: ?string
+ *     mediaQuery?: string
  * }
  */
 class ArticleTeaserResolver implements Resolver, TeaserResolver
@@ -98,7 +98,7 @@ class ArticleTeaserResolver implements Resolver, TeaserResolver
 
         $sources = [];
         if (
-            $imageData['variants'] !== null &&
+            isset($imageData['variants']) &&
             is_array($imageData['variants'][$variant])
         ) {
             $sources = $this->toImageSourceList(
