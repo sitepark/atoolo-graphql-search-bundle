@@ -180,7 +180,7 @@ services:
         arguments:
             - '@atoolo.search.indexer'
 
-    atoolo.graphql.resolver.urlRewriter:
+    atoolo_graphql_search.resolver.urlRewriter:
       class: Atoolo\GraphQL\Search\Resolver\DoNothingUrlRewriter
 
     Atoolo\GraphQL\Search\Resolver\ClassNameTypeResolver:
@@ -189,39 +189,39 @@ services:
 
     Atoolo\GraphQL\Search\Resolver\ResolverMapRegistry:
         arguments:
-            - !tagged_iterator atoolo.graphql.resolver
+            - !tagged_iterator atoolo_graphql_search.resolver
         tags:
             - { name: overblog_graphql.resolver_map, schema: default }
 
     Atoolo\GraphQL\Search\Resolver\TeaserFactory:
       arguments:
-        - !tagged_iterator atoolo.graphql.teaserResolver
+        - !tagged_iterator atoolo_graphql_search.teaserResolver
 
     Atoolo\GraphQL\Search\Resolver\ResourceResolver:
         arguments:
             - '@Atoolo\\GraphQL\\Search\\Resolver\\TeaserFactory'
         tags:
-            - { name: 'atoolo.graphql.resolver', priority: 10 }
+            - { name: 'atoolo_graphql_search.resolver', priority: 10 }
 
     Atoolo\GraphQL\Search\Resolver\HierarchyResolver:
         arguments:
             - '@atoolo.resource.navigationHierarchyLoader'
             - '@atoolo.resource.categoryHierarchyLoader'
         tags:
-            - { name: 'atoolo.graphql.resolver', priority: 10 }
+            - { name: 'atoolo_graphql_search.resolver', priority: 10 }
 
     Atoolo\GraphQL\Search\Resolver\MediaTeaserResolver:
       arguments:
-        - '@atoolo.graphql.resolver.urlRewriter'
+        - '@atoolo_graphql_search.resolver.urlRewriter'
       tags:
-        - { name: 'atoolo.graphql.teaserResolver', priority: 10 }
+        - { name: 'atoolo_graphql_search.teaserResolver', priority: 10 }
 
     Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver:
         arguments:
-          - '@atoolo.graphql.resolver.urlRewriter'
+          - '@atoolo_graphql_search.resolver.urlRewriter'
         tags:
-            - { name: 'atoolo.graphql.resolver', priority: 10 }
-            - { name: 'atoolo.graphql.teaserResolver', priority: 1 }
+            - { name: 'atoolo_graphql_search.resolver', priority: 10 }
+            - { name: 'atoolo_graphql_search.teaserResolver', priority: 1 }
 
     Atoolo\GraphQL\Search\Error\ExceptionConverter: ~
 

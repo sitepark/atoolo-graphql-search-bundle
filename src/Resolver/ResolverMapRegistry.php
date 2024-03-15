@@ -7,10 +7,8 @@ namespace Atoolo\GraphQL\Search\Resolver;
 use ArrayObject;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
-use LogicException;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use Overblog\GraphQLBundle\Resolver\ResolverMap;
-use Overblog\GraphQLBundle\Resolver\UnresolvableException;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
@@ -31,7 +29,7 @@ use ReflectionUnionType;
  * ResolverMap.
  *
  * The ResolverMapRegistry is registered as a service and collects all
- * resolvers that are tagged via `atoolo.graphql.resolver`.
+ * resolvers that are tagged via `atoolo_graphql_search.resolver`.
  */
 // phpcs:enable
 class ResolverMapRegistry extends ResolverMap
