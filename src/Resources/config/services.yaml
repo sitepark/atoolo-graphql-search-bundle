@@ -58,7 +58,7 @@ services:
 
     ###
     # Resource Factories
-    ##ä
+    ###
     Atoolo\Search\Service\Search\InternalResourceFactory:
         arguments:
             - '@atoolo.resource.resourceLoader'
