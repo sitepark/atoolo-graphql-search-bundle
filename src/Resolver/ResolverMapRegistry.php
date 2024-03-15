@@ -35,11 +35,6 @@ use ReflectionUnionType;
 class ResolverMapRegistry extends ResolverMap
 {
     /**
-     * @var array<string,array<string,ResolverMethod>>
-     */
-    private ?array $resolverMap = null;
-
-    /**
      * @param iterable<Resolver> $resolverList
      */
     public function __construct(
@@ -52,11 +47,9 @@ class ResolverMapRegistry extends ResolverMap
      */
     protected function map(): array
     {
-        if ($this->resolverMap === null) {
-            $this->resolverMap = $this->loadResolverMap();
-        }
+        $resolverMap = $this->loadResolverMap();
         $map = [];
-        foreach ($this->resolverMap as $typeName => $fieldMap) {
+        foreach ($resolverMap as $typeName => $fieldMap) {
             $map[$typeName] = [
                 self::RESOLVE_FIELD => $this->buildResolverFunction($fieldMap)
             ];
