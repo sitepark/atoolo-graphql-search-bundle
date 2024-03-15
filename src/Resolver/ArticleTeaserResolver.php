@@ -11,7 +11,9 @@ use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
 use Atoolo\GraphQL\Search\Types\ImageSource;
 use Atoolo\GraphQL\Search\Types\Teaser;
 use Atoolo\Resource\Resource;
+use InvalidArgumentException;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * @phpstan-type ImageData array{
@@ -33,8 +35,10 @@ use Overblog\GraphQLBundle\Definition\ArgumentInterface;
  */
 class ArticleTeaserResolver implements Resolver, TeaserResolver
 {
-    public function __construct(private readonly UrlRewriter $urlRewriter)
-    {
+    public function __construct(
+        private readonly UrlRewriter $urlRewriter,
+        private readonly LoggerInterface $logger
+    ) {
     }
 
     public function accept(Resource $resource): bool
@@ -77,9 +81,18 @@ class ArticleTeaserResolver implements Resolver, TeaserResolver
             return null;
         }
 
-        $characteristic = $this->toImageCharacteristic(
-            $imageData['characteristic'] ?? 'normal'
-        );
+        try {
+            $characteristic = ImageCharacteristic::valueOfCamelCase(
+                $imageData['characteristic'] ?? 'normal'
+            );
+        } catch (InvalidArgumentException $e) {
+            $this->logger->error(
+                'Invalid characteristic for teaser image ' .
+                'of resource ' . $teaser->resource->getLocation(),
+                ['exception' => $e]
+            );
+            return null;
+        }
 
         $copyright = $imageData['copyright'] ?? null;
         $alternativeText = $imageData['text'] ?? null;
@@ -116,12 +129,6 @@ class ArticleTeaserResolver implements Resolver, TeaserResolver
             $characteristic,
             $sources
         );
-    }
-
-    private function toImageCharacteristic(string $type): ImageCharacteristic
-    {
-        return ImageCharacteristic::valueOfCamelCase($type)
-            ?? ImageCharacteristic::NORMAL;
     }
 
     /**

@@ -13,14 +13,16 @@ enum ImageCharacteristic: string
 
     public static function valueOfCamelCase(
         string $name
-    ): ?ImageCharacteristic {
+    ): ImageCharacteristic {
         $name = self::camelCaseToSnakeCase(trim($name));
         foreach (self::cases() as $case) {
             if ($case->name === $name) {
                 return $case;
             }
         }
-        return null;
+        throw new InvalidArgumentException(
+            'unsupported name for ImageCharacteristic: ' . $name
+        );
     }
 
     private static function camelCaseToSnakeCase(

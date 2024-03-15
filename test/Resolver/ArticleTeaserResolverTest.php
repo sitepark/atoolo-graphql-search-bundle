@@ -14,7 +14,9 @@ use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 #[CoversClass(ArticleTeaserResolver::class)]
 class ArticleTeaserResolverTest extends TestCase
@@ -23,10 +25,16 @@ class ArticleTeaserResolverTest extends TestCase
 
     private UrlRewriter $urlRewriter;
 
+    private LoggerInterface&MockObject $logger;
+
     public function setUp(): void
     {
         $this->urlRewriter = $this->createStub(UrlRewriter::class);
-        $this->resolver = new ArticleTeaserResolver($this->urlRewriter);
+        $this->logger = $this->createMock(LoggerInterface::class);
+        $this->resolver = new ArticleTeaserResolver(
+            $this->urlRewriter,
+            $this->logger
+        );
     }
 
     public function testAccept(): void
@@ -191,6 +199,23 @@ class ArticleTeaserResolverTest extends TestCase
             $image,
             'unexpected image'
         );
+    }
+
+    public function testGetAssertWithImageAndInvalidCharacteristic(): void
+    {
+        $this->urlRewriter->method('rewrite')
+            ->willReturnCallback(fn($type, $url) => $url);
+
+        $this->logger->expects($this->once())->method('error');
+
+        $teaser = $this->createArticleTeaserWithImage(
+            [
+                'characteristic' => 'invalid',
+            ]
+        );
+
+        $args = new Argument(['variant' => 'teaser']);
+        $this->resolver->getAsset($teaser, $args);
     }
 
     private function createArticleTeaserWithImage(

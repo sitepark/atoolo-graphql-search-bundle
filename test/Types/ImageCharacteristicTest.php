@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Test\Types;
 
 use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -23,9 +24,7 @@ class ImageCharacteristicTest extends TestCase
 
     public function testValueOfCamelCaseWithInvalidValue(): void
     {
-        $this->assertNull(
-            ImageCharacteristic::valueOfCamelCase('invalidValue'),
-            'Expected null for invalid value'
-        );
+        $this->expectException(InvalidArgumentException::class);
+        ImageCharacteristic::valueOfCamelCase('invalidValue');
     }
 }
