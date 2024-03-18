@@ -38,7 +38,7 @@ class SelectQueryFactory
         SearchInput $input
     ): void {
         $builder->queryDefaultOperator(
-            ($input->queryDefaultOperator ?? null) === QueryDefaultOperator::OR
+            $input->queryDefaultOperator === QueryDefaultOperator::OR
                 ? \Atoolo\Search\Dto\Search\Query\QueryDefaultOperator::OR
                 : \Atoolo\Search\Dto\Search\Query\QueryDefaultOperator::AND
         );
