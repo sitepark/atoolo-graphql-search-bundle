@@ -172,7 +172,7 @@ services:
     Atoolo\GraphQL\Search\Query\Indexer:
         public: true
         arguments:
-            - ''@atoolo.search.indexer'
+            - '@atoolo.search.indexer'
             - '@Atoolo\GraphQL\Service\PhpLimitIncreaser'
 
     Atoolo\GraphQL\Search\Mutation\Indexer:
@@ -199,7 +199,7 @@ services:
 
     Atoolo\GraphQL\Search\Resolver\ResourceResolver:
         arguments:
-            - '@Atoolo\\GraphQL\\Search\\Resolver\\TeaserFactory'
+            - '@Atoolo\GraphQL\Search\Resolver\TeaserFactory'
         tags:
             - { name: 'atoolo_graphql_search.resolver', priority: 10 }
 
