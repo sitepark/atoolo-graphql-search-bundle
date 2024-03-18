@@ -8,7 +8,7 @@ use Overblog\GraphQLBundle\Annotation as GQL;
  * @codeCoverageIgnore
  */
 #[GQL\Enum]
-enum QueryDefaultOperator: string
+enum DefaultQueryOperator: string
 {
     case AND = 'AND';
     case OR = 'OR';

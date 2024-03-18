@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Query;
 
 use Atoolo\GraphQL\Search\Input\SearchInput;
-use Atoolo\GraphQL\Search\Types\QueryDefaultOperator;
+use Atoolo\GraphQL\Search\Types\DefaultQueryOperator;
 use Atoolo\GraphQL\Search\Types\SortDirection;
 use Atoolo\Search\Dto\Search\Query\SelectQuery;
 use Atoolo\Search\Dto\Search\Query\SelectQueryBuilder;
@@ -37,10 +37,10 @@ class SelectQueryFactory
         SelectQueryBuilder $builder,
         SearchInput $input
     ): void {
-        $builder->queryDefaultOperator(
-            $input->queryDefaultOperator === QueryDefaultOperator::OR
-                ? \Atoolo\Search\Dto\Search\Query\QueryDefaultOperator::OR
-                : \Atoolo\Search\Dto\Search\Query\QueryDefaultOperator::AND
+        $builder->defaultQueryOperator(
+            $input->defaultQueryOperator === DefaultQueryOperator::OR
+                ? \Atoolo\Search\Dto\Search\Query\DefaultQueryOperator::OR
+                : \Atoolo\Search\Dto\Search\Query\DefaultQueryOperator::AND
         );
 
         if (isset($input->text)) {

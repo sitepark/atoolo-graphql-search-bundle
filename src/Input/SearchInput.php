@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Input;
 
-use Atoolo\GraphQL\Search\Types\QueryDefaultOperator;
+use Atoolo\GraphQL\Search\Types\DefaultQueryOperator;
 use Overblog\GraphQLBundle\Annotation as GQL;
 
 /**
@@ -25,8 +25,8 @@ class SearchInput
     #[GQL\Field(type:"Int")]
     public ?int $limit = null;
 
-    #[GQL\Field(type:"QueryDefaultOperator")]
-    public ?QueryDefaultOperator $queryDefaultOperator = null;
+    #[GQL\Field(type:"DefaultQueryOperator")]
+    public ?DefaultQueryOperator $defaultQueryOperator = null;
 
     /**
      * @var InputSortCriteria[]
