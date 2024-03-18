@@ -30,6 +30,19 @@ use ReflectionUnionType;
  *
  * The ResolverMapRegistry is registered as a service and collects all
  * resolvers that are tagged via `atoolo_graphql_search.resolver`.
+ *
+ * @phpstan-type ResolverFieldFunction Closure(
+ *     mixed,
+ *     ArgumentInterface,
+ *     ArrayObject<int, string>,
+ *     ResolveInfo
+ * ): mixed
+ * @phpstan-type ResolverTypeFunction Closure(mixed): string
+ * @phpstan-type ResolverMapEntry array{
+ *     '%%resolveField': ResolverFieldFunction
+ * }|array{
+ *     '%%resolveType': ResolverTypeFunction
+ * }
  */
 // phpcs:enable
 class ResolverMapRegistry extends ResolverMap
@@ -43,7 +56,7 @@ class ResolverMapRegistry extends ResolverMap
     }
 
     /**
-     * @return array<string,mixed>
+     * @return non-empty-array<string, ResolverMapEntry>
      */
     protected function map(): array
     {
@@ -51,7 +64,7 @@ class ResolverMapRegistry extends ResolverMap
         $map = [];
         foreach ($resolverMap as $typeName => $fieldMap) {
             $map[$typeName] = [
-                self::RESOLVE_FIELD => $this->buildResolverFunction($fieldMap)
+                self::RESOLVE_FIELD => $this->buildResolverFunction($fieldMap),
             ];
         }
 
@@ -75,7 +88,7 @@ class ResolverMapRegistry extends ResolverMap
     }
 
     /**
-     * @return array<string,array<string,ResolverMethod>>
+     * @return array<string, non-empty-array<string, ResolverMethod>>
      */
     private function loadResolverMap(): array
     {
@@ -89,7 +102,8 @@ class ResolverMapRegistry extends ResolverMap
     }
 
     /**
-     * @param array<string,ResolverMethod> $fieldMap
+     * @param array<string, ResolverMethod> $fieldMap
+     * @return ResolverFieldFunction
      */
     private function buildResolverFunction(array $fieldMap): Closure
     {
@@ -145,7 +159,7 @@ class ResolverMapRegistry extends ResolverMap
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, non-empty-array<string, ResolverMethod>>
      */
     public function getResolverGetterMap(Resolver $resolver): array
     {
@@ -176,7 +190,7 @@ class ResolverMapRegistry extends ResolverMap
     }
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     private function getTypesToResolve(ReflectionMethod $method): array
     {
