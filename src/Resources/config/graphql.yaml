@@ -7,21 +7,21 @@ overblog_graphql:
     mappings:
       types:
         - type: attribute
-          dir: "%atoolo_graphql_search_bundle.src_dir%/Input"
+          dir: "%atoolo_graphql_search.src_dir%/Input"
           suffix: ~
         - type: attribute
-          dir: "%atoolo_graphql_search_bundle.src_dir%/Types"
+          dir: "%atoolo_graphql_search.src_dir%/Types"
           suffix: ~
         - type: attribute
-          dir: "%atoolo_graphql_search_bundle.src_dir%/Query"
+          dir: "%atoolo_graphql_search.src_dir%/Query"
           suffix: ~
         - type: attribute
-          dir: "%atoolo_graphql_search_bundle.src_dir%/Mutation"
+          dir: "%atoolo_graphql_search.src_dir%/Mutation"
           suffix: ~
         - types: [yaml]
-          dir: "%atoolo_graphql_search_bundle.src_dir%/Resources/schema/decorators"
+          dir: "%atoolo_graphql_search.src_dir%/Resources/schema/decorators"
           suffix: ~
         - types: [yaml]
-          dir: "%atoolo_graphql_search_bundle.src_dir%/Resources/schema/types"
+          dir: "%atoolo_graphql_search.src_dir%/Resources/schema/types"
           suffix: ~
 

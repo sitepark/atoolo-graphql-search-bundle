@@ -19,7 +19,7 @@ class AtooloGraphQLSearchBundle extends Bundle
     public function build(ContainerBuilder $container): void
     {
         $container->setParameter(
-            'atoolo_graphql_search_bundle.src_dir',
+            'atoolo_graphql_search.src_dir',
             __DIR__
         );
 
