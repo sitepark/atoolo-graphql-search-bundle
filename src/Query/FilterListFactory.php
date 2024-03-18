@@ -17,7 +17,6 @@ use Atoolo\Search\Dto\Search\Query\Filter\OrFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\QueryFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SiteFilter;
 use InvalidArgumentException;
-use LogicException;
 
 class FilterListFactory
 {
@@ -46,134 +45,105 @@ class FilterListFactory
 
     private function createFilter(InputFilter $filter): Filter
     {
-        if (!empty($filter->objectTypes)) {
-            return $this->createObjectTypeFilter($filter);
-        }
-        if (!empty($filter->contentSectionTypes)) {
-            return $this->createContentSectionTypeFilter($filter);
-        }
-        if (!empty($filter->categories)) {
-            return $this->createCategoryFilter($filter);
-        }
-        if (!empty($filter->sites)) {
-            return $this->createSiteFilter($filter);
-        }
-        if (!empty($filter->groups)) {
-            return $this->createGroupFilter($filter);
-        }
-        if (!empty($filter->and)) {
-            return $this->createAndFilter($filter);
-        }
-        if (!empty($filter->or)) {
-            return $this->createOrFilter($filter);
-        }
-        if (isset($filter->not)) {
-            return $this->createNotFilter($filter);
-        }
-        if (isset($filter->query)) {
-            return $this->createQueryFilter($filter);
-        }
-        throw new InvalidArgumentException(
-            "Unable to create filter\n" . print_r($filter, true)
-        );
+        return $this->tryCreateArchiveFilter($filter)
+            ?? $this->tryCreateObjectTypeFilter($filter)
+            ?? $this->tryCreateContentSectionTypeFilter($filter)
+            ?? $this->tryCreateCategoryFilter($filter)
+            ?? $this->tryCreateSiteFilter($filter)
+            ?? $this->tryCreateGroupFilter($filter)
+            ?? $this->tryCreateAndFilter($filter)
+            ?? $this->tryCreateOrFilter($filter)
+            ?? $this->tryCreateNotFilter($filter)
+            ?? $this->tryCreateQueryFilter($filter)
+            ?? (throw new InvalidArgumentException(
+                "Unable to create filter\n" . print_r($filter, true)
+            ));
     }
 
-    private function createObjectTypeFilter(
+    private function tryCreateArchiveFilter(
         InputFilter $filter
-    ): ObjectTypeFilter {
-        return new ObjectTypeFilter(
-            $filter->objectTypes,
-            $filter->key
-        );
+    ): ?ArchiveFilter {
+        return $filter->archive ? new ArchiveFilter() : null;
     }
 
-    private function createContentSectionTypeFilter(
+    private function tryCreateObjectTypeFilter(
         InputFilter $filter
-    ): ContentSectionTypeFilter {
-        return new ContentSectionTypeFilter(
-            $filter->contentSectionTypes,
-            $filter->key
-        );
+    ): ?ObjectTypeFilter {
+        return !empty($filter->objectTypes)
+            ? new ObjectTypeFilter($filter->objectTypes, $filter->key)
+            : null;
     }
 
-    private function createCategoryFilter(
+    private function tryCreateContentSectionTypeFilter(
         InputFilter $filter
-    ): CategoryFilter {
-        return new CategoryFilter(
-            $filter->categories,
-            $filter->key
-        );
+    ): ?ContentSectionTypeFilter {
+        return !empty($filter->contentSectionTypes)
+            ? new ContentSectionTypeFilter(
+                $filter->contentSectionTypes,
+                $filter->key
+            )
+            : null;
     }
 
-    private function createSiteFilter(
+    private function tryCreateCategoryFilter(
         InputFilter $filter
-    ): SiteFilter {
-        return new SiteFilter(
-            $filter->sites,
-            $filter->key
-        );
+    ): ?CategoryFilter {
+        return !empty($filter->categories)
+            ? new CategoryFilter($filter->categories, $filter->key)
+            : null;
     }
 
-    private function createGroupFilter(
+    private function tryCreateSiteFilter(
         InputFilter $filter
-    ): GroupFilter {
-        return new GroupFilter(
-            $filter->groups,
-            $filter->key
-        );
+    ): ?SiteFilter {
+        return !empty($filter->sites)
+            ? new SiteFilter($filter->sites, $filter->key)
+            : null;
     }
 
-    private function createAndFilter(
+    private function tryCreateGroupFilter(
         InputFilter $filter
-    ): AndFilter {
-        $filterList = [];
-        foreach ($filter->and as $filterItem) {
-            $filterList[] = $this->createFilter($filterItem);
-        }
-        return new AndFilter(
-            $filterList,
-            $filter->key
-        );
+    ): ?GroupFilter {
+        return !empty($filter->groups)
+            ? new GroupFilter($filter->groups, $filter->key)
+            : null;
     }
 
-    private function createOrFilter(
+    private function tryCreateAndFilter(
         InputFilter $filter
-    ): OrFilter {
-        $filterList = [];
-        foreach ($filter->or as $filterItem) {
-            $filterList[] = $this->createFilter($filterItem);
-        }
-        return new OrFilter(
-            $filterList,
-            $filter->key
-        );
+    ): ?AndFilter {
+        return !empty($filter->and)
+            ? new AndFilter(
+                array_map(fn($and) => $this->createFilter($and), $filter->and),
+                $filter->key
+            )
+            : null;
     }
 
-    private function createNotFilter(
+    private function tryCreateOrFilter(
         InputFilter $filter
-    ): NotFilter {
-        // @codeCoverageIgnoreStart
-        if ($filter->not === null) {
-            throw new LogicException('not-field missing');
-        }
-        // @codeCoverageIgnoreEnd
-        return new NotFilter(
-            $this->createFilter($filter->not),
-            $filter->key
-        );
+    ): ?OrFilter {
+        return !empty($filter->or)
+            ? new OrFilter(
+                array_map(fn($or) => $this->createFilter($or), $filter->or),
+                $filter->key
+            )
+            : null;
     }
 
-    private function createQueryFilter(
+    private function tryCreateNotFilter(
         InputFilter $filter
-    ): QueryFilter {
-        // @codeCoverageIgnoreStart
-        if ($filter->query === null) {
-            throw new LogicException('query-field missing');
-        }
-        // @codeCoverageIgnoreEnd
-        return new QueryFilter(
-            $filter->query,
-            $filter->key
-        );
+    ): ?NotFilter {
+        return isset($filter->not)
+            ? new NotFilter($this->createFilter($filter->not), $filter->key)
+            : null;
+    }
+
+    private function tryCreateQueryFilter(
+        InputFilter $filter
+    ): ?QueryFilter {
+        return isset($filter->query)
+            ? new QueryFilter($filter->query, $filter->key)
+            : null;
     }
 }
