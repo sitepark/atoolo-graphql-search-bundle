@@ -19,6 +19,16 @@ use InvalidArgumentException;
 
 class SelectQueryFactory
 {
+    private readonly FilterListFactory $filterFactory;
+
+    private readonly FacetListFactory $facetFactory;
+
+    public function __construct()
+    {
+        $this->filterFactory = new FilterListFactory();
+        $this->facetFactory = new FacetListFactory();
+    }
+
     public function create(SearchInput $input): SelectQuery
     {
         $builder = new SelectQueryBuilder();
@@ -113,8 +123,7 @@ class SelectQueryFactory
         if (!isset($input->filter)) {
             return;
         }
-        $factory = new FilterListFactory();
-        foreach ($factory->create($input->filter) as $filter) {
+        foreach ($this->filterFactory->create($input->filter) as $filter) {
             $builder->filter($filter);
         }
     }
@@ -126,8 +135,7 @@ class SelectQueryFactory
         if (!isset($input->facets)) {
             return;
         }
-        $factory = new FacetListFactory();
-        foreach ($factory->create($input->facets) as $facet) {
+        foreach ($this->facetFactory->create($input->facets) as $facet) {
             $builder->facet($facet);
         }
     }

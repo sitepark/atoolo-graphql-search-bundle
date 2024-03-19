@@ -9,12 +9,17 @@ use Atoolo\Search\Dto\Search\Query\SuggestQuery;
 
 class SuggestQueryFactory
 {
+    private readonly FilterListFactory $filterFactory;
+
+    public function __construct()
+    {
+        $this->filterFactory = new FilterListFactory();
+    }
     public function create(SuggestInput $input): SuggestQuery
     {
         $filterList = [];
         if (isset($input->filter)) {
-            $factory = new FilterListFactory();
-            foreach ($factory->create($input->filter) as $filter) {
+            foreach ($this->filterFactory->create($input->filter) as $filter) {
                 $filterList[] = $filter;
             }
         }
