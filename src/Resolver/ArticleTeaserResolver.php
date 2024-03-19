@@ -58,9 +58,11 @@ class ArticleTeaserResolver implements Resolver
             );
         } catch (InvalidArgumentException $e) {
             $this->logger->error(
-                'Invalid characteristic for teaser image ' .
-                'of resource ' . $teaser->resource->getLocation(),
-                ['exception' => $e]
+                'Invalid characteristic for teaser image',
+                [
+                    'resource' => $teaser->resource->getLocation(),
+                    'exception' => $e
+                ]
             );
             return null;
         }
