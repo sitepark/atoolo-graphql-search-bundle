@@ -16,7 +16,7 @@ class Indexer
 {
     public function __construct(
         private readonly BackgroundIndexer $indexer,
-        private readonly PhpLimitIncreaser $limitIncreaser
+        private readonly ?PhpLimitIncreaser $limitIncreaser = null
     ) {
     }
 
@@ -24,7 +24,7 @@ class Indexer
     #[GQL\Access("hasRole('ROLE_API')")]
     public function index(IndexerInput $input): IndexerStatus
     {
-        $this->limitIncreaser->increase();
+        $this->limitIncreaser?->increase();
         try {
             $parameter = new IndexerParameter(
                 $input->index,
@@ -34,7 +34,7 @@ class Indexer
             );
             return $this->indexer->index($parameter);
         } finally {
-            $this->limitIncreaser->reset();
+            $this->limitIncreaser?->reset();
         }
     }
 
