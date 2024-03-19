@@ -36,7 +36,12 @@ class DateTime
      */
     public static function parseLiteral(Node $valueNode): \DateTime
     {
-        $value = $valueNode->value; // @phpstan-ignore-line
+        if (!property_exists($valueNode, 'value')) {
+            throw new \InvalidArgumentException(
+                'expected node with string value, got ' . get_class($valueNode)
+            );
+        }
+        $value = $valueNode->value;
         return new \DateTime($value);
     }
 }

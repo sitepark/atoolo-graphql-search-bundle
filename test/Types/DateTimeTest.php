@@ -6,7 +6,9 @@ namespace Atoolo\GraphQL\Search\Test\Types;
 
 use Atoolo\GraphQL\Search\Types\DateTime;
 use DateTimeInterface;
+use GraphQL\Language\AST\Node;
 use GraphQL\Language\AST\StringValueNode;
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -41,5 +43,12 @@ class DateTimeTest extends TestCase
             $value,
             $dateTime->format(DateTimeInterface::RFC3339)
         );
+    }
+
+    public function testParseLiteralWithInvalidNode(): void
+    {
+        $valueNode = $this->createStub(Node::class);
+        $this->expectException(InvalidArgumentException::class);
+        DateTime::parseLiteral($valueNode);
     }
 }
