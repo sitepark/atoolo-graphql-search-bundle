@@ -6,7 +6,7 @@ namespace Atoolo\GraphQL\Search\Service;
 
 class PhpLimitIncreaser
 {
-    private ?string $savedTimeLimit = null;
+    private string $savedTimeLimit;
     private ?string $savedMemoryLimit = null;
 
     public function __construct(
@@ -17,11 +17,10 @@ class PhpLimitIncreaser
 
     public function increase(): void
     {
-        $this->savedTimeLimit = ini_get('max_execution_time');
-        $this->savedMemoryLimit = ini_get('memory_limit');
+        $this->savedTimeLimit = ini_get('max_execution_time') ?: '0';
+        $this->savedMemoryLimit = ini_get('memory_limit') ?: null;
 
         if (
-            $this->savedTimeLimit == null ||
             ((int)$this->savedTimeLimit) < $this->timeLimit
         ) {
             set_time_limit($this->timeLimit);
@@ -34,13 +33,8 @@ class PhpLimitIncreaser
 
     public function reset(): void
     {
-        if ($this->savedTimeLimit !== null) {
-            set_time_limit((int)$this->savedTimeLimit);
-        }
-
-        if ($this->savedMemoryLimit !== null) {
-            ini_set('memory_limit', $this->savedMemoryLimit);
-        }
+        set_time_limit((int)$this->savedTimeLimit);
+        ini_set('memory_limit', $this->savedMemoryLimit);
     }
 
     private function isLowerMemory(string $current, string $limit): bool

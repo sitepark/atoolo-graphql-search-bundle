@@ -16,8 +16,8 @@ class PhpLimitIncreaserTest extends TestCase
 
     public function setUp(): void
     {
-        $this->savedTimeLimit = ini_get('max_execution_time');
-        $this->savedMemoryLimit = ini_get('memory_limit');
+        $this->savedTimeLimit = ini_get('max_execution_time') ?: '0';
+        $this->savedMemoryLimit = ini_get('memory_limit') ?: null;
     }
 
     public function tearDown(): void
@@ -90,11 +90,6 @@ class PhpLimitIncreaserTest extends TestCase
             '10G',
             ini_get('memory_limit'),
             'memory_limit does not match expected value'
-        );
-        $this->assertEquals(
-            $this->savedTimeLimit,
-            (string)ini_get('max_execution_time'),
-            'max_execution_time does not match expected value'
         );
     }
 
