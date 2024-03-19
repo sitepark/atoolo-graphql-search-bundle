@@ -10,34 +10,28 @@ use Atoolo\Resource\Resource;
 class DelegatingTeaserFactory implements TeaserFactory
 {
     /**
-     * @param iterable<TeaserFactory> $factoryList
+     * @param array<string, TeaserFactory> $factories
+     */
+    private readonly array $factories;
+
+    /**
+     * @param iterable<TeaserFactory> $factories
      */
     public function __construct(
-        private readonly iterable $factoryList
+        iterable $factories,
+        private readonly TeaserFactory $fallbackFactory
     ) {
-    }
-
-    public function accept(Resource $resource): bool
-    {
-        foreach ($this->factoryList as $resolver) {
-            if (!$resolver->accept($resource)) {
-                return false;
-            }
-        }
-        return true;
+        $this->factories = $factories instanceof \Traversable ?
+            iterator_to_array($factories) :
+            $factories;
     }
 
     public function create(Resource $resource): Teaser
     {
-        foreach ($this->factoryList as $resolver) {
-            if (!$resolver->accept($resource)) {
-                continue;
-            }
-            return $resolver->create($resource);
+        $objectType = $resource->getObjectType();
+        if (!isset($this->factories[$objectType])) {
+            return $this->fallbackFactory->create($resource);
         }
-
-        throw new \InvalidArgumentException(
-            'No factory found for ' . $resource->getLocation()
-        );
+        return $this->factories[$objectType];
     }
 }

@@ -15,11 +15,6 @@ class ArticleTeaserFactory implements TeaserFactory
     ) {
     }
 
-    public function accept(Resource $resource): bool
-    {
-        return true;
-    }
-
     public function create(Resource $resource): Teaser
     {
         $url = $this->urlRewriter->rewrite(

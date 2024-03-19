@@ -9,6 +9,5 @@ use Atoolo\Resource\Resource;
 
 interface TeaserFactory
 {
-    public function accept(Resource $resource): bool;
     public function create(Resource $resource): Teaser;
 }

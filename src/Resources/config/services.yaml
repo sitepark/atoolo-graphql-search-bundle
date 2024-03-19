@@ -193,10 +193,6 @@ services:
         tags:
             - { name: overblog_graphql.resolver_map, schema: default }
 
-    Atoolo\GraphQL\Search\Resolver\DelegatingTeaserFactory:
-      arguments:
-        - !tagged_iterator atoolo_graphql_search.teaserFactory
-
     Atoolo\GraphQL\Search\Resolver\ResourceResolver:
         arguments:
             - '@Atoolo\GraphQL\Search\Resolver\DelegatingTeaserFactory'
@@ -210,12 +206,6 @@ services:
         tags:
             - { name: 'atoolo_graphql_search.resolver', priority: 10 }
 
-    Atoolo\GraphQL\Search\Resolver\MediaTeaserFactory:
-      arguments:
-        - '@atoolo_graphql_search.resolver.urlRewriter'
-      tags:
-        - { name: 'atoolo_graphql_search.teaserFactory', priority: 10 }
-
     Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver:
         arguments:
           - '@atoolo_graphql_search.resolver.urlRewriter'
@@ -226,5 +216,23 @@ services:
     Atoolo\GraphQL\Search\Resolver\ArticleTeaserFactory:
       arguments:
         - '@atoolo_graphql_search.resolver.urlRewriter'
+
+    atoolo_graphql_search.resolver.mediaTeaserFactory:
+      class : 'Atoolo\GraphQL\Search\Resolver\MediaTeaserFactory'
+      arguments:
+        - '@atoolo_graphql_search.resolver.urlRewriter'
       tags:
-        - { name: 'atoolo_graphql_search.teaserFactory', priority: 1 }
+        - { name: 'atoolo_graphql_search.objectType', objectType: 'media' }
+
+    atoolo_graphql_search.resolver.embeddedMediaTeaserFactory:
+      class : 'Atoolo\GraphQL\Search\Resolver\MediaTeaserFactory'
+      arguments:
+        - '@atoolo_graphql_search.resolver.urlRewriter'
+      tags:
+        - { name: 'atoolo_graphql_search.objectType', objectType: 'embedded-media' }
+
+    Atoolo\GraphQL\Search\Resolver\DelegatingTeaserFactory:
+      arguments:
+        - !tagged_iterator { tag: 'atoolo_graphql_search.teaserFactory', index_by: 'objectType' }
+        - '@Atoolo\GraphQL\Search\Resolver\ArticleTeaserFactory' # fallback factory
+

@@ -14,13 +14,14 @@ class MediaTeaserFactory implements TeaserFactory
     {
     }
 
-    public function accept(Resource $resource): bool
-    {
-        return $this->isMedia($resource);
-    }
-
     public function create(Resource $resource): Teaser
     {
+        if (!$this->isMedia($resource)) {
+            throw new \InvalidArgumentException('Resource is not a media: ' .
+                $resource->getLocation() . ', ' .
+                'objectType: ' . $resource->getObjectType());
+        }
+
         $url = $this->urlRewriter->rewrite(
             UrlRewriterType::MEDIA,
             $resource->getData()->getString('init.mediaUrl')
