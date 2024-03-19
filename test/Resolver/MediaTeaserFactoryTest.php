@@ -12,57 +12,32 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(MediaTeaserFactory::class)]
-class MediaTeaserResolverTest extends TestCase
+class MediaTeaserFactoryTest extends TestCase
 {
-    private MediaTeaserFactory $resolver;
+    private MediaTeaserFactory $factory;
 
     private UrlRewriter $urlRewriter;
 
     public function setUp(): void
     {
         $this->urlRewriter = $this->createStub(UrlRewriter::class);
-        $this->resolver = new MediaTeaserFactory($this->urlRewriter);
+        $this->factory = new MediaTeaserFactory($this->urlRewriter);
     }
 
-    public function testAcceptMedia(): void
-    {
-        $resource = $this->createStub(Resource::class);
-        $resource->method('getObjectType')
-            ->willReturn('media');
-
-        $this->assertTrue(
-            $this->resolver->accept($resource),
-            'Resolver should accept media resource'
-        );
-    }
-
-    public function testAcceptEmbeddedMedia(): void
-    {
-        $resource = $this->createStub(Resource::class);
-        $resource->method('getObjectType')
-            ->willReturn('embedded-media');
-
-        $this->assertTrue(
-            $this->resolver->accept($resource),
-            'Resolver should accept embedded-media resource'
-        );
-    }
-
-    public function testNotAcceptOtherTypes(): void
+    public function testCreateWithUnsupportedObjectType(): void
     {
         $resource = $this->createStub(Resource::class);
         $resource->method('getObjectType')
             ->willReturn('other');
 
-        $this->assertFalse(
-            $this->resolver->accept($resource),
-            'Resolver should not accept other resource'
-        );
+        $this->expectException(\InvalidArgumentException::class);
+        $this->factory->create($resource);
     }
 
     public function testResolveWithMediaUrl(): void
     {
         $resource = $this->createResource(
+            'media',
             [
                 'init' => [
                     'url' => 'url',
@@ -74,7 +49,7 @@ class MediaTeaserResolverTest extends TestCase
         $this->urlRewriter->method('rewrite')
             ->willReturnCallback(static fn ($type, $url) => $url);
 
-        $teaser = $this->resolver->resolve($resource);
+        $teaser = $this->factory->create($resource);
 
         $this->assertEquals(
             'mediaUrl',
@@ -86,6 +61,7 @@ class MediaTeaserResolverTest extends TestCase
     public function testResolveWithHeadline(): void
     {
         $resource = $this->createResource(
+            'embedded-media',
             [
                 'base' => [
                     'teaser' => [
@@ -95,7 +71,7 @@ class MediaTeaserResolverTest extends TestCase
             ]
         );
 
-        $teaser = $this->resolver->resolve($resource);
+        $teaser = $this->factory->create($resource);
 
         $this->assertEquals(
             'Headline',
@@ -110,11 +86,11 @@ class MediaTeaserResolverTest extends TestCase
             '',
             '',
             'ResourceName',
-            '',
+            'media',
             []
         );
 
-        $teaser = $this->resolver->resolve($resource);
+        $teaser = $this->factory->create($resource);
 
         $this->assertEquals(
             'ResourceName',
@@ -130,6 +106,7 @@ class MediaTeaserResolverTest extends TestCase
             ->willReturnCallback(static fn ($type, $url) => $url);
 
         $resource = $this->createResource(
+            'media',
             [
                 'init' => [
                     'mediaUrl' => 'mediaUrl'
@@ -145,7 +122,7 @@ class MediaTeaserResolverTest extends TestCase
             ]
         );
 
-        $teaser = $this->resolver->resolve($resource);
+        $teaser = $this->factory->create($resource);
 
         $expected = new MediaTeaser(
             'mediaUrl',
@@ -164,13 +141,13 @@ class MediaTeaserResolverTest extends TestCase
         );
     }
 
-    private function createResource(array $array)
+    private function createResource(string $objectType, array $array)
     {
         return new Resource(
             '',
             '',
             '',
-            '',
+            $objectType,
             $array
         );
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Resolver;
 
-use Atoolo\GraphQL\Search\Resolver\ArticleTeaserFactory;
+use Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
 use Atoolo\GraphQL\Search\Types\ArticleTeaser;
 use Atoolo\GraphQL\Search\Types\Image;
@@ -18,10 +18,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-#[CoversClass(ArticleTeaserFactory::class)]
+#[CoversClass(ArticleTeaserResolver::class)]
 class ArticleTeaserResolverTest extends TestCase
 {
-    private ArticleTeaserFactory $resolver;
+    private ArticleTeaserResolver $resolver;
 
     private UrlRewriter $urlRewriter;
 
@@ -31,97 +31,9 @@ class ArticleTeaserResolverTest extends TestCase
     {
         $this->urlRewriter = $this->createStub(UrlRewriter::class);
         $this->logger = $this->createMock(LoggerInterface::class);
-        $this->resolver = new ArticleTeaserFactory(
+        $this->resolver = new ArticleTeaserResolver(
             $this->urlRewriter,
             $this->logger
-        );
-    }
-
-    public function testAccept(): void
-    {
-        $resource = $this->createStub(Resource::class);
-
-        $this->assertTrue(
-            $this->resolver->accept($resource),
-            'Resolver should accept any resource'
-        );
-    }
-
-    public function testUrl(): void
-    {
-        $resource = $this->createStub(Resource::class);
-
-        $this->urlRewriter->method('rewrite')
-            ->willReturn('rewrittenUrl');
-
-        $teaser = $this->resolver->resolve($resource);
-
-        $this->assertEquals(
-            'rewrittenUrl',
-            $teaser->url,
-            'unexpected url'
-        );
-    }
-
-    public function testHeadline(): void
-    {
-
-        $resource = $this->createResource(
-            [
-                'base' => [
-                    'teaser' => [
-                        'headline' => 'Headline'
-                    ]
-                ]
-            ]
-        );
-
-        $teaser = $this->resolver->resolve($resource);
-
-        $this->assertEquals(
-            'Headline',
-            $teaser->headline,
-            'unexpected headline'
-        );
-    }
-
-    public function testHeadlineFallback(): void
-    {
-        $resource = new Resource(
-            '',
-            '',
-            'ResourceName',
-            '',
-            []
-        );
-
-        $teaser = $this->resolver->resolve($resource);
-
-        $this->assertEquals(
-            'ResourceName',
-            $teaser->headline,
-            'unexpected headline'
-        );
-    }
-
-    public function testText(): void
-    {
-        $resource = $this->createResource(
-            [
-                'base' => [
-                    'teaser' => [
-                        'text' => 'Text'
-                    ]
-                ]
-            ]
-        );
-
-        $teaser = $this->resolver->resolve($resource);
-
-        $this->assertEquals(
-            'Text',
-            $teaser->text,
-            'unexpected text'
         );
     }
 

@@ -10,12 +10,12 @@ use Atoolo\Resource\Resource;
 class DelegatingTeaserFactory implements TeaserFactory
 {
     /**
-     * @param array<string, TeaserFactory> $factories
+     * @var array<string, TeaserFactory>
      */
     private readonly array $factories;
 
     /**
-     * @param iterable<TeaserFactory> $factories
+     * @param iterable<string, TeaserFactory> $factories
      */
     public function __construct(
         iterable $factories,
@@ -32,6 +32,6 @@ class DelegatingTeaserFactory implements TeaserFactory
         if (!isset($this->factories[$objectType])) {
             return $this->fallbackFactory->create($resource);
         }
-        return $this->factories[$objectType];
+        return $this->factories[$objectType]->create($resource);
     }
 }
