@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Resolver;
 
-use Atoolo\GraphQL\Search\Resolver\MediaTeaserResolver;
+use Atoolo\GraphQL\Search\Resolver\MediaTeaserFactory;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
 use Atoolo\GraphQL\Search\Types\MediaTeaser;
 use Atoolo\Resource\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(MediaTeaserResolver::class)]
+#[CoversClass(MediaTeaserFactory::class)]
 class MediaTeaserResolverTest extends TestCase
 {
-    private MediaTeaserResolver $resolver;
+    private MediaTeaserFactory $resolver;
 
     private UrlRewriter $urlRewriter;
 
     public function setUp(): void
     {
         $this->urlRewriter = $this->createStub(UrlRewriter::class);
-        $this->resolver = new MediaTeaserResolver($this->urlRewriter);
+        $this->resolver = new MediaTeaserFactory($this->urlRewriter);
     }
 
     public function testAcceptMedia(): void

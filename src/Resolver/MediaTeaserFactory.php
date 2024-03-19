@@ -8,7 +8,7 @@ use Atoolo\GraphQL\Search\Types\MediaTeaser;
 use Atoolo\GraphQL\Search\Types\Teaser;
 use Atoolo\Resource\Resource;
 
-class MediaTeaserResolver implements TeaserResolver
+class MediaTeaserFactory implements TeaserFactory
 {
     public function __construct(private readonly UrlRewriter $urlRewriter)
     {
@@ -19,7 +19,7 @@ class MediaTeaserResolver implements TeaserResolver
         return $this->isMedia($resource);
     }
 
-    public function resolve(Resource $resource): Teaser
+    public function create(Resource $resource): Teaser
     {
         $url = $this->urlRewriter->rewrite(
             UrlRewriterType::MEDIA,

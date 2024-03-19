@@ -9,8 +9,6 @@ use Atoolo\GraphQL\Search\Types\Asset;
 use Atoolo\GraphQL\Search\Types\Image;
 use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
 use Atoolo\GraphQL\Search\Types\ImageSource;
-use Atoolo\GraphQL\Search\Types\Teaser;
-use Atoolo\Resource\Resource;
 use InvalidArgumentException;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use Psr\Log\LoggerInterface;
@@ -33,39 +31,12 @@ use Psr\Log\LoggerInterface;
  *     mediaQuery?: string
  * }
  */
-class ArticleTeaserResolver implements Resolver, TeaserResolver
+class ArticleTeaserResolver implements Resolver
 {
     public function __construct(
         private readonly UrlRewriter $urlRewriter,
         private readonly LoggerInterface $logger
     ) {
-    }
-
-    public function accept(Resource $resource): bool
-    {
-        return true;
-    }
-
-    public function resolve(Resource $resource): Teaser
-    {
-        $url = $this->urlRewriter->rewrite(
-            UrlRewriterType::LINK,
-            $resource->getLocation()
-        );
-
-        $headline = $resource->getData()->getString(
-            'base.teaser.headline',
-            $resource->getName()
-        );
-        $text = $resource->getData()->getString('base.teaser.text');
-
-        return new ArticleTeaser(
-            $url,
-            $headline,
-            $text,
-            null, // will be resolved by getAsset()
-            $resource
-        );
     }
 
     public function getAsset(

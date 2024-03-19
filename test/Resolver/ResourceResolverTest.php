@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Resolver;
 
+use Atoolo\GraphQL\Search\Resolver\DelegatingTeaserFactory;
 use Atoolo\GraphQL\Search\Resolver\ResourceResolver;
-use Atoolo\GraphQL\Search\Resolver\TeaserFactory;
 use Atoolo\GraphQL\Search\Types\Hierarchy;
 use Atoolo\GraphQL\Search\Types\Teaser;
 use Atoolo\Resource\Resource;
@@ -18,11 +18,11 @@ class ResourceResolverTest extends TestCase
     public function testGetTeaser(): void
     {
         $teaserFactory = $this->createStub(
-            TeaserFactory::class
+            DelegatingTeaserFactory::class
         );
 
         $teaser = $this->createStub(Teaser::class);
-        $teaserFactory->method('resolve')
+        $teaserFactory->method('create')
             ->willReturn($teaser);
 
         $resolver = new ResourceResolver($teaserFactory);
@@ -37,7 +37,7 @@ class ResourceResolverTest extends TestCase
     public function testGetNavigation(): void
     {
         $resolver = new ResourceResolver(
-            $this->createStub(TeaserFactory::class)
+            $this->createStub(DelegatingTeaserFactory::class)
         );
 
         $resource = $this->createStub(Resource::class);
@@ -55,7 +55,7 @@ class ResourceResolverTest extends TestCase
     public function testGetContentSectionTypes(): void
     {
         $resolver = new ResourceResolver(
-            $this->createStub(TeaserFactory::class)
+            $this->createStub(DelegatingTeaserFactory::class)
         );
 
         $resource = new Resource(

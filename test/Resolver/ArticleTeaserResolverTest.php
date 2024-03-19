@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Resolver;
 
-use Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver;
+use Atoolo\GraphQL\Search\Resolver\ArticleTeaserFactory;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
 use Atoolo\GraphQL\Search\Types\ArticleTeaser;
 use Atoolo\GraphQL\Search\Types\Image;
@@ -18,10 +18,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-#[CoversClass(ArticleTeaserResolver::class)]
+#[CoversClass(ArticleTeaserFactory::class)]
 class ArticleTeaserResolverTest extends TestCase
 {
-    private ArticleTeaserResolver $resolver;
+    private ArticleTeaserFactory $resolver;
 
     private UrlRewriter $urlRewriter;
 
@@ -31,7 +31,7 @@ class ArticleTeaserResolverTest extends TestCase
     {
         $this->urlRewriter = $this->createStub(UrlRewriter::class);
         $this->logger = $this->createMock(LoggerInterface::class);
-        $this->resolver = new ArticleTeaserResolver(
+        $this->resolver = new ArticleTeaserFactory(
             $this->urlRewriter,
             $this->logger
         );

@@ -193,13 +193,13 @@ services:
         tags:
             - { name: overblog_graphql.resolver_map, schema: default }
 
-    Atoolo\GraphQL\Search\Resolver\TeaserFactory:
+    Atoolo\GraphQL\Search\Resolver\DelegatingTeaserFactory:
       arguments:
-        - !tagged_iterator atoolo_graphql_search.teaserResolver
+        - !tagged_iterator atoolo_graphql_search.teaserFactory
 
     Atoolo\GraphQL\Search\Resolver\ResourceResolver:
         arguments:
-            - '@Atoolo\GraphQL\Search\Resolver\TeaserFactory'
+            - '@Atoolo\GraphQL\Search\Resolver\DelegatingTeaserFactory'
         tags:
             - { name: 'atoolo_graphql_search.resolver', priority: 10 }
 
@@ -210,15 +210,21 @@ services:
         tags:
             - { name: 'atoolo_graphql_search.resolver', priority: 10 }
 
-    Atoolo\GraphQL\Search\Resolver\MediaTeaserResolver:
+    Atoolo\GraphQL\Search\Resolver\MediaTeaserFactory:
       arguments:
         - '@atoolo_graphql_search.resolver.urlRewriter'
       tags:
-        - { name: 'atoolo_graphql_search.teaserResolver', priority: 10 }
+        - { name: 'atoolo_graphql_search.teaserFactory', priority: 10 }
 
     Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver:
         arguments:
           - '@atoolo_graphql_search.resolver.urlRewriter'
+          - '@logger'
         tags:
             - { name: 'atoolo_graphql_search.resolver', priority: 10 }
-            - { name: 'atoolo_graphql_search.teaserResolver', priority: 1 }
+
+    Atoolo\GraphQL\Search\Resolver\ArticleTeaserFactory:
+      arguments:
+        - '@atoolo_graphql_search.resolver.urlRewriter'
+      tags:
+        - { name: 'atoolo_graphql_search.teaserFactory', priority: 1 }
