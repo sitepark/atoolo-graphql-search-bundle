@@ -19,7 +19,7 @@ class SuggestInput
     public string $text;
 
     #[GQL\Field(type:"Int")]
-    public ?int $limit = null;
+    public int $limit = 10;
 
     /**
      * @var InputFilter[]

@@ -23,7 +23,7 @@ class SuggestQueryFactory
             $input->index,
             $input->text,
             $filterList,
-            $input->limit ?? 10
+            $input->limit
         );
     }
 }
