@@ -60,25 +60,24 @@ class ResolverMapRegistry extends ResolverMap
      */
     protected function map(): array
     {
-        $resolverMap = $this->loadResolverMap();
-        $map = [];
-        foreach ($resolverMap as $typeName => $fieldMap) {
-            $map[$typeName] = [
-                self::RESOLVE_FIELD => $this->buildResolverFunction($fieldMap),
-            ];
-        }
-
-        $map['Teaser'] = [
-            self::RESOLVE_TYPE => function ($value) {
-                return $this->resolveType($value);
-            }
+        return [
+            ...array_map(
+                fn($map) => [
+                    self::RESOLVE_FIELD => $this->buildResolverFunction($map),
+                ],
+                $this->loadResolverMap()
+            ),
+            'Teaser' => [
+                self::RESOLVE_TYPE => function ($value) {
+                    return $this->resolveType($value);
+                }
+            ],
+            'Asset' => [
+                self::RESOLVE_TYPE => function ($value) {
+                    return $this->resolveType($value);
+                }
+            ],
         ];
-        $map['Asset'] = [
-            self::RESOLVE_TYPE => function ($value) {
-                return $this->resolveType($value);
-            }
-        ];
-        return $map;
     }
 
     private function resolveType(object $value): string
