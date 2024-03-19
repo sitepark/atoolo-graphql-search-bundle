@@ -11,7 +11,6 @@ use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use Overblog\GraphQLBundle\Resolver\ResolverMap;
 use ReflectionClass;
 use ReflectionException;
-use ReflectionIntersectionType;
 use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionUnionType;
@@ -218,15 +217,13 @@ class ResolverMapRegistry extends ResolverMap
             return [$objectType->getName()];
         }
         if ($objectType instanceof ReflectionUnionType) {
-            return array_map(
-                static fn($type) => $type->getName(),
-                $objectType->getTypes()
+            $namedTypes = array_filter(
+                $objectType->getTypes(),
+                static fn($type) => $type instanceof ReflectionNamedType
             );
-        }
-        if ($objectType instanceof ReflectionIntersectionType) {
             return array_map(
                 static fn($type) => $type->getName(),
-                $objectType->getTypes()
+                $namedTypes
             );
         }
 
