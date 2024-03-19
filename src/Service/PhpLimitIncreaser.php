@@ -59,7 +59,7 @@ class PhpLimitIncreaser
 
     private function toMemoryStringToInteger(string $memory): int
     {
-        sscanf($memory, '%u%c', $number, $suffix);
+        [$number, $suffix] = sscanf($memory, '%u%c') ?? [null, null];
         if (!is_string($suffix)) {
             return (int)$memory;
         }
