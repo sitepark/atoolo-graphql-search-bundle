@@ -94,6 +94,38 @@ class PhpLimitIncreaserTest extends TestCase
         );
     }
 
+    public function testIncreaseMemoryLimitWhenAlreadyUnlimited(): void
+    {
+        ini_set('memory_limit', PhpLimitIncreaser::UNLIMITED_MEMORY);
+
+        $increaser = new PhpLimitIncreaser(
+            0,
+            '10G'
+        );
+        $increaser->increase();
+
+        $this->assertEquals(
+            PhpLimitIncreaser::UNLIMITED_MEMORY,
+            ini_get('memory_limit'),
+            'memory_limit does not match expected value'
+        );
+    }
+
+    public function testIncreaseToUnlimitedMemoryLimit(): void
+    {
+        $increaser = new PhpLimitIncreaser(
+            0,
+            PhpLimitIncreaser::UNLIMITED_MEMORY
+        );
+        $increaser->increase();
+
+        $this->assertEquals(
+            PhpLimitIncreaser::UNLIMITED_MEMORY,
+            ini_get('memory_limit'),
+            'memory_limit does not match expected value'
+        );
+    }
+
     public function testResetMemoryLimit(): void
     {
         $increaser = new PhpLimitIncreaser(
