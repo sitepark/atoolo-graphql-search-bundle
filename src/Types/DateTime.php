@@ -23,7 +23,7 @@ class DateTime
 
     /**
      * @throws Exception if the given value is not a valid date/time. From php
-     * *                   8.3 onwards this is an \DateMalformedStringException.
+     *                   8.3 onwards this is an \DateMalformedStringException.
      */
     public static function parseValue(string $value): \DateTime
     {
@@ -32,7 +32,7 @@ class DateTime
 
     /**
      * @throws Exception if the given value is not a valid date/time. From php
-     * *                   8.3 onwards this is an \DateMalformedStringException.
+     *                   8.3 onwards this is an \DateMalformedStringException.
      */
     public static function parseLiteral(Node $valueNode): \DateTime
     {
