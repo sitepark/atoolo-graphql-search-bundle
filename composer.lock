@@ -61,12 +61,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sitepark/atoolo-search.git",
-                "reference": "0a376383f3e583603fa8359258f4c33171e1a5b3"
+                "reference": "ab87006d19dc3327e2eb7b24eee1e3cca02cf7ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sitepark/atoolo-search/zipball/0a376383f3e583603fa8359258f4c33171e1a5b3",
-                "reference": "0a376383f3e583603fa8359258f4c33171e1a5b3",
+                "url": "https://api.github.com/repos/sitepark/atoolo-search/zipball/ab87006d19dc3327e2eb7b24eee1e3cca02cf7ec",
+                "reference": "ab87006d19dc3327e2eb7b24eee1e3cca02cf7ec",
                 "shasum": ""
             },
             "require": {
@@ -113,7 +113,7 @@
                 "issues": "https://github.com/sitepark/atoolo-search/issues",
                 "source": "https://github.com/sitepark/atoolo-search/tree/feature/initial-implementation"
             },
-            "time": "2024-03-18T16:04:26+00:00"
+            "time": "2024-03-20T07:26:28+00:00"
         },
         {
             "name": "doctrine/deprecations",

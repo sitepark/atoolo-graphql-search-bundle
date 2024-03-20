@@ -9,7 +9,7 @@ use Atoolo\GraphQL\Search\Input\InputFilter;
 use Atoolo\GraphQL\Search\Input\InputSortCriteria;
 use Atoolo\GraphQL\Search\Input\SearchInput;
 use Atoolo\GraphQL\Search\Query\SelectQueryFactory;
-use Atoolo\GraphQL\Search\Types\DefaultQueryOperator;
+use Atoolo\GraphQL\Search\Types\QueryOperator;
 use Atoolo\GraphQL\Search\Types\SortDirection;
 use Atoolo\Search\Dto\Search\Query\Facet\ObjectTypeFacet;
 use Atoolo\Search\Dto\Search\Query\Filter\ArchiveFilter;
@@ -91,13 +91,13 @@ class SelectQueryFactoryTest extends TestCase
         $input = new SearchInput();
         $input->index = 'index';
         $input->text = 'text';
-        $input->defaultQueryOperator = DefaultQueryOperator::OR;
+        $input->defaultQueryOperator = QueryOperator::OR;
 
         $factory = new SelectQueryFactory();
         $query = $factory->create($input);
 
         $this->assertEquals(
-            \Atoolo\Search\Dto\Search\Query\DefaultQueryOperator::OR,
+            \Atoolo\Search\Dto\Search\Query\QueryOperator::OR,
             $query->defaultQueryOperator,
             'text expected'
         );
