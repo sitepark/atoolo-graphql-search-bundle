@@ -5,35 +5,32 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Test\Query;
 
 use Atoolo\GraphQL\Search\Input\SearchInput;
-use Atoolo\GraphQL\Search\Query\Select;
-use Atoolo\Search\Dto\Search\Query\SelectQueryBuilder;
+use Atoolo\GraphQL\Search\Query\Search;
+use Atoolo\Search\Dto\Search\Query\SearchQueryBuilder;
 use Atoolo\Search\Dto\Search\Result\SearchResult;
-use Atoolo\Search\SelectSearcher;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(Select::class)]
+#[CoversClass(Search::class)]
 class SelectTest extends TestCase
 {
     public function testSearch(): void
     {
         $input = new SearchInput();
-        $input->index = 'index';
         $input->text = 'query';
 
-        $builder = new SelectQueryBuilder();
+        $builder = new SearchQueryBuilder();
         $query = $builder
-            ->index('index')
             ->text('query')
             ->build();
 
-        $searcher = $this->createMock(SelectSearcher::class);
+        $searcher = $this->createMock(\Atoolo\Search\Search::class);
         $searcher->expects($this->once())
-            ->method('select')
+            ->method('search')
             ->with($query)
             ->willReturn($this->createMock(SearchResult::class));
 
-        $select = new Select($searcher);
+        $select = new Search($searcher);
         $select->search($input);
     }
 }

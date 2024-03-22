@@ -7,8 +7,8 @@ namespace Atoolo\GraphQL\Search\Query;
 use Atoolo\GraphQL\Search\Input\SearchInput;
 use Atoolo\GraphQL\Search\Types\QueryOperator;
 use Atoolo\GraphQL\Search\Types\SortDirection;
-use Atoolo\Search\Dto\Search\Query\SelectQuery;
-use Atoolo\Search\Dto\Search\Query\SelectQueryBuilder;
+use Atoolo\Search\Dto\Search\Query\SearchQuery;
+use Atoolo\Search\Dto\Search\Query\SearchQueryBuilder;
 use Atoolo\Search\Dto\Search\Query\Sort\Date;
 use Atoolo\Search\Dto\Search\Query\Sort\Direction;
 use Atoolo\Search\Dto\Search\Query\Sort\Headline;
@@ -17,7 +17,7 @@ use Atoolo\Search\Dto\Search\Query\Sort\Natural;
 use Atoolo\Search\Dto\Search\Query\Sort\Score;
 use InvalidArgumentException;
 
-class SelectQueryFactory
+class SearchQueryFactory
 {
     private readonly FilterListFactory $filterFactory;
 
@@ -29,9 +29,9 @@ class SelectQueryFactory
         $this->facetFactory = new FacetListFactory();
     }
 
-    public function create(SearchInput $input): SelectQuery
+    public function create(SearchInput $input): SearchQuery
     {
-        $builder = new SelectQueryBuilder();
+        $builder = new SearchQueryBuilder();
         $builder->lang($input->lang ?? '');
 
         $this->addTextFilter($builder, $input);
@@ -44,7 +44,7 @@ class SelectQueryFactory
     }
 
     private function addTextFilter(
-        SelectQueryBuilder $builder,
+        SearchQueryBuilder $builder,
         SearchInput $input
     ): void {
         $builder->defaultQueryOperator(
@@ -59,7 +59,7 @@ class SelectQueryFactory
     }
 
     private function addSort(
-        SelectQueryBuilder $builder,
+        SearchQueryBuilder $builder,
         SearchInput $input
     ): void {
         if (!isset($input->sort)) {
@@ -105,7 +105,7 @@ class SelectQueryFactory
     }
 
     private function addPagination(
-        SelectQueryBuilder $builder,
+        SearchQueryBuilder $builder,
         SearchInput $input
     ): void {
         if (isset($input->limit)) {
@@ -117,7 +117,7 @@ class SelectQueryFactory
     }
 
     private function addFilterList(
-        SelectQueryBuilder $builder,
+        SearchQueryBuilder $builder,
         SearchInput $input
     ): void {
         if (!isset($input->filter)) {
@@ -129,7 +129,7 @@ class SelectQueryFactory
     }
 
     private function addFacetList(
-        SelectQueryBuilder $builder,
+        SearchQueryBuilder $builder,
         SearchInput $input
     ): void {
         if (!isset($input->facets)) {

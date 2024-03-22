@@ -19,14 +19,13 @@ class SuggestQueryFactoryTest extends TestCase
     public function testCreateWithText(): void
     {
         $input = new SuggestInput();
-        $input->index = 'index';
         $input->text = 'test';
 
         $factory = new SuggestQueryFactory();
         $query = $factory->create($input);
 
         $this->assertEquals(
-            new SuggestQuery('index', 'test'),
+            new SuggestQuery('test', ''),
             $query,
             'unexpected text'
         );
@@ -35,7 +34,6 @@ class SuggestQueryFactoryTest extends TestCase
     public function testCreateWithFilter(): void
     {
         $input = new SuggestInput();
-        $input->index = 'index';
         $input->text = 'test';
         $inputFilter = new InputFilter();
         $inputFilter->objectTypes = ['content'];
@@ -48,8 +46,8 @@ class SuggestQueryFactoryTest extends TestCase
         $archiveFilter = new ArchiveFilter();
 
         $expected = new SuggestQuery(
-            'index',
             'test',
+            '',
             [$objectTypeFilter, $archiveFilter]
         );
 
@@ -63,7 +61,6 @@ class SuggestQueryFactoryTest extends TestCase
     public function testCreateWithLimit(): void
     {
         $input = new SuggestInput();
-        $input->index = 'index';
         $input->text = 'test';
         $input->limit = 10;
 
@@ -71,7 +68,7 @@ class SuggestQueryFactoryTest extends TestCase
         $query = $factory->create($input);
 
         $this->assertEquals(
-            new SuggestQuery('index', 'test', [], 10),
+            new SuggestQuery('test', '', [], 10),
             $query,
             'unexpected limit'
         );

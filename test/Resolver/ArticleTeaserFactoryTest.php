@@ -72,6 +72,7 @@ class ArticleTeaserFactoryTest extends TestCase
             '',
             'ResourceName',
             '',
+            '',
             []
         );
 
@@ -108,6 +109,7 @@ class ArticleTeaserFactoryTest extends TestCase
     private function createResource(array $data): Resource
     {
         return new Resource(
+            '',
             '',
             '',
             '',

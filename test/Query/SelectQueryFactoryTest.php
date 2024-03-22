@@ -8,7 +8,7 @@ use Atoolo\GraphQL\Search\Input\InputFacet;
 use Atoolo\GraphQL\Search\Input\InputFilter;
 use Atoolo\GraphQL\Search\Input\InputSortCriteria;
 use Atoolo\GraphQL\Search\Input\SearchInput;
-use Atoolo\GraphQL\Search\Query\SelectQueryFactory;
+use Atoolo\GraphQL\Search\Query\SearchQueryFactory;
 use Atoolo\GraphQL\Search\Types\QueryOperator;
 use Atoolo\GraphQL\Search\Types\SortDirection;
 use Atoolo\Search\Dto\Search\Query\Facet\ObjectTypeFacet;
@@ -24,29 +24,14 @@ use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(SelectQueryFactory::class)]
+#[CoversClass(SearchQueryFactory::class)]
 class SelectQueryFactoryTest extends TestCase
 {
-    public function testCreateWithIndex(): void
-    {
-        $input = new SearchInput();
-        $input->index = 'index';
-        $factory = new SelectQueryFactory();
-        $query = $factory->create($input);
-
-        $this->assertEquals(
-            'index',
-            $query->index,
-            'index expected'
-        );
-    }
-
     public function testCreateWithLimit(): void
     {
         $input = new SearchInput();
-        $input->index = 'index';
         $input->limit = 10;
-        $factory = new SelectQueryFactory();
+        $factory = new SearchQueryFactory();
         $query = $factory->create($input);
 
         $this->assertEquals(
@@ -59,9 +44,8 @@ class SelectQueryFactoryTest extends TestCase
     public function testCreateWithOffset(): void
     {
         $input = new SearchInput();
-        $input->index = 'index';
         $input->offset = 10;
-        $factory = new SelectQueryFactory();
+        $factory = new SearchQueryFactory();
         $query = $factory->create($input);
 
         $this->assertEquals(
@@ -74,9 +58,8 @@ class SelectQueryFactoryTest extends TestCase
     public function testCreateWithTextFilter(): void
     {
         $input = new SearchInput();
-        $input->index = 'index';
         $input->text = 'text';
-        $factory = new SelectQueryFactory();
+        $factory = new SearchQueryFactory();
         $query = $factory->create($input);
 
         $this->assertEquals(
@@ -89,11 +72,10 @@ class SelectQueryFactoryTest extends TestCase
     public function testCreateWithTextFilterWithOrOperator(): void
     {
         $input = new SearchInput();
-        $input->index = 'index';
         $input->text = 'text';
         $input->defaultQueryOperator = QueryOperator::OR;
 
-        $factory = new SelectQueryFactory();
+        $factory = new SearchQueryFactory();
         $query = $factory->create($input);
 
         $this->assertEquals(
@@ -107,7 +89,7 @@ class SelectQueryFactoryTest extends TestCase
     {
         $input = $this->createSearchInputWithSort('name');
 
-        $factory = new SelectQueryFactory();
+        $factory = new SearchQueryFactory();
         $query = $factory->create($input);
 
         $this->assertEquals(
@@ -121,7 +103,7 @@ class SelectQueryFactoryTest extends TestCase
     {
         $input = $this->createSearchInputWithSort('headline');
 
-        $factory = new SelectQueryFactory();
+        $factory = new SearchQueryFactory();
         $query = $factory->create($input);
 
         $this->assertEquals(
@@ -135,7 +117,7 @@ class SelectQueryFactoryTest extends TestCase
     {
         $input = $this->createSearchInputWithSort('date');
 
-        $factory = new SelectQueryFactory();
+        $factory = new SearchQueryFactory();
         $query = $factory->create($input);
 
         $this->assertEquals(
@@ -149,7 +131,7 @@ class SelectQueryFactoryTest extends TestCase
     {
         $input = $this->createSearchInputWithSort('natural');
 
-        $factory = new SelectQueryFactory();
+        $factory = new SearchQueryFactory();
         $query = $factory->create($input);
 
         $this->assertEquals(
@@ -163,7 +145,7 @@ class SelectQueryFactoryTest extends TestCase
     {
         $input = $this->createSearchInputWithSort('score');
 
-        $factory = new SelectQueryFactory();
+        $factory = new SearchQueryFactory();
         $query = $factory->create($input);
 
         $this->assertEquals(
@@ -176,10 +158,9 @@ class SelectQueryFactoryTest extends TestCase
     public function testCreateWithInvalidSort(): void
     {
         $input = new SearchInput();
-        $input->index = 'index';
         $input->sort = [new InputSortCriteria()];
 
-        $factory = new SelectQueryFactory();
+        $factory = new SearchQueryFactory();
 
         $this->expectException(InvalidArgumentException::class);
         $factory->create($input);
@@ -191,7 +172,6 @@ class SelectQueryFactoryTest extends TestCase
         $sort->$name = SortDirection::ASC;
 
         $input = new SearchInput();
-        $input->index = 'index';
         $input->sort = [$sort];
 
         return $input;
@@ -200,12 +180,11 @@ class SelectQueryFactoryTest extends TestCase
     public function testCreateWithFilter(): void
     {
         $input = new SearchInput();
-        $input->index = 'index';
         $filter = new InputFilter();
         $filter->objectTypes = ['content'];
         $input->filter = [$filter];
 
-        $factory = new SelectQueryFactory();
+        $factory = new SearchQueryFactory();
         $query = $factory->create($input);
 
         $this->assertEquals(
@@ -221,7 +200,6 @@ class SelectQueryFactoryTest extends TestCase
     public function testCreateWithFacet(): void
     {
         $input = new SearchInput();
-        $input->index = 'index';
 
         $facet = new InputFacet();
         $facet->key = 'objectTypes';
@@ -229,7 +207,7 @@ class SelectQueryFactoryTest extends TestCase
 
         $input->facets = [$facet];
 
-        $factory = new SelectQueryFactory();
+        $factory = new SearchQueryFactory();
         $query = $factory->create($input);
 
         $this->assertEquals(

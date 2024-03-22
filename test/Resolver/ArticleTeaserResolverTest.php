@@ -166,6 +166,7 @@ class ArticleTeaserResolverTest extends TestCase
             '',
             '',
             '',
+            '',
             $data
         );
     }

@@ -63,6 +63,7 @@ class ResourceResolverTest extends TestCase
             '',
             '',
             '',
+            '',
             ['init' => ['contentSectionTypes' => ['type1']]]
         );
 

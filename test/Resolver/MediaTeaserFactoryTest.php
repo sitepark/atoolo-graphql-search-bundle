@@ -87,6 +87,7 @@ class MediaTeaserFactoryTest extends TestCase
             '',
             'ResourceName',
             'media',
+            '',
             []
         );
 
@@ -148,6 +149,7 @@ class MediaTeaserFactoryTest extends TestCase
             '',
             '',
             $objectType,
+            '',
             $array
         );
     }

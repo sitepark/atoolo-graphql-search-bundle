@@ -18,10 +18,9 @@ class IndexerTest extends TestCase
         $backgroundIndexer = $this->createMock(BackgroundIndexer::class);
         $backgroundIndexer->expects($this->once())
             ->method('getStatus')
-            ->with('index')
             ->willReturn($this->createMock(IndexerStatus::class));
 
         $indexer = new Indexer($backgroundIndexer);
-        $indexer->indexerStatus('index');
+        $indexer->indexerStatus();
     }
 }

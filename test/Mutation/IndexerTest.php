@@ -38,7 +38,7 @@ class IndexerTest extends TestCase
             ->method('remove');
 
         $indexer = new Indexer($backgroundIndexer, $limitIncreaser);
-        $indexer->indexRemove('index', ['123']);
+        $indexer->indexRemove(['123']);
     }
 
     public function testAbort(): void
