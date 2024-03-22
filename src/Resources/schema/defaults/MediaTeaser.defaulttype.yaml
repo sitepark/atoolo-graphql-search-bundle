@@ -1,0 +1,3 @@
+MediaTeaser:
+  type: "object"
+  inherits: [MediaTeaserDecorator]

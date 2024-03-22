@@ -1,0 +1,8 @@
+TeaserDecorator:
+  type: interface
+  decorator: true
+  config:
+    fields:
+      url:
+        type: "String!"
+        description: Teaser URL
