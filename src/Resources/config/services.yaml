@@ -87,8 +87,8 @@ services:
     Atoolo\GraphQL\Search\Query\Ping:
         public: true
 
-    atoolo.search.selectSearcher:
-        class: Atoolo\Search\Service\Search\SolrSelect
+    atoolo.search.search:
+        class: Atoolo\Search\Service\Search\SolrSearch
         arguments:
             - '@atoolo.search.indexName'
             - '@atoolo.search.solariumClientFactory'
@@ -105,6 +105,9 @@ services:
       class: Atoolo\Search\Service\Indexer\ContentCollector
       arguments:
         - !tagged_iterator atoolo.search.indexer.sitekit.contentMatcher
+
+    atoolo.search.indexer.resourceFilter:
+      class: Atoolo\Search\Service\Indexer\SiteKit\NoIndexFilter
 
     Atoolo\Search\Service\Indexer\SiteKit\HeadlineMatcher:
       tags:
@@ -144,10 +147,18 @@ services:
       arguments:
         - '%kernel.cache_dir%'
 
+    atoolo.search.indexer.backgroundProgressBar:
+      class: Atoolo\Search\Service\Indexer\BackgroundIndexerProgressState
+      arguments:
+        - '@atoolo.search.indexName'
+        - '@atoolo.search.indexer.statusStore'
+        - '@logger'
+
     atoolo.search.indexer.internalResourceIndexerFactory:
       class: Atoolo\Search\Service\Indexer\InternalResourceIndexerFactory
       arguments:
         - !tagged_iterator atoolo.search.indexer.documentEnricher.schema2x
+        - '@atoolo.search.indexer.resourceFilter'
         - '@atoolo.search.indexer.locationFinder'
         - '@atoolo.resource.resourceLoader'
         - '@atoolo.search.indexer.translationSplitter'
@@ -163,10 +174,10 @@ services:
             - '@atoolo.search.indexer.statusStore'
             - '@logger'
 
-    Atoolo\GraphQL\Search\Query\Select:
+    Atoolo\GraphQL\Search\Query\Search:
         public: true
         arguments:
-            - '@atoolo.search.selectSearcher'
+            - '@atoolo.search.search'
 
     Atoolo\GraphQL\Search\Query\Suggest:
         public: true
