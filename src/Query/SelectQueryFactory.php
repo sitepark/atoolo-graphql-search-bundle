@@ -32,7 +32,7 @@ class SelectQueryFactory
     public function create(SearchInput $input): SelectQuery
     {
         $builder = new SelectQueryBuilder();
-        $builder->index($input->index);
+        $builder->lang($input->lang ?? '');
 
         $this->addTextFilter($builder, $input);
         $this->addSort($builder, $input);

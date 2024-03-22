@@ -18,8 +18,8 @@ class Indexer
 
     #[GQL\Query(name: 'indexerStatus', type: 'IndexerStatus!')]
     #[GQL\Access("hasRole('ROLE_API')")]
-    public function indexerStatus(string $index): IndexerStatus
+    public function indexerStatus(): IndexerStatus
     {
-        return $this->indexer->getStatus($index);
+        return $this->indexer->getStatus();
     }
 }

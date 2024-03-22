@@ -12,18 +12,15 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 #[GQL\Input]
 class IndexerInput
 {
-    #[GQL\Field(type:"String!")]
-    public string $index;
+    #[GQL\Field(type:"Int")]
+    public ?int $cleanupThreshold = null;
 
     #[GQL\Field(type:"Int")]
-    public int $cleanupThreshold = 0;
-
-    #[GQL\Field(type:"Int")]
-    public int $chunkSize = 500;
+    public ?int $chunkSize = null;
 
     /**
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public array $paths = [];
+    public ?array $paths = null;
 }

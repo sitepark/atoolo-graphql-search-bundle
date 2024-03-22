@@ -27,9 +27,8 @@ class Indexer
         $this->limitIncreaser?->increase();
         try {
             $parameter = new IndexerParameter(
-                $input->index,
-                $input->cleanupThreshold,
-                $input->chunkSize,
+                $input->cleanupThreshold ?? 0,
+                $input->chunkSize ?? 500,
                 $input->paths ?? []
             );
             return $this->indexer->index($parameter);
@@ -45,26 +44,21 @@ class Indexer
     #[GQL\Mutation(name: 'indexRemove', type: 'Boolean!')]
     #[GQL\Access("hasRole('ROLE_API')")]
     #[GQL\Arg(
-        name:"index",
-        type:"String!",
-        description:"index from which the entry is to be deleted"
-    )]
-    #[GQL\Arg(
         name:"idList",
         type:"[String!]",
         description:"list of id's of the entries to be deleted"
     )]
-    public function indexRemove(string $index, array $idList): bool
+    public function indexRemove(array $idList): bool
     {
-        $this->indexer->remove($index, $idList);
+        $this->indexer->remove($idList);
         return true; // graphql requires a return value
     }
 
     #[GQL\Mutation(name: 'indexAbort', type: 'Boolean!')]
     #[GQL\Access("hasRole('ROLE_API')")]
-    public function indexAbort(string $index): bool
+    public function indexAbort(): bool
     {
-        $this->indexer->abort($index);
+        $this->indexer->abort();
         return true; // graphql requires a return value
     }
 }

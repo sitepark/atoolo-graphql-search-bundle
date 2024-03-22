@@ -14,9 +14,6 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 class SearchInput
 {
     #[GQL\Field(type:"String")]
-    public string $index;
-
-    #[GQL\Field(type:"String")]
     public ?string $text = null;
 
     #[GQL\Field(type:"Int")]
@@ -24,6 +21,9 @@ class SearchInput
 
     #[GQL\Field(type:"Int")]
     public ?int $limit = null;
+
+    #[GQL\Field(type:"String")]
+    public ?string $lang = null;
 
     #[GQL\Field(type:"QueryOperator")]
     public ?QueryOperator $defaultQueryOperator = null;

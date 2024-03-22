@@ -20,10 +20,15 @@ services:
         arguments:
             - 'RESOURCE_ROOT'
             - 'objects'
+    atoolo.resource.resourceChannelFactory:
+      class: Atoolo\Resource\SiteKitResourceChannelFactory
+      arguments:
+        - '@atoolo.resource.resourceBaseLocator'
     atoolo.resource.resourceLoader:
         class: Atoolo\Resource\Loader\SiteKitLoader
         arguments:
             - '@atoolo.resource.resourceBaseLocator'
+            - '@atoolo.resource.resourceChannelFactory'
     atoolo.resource.navigationHierarchyLoader:
         class: Atoolo\Resource\Loader\SiteKitNavigationHierarchyLoader
         arguments:
@@ -33,19 +38,19 @@ services:
         arguments:
             - '@atoolo.resource.resourceLoader'
             - 'category'
+    atoolo.search.indexName:
+      class: Atoolo\Search\Service\ResourceChannelBasedIndexName
+      arguments:
+        - '@atoolo.resource.resourceChannelFactory'
     atoolo.search.solariumClientFactory:
-        class: Atoolo\Search\Service\SolrParameterClientFactory
+        class: Atoolo\Search\Service\ServerVarSolrClientFactory
         arguments:
-            - '%atoolo.search.solr.connection.scheme%'
-            - '%atoolo.search.solr.connection.host%'
-            - '%atoolo.search.solr.connection.port%'
-            - '%atoolo.search.solr.connection.path%'
-            - '%atoolo.search.solr.connection.proxy%'
-            - '%atoolo.search.solr.connection.timeout%'
+            - '@atoolo.search.indexName'
 
     atoolo.search.indexer.solrIndexService:
-        class: Atoolo\Search\Service\Search\SolrIndexService
+        class: Atoolo\Search\Service\Indexer\SolrIndexService
         arguments:
+            - '@atoolo.search.indexName'
             - '@atoolo.search.solariumClientFactory'
 
     ###
@@ -85,6 +90,7 @@ services:
     atoolo.search.selectSearcher:
         class: Atoolo\Search\Service\Search\SolrSelect
         arguments:
+            - '@atoolo.search.indexName'
             - '@atoolo.search.solariumClientFactory'
             - !tagged_iterator atoolo.search.queryModifier
             - '@atoolo.search.resultToResourceResolver'
@@ -92,6 +98,7 @@ services:
     atoolo.search.suggestSearcher:
         class: Atoolo\Search\Service\Search\SolrSuggest
         arguments:
+            - '@atoolo.search.indexName'
             - '@atoolo.search.solariumClientFactory'
 
     atoolo.search.indexer.contentCollector.sitekit:
@@ -125,6 +132,7 @@ services:
         class: Atoolo\Search\Service\Indexer\IndexingAborter
         arguments:
             - '%kernel.project_dir%/var/cache/'
+            - 'indexing'
 
     atoolo.search.indexer.locationFinder:
       class: Atoolo\Search\Service\Indexer\LocationFinder
@@ -151,6 +159,7 @@ services:
         class: Atoolo\Search\Service\Indexer\BackgroundIndexer
         arguments:
             - '@atoolo.search.indexer.internalResourceIndexerFactory'
+            - '@atoolo.search.indexName'
             - '@atoolo.search.indexer.statusStore'
             - '@logger'
 
@@ -164,7 +173,7 @@ services:
         arguments:
             - '@atoolo.search.suggestSearcher'
 
-    Atoolo\GraphQL\Service\PhpLimitIncreaser:
+    Atoolo\GraphQL\Search\Service\PhpLimitIncreaser:
         arguments:
             - '%atoolo.search.indexer.timeLimit%'
             - '%atoolo.search.indexer.memoryLimit%'
@@ -173,7 +182,7 @@ services:
         public: true
         arguments:
             - '@atoolo.search.indexer'
-            - '@Atoolo\GraphQL\Service\PhpLimitIncreaser'
+            - '@Atoolo\GraphQL\Search\Service\PhpLimitIncreaser'
 
     Atoolo\GraphQL\Search\Mutation\Indexer:
         public: true

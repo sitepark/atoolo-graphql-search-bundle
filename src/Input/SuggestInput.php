@@ -12,14 +12,14 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 #[GQL\Input]
 class SuggestInput
 {
-    #[GQL\Field(type:"String")]
-    public string $index;
-
-    #[GQL\Field(type:"String")]
+    #[GQL\Field(type:"String!")]
     public string $text;
 
     #[GQL\Field(type:"Int")]
-    public int $limit = 10;
+    public ?int $limit = null;
+
+    #[GQL\Field(type:"String")]
+    public ?string $lang = null;
 
     /**
      * @var InputFilter[]

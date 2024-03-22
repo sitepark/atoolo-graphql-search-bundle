@@ -25,10 +25,10 @@ class SuggestQueryFactory
         }
 
         return new SuggestQuery(
-            $input->index,
             $input->text,
+            $input->lang ?? '',
             $filterList,
-            $input->limit
+            $input->limit ?? 10
         );
     }
 }

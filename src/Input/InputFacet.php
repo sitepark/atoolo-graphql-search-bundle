@@ -12,7 +12,7 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 #[GQL\Input(name:"InputFacet")]
 class InputFacet
 {
-    #[GQL\Field(type:"String")]
+    #[GQL\Field(type:"String!")]
     public string $key;
 
     #[GQL\Field(type:"String")]
@@ -22,29 +22,29 @@ class InputFacet
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public array $objectTypes = [];
+    public ?array $objectTypes = null;
 
     /**
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public array $contentSectionTypes = [];
+    public ?array $contentSectionTypes = null;
 
     /**
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public array $categories = [];
+    public ?array $categories = null;
 
     /**
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public array $sites = [];
+    public ?array $sites = null;
 
     /**
      * @var string[]
      */
     #[GQL\Field(type:"[String!]")]
-    public array $groups = [];
+    public ?array $groups = null;
 }
