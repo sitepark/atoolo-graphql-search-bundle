@@ -24,7 +24,7 @@
         "atoolo/search": "dev-feature/initial-implementation",
         "overblog/graphql-bundle": "^1.0",
         "symfony/config": "6.3.*",
-        "symfony/dependency-injection": "6.3.*",
+        "symfony/dependency-injection": "6.4.*",
         "symfony/http-kernel": "6.3.*",
         "symfony/yaml": "6.3.*"
     },
