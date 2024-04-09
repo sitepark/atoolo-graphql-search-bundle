@@ -11,8 +11,8 @@
     ],
     "require": {
         "php": ">=8.1 <8.4.0",
-        "atoolo/resource": "dev-main",
-        "atoolo/search": "dev-feature/initial-implementation",
+	"atoolo/resource": "dev-feature/resource-channel",
+        "atoolo/search": "dev-feature/core-name",
         "overblog/graphql-bundle": "^1.0",
         "symfony/config": "^6.3 || ^7.0",
         "symfony/dependency-injection": "^6.3 || ^7.0",

@@ -81,11 +81,11 @@ class HierarchyResolverTest extends TestCase
         $resource->method('getLocation')
             ->willReturn('location');
         $hierarchy = new Hierarchy('category', $resource);
-        $this->categoryHierarchyLoader->method('loadParent')
+        $this->categoryHierarchyLoader->method('loadPrimaryParent')
             ->willReturn($resource);
         $this->assertEquals(
             $resource,
-            $this->resolver->getParent($hierarchy)
+            $this->resolver->getPrimaryParent($hierarchy)
         );
     }
 
@@ -95,11 +95,11 @@ class HierarchyResolverTest extends TestCase
         $resource->method('getLocation')
             ->willReturn('location');
         $hierarchy = new Hierarchy('category', $resource);
-        $this->categoryHierarchyLoader->method('loadPath')
+        $this->categoryHierarchyLoader->method('loadPrimaryPath')
             ->willReturn([$resource]);
         $this->assertEquals(
             [$resource],
-            $this->resolver->getPath($hierarchy)
+            $this->resolver->getPrimaryPath($hierarchy)
         );
     }
 

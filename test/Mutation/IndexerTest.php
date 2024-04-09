@@ -22,7 +22,6 @@ class IndexerTest extends TestCase
         $limitIncreaser = $this->createStub(PhpLimitIncreaser::class);
 
         $input = new IndexerInput();
-        $input->index = 'index';
         $input->cleanupThreshold = 1;
         $input->chunkSize = 10;
 

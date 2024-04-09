@@ -34,22 +34,22 @@ class HierarchyResolver implements Resolver
     /**
      * @throws InvalidArgumentException
      */
-    public function getParent(Hierarchy $hierarchy): ?Resource
+    public function getPrimaryParent(Hierarchy $hierarchy): ?Resource
     {
         $resource = $hierarchy->root;
         return $this->getLoader($hierarchy->type)
-            ->loadParent($resource->getLocation());
+            ->loadPrimaryParent($resource->getLocation());
     }
 
     /**
      * @return Resource[]
      * @throws InvalidArgumentException
      */
-    public function getPath(Hierarchy $hierarchy): array
+    public function getPrimaryPath(Hierarchy $hierarchy): array
     {
         $resource = $hierarchy->root;
         return $this->getLoader($hierarchy->type)
-            ->loadPath($resource->getLocation());
+            ->loadPrimaryPath($resource->getLocation());
     }
 
     /**
