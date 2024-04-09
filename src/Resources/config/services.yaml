@@ -22,12 +22,12 @@ services:
         public: true
         arguments:
             - '@atoolo.search.indexer'
-            - '@Atoolo\GraphQL\Search\Service\PhpLimitIncreaser'
 
     Atoolo\GraphQL\Search\Mutation\Indexer:
         public: true
         arguments:
             - '@atoolo.search.indexer'
+            - '@Atoolo\GraphQL\Search\Service\PhpLimitIncreaser'
 
     atoolo_graphql_search.resolver.urlRewriter:
       class: Atoolo\GraphQL\Search\Resolver\DoNothingUrlRewriter
