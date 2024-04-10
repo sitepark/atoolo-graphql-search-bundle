@@ -21,11 +21,28 @@ class Indexer
 
     #[GQL\Mutation(name: 'index', type: 'IndexerStatus!')]
     #[GQL\Access("hasRole('ROLE_API')")]
-    public function index(IndexerInput $input): IndexerStatus
+    public function index(): IndexerStatus
     {
         $this->limitIncreaser?->increase();
         try {
             return $this->indexer->index();
+        } finally {
+            $this->limitIncreaser?->reset();
+        }
+    }
+
+    #[GQL\Mutation(name: 'indexUpdate', type: 'IndexerStatus!')]
+    #[GQL\Access("hasRole('ROLE_API')")]
+    #[GQL\Arg(
+        name:"paths",
+        type:"[String!]!",
+        description:"List of resource paths that are to be updated."
+    )]
+    public function indexUpdate(array $paths): IndexerStatus
+    {
+        $this->limitIncreaser?->increase();
+        try {
+            return $this->indexer->update($paths);
         } finally {
             $this->limitIncreaser?->reset();
         }
