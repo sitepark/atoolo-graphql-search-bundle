@@ -48,9 +48,9 @@ class SearchQueryFactory
         SearchInput $input
     ): void {
         $builder->defaultQueryOperator(
-            $input->defaultQueryOperator === QueryOperator::OR
-                ? \Atoolo\Search\Dto\Search\Query\QueryOperator::OR
-                : \Atoolo\Search\Dto\Search\Query\QueryOperator::AND
+            $input->defaultQueryOperator === QueryOperator::AND
+                ? \Atoolo\Search\Dto\Search\Query\QueryOperator::AND
+                : \Atoolo\Search\Dto\Search\Query\QueryOperator::OR
         );
 
         if (isset($input->text)) {

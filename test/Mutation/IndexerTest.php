@@ -21,12 +21,8 @@ class IndexerTest extends TestCase
             ->method('index');
         $limitIncreaser = $this->createStub(PhpLimitIncreaser::class);
 
-        $input = new IndexerInput();
-        $input->cleanupThreshold = 1;
-        $input->chunkSize = 10;
-
         $indexer = new Indexer($backgroundIndexer, $limitIncreaser);
-        $indexer->index($input);
+        $indexer->index();
     }
 
     public function testRemove(): void

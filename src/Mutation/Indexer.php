@@ -31,6 +31,9 @@ class Indexer
         }
     }
 
+    /**
+     * @param array<string> $paths
+     */
     #[GQL\Mutation(name: 'indexUpdate', type: 'IndexerStatus!')]
     #[GQL\Access("hasRole('ROLE_API')")]
     #[GQL\Arg(
