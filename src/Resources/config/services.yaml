@@ -71,14 +71,14 @@ services:
       arguments:
         - '@atoolo_graphql_search.resolver.urlRewriter'
       tags:
-        - { name: 'atoolo_graphql_search.objectType', objectType: 'media' }
+        - { name: 'atoolo_graphql_search.teaserFactory', objectType: 'media' }
 
     atoolo_graphql_search.resolver.embeddedMediaTeaserFactory:
       class : 'Atoolo\GraphQL\Search\Resolver\MediaTeaserFactory'
       arguments:
         - '@atoolo_graphql_search.resolver.urlRewriter'
       tags:
-        - { name: 'atoolo_graphql_search.objectType', objectType: 'embedded-media' }
+        - { name: 'atoolo_graphql_search.teaserFactory', objectType: 'embedded-media' }
 
     Atoolo\GraphQL\Search\Resolver\DelegatingTeaserFactory:
       arguments:
