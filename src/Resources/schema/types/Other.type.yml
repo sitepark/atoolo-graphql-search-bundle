@@ -15,8 +15,8 @@ Hierarchy:
   config:
     fields:
       root: { type: "Resource!" }
-      parent: { type: "Resource" }
-      path: { type: "[Resource!]" }
+      primaryParent: { type: "Resource" }
+      primaryPath: { type: "[Resource!]" }
       children: { type: "[Resource!]" }
 
 FacetGroup:
