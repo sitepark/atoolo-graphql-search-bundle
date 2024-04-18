@@ -7,5 +7,6 @@ MediaTeaserDecorator:
     fields:
       headline: {type: String}
       text: {type: String}
+      kicker: {type: String}
       contentType:  {type: String!}
       contentLength:  {type: Int!}

@@ -15,6 +15,7 @@ class ArticleTeaser extends Teaser
         ?string $url,
         public readonly ?string $headline,
         public readonly ?string $text,
+        public readonly ?string $kicker,
         public readonly ?Asset $asset,
         public readonly Resource $resource
     ) {

@@ -12,6 +12,9 @@ ArticleTeaserDecorator:
       text:
         type: "String"
         description: Teaser text
+      kicker:
+        type: "String"
+        description: Teaser kicker text
       asset:
         type: "Asset"
         args:

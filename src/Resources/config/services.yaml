@@ -65,6 +65,7 @@ services:
     Atoolo\GraphQL\Search\Resolver\ArticleTeaserFactory:
       arguments:
         - '@atoolo_graphql_search.resolver.urlRewriter'
+        - '@atoolo.resource.navigationHierarchyLoader'
 
     atoolo_graphql_search.resolver.mediaTeaserFactory:
       class : 'Atoolo\GraphQL\Search\Resolver\MediaTeaserFactory'
