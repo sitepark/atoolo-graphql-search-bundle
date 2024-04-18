@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Test\Resolver;
 
 use Atoolo\GraphQL\Search\Resolver\HierarchyResolver;
+use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\GraphQL\Search\Types\Hierarchy;
-use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceHierarchyLoader;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -36,9 +36,9 @@ class HierarchyResolverTest extends TestCase
 
     public function testGetCategoryRoot(): void
     {
-        $resource = $this->createStub(Resource::class);
-        $resource->method('getLocation')
-            ->willReturn('location');
+        $resource = TestResourceFactory::create([
+            'url' => 'location',
+        ]);
         $hierarchy = new Hierarchy('category', $resource);
         $this->categoryHierarchyLoader->method('loadRoot')
             ->willReturn($resource);
@@ -50,9 +50,9 @@ class HierarchyResolverTest extends TestCase
 
     public function testGetNavigationRoot(): void
     {
-        $resource = $this->createStub(Resource::class);
-        $resource->method('getLocation')
-            ->willReturn('location');
+        $resource = TestResourceFactory::create([
+            'url' => 'location',
+        ]);
         $hierarchy = new Hierarchy('navigation', $resource);
         $this->navigationLoader->method('loadRoot')
             ->willReturn($resource);
@@ -64,9 +64,9 @@ class HierarchyResolverTest extends TestCase
 
     public function testGetRootWithInvalidHierarchyType(): void
     {
-        $resource = $this->createStub(Resource::class);
-        $resource->method('getLocation')
-            ->willReturn('location');
+        $resource = TestResourceFactory::create([
+            'url' => 'location',
+        ]);
         $hierarchy = new Hierarchy('test', $resource);
         $this->navigationLoader->method('loadRoot')
             ->willReturn($resource);
@@ -77,9 +77,9 @@ class HierarchyResolverTest extends TestCase
 
     public function testGetParent(): void
     {
-        $resource = $this->createStub(Resource::class);
-        $resource->method('getLocation')
-            ->willReturn('location');
+        $resource = TestResourceFactory::create([
+            'url' => 'location',
+        ]);
         $hierarchy = new Hierarchy('category', $resource);
         $this->categoryHierarchyLoader->method('loadPrimaryParent')
             ->willReturn($resource);
@@ -91,9 +91,9 @@ class HierarchyResolverTest extends TestCase
 
     public function testGetPath(): void
     {
-        $resource = $this->createStub(Resource::class);
-        $resource->method('getLocation')
-            ->willReturn('location');
+        $resource = TestResourceFactory::create([
+            'url' => 'location',
+        ]);
         $hierarchy = new Hierarchy('category', $resource);
         $this->categoryHierarchyLoader->method('loadPrimaryPath')
             ->willReturn([$resource]);
@@ -105,9 +105,9 @@ class HierarchyResolverTest extends TestCase
 
     public function testGetChildren(): void
     {
-        $resource = $this->createStub(Resource::class);
-        $resource->method('getLocation')
-            ->willReturn('location');
+        $resource = TestResourceFactory::create([
+            'url' => 'location',
+        ]);
         $hierarchy = new Hierarchy('category', $resource);
         $this->categoryHierarchyLoader->method('loadChildren')
             ->willReturn([$resource]);

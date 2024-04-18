@@ -45,7 +45,7 @@ class ArticleTeaserResolver implements Resolver
     ): ?Asset {
 
         /** @var ImageData|array{} $imageData */
-        $imageData = $teaser->resource->getData()->getAssociativeArray(
+        $imageData = $teaser->resource->data->getAssociativeArray(
             'base.teaser.image'
         );
         if (empty($imageData)) {
@@ -60,7 +60,7 @@ class ArticleTeaserResolver implements Resolver
             $this->logger->error(
                 'Invalid characteristic for teaser image',
                 [
-                    'resource' => $teaser->resource->getLocation(),
+                    'resource' => $teaser->resource->location,
                     'exception' => $e
                 ]
             );

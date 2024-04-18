@@ -39,7 +39,7 @@ services:
   atoolo.search.indexer.locationFinder:
     class: Atoolo\Search\Service\Indexer\LocationFinder
     arguments:
-      - '@atoolo.resource.resourceBaseLocator'
+      - '@atoolo.resource.resourceChannel'
 
   atoolo.search.indexer.statusStore:
     class: Atoolo\Search\Service\Indexer\IndexerStatusStore
@@ -63,7 +63,7 @@ services:
   atoolo.search.indexer.configurationLoader:
     class: Atoolo\Search\Service\Indexer\IndexerConfigurationLoader
     arguments:
-      - '@atoolo.resource.resourceBaseLocator'
+      - '@atoolo.resource.resourceChannel'
 
   atoolo.search.indexer.internalResourceProgressState:
     class: Atoolo\Search\Service\Indexer\IndexerProgressState

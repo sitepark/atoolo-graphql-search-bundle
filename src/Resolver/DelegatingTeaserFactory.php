@@ -28,7 +28,7 @@ class DelegatingTeaserFactory implements TeaserFactory
 
     public function create(Resource $resource): Teaser
     {
-        $objectType = $resource->getObjectType();
+        $objectType = $resource->objectType;
         if (!isset($this->factories[$objectType])) {
             return $this->fallbackFactory->create($resource);
         }

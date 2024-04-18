@@ -6,8 +6,8 @@ namespace Atoolo\GraphQL\Search\Test\Resolver;
 
 use Atoolo\GraphQL\Search\Resolver\MediaTeaserFactory;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
+use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\GraphQL\Search\Types\MediaTeaser;
-use Atoolo\Resource\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -26,9 +26,9 @@ class MediaTeaserFactoryTest extends TestCase
 
     public function testCreateWithUnsupportedObjectType(): void
     {
-        $resource = $this->createStub(Resource::class);
-        $resource->method('getObjectType')
-            ->willReturn('other');
+        $resource = TestResourceFactory::create([
+            'objectType' => 'other'
+        ]);
 
         $this->expectException(\InvalidArgumentException::class);
         $this->factory->create($resource);
@@ -36,15 +36,11 @@ class MediaTeaserFactoryTest extends TestCase
 
     public function testResolveWithMediaUrl(): void
     {
-        $resource = $this->createResource(
-            'media',
-            [
-                'init' => [
-                    'url' => 'url',
-                    'mediaUrl' => 'mediaUrl',
-                ],
-            ]
-        );
+        $resource = TestResourceFactory::create([
+            'objectType' => 'media',
+            'url' => 'url',
+            'mediaUrl' => 'mediaUrl',
+        ]);
 
         $this->urlRewriter->method('rewrite')
             ->willReturnCallback(static fn ($type, $url) => $url);
@@ -60,17 +56,16 @@ class MediaTeaserFactoryTest extends TestCase
 
     public function testResolveWithHeadline(): void
     {
-        $resource = $this->createResource(
-            'embedded-media',
-            [
-                'base' => [
-                    'teaser' => [
-                        'headline' => 'Headline'
-                    ]
-                ],
+        $resource = TestResourceFactory::create([
+            'objectType' => 'embedded-media',
+            'base' => [
+                'teaser' => [
+                    'headline' => 'Headline'
+                ]
             ]
-        );
+        ]);
 
+        /** @var MediaTeaser $teaser */
         $teaser = $this->factory->create($resource);
 
         $this->assertEquals(
@@ -82,15 +77,12 @@ class MediaTeaserFactoryTest extends TestCase
 
     public function testResolveWithFallbackHeadline(): void
     {
-        $resource =  new Resource(
-            '',
-            '',
-            'ResourceName',
-            'media',
-            '',
-            []
-        );
+        $resource = TestResourceFactory::create([
+            'objectType' => 'media',
+            'name' => 'ResourceName',
+        ]);
 
+        /** @var MediaTeaser $teaser */
         $teaser = $this->factory->create($resource);
 
         $this->assertEquals(
@@ -106,22 +98,18 @@ class MediaTeaserFactoryTest extends TestCase
         $this->urlRewriter->method('rewrite')
             ->willReturnCallback(static fn ($type, $url) => $url);
 
-        $resource = $this->createResource(
-            'media',
-            [
-                'init' => [
-                    'mediaUrl' => 'mediaUrl'
+        $resource = TestResourceFactory::create([
+            'objectType' => 'media',
+            'mediaUrl' => 'mediaUrl',
+            'base' => [
+                'teaser' => [
+                    'headline' => 'Headline',
+                    'text' => 'Text',
                 ],
-                'base' => [
-                    'teaser' => [
-                        'headline' => 'Headline',
-                        'text' => 'Text',
-                    ],
-                    'mime' => 'mime',
-                    'filesize' => 100
-                ],
+                'mime' => 'mime',
+                'filesize' => 100
             ]
-        );
+        ]);
 
         $teaser = $this->factory->create($resource);
 
@@ -139,18 +127,6 @@ class MediaTeaserFactoryTest extends TestCase
             $expected,
             $teaser,
             'unexpected media teaser'
-        );
-    }
-
-    private function createResource(string $objectType, array $array)
-    {
-        return new Resource(
-            '',
-            '',
-            '',
-            $objectType,
-            '',
-            $array
         );
     }
 }

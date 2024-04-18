@@ -6,8 +6,8 @@ namespace Atoolo\GraphQL\Search\Test\Resolver;
 
 use Atoolo\GraphQL\Search\Resolver\DelegatingTeaserFactory;
 use Atoolo\GraphQL\Search\Resolver\TeaserFactory;
+use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\GraphQL\Search\Types\Teaser;
-use Atoolo\Resource\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -16,9 +16,9 @@ class DelegatingTeaserFactoryTest extends TestCase
 {
     public function testCreate(): void
     {
-        $resource = $this->createStub(Resource::class);
-        $resource->method('getObjectType')
-            ->willReturn('myObjectType');
+        $resource = TestResourceFactory::create([
+            'objectType' => 'myObjectType'
+        ]);
 
         $teaser = $this->createStub(Teaser::class);
         $teaserFactory = $this->createStub(TeaserFactory::class);
@@ -41,9 +41,9 @@ class DelegatingTeaserFactoryTest extends TestCase
 
     public function testCreateWithTraversable(): void
     {
-        $resource = $this->createStub(Resource::class);
-        $resource->method('getObjectType')
-            ->willReturn('myObjectType');
+        $resource = TestResourceFactory::create([
+            'objectType' => 'myObjectType'
+        ]);
 
         $teaser = $this->createStub(Teaser::class);
         $teaserFactory = $this->createStub(TeaserFactory::class);
@@ -73,9 +73,12 @@ class DelegatingTeaserFactoryTest extends TestCase
 
         $resolver = new DelegatingTeaserFactory([], $fallbackFactory);
 
+        $resource = TestResourceFactory::create([]);
+
+
         $this->assertEquals(
             $teaser,
-            $resolver->create($this->createStub(Resource::class)),
+            $resolver->create($resource),
             'Should return the teaser by the fallback resolver'
         );
     }

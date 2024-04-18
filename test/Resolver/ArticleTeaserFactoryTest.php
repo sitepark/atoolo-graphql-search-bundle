@@ -6,7 +6,9 @@ namespace Atoolo\GraphQL\Search\Test\Resolver;
 
 use Atoolo\GraphQL\Search\Resolver\ArticleTeaserFactory;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
+use Atoolo\Resource\DataBag;
 use Atoolo\Resource\Resource;
+use Atoolo\Resource\ResourceLanguage;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -29,7 +31,14 @@ class ArticleTeaserFactoryTest extends TestCase
 
     public function testUrl(): void
     {
-        $resource = $this->createStub(Resource::class);
+        $resource = new Resource(
+            'originalUrl',
+            '',
+            '',
+            '',
+            ResourceLanguage::default(),
+            new DataBag([])
+        );
 
         $this->urlRewriter->method('rewrite')
             ->willReturn('rewrittenUrl');
@@ -72,8 +81,8 @@ class ArticleTeaserFactoryTest extends TestCase
             '',
             'ResourceName',
             '',
-            '',
-            []
+            ResourceLanguage::default(),
+            new DataBag([])
         );
 
         $teaser = $this->factory->create($resource);
@@ -109,12 +118,12 @@ class ArticleTeaserFactoryTest extends TestCase
     private function createResource(array $data): Resource
     {
         return new Resource(
-            '',
-            '',
-            '',
-            '',
-            '',
-            $data
+            $data['url'] ?? '',
+            $data['id'] ?? '',
+            $data['name'] ?? '',
+            $data['objectType'] ?? '',
+            ResourceLanguage::default(),
+            new DataBag($data)
         );
     }
 }

@@ -31,8 +31,8 @@ class ResourceResolver implements Resolver
     public function getContentSectionTypes(Resource $resource): array
     {
         /** @var string[] $contentSectionTypes */
-        $contentSectionTypes = $resource->getData()->getArray(
-            'init.contentSectionTypes'
+        $contentSectionTypes = $resource->data->getArray(
+            'contentSectionTypes'
         );
         return $contentSectionTypes;
     }

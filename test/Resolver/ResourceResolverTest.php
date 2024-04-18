@@ -6,6 +6,7 @@ namespace Atoolo\GraphQL\Search\Test\Resolver;
 
 use Atoolo\GraphQL\Search\Resolver\DelegatingTeaserFactory;
 use Atoolo\GraphQL\Search\Resolver\ResourceResolver;
+use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\GraphQL\Search\Types\Hierarchy;
 use Atoolo\GraphQL\Search\Types\Teaser;
 use Atoolo\Resource\Resource;
@@ -58,14 +59,9 @@ class ResourceResolverTest extends TestCase
             $this->createStub(DelegatingTeaserFactory::class)
         );
 
-        $resource = new Resource(
-            '',
-            '',
-            '',
-            '',
-            '',
-            ['init' => ['contentSectionTypes' => ['type1']]]
-        );
+        $resource = TestResourceFactory::create([
+            'contentSectionTypes' => ['type1']
+        ]);
 
         $this->assertEquals(
             ['type1'],

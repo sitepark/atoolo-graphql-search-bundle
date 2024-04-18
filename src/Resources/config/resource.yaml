@@ -1,18 +1,22 @@
+parameters:
+  atoolo_resource.resource_root: '%env(RESOURCE_ROOT)%'
+
 services:
-  atoolo.resource.resourceBaseLocator:
-    class: Atoolo\Resource\Loader\ServerVarResourceBaseLocator
-    arguments:
-      - 'RESOURCE_ROOT'
-      - 'objects'
+
   atoolo.resource.resourceChannelFactory:
     class: Atoolo\Resource\SiteKitResourceChannelFactory
     arguments:
-      - '@atoolo.resource.resourceBaseLocator'
+      - '%atoolo_resource.resource_root%'
+
+  atoolo.resource.resourceChannel:
+    class: Atoolo\Resource\SiteKitResourceChannel
+    factory: ['@atoolo.resource.resourceChannelFactory', 'create']
+
   atoolo.resource.resourceLoader:
     class: Atoolo\Resource\Loader\SiteKitLoader
     arguments:
-      - '@atoolo.resource.resourceBaseLocator'
-      - '@atoolo.resource.resourceChannelFactory'
+      - '@atoolo.resource.resourceChannel'
+
   atoolo.resource.navigationHierarchyLoader:
     class: Atoolo\Resource\Loader\SiteKitNavigationHierarchyLoader
     arguments:

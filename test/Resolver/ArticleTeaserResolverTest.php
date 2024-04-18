@@ -6,11 +6,11 @@ namespace Atoolo\GraphQL\Search\Test\Resolver;
 
 use Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
+use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\GraphQL\Search\Types\ArticleTeaser;
 use Atoolo\GraphQL\Search\Types\Image;
 use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
 use Atoolo\GraphQL\Search\Types\ImageSource;
-use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -138,7 +138,7 @@ class ArticleTeaserResolverTest extends TestCase
             '',
             '',
             null,
-            $this->createResource([
+            TestResourceFactory::create([
                     'base' => [
                         'teaser' => [
                             'image' => $imageData
@@ -155,19 +155,7 @@ class ArticleTeaserResolverTest extends TestCase
             '',
             '',
             null,
-            $this->createResource($data)
-        );
-    }
-
-    private function createResource(array $data): Resource
-    {
-        return new Resource(
-            '',
-            '',
-            '',
-            '',
-            '',
-            $data
+            TestResourceFactory::create($data)
         );
     }
 }

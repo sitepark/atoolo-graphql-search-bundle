@@ -18,21 +18,21 @@ class MediaTeaserFactory implements TeaserFactory
     {
         if (!$this->isMedia($resource)) {
             throw new \InvalidArgumentException('Resource is not a media: ' .
-                $resource->getLocation() . ', ' .
-                'objectType: ' . $resource->getObjectType());
+                $resource->location . ', ' .
+                'objectType: ' . $resource->objectType);
         }
 
         $url = $this->urlRewriter->rewrite(
             UrlRewriterType::MEDIA,
-            $resource->getData()->getString('init.mediaUrl')
+            $resource->data->getString('mediaUrl')
         );
-        $headline = $resource->getData()->getString(
+        $headline = $resource->data->getString(
             'base.teaser.headline',
-            $resource->getName()
+            $resource->name
         );
-        $text = $resource->getData()->getString('base.teaser.text');
-        $contentType = $resource->getData()->getString('base.mime');
-        $contentLength = $resource->getData()->getInt('base.filesize');
+        $text = $resource->data->getString('base.teaser.text');
+        $contentType = $resource->data->getString('base.mime');
+        $contentLength = $resource->data->getInt('base.filesize');
 
         return new MediaTeaser(
             $url,
@@ -47,10 +47,10 @@ class MediaTeaserFactory implements TeaserFactory
 
     private function isMedia(Resource $resource): bool
     {
-        if ($resource->getObjectType() === 'media') {
+        if ($resource->objectType === 'media') {
             return true;
         }
-        if ($resource->getObjectType() === 'embedded-media') {
+        if ($resource->objectType === 'embedded-media') {
             return true;
         }
         return false;

@@ -19,14 +19,14 @@ class ArticleTeaserFactory implements TeaserFactory
     {
         $url = $this->urlRewriter->rewrite(
             UrlRewriterType::LINK,
-            $resource->getLocation()
+            $resource->location
         );
 
-        $headline = $resource->getData()->getString(
+        $headline = $resource->data->getString(
             'base.teaser.headline',
-            $resource->getName()
+            $resource->name
         );
-        $text = $resource->getData()->getString('base.teaser.text');
+        $text = $resource->data->getString('base.teaser.text');
 
         return new ArticleTeaser(
             $url,
