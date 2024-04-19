@@ -12,6 +12,7 @@ use Atoolo\Resource\ResourceHierarchyLoader;
 use Atoolo\Resource\ResourceLanguage;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 #[CoversClass(ArticleTeaserFactory::class)]
 class ArticleTeaserFactoryTest extends TestCase
