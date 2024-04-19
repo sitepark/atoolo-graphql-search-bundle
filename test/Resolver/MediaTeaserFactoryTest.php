@@ -105,6 +105,7 @@ class MediaTeaserFactoryTest extends TestCase
                 'teaser' => [
                     'headline' => 'Headline',
                     'text' => 'Text',
+                    'kicker' => 'Kicker'
                 ],
                 'mime' => 'mime',
                 'filesize' => 100
@@ -117,6 +118,7 @@ class MediaTeaserFactoryTest extends TestCase
             'mediaUrl',
             'Headline',
             'Text',
+            'Kicker',
             'mime',
             100,
             null,

@@ -8,6 +8,7 @@ use Atoolo\GraphQL\Search\Resolver\ArticleTeaserFactory;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
 use Atoolo\Resource\DataBag;
 use Atoolo\Resource\Resource;
+use Atoolo\Resource\ResourceHierarchyLoader;
 use Atoolo\Resource\ResourceLanguage;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -20,12 +21,16 @@ class ArticleTeaserFactoryTest extends TestCase
 
     private UrlRewriter $urlRewriter;
 
+    private ResourceHierarchyLoader $navigationLoader;
+
     public function setUp(): void
     {
         $this->urlRewriter = $this->createStub(UrlRewriter::class);
         $this->logger = $this->createMock(LoggerInterface::class);
+        $this->navigationLoader = $this->createMock(ResourceHierarchyLoader::class);
         $this->factory = new ArticleTeaserFactory(
             $this->urlRewriter,
+            $this->navigationLoader
         );
     }
 
@@ -91,6 +96,40 @@ class ArticleTeaserFactoryTest extends TestCase
             'ResourceName',
             $teaser->headline,
             'unexpected headline'
+        );
+    }
+
+    public function testKicker(): void
+    {
+        $resourceA = $this->createResource(
+            [
+                'base' => [
+                    'teaser' => [
+                        'kicker' => 'Kicker'
+                    ],
+                    'kicker' => 'Unused Kicker'
+                ]
+            ]
+        );
+        $teaserA = $this->factory->create($resourceA);
+        $this->assertEquals(
+            'Kicker',
+            $teaserA->kicker,
+            'unexpected kicker'
+        );
+
+        $resourceB = $this->createResource(
+            [
+                'base' => [
+                    'kicker' => 'Kicker'
+                ]
+            ]
+        );
+        $teaserB = $this->factory->create($resourceB);
+        $this->assertEquals(
+            'Kicker',
+            $teaserB->kicker,
+            'unexpected kicker'
         );
     }
 

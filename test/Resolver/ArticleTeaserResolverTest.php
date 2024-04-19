@@ -137,6 +137,7 @@ class ArticleTeaserResolverTest extends TestCase
             '',
             '',
             '',
+            '',
             null,
             TestResourceFactory::create([
                     'base' => [
@@ -151,6 +152,7 @@ class ArticleTeaserResolverTest extends TestCase
     private function createArticleTeaser(array $data): ArticleTeaser
     {
         return new ArticleTeaser(
+            '',
             '',
             '',
             '',
