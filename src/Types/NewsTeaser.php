@@ -9,7 +9,7 @@ use Atoolo\Resource\Resource;
 /**
  * @codeCoverageIgnore
  */
-class ArticleTeaser extends Teaser
+class NewsTeaser extends Teaser
 {
     public function __construct(
         ?string $url,

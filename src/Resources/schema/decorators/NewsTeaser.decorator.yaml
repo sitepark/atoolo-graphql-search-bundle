@@ -1,20 +1,20 @@
-ArticleTeaserDecorator:
+NewsTeaserDecorator:
   type: object
   decorator: true
   inherits: [Teaser]
   config:
     interfaces: [Teaser]
-    description: An article teaser is a short summary or preview designed to pique the reader's interest by highlighting the main points or most exciting aspects of an article.
+    description: An news teaser is a short summary or preview designed to pique the reader's interest by highlighting the main points or most exciting aspects of an article.
     fields:
       date:
         type: "DateTime"
-        description: Teaser date
+        description: News Teaser date
       headline:
         type: "String"
-        description: Teaser headline
+        description: News Teaser headline
       text:
         type: "String"
-        description: Teaser text
+        description: News Teaser text
       asset:
         type: "Asset"
         args:
