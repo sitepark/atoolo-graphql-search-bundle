@@ -50,7 +50,9 @@ class ArticleTeaserFactory implements TeaserFactory
         if (!empty($kicker)) {
             return $kicker;
         }
-        $primaryPath = $this->navigationLoader->loadPrimaryPath($resource->toLocation());
+        $primaryPath = $this->navigationLoader->loadPrimaryPath(
+            $resource->toLocation()
+        );
         for ($i = count($primaryPath) - 1; $i >= 1; $i--) {
             $kicker = $primaryPath[$i]->data->getString('base.kicker');
             if (!empty($kicker)) {

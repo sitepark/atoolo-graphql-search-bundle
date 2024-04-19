@@ -26,7 +26,9 @@ class ArticleTeaserFactoryTest extends TestCase
     {
         $this->urlRewriter = $this->createStub(UrlRewriter::class);
         $this->logger = $this->createMock(LoggerInterface::class);
-        $this->navigationLoader = $this->createMock(ResourceHierarchyLoader::class);
+        $this->navigationLoader = $this->createMock(
+            ResourceHierarchyLoader::class
+        );
         $this->factory = new ArticleTeaserFactory(
             $this->urlRewriter,
             $this->navigationLoader
