@@ -32,7 +32,6 @@ class ArticleTeaserFactory implements TeaserFactory
             $url,
             $headline,
             $text,
-            null, // will be resolved by getAsset()
             $resource
         );
     }

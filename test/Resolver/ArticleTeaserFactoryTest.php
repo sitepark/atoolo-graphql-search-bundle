@@ -11,7 +11,6 @@ use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceLanguage;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
 
 #[CoversClass(ArticleTeaserFactory::class)]
 class ArticleTeaserFactoryTest extends TestCase
@@ -23,7 +22,6 @@ class ArticleTeaserFactoryTest extends TestCase
     public function setUp(): void
     {
         $this->urlRewriter = $this->createStub(UrlRewriter::class);
-        $this->logger = $this->createMock(LoggerInterface::class);
         $this->factory = new ArticleTeaserFactory(
             $this->urlRewriter
         );

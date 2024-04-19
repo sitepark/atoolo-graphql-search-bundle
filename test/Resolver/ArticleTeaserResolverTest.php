@@ -185,7 +185,6 @@ class ArticleTeaserResolverTest extends TestCase
             '',
             '',
             '',
-            null,
             TestResourceFactory::create([
                 'base' => [
                     'teaser' => [
@@ -202,7 +201,6 @@ class ArticleTeaserResolverTest extends TestCase
             '',
             '',
             '',
-            null,
             TestResourceFactory::create($data)
         );
     }
