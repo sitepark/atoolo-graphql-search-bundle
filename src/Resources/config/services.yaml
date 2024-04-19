@@ -62,10 +62,27 @@ services:
         tags:
             - { name: 'atoolo_graphql_search.resolver', priority: 10 }
 
-    Atoolo\GraphQL\Search\Resolver\ArticleTeaserFactory:
+    Atoolo\GraphQL\Search\Resolver\NewsTeaserResolver:
+      arguments:
+        - '@Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver'
+      tags:
+        - { name: 'atoolo_graphql_search.resolver', priority: 5 }
+
+    atoolo_graphql_search.resolver.fallbackTeaserFactory:
+      class: 'Atoolo\GraphQL\Search\Resolver\ArticleTeaserFactory'
       arguments:
         - '@atoolo_graphql_search.resolver.urlRewriter'
         - '@atoolo.resource.navigationHierarchyLoader'
+
+#
+#    First of all, just as an example of how a TeaserFactor can be structured.
+#
+#    atoolo_graphql_search.resolver.newsTeaserFactory:
+#      class: 'Atoolo\GraphQL\Search\Resolver\NewsTeaserFactory'
+#      arguments:
+#        - '@atoolo_graphql_search.resolver.urlRewriter'
+#      tags:
+#          - { name: 'atoolo_graphql_search.teaserFactory', objectType: 'news' }
 
     atoolo_graphql_search.resolver.mediaTeaserFactory:
       class : 'Atoolo\GraphQL\Search\Resolver\MediaTeaserFactory'
@@ -84,5 +101,5 @@ services:
     Atoolo\GraphQL\Search\Resolver\DelegatingTeaserFactory:
       arguments:
         - !tagged_iterator { tag: 'atoolo_graphql_search.teaserFactory', index_by: 'objectType' }
-        - '@Atoolo\GraphQL\Search\Resolver\ArticleTeaserFactory' # fallback factory
+        - '@atoolo_graphql_search.resolver.fallbackTeaserFactory'
 

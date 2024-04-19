@@ -18,7 +18,7 @@ class DateTime
 {
     public static function serialize(\DateTime $value): string
     {
-        return $value->format(DateTimeInterface::RFC3339);
+        return $value->format(DateTimeInterface::ATOM);
     }
 
     /**

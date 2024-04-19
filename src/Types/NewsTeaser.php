@@ -9,14 +9,12 @@ use Atoolo\Resource\Resource;
 /**
  * @codeCoverageIgnore
  */
-class ArticleTeaser extends Teaser
+class NewsTeaser extends Teaser
 {
     public function __construct(
         ?string $url,
         public readonly ?string $headline,
-        public readonly ?string $text
-        public readonly ?string $kicker,
-        public readonly ?Asset $asset,
+        public readonly ?string $text,
         public readonly Resource $resource
     ) {
         parent::__construct($url);

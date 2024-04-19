@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Resolver;
+namespace Atoolo\GraphQL\Search\Service;
 
 use Symfony\Component\DependencyInjection\EnvVarLoaderInterface;
 use Symfony\Component\Dotenv\Dotenv;
@@ -10,6 +10,14 @@ use Symfony\Component\Dotenv\Dotenv;
 class EnvVarLoader implements EnvVarLoaderInterface
 {
     private const IES_WEBNODE_SOLR_PORT = '8382';
+
+    private readonly string $baseDir;
+
+    public function __construct(
+        string $baseDir = null
+    ) {
+        $this->baseDir = $baseDir ?? (getcwd() ?: '');
+    }
 
     public function loadEnvVars(): array
     {
@@ -22,28 +30,29 @@ class EnvVarLoader implements EnvVarLoaderInterface
                 $env['RESOURCE_ROOT'] = $resourceRoot;
             }
         }
+        $solrUrl = $_SERVER['SOLR_URL'] ?? '';
 
-        if (!isset($_SERVER['SOLR_URL']) && !empty($resourceRoot)) {
+        if (empty($solrUrl) && !empty($resourceRoot)) {
             $solrUrl = $this->determineSolrUrl($resourceRoot);
-            if (!empty($solrUrl)) {
-                $url = parse_url($solrUrl);
-                $scheme = $url['scheme'] ?? 'http';
-                $host = $url['host'] ?? 'localhost';
-                $port = (string)(
-                    $url['port'] ??
-                    (
-                        $scheme === 'https' ?
-                            '443' :
-                            self::IES_WEBNODE_SOLR_PORT
-                    )
-                );
-                $path = $url['path'] ?? '';
+        }
+        if (!empty($solrUrl)) {
+            $url = parse_url($solrUrl);
+            $scheme = $url['scheme'] ?? 'http';
+            $host = $url['host'] ?? 'localhost';
+            $port = (string)(
+                $url['port'] ??
+                (
+                    $scheme === 'https' ?
+                        '443' :
+                        self::IES_WEBNODE_SOLR_PORT
+                )
+            );
+            $path = $url['path'] ?? '';
 
-                $env['SOLR_SCHEME'] = $scheme;
-                $env['SOLR_HOST'] = $host;
-                $env['SOLR_PORT'] = $port;
-                $env['SOLR_PATH'] = $path;
-            }
+            $env['SOLR_SCHEME'] = $scheme;
+            $env['SOLR_HOST'] = $host;
+            $env['SOLR_PORT'] = $port;
+            $env['SOLR_PATH'] = $path;
         }
 
         return $env;
@@ -51,15 +60,17 @@ class EnvVarLoader implements EnvVarLoaderInterface
 
     private function determineResourceRoot(): string
     {
-        $binDir = dirname($_SERVER['SCRIPT_FILENAME']);
-        $appDir = dirname($binDir);
-        $hostDir = dirname($appDir);
-
         /** @var string[] $directories */
         $directories = [
-            $hostDir,
-            getcwd()
+            $this->baseDir
         ];
+
+        if (isset($_SERVER['SCRIPT_FILENAME'])) {
+            $binDir = dirname($_SERVER['SCRIPT_FILENAME']);
+            $appDir = dirname($binDir);
+            $hostDir = dirname($appDir);
+            $directories[] = $hostDir;
+        }
 
         foreach ($directories as $dir) {
             $realpath = realpath($dir);

@@ -115,11 +115,13 @@ class ResolverMapRegistry extends ResolverMap
             $fieldName = $info->fieldName;
             if (isset($fieldMap[$fieldName])) {
                 $resolverMethod = $fieldMap[$fieldName];
-                return $this->invokeGetter(
-                    $resolverMethod,
-                    $value,
-                    $args
-                );
+                if ($resolverMethod instanceof ResolverMethod) {
+                    return $this->invokeGetter(
+                        $resolverMethod,
+                        $value,
+                        $args
+                    );
+                }
             }
 
             return $this->resolveProperty($value, $fieldName);

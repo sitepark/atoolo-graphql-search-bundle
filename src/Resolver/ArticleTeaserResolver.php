@@ -9,6 +9,8 @@ use Atoolo\GraphQL\Search\Types\Asset;
 use Atoolo\GraphQL\Search\Types\Image;
 use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
 use Atoolo\GraphQL\Search\Types\ImageSource;
+use Atoolo\Resource\Resource;
+use DateTime;
 use InvalidArgumentException;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use Psr\Log\LoggerInterface;
@@ -39,13 +41,35 @@ class ArticleTeaserResolver implements Resolver
     ) {
     }
 
+    public function getDate(
+        ArticleTeaser $teaser
+    ): ?DateTime {
+        return $this->getDateFromResource($teaser->resource);
+    }
+
+    public function getDateFromResource(
+        Resource $resource,
+    ): ?DateTime {
+        $timestamp = $resource->data->getInt('base.teaser.date');
+        $date = new DateTime();
+        $date->setTimestamp($timestamp);
+        return $date;
+    }
+
     public function getAsset(
         ArticleTeaser $teaser,
         ArgumentInterface $args
     ): ?Asset {
+        return $this->getAssetFromResource($teaser->resource, $args);
+    }
+
+    public function getAssetFromResource(
+        Resource $resource,
+        ArgumentInterface $args
+    ): ?Asset {
 
         /** @var ImageData|array{} $imageData */
-        $imageData = $teaser->resource->data->getAssociativeArray(
+        $imageData = $resource->data->getAssociativeArray(
             'base.teaser.image'
         );
         if (empty($imageData)) {
@@ -60,7 +84,7 @@ class ArticleTeaserResolver implements Resolver
             $this->logger->error(
                 'Invalid characteristic for teaser image',
                 [
-                    'resource' => $teaser->resource->location,
+                    'resource' => $resource->location,
                     'exception' => $e
                 ]
             );
