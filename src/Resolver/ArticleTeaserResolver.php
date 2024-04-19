@@ -10,6 +10,7 @@ use Atoolo\GraphQL\Search\Types\Image;
 use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
 use Atoolo\GraphQL\Search\Types\ImageSource;
 use Atoolo\Resource\Resource;
+use Atoolo\Resource\ResourceHierarchyLoader;
 use DateTime;
 use InvalidArgumentException;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
@@ -37,9 +38,39 @@ class ArticleTeaserResolver implements Resolver
 {
     public function __construct(
         private readonly UrlRewriter $urlRewriter,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
+        private readonly ResourceHierarchyLoader $navigationLoader
     ) {
     }
+
+    public function getKicker(
+        ArticleTeaser $teaser
+    ): ?string {
+        return $this->getKickerFromResource($teaser->resource);
+    }
+
+    public function getKickerFromResource(
+        Resource $resource,
+    ): ?string {
+        $kicker = $resource->data->getString(
+            'base.teaser.kicker',
+            $resource->data->getString('base.kicker')
+        );
+        if (!empty($kicker)) {
+            return $kicker;
+        }
+        $primaryPath = $this->navigationLoader->loadPrimaryPath(
+            $resource->toLocation()
+        );
+        for ($i = count($primaryPath) - 1; $i >= 1; $i--) {
+            $kicker = $primaryPath[$i]->data->getString('base.kicker');
+            if (!empty($kicker)) {
+                return $kicker;
+            }
+        }
+        return null;
+    }
+
 
     public function getDate(
         ArticleTeaser $teaser

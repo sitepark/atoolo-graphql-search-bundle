@@ -33,17 +33,11 @@ class MediaTeaserFactory implements TeaserFactory
         $text = $resource->data->getString('base.teaser.text');
         $contentType = $resource->data->getString('base.mime');
         $contentLength = $resource->data->getInt('base.filesize');
-        $kicker = $resource->data->getString(
-            'base.teaser.kicker',
-            $resource->data->getString('base.kicker')
-        );
-        $kicker = empty($kicker) ? null : $kicker;
 
         return new MediaTeaser(
             $url,
             $headline,
             $text,
-            $kicker,
             $contentType,
             $contentLength,
             null,

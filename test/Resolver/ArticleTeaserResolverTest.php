@@ -11,6 +11,7 @@ use Atoolo\GraphQL\Search\Types\ArticleTeaser;
 use Atoolo\GraphQL\Search\Types\Image;
 use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
 use Atoolo\GraphQL\Search\Types\ImageSource;
+use Atoolo\Resource\ResourceHierarchyLoader;
 use DateTime;
 use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
@@ -28,13 +29,18 @@ class ArticleTeaserResolverTest extends TestCase
 
     private LoggerInterface&MockObject $logger;
 
+    private ResourceHierarchyLoader $navigationLoader;
+
     public function setUp(): void
     {
         $this->urlRewriter = $this->createStub(UrlRewriter::class);
         $this->logger = $this->createMock(LoggerInterface::class);
+        $this->navigationLoader =
+            $this->createMock(ResourceHierarchyLoader::class);
         $this->resolver = new ArticleTeaserResolver(
             $this->urlRewriter,
-            $this->logger
+            $this->logger,
+            $this->navigationLoader
         );
     }
 
@@ -61,6 +67,24 @@ class ArticleTeaserResolverTest extends TestCase
         );
     }
 
+    public function testGetKicker(): void
+    {
+        $kicker = 'Kicker';
+        $teaser = $this->createArticleTeaser([
+            'base' => [
+                'teaser' => [
+                    'kicker' => $kicker
+                ],
+                'kicker' => 'Unused Kicker'
+            ]
+        ]);
+        $this->assertEquals(
+            $kicker,
+            $this->resolver->getKicker($teaser),
+            'unexpected teaser date'
+        );
+    }
+
     public function testGetAssertWithoutImage(): void
     {
         $teaser = $this->createArticleTeaser([]);
@@ -77,7 +101,7 @@ class ArticleTeaserResolverTest extends TestCase
     public function testGetAssertWithImage(): void
     {
         $this->urlRewriter->method('rewrite')
-            ->willReturnCallback(fn($type, $url) => $url);
+            ->willReturnCallback(fn ($type, $url) => $url);
 
         $teaser = $this->createArticleTeaserWithImage(
             [
@@ -140,7 +164,7 @@ class ArticleTeaserResolverTest extends TestCase
     public function testGetAssertWithImageAndInvalidCharacteristic(): void
     {
         $this->urlRewriter->method('rewrite')
-            ->willReturnCallback(fn($type, $url) => $url);
+            ->willReturnCallback(fn ($type, $url) => $url);
 
         $this->logger->expects($this->once())->method('error');
 
@@ -161,22 +185,20 @@ class ArticleTeaserResolverTest extends TestCase
             '',
             '',
             '',
-            '',
             null,
             TestResourceFactory::create([
-                    'base' => [
-                        'teaser' => [
-                            'image' => $imageData
-                        ]
+                'base' => [
+                    'teaser' => [
+                        'image' => $imageData
                     ]
-                ])
+                ]
+            ])
         );
     }
 
     private function createArticleTeaser(array $data): ArticleTeaser
     {
         return new ArticleTeaser(
-            '',
             '',
             '',
             '',

@@ -59,8 +59,15 @@ services:
         arguments:
           - '@atoolo_graphql_search.resolver.urlRewriter'
           - '@logger'
+          - '@atoolo.resource.navigationHierarchyLoader'
         tags:
             - { name: 'atoolo_graphql_search.resolver', priority: 10 }
+
+    Atoolo\GraphQL\Search\Resolver\MediaTeaserResolver:
+      arguments:
+        - '@Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver'
+      tags:
+        - { name: 'atoolo_graphql_search.resolver', priority: 10 }
 
     Atoolo\GraphQL\Search\Resolver\NewsTeaserResolver:
       arguments:
@@ -72,7 +79,6 @@ services:
       class: 'Atoolo\GraphQL\Search\Resolver\ArticleTeaserFactory'
       arguments:
         - '@atoolo_graphql_search.resolver.urlRewriter'
-        - '@atoolo.resource.navigationHierarchyLoader'
 
 #
 #    First of all, just as an example of how a TeaserFactor can be structured.
