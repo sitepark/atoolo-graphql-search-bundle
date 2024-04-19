@@ -52,7 +52,7 @@ class ArticleTeaserFactory implements TeaserFactory
         }
         $primaryPath = $this->navigationLoader->loadPrimaryPath($resource->toLocation());
         for ($i = count($primaryPath) - 1; $i >= 1; $i--) {
-            $kicker = $primaryPath[$i]?->data->getString('base.kicker');
+            $kicker = $primaryPath[$i]->data->getString('base.kicker');
             if (!empty($kicker)) {
                 return $kicker;
             }
