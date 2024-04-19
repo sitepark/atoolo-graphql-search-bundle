@@ -41,6 +41,20 @@ class SelectQueryFactoryTest extends TestCase
         );
     }
 
+    public function testCreateWithAndQueryOperator(): void
+    {
+        $input = new SearchInput();
+        $input->defaultQueryOperator = QueryOperator::AND;
+        $factory = new SearchQueryFactory();
+        $query = $factory->create($input);
+
+        $this->assertEquals(
+            \Atoolo\Search\Dto\Search\Query\QueryOperator::AND,
+            $query->defaultQueryOperator,
+            'limit expected'
+        );
+    }
+
     public function testCreateWithOffset(): void
     {
         $input = new SearchInput();

@@ -25,6 +25,17 @@ class IndexerTest extends TestCase
         $indexer->index();
     }
 
+    public function testUpdate(): void
+    {
+        $backgroundIndexer = $this->createMock(BackgroundIndexer::class);
+        $backgroundIndexer->expects($this->once())
+            ->method('update');
+        $limitIncreaser = $this->createStub(PhpLimitIncreaser::class);
+
+        $indexer = new Indexer($backgroundIndexer, $limitIncreaser);
+        $indexer->indexUpdate(['/index.php']);
+    }
+
     public function testRemove(): void
     {
         $backgroundIndexer = $this->createMock(BackgroundIndexer::class);

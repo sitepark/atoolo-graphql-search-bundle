@@ -73,7 +73,6 @@ class ResolverMapRegistryTest extends TestCase
             'url',
             'headline',
             'text',
-            null,
             $this->createStub(Resource::class)
         );
         $fn = $registry->resolve(
@@ -103,7 +102,6 @@ class ResolverMapRegistryTest extends TestCase
             'url',
             'headline',
             'text',
-            null,
             $this->createStub(Resource::class)
         );
 

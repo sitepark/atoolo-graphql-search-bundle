@@ -11,6 +11,7 @@ use Atoolo\GraphQL\Search\Types\ArticleTeaser;
 use Atoolo\GraphQL\Search\Types\Image;
 use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
 use Atoolo\GraphQL\Search\Types\ImageSource;
+use DateTime;
 use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -34,6 +35,29 @@ class ArticleTeaserResolverTest extends TestCase
         $this->resolver = new ArticleTeaserResolver(
             $this->urlRewriter,
             $this->logger
+        );
+    }
+
+    public function testGetDate(): void
+    {
+        $date = new DateTime();
+        $date->setDate(19, 4, 2024);
+        $date->setTime(9, 28);
+
+        $teaser = $this->createArticleTeaser([
+            'base' => [
+                'teaser' => [
+                    'date' => $date->getTimestamp()
+                ]
+            ]
+        ]);
+
+        $teaserDate = $this->resolver->getDate($teaser);
+
+        $this->assertEquals(
+            $date,
+            $teaserDate,
+            'unexpected teaser date'
         );
     }
 
@@ -137,7 +161,6 @@ class ArticleTeaserResolverTest extends TestCase
             '',
             '',
             '',
-            null,
             TestResourceFactory::create([
                     'base' => [
                         'teaser' => [
@@ -154,7 +177,6 @@ class ArticleTeaserResolverTest extends TestCase
             '',
             '',
             '',
-            null,
             TestResourceFactory::create($data)
         );
     }

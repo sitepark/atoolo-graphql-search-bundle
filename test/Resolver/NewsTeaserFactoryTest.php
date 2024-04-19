@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Resolver;
 
-use Atoolo\GraphQL\Search\Resolver\ArticleTeaserFactory;
+use Atoolo\GraphQL\Search\Resolver\NewsTeaserFactory;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
 use Atoolo\Resource\DataBag;
 use Atoolo\Resource\Resource;
@@ -12,17 +12,17 @@ use Atoolo\Resource\ResourceLanguage;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(ArticleTeaserFactory::class)]
-class ArticleTeaserFactoryTest extends TestCase
+#[CoversClass(NewsTeaserFactory::class)]
+class NewsTeaserFactoryTest extends TestCase
 {
-    private ArticleTeaserFactory $factory;
+    private NewsTeaserFactory $factory;
 
     private UrlRewriter $urlRewriter;
 
     public function setUp(): void
     {
         $this->urlRewriter = $this->createStub(UrlRewriter::class);
-        $this->factory = new ArticleTeaserFactory(
+        $this->factory = new NewsTeaserFactory(
             $this->urlRewriter,
         );
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Resolver;
+namespace Atoolo\GraphQL\Search\Service;
 
 use Symfony\Component\DependencyInjection\EnvVarLoaderInterface;
 use Symfony\Component\Dotenv\Dotenv;
@@ -10,6 +10,14 @@ use Symfony\Component\Dotenv\Dotenv;
 class EnvVarLoader implements EnvVarLoaderInterface
 {
     private const IES_WEBNODE_SOLR_PORT = '8382';
+
+    private readonly string $baseDir;
+
+    public function __construct(
+        string $baseDir = null
+    ) {
+        $this->baseDir = $baseDir ?? (getcwd() ?: '');
+    }
 
     public function loadEnvVars(): array
     {
@@ -51,15 +59,17 @@ class EnvVarLoader implements EnvVarLoaderInterface
 
     private function determineResourceRoot(): string
     {
-        $binDir = dirname($_SERVER['SCRIPT_FILENAME']);
-        $appDir = dirname($binDir);
-        $hostDir = dirname($appDir);
-
         /** @var string[] $directories */
         $directories = [
-            $hostDir,
-            getcwd()
+            $this->baseDir
         ];
+
+        if (isset($_SERVER['SCRIPT_FILENAME'])) {
+            $binDir = dirname($_SERVER['SCRIPT_FILENAME']);
+            $appDir = dirname($binDir);
+            $hostDir = dirname($appDir);
+            $directories[] = $hostDir;
+        }
 
         foreach ($directories as $dir) {
             $realpath = realpath($dir);
