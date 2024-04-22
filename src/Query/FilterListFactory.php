@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Query;
 
 use Atoolo\GraphQL\Search\Input\InputFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\AbsoluteDateRangeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\AndFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ArchiveFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\CategoryFilter;
@@ -51,6 +52,7 @@ class FilterListFactory
             ?? $this->tryCreateCategoryFilter($filter)
             ?? $this->tryCreateSiteFilter($filter)
             ?? $this->tryCreateGroupFilter($filter)
+            ?? $this->tryCreateAbsoluteDateRangeFilter($filter)
             ?? $this->tryCreateAndFilter($filter)
             ?? $this->tryCreateOrFilter($filter)
             ?? $this->tryCreateNotFilter($filter)
@@ -106,6 +108,18 @@ class FilterListFactory
     ): ?GroupFilter {
         return !empty($filter->groups)
             ? new GroupFilter($filter->groups, $filter->key)
+            : null;
+    }
+
+    private function tryCreateAbsoluteDateRangeFilter(
+        InputFilter $filter
+    ): ?AbsoluteDateRangeFilter {
+        return ($filter->absoluteDateRange != null)
+            ? new AbsoluteDateRangeFilter(
+                $filter->absoluteDateRange->from,
+                $filter->absoluteDateRange->to,
+                $filter->key
+            )
             : null;
     }
 

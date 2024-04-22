@@ -45,6 +45,9 @@ class InputFilter
     #[GQL\Field(type:"[String!]")]
     public ?array $groups = null;
 
+    #[GQL\Field(type:"AbsoluteDateRangeInputFilter")]
+    public ?AbsoluteDateRangeInputFilter $absoluteDateRange = null;
+
     #[GQL\Field(type:"Boolean")]
     public ?bool $archive = null;
 
