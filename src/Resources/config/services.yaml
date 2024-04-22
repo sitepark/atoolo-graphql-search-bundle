@@ -53,20 +53,20 @@ services:
             - '@atoolo.resource.navigationHierarchyLoader'
             - '@atoolo.resource.categoryHierarchyLoader'
         tags:
-            - { name: 'atoolo_graphql_search.resolver', priority: 10 }
+            - { name: 'atoolo_graphql_search.resolver' }
 
     Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver:
         arguments:
           - '@atoolo_graphql_search.resolver.urlRewriter'
           - '@logger'
         tags:
-            - { name: 'atoolo_graphql_search.resolver', priority: 10 }
+            - { name: 'atoolo_graphql_search.resolver' }
 
     Atoolo\GraphQL\Search\Resolver\NewsTeaserResolver:
       arguments:
         - '@Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver'
       tags:
-        - { name: 'atoolo_graphql_search.resolver', priority: 5 }
+        - { name: 'atoolo_graphql_search.resolver' }
 
     atoolo_graphql_search.resolver.fallbackTeaserFactory:
       class: 'Atoolo\GraphQL\Search\Resolver\ArticleTeaserFactory'
