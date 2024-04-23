@@ -52,7 +52,9 @@ class ArticleTeaserResolverTest extends TestCase
                 return $resource;
             });
 
-        $this->hierarchyLoader = new SiteKitNavigationHierarchyLoader($resourceLoader);
+        $this->hierarchyLoader = new SiteKitNavigationHierarchyLoader(
+            $resourceLoader
+        );
         $this->urlRewriter = $this->createStub(UrlRewriter::class);
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->resolver = new ArticleTeaserResolver(
