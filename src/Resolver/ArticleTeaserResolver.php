@@ -40,7 +40,7 @@ class ArticleTeaserResolver implements Resolver
     public function __construct(
         private readonly UrlRewriter $urlRewriter,
         private readonly LoggerInterface $logger,
-        private readonly ResourceHierarchyLoader $navigationLoader
+        private readonly ResourceHierarchyLoader $hierarchyLoader
     ) {
     }
 
@@ -60,7 +60,7 @@ class ArticleTeaserResolver implements Resolver
         if (!empty($kickerText)) {
             return $kickerText;
         }
-        $walker = new ResourceHierarchyWalker($this->navigationLoader);
+        $walker = new ResourceHierarchyWalker($this->hierarchyLoader);
         $walker->init($resource);
         while ($parent = $walker->primaryParent()) {
             $kickerText = $parent->data->getString('base.kicker');

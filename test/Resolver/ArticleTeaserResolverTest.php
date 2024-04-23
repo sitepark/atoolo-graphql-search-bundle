@@ -11,12 +11,15 @@ use Atoolo\GraphQL\Search\Types\ArticleTeaser;
 use Atoolo\GraphQL\Search\Types\Image;
 use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
 use Atoolo\GraphQL\Search\Types\ImageSource;
+use Atoolo\Resource\Loader\SiteKitNavigationHierarchyLoader;
 use Atoolo\Resource\ResourceHierarchyLoader;
+use Atoolo\Resource\ResourceLoader;
 use DateTime;
 use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -25,24 +28,40 @@ class ArticleTeaserResolverTest extends TestCase
 {
     private ArticleTeaserResolver $resolver;
 
-    private UrlRewriter $urlRewriter;
+    private UrlRewriter&Stub $urlRewriter;
 
     private LoggerInterface&MockObject $logger;
 
-    private ResourceHierarchyLoader $navigationLoader;
+    private ResourceHierarchyLoader $hierarchyLoader;
 
     public function setUp(): void
     {
+        $resourceBaseDir = realpath(
+            __DIR__ . '/../resources/' .
+                'ArticleTeaserResolver'
+        );
+        $resourceLoader = $this->createStub(
+            ResourceLoader::class
+        );
+        $resourceLoader->method('load')
+            ->willReturnCallback(static function ($location) use (
+                $resourceBaseDir
+            ) {
+                $resource =  include $resourceBaseDir . $location->location;
+                $error = error_get_last();
+                return $resource;
+            });
+
+        $this->hierarchyLoader = new SiteKitNavigationHierarchyLoader($resourceLoader);
         $this->urlRewriter = $this->createStub(UrlRewriter::class);
         $this->logger = $this->createMock(LoggerInterface::class);
-        $this->navigationLoader =
-            $this->createMock(ResourceHierarchyLoader::class);
         $this->resolver = new ArticleTeaserResolver(
             $this->urlRewriter,
             $this->logger,
-            $this->navigationLoader
+            $this->hierarchyLoader
         );
     }
+
 
     public function testGetDate(): void
     {
@@ -69,19 +88,53 @@ class ArticleTeaserResolverTest extends TestCase
 
     public function testGetKicker(): void
     {
-        $kicker = 'Kicker';
-        $teaser = $this->createArticleTeaser([
+        $teaserA = $this->createArticleTeaser([
             'base' => [
                 'teaser' => [
-                    'kicker' => $kicker
+                    'kicker' => 'Teaser-Kicker'
                 ],
-                'kicker' => 'Unused Kicker'
+                'kicker' => 'Base-Kicker'
             ]
         ]);
+        $teaserB = $this->createArticleTeaser([
+            'base' => [
+                'kicker' => 'Base-Kicker'
+            ]
+        ]);
+        $teaserC = $this->createArticleTeaser([
+            'base' => [
+                'trees' => [
+                    'navigation' => [
+                        'parents' => [
+                            'parent' => [
+                                'id' => 'parent',
+                                'url' => '/parent.php'
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+        $teaserD = $this->createArticleTeaser([]);
         $this->assertEquals(
-            $kicker,
-            $this->resolver->getKicker($teaser),
-            'unexpected teaser date'
+            'Teaser-Kicker',
+            $this->resolver->getKicker($teaserA),
+            'unexpected teaser kicker'
+        );
+        $this->assertEquals(
+            'Base-Kicker',
+            $this->resolver->getKicker($teaserB),
+            'unexpected teaser kicker'
+        );
+        $this->assertEquals(
+            'Parent-Kicker',
+            $this->resolver->getKicker($teaserC),
+            'unexpected teaser kicker'
+        );
+        $this->assertEquals(
+            null,
+            $this->resolver->getKicker($teaserD),
+            'unexpected teaser kicker'
         );
     }
 
