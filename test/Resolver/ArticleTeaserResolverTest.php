@@ -88,9 +88,9 @@ class ArticleTeaserResolverTest extends TestCase
         );
     }
 
-    public function testGetKicker(): void
+    public function testGetKickerInTeaserData(): void
     {
-        $teaserA = $this->createArticleTeaser([
+        $teaser = $this->createArticleTeaser([
             'base' => [
                 'teaser' => [
                     'kicker' => 'Teaser-Kicker'
@@ -98,12 +98,30 @@ class ArticleTeaserResolverTest extends TestCase
                 'kicker' => 'Base-Kicker'
             ]
         ]);
-        $teaserB = $this->createArticleTeaser([
+        $this->assertEquals(
+            'Teaser-Kicker',
+            $this->resolver->getKicker($teaser),
+            'unexpected teaser kicker'
+        );
+    }
+
+    public function testGetKickerInBaseData(): void
+    {
+        $teaser = $this->createArticleTeaser([
             'base' => [
                 'kicker' => 'Base-Kicker'
             ]
         ]);
-        $teaserC = $this->createArticleTeaser([
+        $this->assertEquals(
+            'Base-Kicker',
+            $this->resolver->getKicker($teaser),
+            'unexpected teaser kicker'
+        );
+    }
+
+    public function testGetKickerInherited(): void
+    {
+        $teaser = $this->createArticleTeaser([
             'base' => [
                 'trees' => [
                     'navigation' => [
@@ -117,25 +135,9 @@ class ArticleTeaserResolverTest extends TestCase
                 ]
             ]
         ]);
-        $teaserD = $this->createArticleTeaser([]);
-        $this->assertEquals(
-            'Teaser-Kicker',
-            $this->resolver->getKicker($teaserA),
-            'unexpected teaser kicker'
-        );
-        $this->assertEquals(
-            'Base-Kicker',
-            $this->resolver->getKicker($teaserB),
-            'unexpected teaser kicker'
-        );
         $this->assertEquals(
             'Parent-Kicker',
-            $this->resolver->getKicker($teaserC),
-            'unexpected teaser kicker'
-        );
-        $this->assertEquals(
-            null,
-            $this->resolver->getKicker($teaserD),
+            $this->resolver->getKicker($teaser),
             'unexpected teaser kicker'
         );
     }
