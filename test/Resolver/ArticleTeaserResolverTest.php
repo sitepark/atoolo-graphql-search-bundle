@@ -11,11 +11,15 @@ use Atoolo\GraphQL\Search\Types\ArticleTeaser;
 use Atoolo\GraphQL\Search\Types\Image;
 use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
 use Atoolo\GraphQL\Search\Types\ImageSource;
+use Atoolo\Resource\Loader\SiteKitNavigationHierarchyLoader;
+use Atoolo\Resource\ResourceHierarchyLoader;
+use Atoolo\Resource\ResourceLoader;
 use DateTime;
 use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -24,19 +28,42 @@ class ArticleTeaserResolverTest extends TestCase
 {
     private ArticleTeaserResolver $resolver;
 
-    private UrlRewriter $urlRewriter;
+    private UrlRewriter&Stub $urlRewriter;
 
     private LoggerInterface&MockObject $logger;
 
+    private ResourceHierarchyLoader $hierarchyLoader;
+
     public function setUp(): void
     {
+        $resourceBaseDir = realpath(
+            __DIR__ . '/../resources/' .
+                'ArticleTeaserResolver'
+        );
+        $resourceLoader = $this->createStub(
+            ResourceLoader::class
+        );
+        $resourceLoader->method('load')
+            ->willReturnCallback(static function ($location) use (
+                $resourceBaseDir
+            ) {
+                $resource =  include $resourceBaseDir . $location->location;
+                $error = error_get_last();
+                return $resource;
+            });
+
+        $this->hierarchyLoader = new SiteKitNavigationHierarchyLoader(
+            $resourceLoader
+        );
         $this->urlRewriter = $this->createStub(UrlRewriter::class);
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->resolver = new ArticleTeaserResolver(
             $this->urlRewriter,
-            $this->logger
+            $this->logger,
+            $this->hierarchyLoader
         );
     }
+
 
     public function testGetDate(): void
     {
@@ -61,6 +88,60 @@ class ArticleTeaserResolverTest extends TestCase
         );
     }
 
+    public function testGetKickerInTeaserData(): void
+    {
+        $teaser = $this->createArticleTeaser([
+            'base' => [
+                'teaser' => [
+                    'kicker' => 'Teaser-Kicker'
+                ],
+                'kicker' => 'Base-Kicker'
+            ]
+        ]);
+        $this->assertEquals(
+            'Teaser-Kicker',
+            $this->resolver->getKicker($teaser),
+            'unexpected teaser kicker'
+        );
+    }
+
+    public function testGetKickerInBaseData(): void
+    {
+        $teaser = $this->createArticleTeaser([
+            'base' => [
+                'kicker' => 'Base-Kicker'
+            ]
+        ]);
+        $this->assertEquals(
+            'Base-Kicker',
+            $this->resolver->getKicker($teaser),
+            'unexpected teaser kicker'
+        );
+    }
+
+    public function testGetKickerInherited(): void
+    {
+        $teaser = $this->createArticleTeaser([
+            'base' => [
+                'trees' => [
+                    'navigation' => [
+                        'parents' => [
+                            'parent' => [
+                                'id' => 'parent',
+                                'url' => '/parent.php'
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+        $this->assertEquals(
+            'Parent-Kicker',
+            $this->resolver->getKicker($teaser),
+            'unexpected teaser kicker'
+        );
+    }
+
     public function testGetAssertWithoutImage(): void
     {
         $teaser = $this->createArticleTeaser([]);
@@ -77,7 +158,7 @@ class ArticleTeaserResolverTest extends TestCase
     public function testGetAssertWithImage(): void
     {
         $this->urlRewriter->method('rewrite')
-            ->willReturnCallback(fn($type, $url) => $url);
+            ->willReturnCallback(fn ($type, $url) => $url);
 
         $teaser = $this->createArticleTeaserWithImage(
             [
@@ -140,7 +221,7 @@ class ArticleTeaserResolverTest extends TestCase
     public function testGetAssertWithImageAndInvalidCharacteristic(): void
     {
         $this->urlRewriter->method('rewrite')
-            ->willReturnCallback(fn($type, $url) => $url);
+            ->willReturnCallback(fn ($type, $url) => $url);
 
         $this->logger->expects($this->once())->method('error');
 
@@ -162,12 +243,12 @@ class ArticleTeaserResolverTest extends TestCase
             '',
             '',
             TestResourceFactory::create([
-                    'base' => [
-                        'teaser' => [
-                            'image' => $imageData
-                        ]
+                'base' => [
+                    'teaser' => [
+                        'image' => $imageData
                     ]
-                ])
+                ]
+            ])
         );
     }
 

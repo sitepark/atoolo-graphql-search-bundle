@@ -59,6 +59,7 @@ services:
         arguments:
           - '@atoolo_graphql_search.resolver.urlRewriter'
           - '@logger'
+          - '@atoolo.resource.navigationHierarchyLoader'
         tags:
             - { name: 'atoolo_graphql_search.resolver' }
 

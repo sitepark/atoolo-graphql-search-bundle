@@ -23,7 +23,7 @@ class ArticleTeaserFactoryTest extends TestCase
     {
         $this->urlRewriter = $this->createStub(UrlRewriter::class);
         $this->factory = new ArticleTeaserFactory(
-            $this->urlRewriter,
+            $this->urlRewriter
         );
     }
 
