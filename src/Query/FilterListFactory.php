@@ -16,6 +16,7 @@ use Atoolo\Search\Dto\Search\Query\Filter\NotFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ObjectTypeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\OrFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\QueryFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\RelativeDateRangeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SiteFilter;
 use InvalidArgumentException;
 
@@ -53,6 +54,7 @@ class FilterListFactory
             ?? $this->tryCreateSiteFilter($filter)
             ?? $this->tryCreateGroupFilter($filter)
             ?? $this->tryCreateAbsoluteDateRangeFilter($filter)
+            ?? $this->tryCreateRelativeDateRangeFilter($filter)
             ?? $this->tryCreateAndFilter($filter)
             ?? $this->tryCreateOrFilter($filter)
             ?? $this->tryCreateNotFilter($filter)
@@ -122,6 +124,20 @@ class FilterListFactory
             )
             : null;
     }
+
+    private function tryCreateRelativeDateRangeFilter(
+        InputFilter $filter
+    ): ?RelativeDateRangeFilter {
+        return ($filter->relativeDateRange != null)
+            ? new RelativeDateRangeFilter(
+                $filter->relativeDateRange->base,
+                $filter->relativeDateRange->before,
+                $filter->relativeDateRange->after,
+                $filter->key
+            )
+            : null;
+    }
+
 
     private function tryCreateAndFilter(
         InputFilter $filter

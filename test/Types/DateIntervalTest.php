@@ -4,33 +4,31 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Types;
 
-use Atoolo\GraphQL\Search\Types\DateTime;
-use DateTimeInterface;
+use Atoolo\GraphQL\Search\Types\DateInterval;
 use GraphQL\Language\AST\Node;
 use GraphQL\Language\AST\StringValueNode;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(DateTime::class)]
-class DateTimeTest extends TestCase
+#[CoversClass(DateInterval::class)]
+class DateIntervalTest extends TestCase
 {
     public function testSerialize(): void
     {
-        $value = new \DateTime('2021-01-01T00:00:00+00:00');
+        $value = new \DateInterval('P1Y2M2DT2H30M10S');
         self::assertSame(
-            '2021-01-01T00:00:00+00:00',
-            DateTime::serialize($value)
+            'P1Y2M2DT2H30M10S',
+            DateInterval::serialize($value)
         );
     }
 
     public function testParseValue(): void
     {
-        $value = '2021-01-01T00:00:00+00:00';
-        $dateTime = DateTime::parseValue($value);
-        self::assertSame(
-            $value,
-            $dateTime->format(DateTimeInterface::RFC3339)
+        $value = 'P1Y2M2DT2H30M10S';
+        self::assertEquals(
+            new \DateInterval($value),
+            DateInterval::parseValue('P1Y2M2DT2H30M10S')
         );
     }
 
@@ -38,17 +36,16 @@ class DateTimeTest extends TestCase
     {
         $value = 'abc';
         $this->expectException(InvalidArgumentException::class);
-        DateTime::parseValue($value);
+        DateInterval::parseValue($value);
     }
 
     public function testParseLiteral(): void
     {
-        $value = '2021-01-01T00:00:00+00:00';
+        $value = 'P1Y2M2DT2H30M10S';
         $valueNode = new StringValueNode(['value' => $value]);
-        $dateTime = DateTime::parseLiteral($valueNode);
-        self::assertSame(
-            $value,
-            $dateTime->format(DateTimeInterface::RFC3339)
+        self::assertEquals(
+            new \DateInterval($value),
+            DateInterval::parseLiteral($valueNode)
         );
     }
 
@@ -56,6 +53,6 @@ class DateTimeTest extends TestCase
     {
         $valueNode = $this->createStub(Node::class);
         $this->expectException(InvalidArgumentException::class);
-        DateTime::parseLiteral($valueNode);
+        DateInterval::parseLiteral($valueNode);
     }
 }

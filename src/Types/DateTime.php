@@ -7,6 +7,7 @@ namespace Atoolo\GraphQL\Search\Types;
 use DateTimeInterface;
 use Exception;
 use GraphQL\Language\AST\Node;
+use InvalidArgumentException;
 use Overblog\GraphQLBundle\Annotation as GQL;
 
 /**
@@ -22,17 +23,17 @@ class DateTime
     }
 
     /**
-     * @throws Exception if the given value is not a valid date/time. From php
-     *                   8.3 onwards this is an \DateMalformedStringException.
+     * @throws InvalidArgumentException if the given value is not a valid
+     *  date/time string.
      */
     public static function parseValue(string $value): \DateTime
     {
-        return new \DateTime($value);
+        return self::parseDate($value);
     }
 
     /**
-     * @throws Exception if the given value is not a valid date/time. From php
-     *                   8.3 onwards this is an \DateMalformedStringException.
+     * @throws InvalidArgumentException if the given value is not a valid
+     *  date/time string.
      */
     public static function parseLiteral(Node $valueNode): \DateTime
     {
@@ -42,6 +43,21 @@ class DateTime
             );
         }
         $value = $valueNode->value;
-        return new \DateTime($value);
+        return self::parseDate($value);
+    }
+
+    /**
+     * @throws InvalidArgumentException if the given value is not a valid
+     *  date/time string.
+     */
+    private static function parseDate(string $value): \DateTime
+    {
+        try {
+            return new \DateTime($value);
+        } catch (Exception $e) {
+            throw new InvalidArgumentException(
+                'Invalid date/time string, got ' . $value
+            );
+        }
     }
 }

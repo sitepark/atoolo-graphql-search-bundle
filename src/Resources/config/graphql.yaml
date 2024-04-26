@@ -1,4 +1,8 @@
 overblog_graphql:
+  errors_handler:
+    exceptions:
+      errors:
+        - "InvalidArgumentException"
   definitions:
     schema:
       query: RootQuery

@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Query;
 
+use Atoolo\GraphQL\Search\Input\AbsoluteDateRangeInputFilter;
 use Atoolo\GraphQL\Search\Input\InputFilter;
+use Atoolo\GraphQL\Search\Input\RelativeDateRangeInputFilter;
 use Atoolo\GraphQL\Search\Query\FilterListFactory;
+use Atoolo\Search\Dto\Search\Query\Filter\AbsoluteDateRangeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\AndFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ArchiveFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\CategoryFilter;
@@ -15,7 +18,10 @@ use Atoolo\Search\Dto\Search\Query\Filter\NotFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ObjectTypeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\OrFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\QueryFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\RelativeDateRangeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SiteFilter;
+use DateInterval;
+use DateTime;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -118,6 +124,58 @@ class FilterListFactoryTest extends TestCase
         $this->assertEquals(
             [
                 new SiteFilter(['123']),
+                new ArchiveFilter()
+            ],
+            $filterList,
+            'site filter expected'
+        );
+    }
+
+    public function testCreateAbsoluteDateRangeFilter(): void
+    {
+        $dateRangeFilterInput = new AbsoluteDateRangeInputFilter();
+        $dateRangeFilterInput->from = new DateTime('2021-01-01T00:00:00+00:00');
+        $dateRangeFilterInput->to = new DateTime('2021-01-02T00:00:00+00:00');
+
+
+        $filter = new InputFilter();
+        $filter->absoluteDateRange = $dateRangeFilterInput;
+
+        $factory = new FilterListFactory();
+        $filterList = $factory->create([$filter]);
+
+        $this->assertEquals(
+            [
+                new AbsoluteDateRangeFilter(
+                    new DateTime('2021-01-01T00:00:00+00:00'),
+                    new DateTime('2021-01-02T00:00:00+00:00')
+                ),
+                new ArchiveFilter()
+            ],
+            $filterList,
+            'site filter expected'
+        );
+    }
+
+    public function testCreateRelativeDateRangeFilter(): void
+    {
+        $dateRangeFilterInput = new RelativeDateRangeInputFilter();
+        $dateRangeFilterInput->before = new DateInterval('P1D');
+
+
+        $filter = new InputFilter();
+        $filter->relativeDateRange = $dateRangeFilterInput;
+
+        $factory = new FilterListFactory();
+        $filterList = $factory->create([$filter]);
+
+        $this->assertEquals(
+            [
+                new RelativeDateRangeFilter(
+                    null,
+                    new DateInterval('P1D'),
+                    null
+                ),
                 new ArchiveFilter()
             ],
             $filterList,
