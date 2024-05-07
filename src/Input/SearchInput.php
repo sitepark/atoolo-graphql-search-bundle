@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Input;
 
 use Atoolo\GraphQL\Search\Types\QueryOperator;
+use DateTimeZone;
 use Overblog\GraphQLBundle\Annotation as GQL;
 
 /**
@@ -45,4 +46,7 @@ class SearchInput
      */
     #[GQL\Field(type:"[InputFacet!]")]
     public ?array $facets = null;
+
+    #[GQL\Field(type:"DateTimeZone")]
+    public ?DateTimeZone $timeZone = null;
 }

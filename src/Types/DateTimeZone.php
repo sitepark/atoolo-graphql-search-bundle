@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Types;
 
-use DateTimeInterface;
 use Exception;
 use GraphQL\Language\AST\Node;
 use InvalidArgumentException;
@@ -14,28 +13,28 @@ use Overblog\GraphQLBundle\Annotation as GQL;
  * This is specified by overblog/GraphQLBundle
  * https://github.com/overblog/GraphQLBundle/blob/master/docs/definitions/type-system/scalars.md#custom-scalar
  */
-#[GQL\Scalar('DateTime')]
+#[GQL\Scalar('DateTimeZone')]
 class DateTimeZone
 {
-    public static function serialize(\DateTime $value): string
+    public static function serialize(\DateTimeZone $value): string
     {
-        return $value->format(DateTimeInterface::ATOM);
+        return $value->getName();
     }
 
     /**
      * @throws InvalidArgumentException if the given value is not a valid
-     *  date/time string.
+     *  timezone string.
      */
-    public static function parseValue(string $value): \DateTime
+    public static function parseValue(string $value): \DateTimeZone
     {
-        return self::parseDate($value);
+        return self::parseTimeZone($value);
     }
 
     /**
      * @throws InvalidArgumentException if the given value is not a valid
-     *  date/time string.
+     *  timezone string.
      */
-    public static function parseLiteral(Node $valueNode): \DateTime
+    public static function parseLiteral(Node $valueNode): \DateTimeZone
     {
         if (!property_exists($valueNode, 'value')) {
             throw new \InvalidArgumentException(
@@ -43,20 +42,20 @@ class DateTimeZone
             );
         }
         $value = $valueNode->value;
-        return self::parseDate($value);
+        return self::parseTimeZone($value);
     }
 
     /**
      * @throws InvalidArgumentException if the given value is not a valid
-     *  date/time string.
+     *  timezone string.
      */
-    private static function parseDate(string $value): \DateTime
+    private static function parseTimeZone(string $value): \DateTimeZone
     {
         try {
-            return new \DateTime($value);
+            return new \DateTimeZone($value);
         } catch (Exception $e) {
             throw new InvalidArgumentException(
-                'Invalid date/time string, got ' . $value
+                'Invalid timezone, got ' . $value
             );
         }
     }

@@ -8,6 +8,7 @@ use Atoolo\GraphQL\Search\Input\AbsoluteDateRangeInputFilter;
 use Atoolo\GraphQL\Search\Input\InputFilter;
 use Atoolo\GraphQL\Search\Input\RelativeDateRangeInputFilter;
 use Atoolo\GraphQL\Search\Query\FilterListFactory;
+use Atoolo\Search\Dto\Search\Query\DateRangeRound;
 use Atoolo\Search\Dto\Search\Query\Filter\AbsoluteDateRangeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\AndFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ArchiveFilter;
@@ -161,7 +162,8 @@ class FilterListFactoryTest extends TestCase
     {
         $dateRangeFilterInput = new RelativeDateRangeInputFilter();
         $dateRangeFilterInput->before = new DateInterval('P1D');
-
+        $dateRangeFilterInput->roundStart =
+            \Atoolo\GraphQL\Search\Types\DateRangeRound::START_OF_MONTH;
 
         $filter = new InputFilter();
         $filter->relativeDateRange = $dateRangeFilterInput;
@@ -174,6 +176,8 @@ class FilterListFactoryTest extends TestCase
                 new RelativeDateRangeFilter(
                     null,
                     new DateInterval('P1D'),
+                    null,
+                    DateRangeRound::START_OF_MONTH,
                     null
                 ),
                 new ArchiveFilter()

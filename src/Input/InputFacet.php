@@ -15,8 +15,11 @@ class InputFacet
     #[GQL\Field(type:"String!")]
     public string $key;
 
-    #[GQL\Field(type:"String")]
-    public ?string $excludeFilter = null;
+    /**
+     * @var string[]
+     */
+    #[GQL\Field(type:"[String!]")]
+    public ?array $excludeFilter = null;
 
     /**
      * @var string[]
@@ -47,4 +50,10 @@ class InputFacet
      */
     #[GQL\Field(type:"[String!]")]
     public ?array $groups = null;
+
+    #[GQL\Field(type:"AbsoluteDateRangeInputFacet")]
+    public ?AbsoluteDateRangeInputFacet $absoluteDateRange = null;
+
+    #[GQL\Field(type:"RelativeDateRangeInputFacet")]
+    public ?RelativeDateRangeInputFacet $relativeDateRange = null;
 }

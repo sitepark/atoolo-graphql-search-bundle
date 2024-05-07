@@ -8,8 +8,8 @@ use Overblog\GraphQLBundle\Annotation as GQL;
  * @codeCoverageIgnore
  */
 #[GQL\Enum]
-enum SortDirection
+enum SortDirection: string
 {
-    case ASC;
-    case DESC;
+    case ASC = 'ASC';
+    case DESC = 'DESC';
 }

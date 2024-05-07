@@ -64,12 +64,16 @@ services:
       - !tagged_iterator atoolo.search.resourceFactory
       - '@logger'
 
+  atoolo.search.fieldMapper:
+    class: Atoolo\Search\Service\Search\Schema2xFieldMapper
+
   atoolo.search.search:
     class: Atoolo\Search\Service\Search\SolrSearch
     arguments:
       - '@atoolo.search.indexName'
       - '@atoolo.search.solariumClientFactory'
       - '@atoolo.search.resultToResourceResolver'
+      - '@atoolo.search.fieldMapper'
       - !tagged_iterator atoolo.search.queryModifier
 
   atoolo.search.suggest:
@@ -77,6 +81,7 @@ services:
     arguments:
       - '@atoolo.search.indexName'
       - '@atoolo.search.solariumClientFactory'
+      - '@atoolo.search.fieldMapper'
 
   atoolo.search.moreLikeThis:
     class: Atoolo\Search\Service\Search\SolrMoreLikeThis
@@ -84,3 +89,4 @@ services:
       - '@atoolo.search.indexName'
       - '@atoolo.search.solariumClientFactory'
       - '@atoolo.search.resultToResourceResolver'
+      - '@atoolo.search.fieldMapper'

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Query;
 
 use Atoolo\GraphQL\Search\Input\InputFilter;
+use Atoolo\Search\Dto\Search\Query\DateRangeRound;
 use Atoolo\Search\Dto\Search\Query\Filter\AbsoluteDateRangeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\AndFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ArchiveFilter;
@@ -133,6 +134,12 @@ class FilterListFactory
                 $filter->relativeDateRange->base,
                 $filter->relativeDateRange->before,
                 $filter->relativeDateRange->after,
+                $this->mapDateRangeRound(
+                    $filter->relativeDateRange->roundStart
+                ),
+                $this->mapDateRangeRound(
+                    $filter->relativeDateRange->roundEnd
+                ),
                 $filter->key
             )
             : null;
@@ -174,6 +181,13 @@ class FilterListFactory
     ): ?QueryFilter {
         return isset($filter->query)
             ? new QueryFilter($filter->query, $filter->key)
+            : null;
+    }
+    private function mapDateRangeRound(
+        ?\Atoolo\GraphQL\Search\Types\DateRangeRound $round
+    ): ?DateRangeRound {
+        return $round !== null
+            ? DateRangeRound::from($round->name)
             : null;
     }
 }

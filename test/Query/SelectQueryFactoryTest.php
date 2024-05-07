@@ -230,4 +230,19 @@ class SelectQueryFactoryTest extends TestCase
             'facets expected'
         );
     }
+
+    public function testCreateWithTimeZone(): void
+    {
+        $input = new SearchInput();
+        $input->timeZone = new \DateTimeZone('Europe/Berlin');
+
+        $factory = new SearchQueryFactory();
+        $query = $factory->create($input);
+
+        $this->assertEquals(
+            new \DateTimeZone('Europe/Berlin'),
+            $query->timeZone,
+            'timeZone expected'
+        );
+    }
 }

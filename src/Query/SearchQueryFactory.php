@@ -39,6 +39,7 @@ class SearchQueryFactory
         $this->addPagination($builder, $input);
         $this->addFilterList($builder, $input);
         $this->addFacetList($builder, $input);
+        $this->addDateTimeZone($builder, $input);
 
         return $builder->build();
     }
@@ -138,5 +139,15 @@ class SearchQueryFactory
         foreach ($this->facetFactory->create($input->facets) as $facet) {
             $builder->facet($facet);
         }
+    }
+
+    private function addDateTimeZone(
+        SearchQueryBuilder $builder,
+        SearchInput $input
+    ): void {
+        if (!isset($input->timeZone)) {
+            return;
+        }
+        $builder->timeZone($input->timeZone);
     }
 }
