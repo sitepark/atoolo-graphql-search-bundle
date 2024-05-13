@@ -19,6 +19,17 @@ class EnvVarLoader implements EnvVarLoaderInterface
         $this->baseDir = $baseDir ?? (getcwd() ?: '');
     }
 
+    /**
+     * @return array{
+     *     RESOURCE_ROOT?: non-empty-string,
+     * }|array{
+     *     RESOURCE_ROOT?: non-empty-string,
+     *     SOLR_SCHEME: string,
+     *     SOLR_HOST: string,
+     *     SOLR_PORT: string,
+     *     SOLR_PATH: string,
+     * }
+     */
     public function loadEnvVars(): array
     {
         $env = [];
