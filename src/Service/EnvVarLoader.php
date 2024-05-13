@@ -42,9 +42,9 @@ class EnvVarLoader implements EnvVarLoaderInterface
             $port = (string)(
                 $url['port'] ??
                 (
-                    $scheme === 'https' ?
-                        '443' :
-                        self::IES_WEBNODE_SOLR_PORT
+                    $scheme === 'https'
+                        ? '443'
+                        : self::IES_WEBNODE_SOLR_PORT
                 )
             );
             $path = $url['path'] ?? '';
