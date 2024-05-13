@@ -11,16 +11,18 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 #[GQL\Provider]
 class Search
 {
+
+    private readonly SearchQueryFactory $factory;
     public function __construct(
         private readonly \Atoolo\Search\Search $search
     ) {
+        $this->factory = new SearchQueryFactory();
     }
 
     #[GQL\Query(name: 'search', type: 'SearchResult!')]
     public function search(SearchInput $input): SearchResult
     {
-        $factory = new SearchQueryFactory();
-        $query = $factory->create($input);
+        $query = $this->factory->create($input);
         return $this->search->search($query);
     }
 }
