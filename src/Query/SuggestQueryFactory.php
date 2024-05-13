@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Query;
 
 use Atoolo\GraphQL\Search\Input\SuggestInput;
+use Atoolo\Resource\ResourceLanguage;
 use Atoolo\Search\Dto\Search\Query\SuggestQuery;
 
 class SuggestQueryFactory
@@ -26,7 +27,7 @@ class SuggestQueryFactory
 
         return new SuggestQuery(
             $input->text,
-            $input->lang ?? '',
+            ResourceLanguage::of($input->lang),
             $filterList,
             $input->limit ?? 10
         );

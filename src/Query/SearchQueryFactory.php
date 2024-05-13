@@ -7,6 +7,7 @@ namespace Atoolo\GraphQL\Search\Query;
 use Atoolo\GraphQL\Search\Input\SearchInput;
 use Atoolo\GraphQL\Search\Types\QueryOperator;
 use Atoolo\GraphQL\Search\Types\SortDirection;
+use Atoolo\Resource\ResourceLanguage;
 use Atoolo\Search\Dto\Search\Query\SearchQuery;
 use Atoolo\Search\Dto\Search\Query\SearchQueryBuilder;
 use Atoolo\Search\Dto\Search\Query\Sort\Date;
@@ -32,7 +33,7 @@ class SearchQueryFactory
     public function create(SearchInput $input): SearchQuery
     {
         $builder = new SearchQueryBuilder();
-        $builder->lang($input->lang ?? '');
+        $builder->lang(ResourceLanguage::of($input->lang));
 
         $this->addTextFilter($builder, $input);
         $this->addSort($builder, $input);
