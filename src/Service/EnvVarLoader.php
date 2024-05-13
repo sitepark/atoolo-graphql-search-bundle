@@ -35,7 +35,7 @@ class EnvVarLoader implements EnvVarLoaderInterface
         $env = [];
 
         $resourceRoot = $_SERVER['RESOURCE_ROOT'] ?? '';
-        if (empty($resourceRoot)) {
+        if (!is_string($resourceRoot) || empty($resourceRoot)) {
             $resourceRoot = $this->determineResourceRoot();
             if (!empty($resourceRoot)) {
                 $env['RESOURCE_ROOT'] = $resourceRoot;
