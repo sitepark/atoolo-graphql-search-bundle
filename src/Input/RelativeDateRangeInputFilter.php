@@ -21,8 +21,10 @@ class RelativeDateRangeInputFilter
 
     #[GQL\Field(type:"DateInterval")]
     public ?\DateInterval $after = null;
+
     #[GQL\Field(type:"DateRangeRound")]
     public ?DateRangeRound $roundStart = null;
+
     #[GQL\Field(type:"DateRangeRound")]
     public ?DateRangeRound $roundEnd = null;
 }
