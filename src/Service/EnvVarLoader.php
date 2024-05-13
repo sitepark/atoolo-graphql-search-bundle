@@ -35,7 +35,7 @@ class EnvVarLoader implements EnvVarLoaderInterface
         if (empty($solrUrl) && !empty($resourceRoot)) {
             $solrUrl = $this->determineSolrUrl($resourceRoot);
         }
-        if (!empty($solrUrl)) {
+        if (is_string($solrUrl) && !empty($solrUrl)) {
             $url = parse_url($solrUrl);
             $scheme = $url['scheme'] ?? 'http';
             $host = $url['host'] ?? 'localhost';
