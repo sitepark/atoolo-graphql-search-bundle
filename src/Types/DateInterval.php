@@ -18,18 +18,22 @@ class DateInterval
     public static function serialize(\DateInterval $interval): string
     {
         // Reading all non-zero date parts.
-        $date = array_filter(array(
-            'Y' => $interval->y,
-            'M' => $interval->m,
-            'D' => $interval->d
-        ));
+        $date = array_filter(
+            [
+                'Y' => $interval->y,
+                'M' => $interval->m,
+                'D' => $interval->d,
+            ]
+        );
 
         // Reading all non-zero time parts.
-        $time = array_filter(array(
-            'H' => $interval->h,
-            'M' => $interval->i,
-            'S' => $interval->s
-        ));
+        $time = array_filter(
+            [
+                'H' => $interval->h,
+                'M' => $interval->i,
+                'S' => $interval->s,
+            ]
+        );
 
         $specString = 'P';
 
