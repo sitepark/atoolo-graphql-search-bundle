@@ -36,7 +36,7 @@ class EnvVarLoader implements EnvVarLoaderInterface
 
         $resourceRoot = $_SERVER['RESOURCE_ROOT'] ?? '';
         if (!is_string($resourceRoot) || empty($resourceRoot)) {
-            $resourceRoot = $this->determineResourceRoot();
+            $resourceRoot = $this->determineResourceRootForCliCall();
             if (!empty($resourceRoot)) {
                 $env['RESOURCE_ROOT'] = $resourceRoot;
             }
@@ -44,7 +44,9 @@ class EnvVarLoader implements EnvVarLoaderInterface
         $solrUrl = $_SERVER['SOLR_URL'] ?? '';
 
         if (empty($solrUrl) && !empty($resourceRoot)) {
-            $solrUrl = $this->determineSolrUrl($resourceRoot);
+            $solrUrl = $this->determineSolrUrlForCliCallInDevEnvironments(
+                $resourceRoot
+            );
         }
         if (is_string($solrUrl) && !empty($solrUrl)) {
             $url = parse_url($solrUrl);
@@ -69,7 +71,18 @@ class EnvVarLoader implements EnvVarLoaderInterface
         return $env;
     }
 
-    private function determineResourceRoot(): string
+    /**
+     * If the call was made via a CLI command, an attempt is made to
+     * the resource root via the path of the `bin/console` script.
+     * to determine the resource root.
+     * This is successful if the script is called via the absolute
+     * path to the `app` folder below the host directory.
+     *
+     * E.G.
+     * /var/www/example.com/www/app/bin/console
+     *
+     */
+    private function determineResourceRootForCliCall(): string
     {
         /** @var string[] $directories */
         $directories = [
@@ -109,13 +122,24 @@ class EnvVarLoader implements EnvVarLoaderInterface
      * calls. This can be searched for via the determined $resourceRoot for
      * the .env file of the Docker environment. This contains the
      * SERVER_BASE_NAME variable, which can be used to determine the SOLR_URL.
+     *
+     * If the resource root is a path below the `data/publications/`
+     * directory of an IES environment such as
+     * `/home/user/ies-environment/example/data/publications/example.com/www/resources`
+     * for a resource layout or
+     * `/home/user/ies-environment/example/data/publications/example.com/www`
+     * for a DocumentRoot layout, the Solr url can be determined via the
+     * `.env` file of the IES environment.
      */
-    private function determineSolrUrl(string $resourceRoot): string
-    {
+    private function determineSolrUrlForCliCallInDevEnvironments(
+        string $resourceRoot
+    ): string {
 
+        $iesEnvBaseDirForDocumentRootLayout = $resourceRoot . '/../../../..';
+        $iesEnvBaseDirForResourceLayout = $resourceRoot . '/../../../..';
         $directories = [
-            $resourceRoot . '/../../../..',
-            $resourceRoot . '/../../../../..',
+            $iesEnvBaseDirForDocumentRootLayout,
+            $iesEnvBaseDirForResourceLayout
         ];
 
         foreach ($directories as $dir) {
