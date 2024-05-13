@@ -11,16 +11,18 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 #[GQL\Provider]
 class Suggest
 {
+    private readonly SuggestQueryFactory $factory;
+
     public function __construct(
         private readonly \Atoolo\Search\Suggest $suggest
     ) {
+        $this->factory = new SuggestQueryFactory();
     }
 
     #[GQL\Query(name: 'suggest', type: 'SuggestResult!')]
     public function suggest(SuggestInput $input): SuggestResult
     {
-        $factory = new SuggestQueryFactory();
-        $query = $factory->create($input);
+        $query = $this->factory->create($input);
         return $this->suggest->suggest($query);
     }
 }
