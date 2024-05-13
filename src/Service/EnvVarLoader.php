@@ -135,11 +135,11 @@ class EnvVarLoader implements EnvVarLoaderInterface
         string $resourceRoot
     ): string {
 
-        $iesEnvBaseDirForDocumentRootLayout = $resourceRoot . '/../../../..';
-        $iesEnvBaseDirForResourceLayout = $resourceRoot . '/../../../..';
+        $iesEnvBaseDirForResourceLayout = $resourceRoot . '/../../../../';
+        $iesEnvBaseDirForDocumentRootLayout = $resourceRoot . '/../../../../..';
         $directories = [
-            $iesEnvBaseDirForDocumentRootLayout,
-            $iesEnvBaseDirForResourceLayout
+            $iesEnvBaseDirForResourceLayout,
+            $iesEnvBaseDirForDocumentRootLayout
         ];
 
         foreach ($directories as $dir) {
