@@ -16,37 +16,37 @@ class InputFacet
     public string $key;
 
     /**
-     * @var string[]
+     * @var ?array<string>
      */
     #[GQL\Field(type:"[String!]")]
     public ?array $excludeFilter = null;
 
     /**
-     * @var string[]
+     * @var ?array<string>
      */
     #[GQL\Field(type:"[String!]")]
     public ?array $objectTypes = null;
 
     /**
-     * @var string[]
+     * @var ?array<string>
      */
     #[GQL\Field(type:"[String!]")]
     public ?array $contentSectionTypes = null;
 
     /**
-     * @var string[]
+     * @var ?array<string>
      */
     #[GQL\Field(type:"[String!]")]
     public ?array $categories = null;
 
     /**
-     * @var string[]
+     * @var ?array<string>
      */
     #[GQL\Field(type:"[String!]")]
     public ?array $sites = null;
 
     /**
-     * @var string[]
+     * @var ?array<string>
      */
     #[GQL\Field(type:"[String!]")]
     public ?array $groups = null;

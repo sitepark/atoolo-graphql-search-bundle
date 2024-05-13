@@ -22,7 +22,7 @@ class SuggestInput
     public ?string $lang = null;
 
     /**
-     * @var InputFilter[]
+     * @var ?array<InputFilter>
      */
     #[GQL\Field(type:"[InputFilter!]")]
     public ?array $filter = null;

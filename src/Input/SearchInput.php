@@ -30,19 +30,19 @@ class SearchInput
     public ?QueryOperator $defaultQueryOperator = null;
 
     /**
-     * @var InputSortCriteria[]
+     * @var ?array<InputSortCriteria>
      */
     #[GQL\Field(type:"[InputSortCriteria!]")]
     public ?array $sort = null;
 
     /**
-     * @var InputFilter[]
+     * @var ?array<InputFilter>
      */
     #[GQL\Field(type:"[InputFilter!]")]
     public ?array $filter = null;
 
     /**
-     * @var InputFacet[]
+     * @var ?array<InputFacet>
      */
     #[GQL\Field(type:"[InputFacet!]")]
     public ?array $facets = null;

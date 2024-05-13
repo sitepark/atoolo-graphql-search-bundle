@@ -16,31 +16,31 @@ class InputFilter
     public ?string $key = null;
 
     /**
-     * @var string[]
+     * @var ?array<string>
      */
     #[GQL\Field(type:"[String!]")]
     public ?array $objectTypes = null;
 
     /**
-     * @var string[]
+     * @var ?array<string>
      */
     #[GQL\Field(type:"[String!]")]
     public ?array $contentSectionTypes = null;
 
     /**
-     * @var string[]
+     * @var ?array<string>
      */
     #[GQL\Field(type:"[String!]")]
     public ?array $categories = null;
 
     /**
-     * @var string[]
+     * @var ?array<string>
      */
     #[GQL\Field(type:"[String!]")]
     public ?array $sites = null;
 
     /**
-     * @var string[]
+     * @var ?array<string>
      */
     #[GQL\Field(type:"[String!]")]
     public ?array $groups = null;
@@ -55,13 +55,13 @@ class InputFilter
     public ?bool $archive = null;
 
     /**
-     * @var array<InputFilter>
+     * @var ?array<InputFilter>
      */
     #[GQL\Field(type:"[InputFilter!]")]
     public ?array $and = null;
 
     /**
-     * @var array<InputFilter>
+     * @var ?array<InputFilter>
      */
     #[GQL\Field(type:"[InputFilter!]")]
     public ?array $or = null;
