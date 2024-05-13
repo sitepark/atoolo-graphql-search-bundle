@@ -112,7 +112,7 @@ class FacetListFactory
             return null;
         }
         if (
-            $facet->absoluteDateRange->from === null ||
+            $facet->absoluteDateRange->from === null &&
             $facet->absoluteDateRange->to === null
         ) {
             throw new InvalidArgumentException(
