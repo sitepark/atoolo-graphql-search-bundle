@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": ">=8.1 <8.4.0",
-	"ext-sysvsem": "*",
+        "ext-sysvsem": "*",
         "atoolo/resource": "dev-main",
         "atoolo/search": "dev-main",
         "overblog/graphql-bundle": "^1.0",
