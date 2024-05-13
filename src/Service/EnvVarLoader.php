@@ -76,8 +76,9 @@ class EnvVarLoader implements EnvVarLoaderInterface
             $this->baseDir
         ];
 
-        if (isset($_SERVER['SCRIPT_FILENAME'])) {
-            $binDir = dirname($_SERVER['SCRIPT_FILENAME']);
+        $filename = $_SERVER['SCRIPT_FILENAME'] ?? null;
+        if (is_string($filename)) {
+            $binDir = dirname($filename);
             $appDir = dirname($binDir);
             $hostDir = dirname($appDir);
             $directories[] = $hostDir;
