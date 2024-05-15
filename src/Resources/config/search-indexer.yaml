@@ -33,7 +33,7 @@ services:
   atoolo.search.indexer.aborter:
     class: Atoolo\Search\Service\Indexer\IndexingAborter
     arguments:
-      - '%kernel.project_dir%/var/cache/'
+      - '%kernel.cache_dir%'
       - 'indexing'
 
   atoolo.search.indexer.locationFinder:
