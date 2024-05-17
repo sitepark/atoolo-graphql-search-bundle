@@ -31,7 +31,7 @@ class NewsTeaserFactory implements TeaserFactory
         return new NewsTeaser(
             $url,
             $headline,
-            $text,
+            $text === '' ? null : $text,
             $resource
         );
     }

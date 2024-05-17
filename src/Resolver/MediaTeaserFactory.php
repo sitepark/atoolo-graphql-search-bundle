@@ -37,7 +37,7 @@ class MediaTeaserFactory implements TeaserFactory
         return new MediaTeaser(
             $url,
             $headline,
-            $text,
+            $text === '' ? null : $text,
             $contentType,
             $contentLength,
             null,
