@@ -21,7 +21,6 @@ class EnvVarLoader implements EnvVarLoaderInterface
 
     /**
      * @return array{
-     * }|array{
      *     RESOURCE_ROOT?: non-empty-string,
      * }|array{
      *     RESOURCE_ROOT?: non-empty-string,
@@ -38,7 +37,7 @@ class EnvVarLoader implements EnvVarLoaderInterface
         $resourceRoot = $_SERVER['RESOURCE_ROOT'] ?? '';
         if (!is_string($resourceRoot) || empty($resourceRoot)) {
             $resourceRoot = $this->determineResourceRootForCliCall();
-            if ($resourceRoot !== null) {
+            if (!empty($resourceRoot)) {
                 $env['RESOURCE_ROOT'] = $resourceRoot;
             }
         }
