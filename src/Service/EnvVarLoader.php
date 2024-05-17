@@ -37,7 +37,7 @@ class EnvVarLoader implements EnvVarLoaderInterface
         $resourceRoot = $_SERVER['RESOURCE_ROOT'] ?? '';
         if (!is_string($resourceRoot) || empty($resourceRoot)) {
             $resourceRoot = $this->determineResourceRootForCliCall();
-            if (!empty($resourceRoot)) {
+            if ($resourceRoot !== null) {
                 $env['RESOURCE_ROOT'] = $resourceRoot;
             }
         }
@@ -82,7 +82,7 @@ class EnvVarLoader implements EnvVarLoaderInterface
      * /var/www/example.com/www/app/bin/console
      *
      */
-    private function determineResourceRootForCliCall(): string
+    private function determineResourceRootForCliCall(): ?string
     {
         /** @var string[] $directories */
         $directories = [
@@ -114,7 +114,7 @@ class EnvVarLoader implements EnvVarLoaderInterface
             }
         }
 
-        return '';
+        return null;
     }
 
     /**
@@ -133,7 +133,7 @@ class EnvVarLoader implements EnvVarLoaderInterface
      */
     private function determineSolrUrlForCliCallInDevEnvironments(
         string $resourceRoot
-    ): string {
+    ): ?string {
 
         $iesEnvBaseDirForResourceLayout = $resourceRoot . '/../../../../';
         $iesEnvBaseDirForDocumentRootLayout = $resourceRoot . '/../../../../..';
@@ -150,6 +150,6 @@ class EnvVarLoader implements EnvVarLoaderInterface
             }
         }
 
-        return '';
+        return null;
     }
 }
