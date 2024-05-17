@@ -21,6 +21,7 @@ class EnvVarLoader implements EnvVarLoaderInterface
 
     /**
      * @return array{
+     * }|array{
      *     RESOURCE_ROOT?: non-empty-string,
      * }|array{
      *     RESOURCE_ROOT?: non-empty-string,
