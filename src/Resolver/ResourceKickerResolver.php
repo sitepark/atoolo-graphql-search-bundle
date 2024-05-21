@@ -25,15 +25,14 @@ class ResourceKickerResolver
         if (!empty($kickerText)) {
             return $kickerText;
         }
-        $kickerText = null;
         $walker = new ResourceHierarchyWalker($this->hierarchyLoader);
         $walker->init($resource);
         while ($parent = $walker->primaryParent()) {
             $kickerText = $parent->data->getString('base.kicker');
             if (!empty($kickerText)) {
-                break;
+                return $kickerText;
             }
         }
-        return $kickerText;
+        return null;
     }
 }
