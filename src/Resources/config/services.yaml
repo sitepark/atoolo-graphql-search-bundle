@@ -55,17 +55,29 @@ services:
         tags:
             - { name: 'atoolo_graphql_search.resolver' }
 
+    Atoolo\GraphQL\Search\Resolver\ResourceAssetResolver:
+      arguments:
+        - '@atoolo_graphql_search.resolver.urlRewriter'
+        - '@logger'
+
+    Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver:
+      arguments:
+        - '@atoolo.resource.navigationHierarchyLoader'
+
+    Atoolo\GraphQL\Search\Resolver\ResourceDateResolver: ~
+
     Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver:
         arguments:
-          - '@atoolo_graphql_search.resolver.urlRewriter'
-          - '@logger'
-          - '@atoolo.resource.navigationHierarchyLoader'
+          - '@Atoolo\GraphQL\Search\Resolver\ResourceAssetResolver'
+          - '@Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver'
+          - '@Atoolo\GraphQL\Search\Resolver\ResourceDateResolver'
         tags:
             - { name: 'atoolo_graphql_search.resolver' }
 
     Atoolo\GraphQL\Search\Resolver\NewsTeaserResolver:
       arguments:
-        - '@Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver'
+        - '@Atoolo\GraphQL\Search\Resolver\ResourceAssetResolver'
+        - '@Atoolo\GraphQL\Search\Resolver\ResourceDateResolver'
       tags:
         - { name: 'atoolo_graphql_search.resolver' }
 
@@ -73,16 +85,6 @@ services:
       class: 'Atoolo\GraphQL\Search\Resolver\ArticleTeaserFactory'
       arguments:
         - '@atoolo_graphql_search.resolver.urlRewriter'
-
-#
-#    First of all, just as an example of how a TeaserFactor can be structured.
-#
-#    atoolo_graphql_search.resolver.newsTeaserFactory:
-#      class: 'Atoolo\GraphQL\Search\Resolver\NewsTeaserFactory'
-#      arguments:
-#        - '@atoolo_graphql_search.resolver.urlRewriter'
-#      tags:
-#          - { name: 'atoolo_graphql_search.teaserFactory', objectType: 'news' }
 
     atoolo_graphql_search.resolver.mediaTeaserFactory:
       class : 'Atoolo\GraphQL\Search\Resolver\MediaTeaserFactory'

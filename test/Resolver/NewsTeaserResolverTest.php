@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Resolver;
 
-use Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver;
 use Atoolo\GraphQL\Search\Resolver\NewsTeaserResolver;
+use Atoolo\GraphQL\Search\Resolver\ResourceAssetResolver;
+use Atoolo\GraphQL\Search\Resolver\ResourceDateResolver;
 use Atoolo\GraphQL\Search\Types\NewsTeaser;
 use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
@@ -18,22 +19,28 @@ class NewsTeaserResolverTest extends TestCase
 {
     private NewsTeaserResolver $newsTeaserResolver;
 
-    private ArticleTeaserResolver&MockObject $articleTeaserResolver;
+    private ResourceAssetResolver&MockObject $assetResolver;
+
+    private ResourceDateResolver&MockObject $dateResolver;
 
     public function setUp(): void
     {
-        $this->articleTeaserResolver = $this->createMock(
-            ArticleTeaserResolver::class
+        $this->assetResolver = $this->createMock(
+            ResourceAssetResolver::class
+        );
+        $this->dateResolver = $this->createMock(
+            ResourceDateResolver::class
         );
         $this->newsTeaserResolver = new NewsTeaserResolver(
-            $this->articleTeaserResolver
+            $this->assetResolver,
+            $this->dateResolver
         );
     }
 
     public function testGetDate(): void
     {
-        $this->articleTeaserResolver->expects($this->once())
-            ->method('getDateFromResource');
+        $this->dateResolver->expects($this->once())
+            ->method('getDate');
         $teaser = new NewsTeaser(
             '',
             '',
@@ -46,8 +53,8 @@ class NewsTeaserResolverTest extends TestCase
 
     public function testGetAsset(): void
     {
-        $this->articleTeaserResolver->expects($this->once())
-            ->method('getAssetFromResource');
+        $this->assetResolver->expects($this->once())
+            ->method('getAsset');
         $teaser = new NewsTeaser(
             '',
             '',
