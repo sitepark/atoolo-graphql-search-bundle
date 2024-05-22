@@ -23,7 +23,13 @@ class AtooloGraphQLSearchBundle extends Bundle
             __DIR__
         );
 
-        $configDir = __DIR__ . '/Resources/config';
+        $configDir = __DIR__ . '/../config';
+
+        $container->setParameter(
+            'atoolo_graphql_search.config_dir',
+            $configDir
+        );
+
 
         $locator = new FileLocator($configDir);
         $loader = new GlobFileLoader($locator);

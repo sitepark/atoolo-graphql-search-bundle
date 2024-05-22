@@ -23,9 +23,8 @@ overblog_graphql:
           dir: "%atoolo_graphql_search.src_dir%/Mutation"
           suffix: ~
         - types: [yaml]
-          dir: "%atoolo_graphql_search.src_dir%/Resources/schema/decorators"
+          dir: "%atoolo_graphql_search.config_dir%/graphql/decorators"
           suffix: ~
         - types: [yaml]
-          dir: "%atoolo_graphql_search.src_dir%/Resources/schema/types"
+          dir: "%atoolo_graphql_search.config_dir%/graphql/types"
           suffix: ~
-
