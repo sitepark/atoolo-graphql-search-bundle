@@ -1,0 +1,27 @@
+ArticleTeaserDecorator:
+  type: object
+  decorator: true
+  inherits: [Teaser]
+  config:
+    interfaces: [Teaser]
+    description: An article teaser is a short summary or preview designed to pique the reader's interest by highlighting the main points or most exciting aspects of an article.
+    fields:
+      date:
+        type: "DateTime"
+        description: Teaser date
+      headline:
+        type: "String"
+        description: Teaser headline
+      text:
+        type: "String"
+        description: Teaser text
+      kicker:
+        type: "String"
+        description: Teaser kicker text
+      asset:
+        type: "Asset"
+        args:
+          variant:
+            type: "String!"
+            description: The teaser variant is used to decide which image format is to be returned.
+        description: Teaser asset can be e.g. pictures or videos

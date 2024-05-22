@@ -1,0 +1,12 @@
+MediaTeaserDecorator:
+  type: "object"
+  decorator: true
+  inherits: [Teaser]
+  config:
+    interfaces: [Teaser]
+    fields:
+      headline: {type: String}
+      text: {type: String}
+      kicker: {type: String}
+      contentType:  {type: String!}
+      contentLength:  {type: Int!}

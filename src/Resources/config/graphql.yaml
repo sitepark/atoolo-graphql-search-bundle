@@ -1,0 +1,31 @@
+overblog_graphql:
+  errors_handler:
+    exceptions:
+      errors:
+        - "InvalidArgumentException"
+  definitions:
+    schema:
+      query: RootQuery
+      mutation: RootMutation
+      types: [ArticleTeaser, MediaTeaser, NewsTeaser, Image]
+    mappings:
+      types:
+        - type: attribute
+          dir: "%atoolo_graphql_search.src_dir%/Input"
+          suffix: ~
+        - type: attribute
+          dir: "%atoolo_graphql_search.src_dir%/Types"
+          suffix: ~
+        - type: attribute
+          dir: "%atoolo_graphql_search.src_dir%/Query"
+          suffix: ~
+        - type: attribute
+          dir: "%atoolo_graphql_search.src_dir%/Mutation"
+          suffix: ~
+        - types: [yaml]
+          dir: "%atoolo_graphql_search.src_dir%/Resources/schema/decorators"
+          suffix: ~
+        - types: [yaml]
+          dir: "%atoolo_graphql_search.src_dir%/Resources/schema/types"
+          suffix: ~
+

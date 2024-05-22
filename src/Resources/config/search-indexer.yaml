@@ -1,0 +1,96 @@
+services:
+
+  atoolo.search.indexer.contentCollector.sitekit:
+    class: Atoolo\Search\Service\Indexer\ContentCollector
+    arguments:
+      - !tagged_iterator atoolo.search.indexer.sitekit.contentMatcher
+
+  atoolo.search.indexer.resourceFilter:
+    class: Atoolo\Search\Service\Indexer\SiteKit\NoIndexFilter
+
+  Atoolo\Search\Service\Indexer\SiteKit\HeadlineMatcher:
+    tags:
+      - { name: 'atoolo.search.indexer.sitekit.contentMatcher', priority: 10 }
+
+  Atoolo\Search\Service\Indexer\SiteKit\RichtTextMatcher:
+    tags:
+      - { name: 'atoolo.search.indexer.sitekit.contentMatcher', priority: 20 }
+
+  Atoolo\Search\Service\Indexer\SiteKit\QuoteSectionMatcher:
+    tags:
+      - { name: 'atoolo.search.indexer.sitekit.contentMatcher', priority: 20 }
+
+  Atoolo\Search\Service\Indexer\SiteKit\DefaultSchema2xDocumentEnricher:
+    arguments:
+      - '@atoolo.resource.navigationHierarchyLoader'
+      - '@atoolo.search.indexer.contentCollector.sitekit'
+    tags:
+      - { name: 'atoolo.search.indexer.documentEnricher.schema2x', priority: 100 }
+
+  atoolo.search.indexer.translationSplitter:
+    class: Atoolo\Search\Service\Indexer\SiteKit\SubDirTranslationSplitter
+
+  atoolo.search.indexer.aborter:
+    class: Atoolo\Search\Service\Indexer\IndexingAborter
+    arguments:
+      - '%kernel.cache_dir%'
+      - 'indexing'
+
+  atoolo.search.indexer.locationFinder:
+    class: Atoolo\Search\Service\Indexer\LocationFinder
+    arguments:
+      - '@atoolo.resource.resourceChannel'
+
+  atoolo.search.indexer.statusStore:
+    class: Atoolo\Search\Service\Indexer\IndexerStatusStore
+    arguments:
+      - '%kernel.cache_dir%'
+
+  atoolo.search.indexer.indexDocumentDumper:
+    class: Atoolo\Search\Service\Indexer\IndexDocumentDumper
+    arguments:
+      - '@atoolo.resource.resourceLoader'
+      - !tagged_iterator { tag: 'atoolo.search.indexer.documentEnricher.schema2x' }
+
+  atoolo.search.indexer:
+    class: Atoolo\Search\Service\Indexer\BackgroundIndexer
+    arguments:
+      - '@atoolo.search.indexer.internalResourceIndexer'
+      - '@atoolo.search.indexName'
+      - '@atoolo.search.indexer.statusStore'
+      - '@logger'
+
+  atoolo.search.indexer.configurationLoader:
+    class: Atoolo\Search\Service\Indexer\IndexerConfigurationLoader
+    arguments:
+      - '@atoolo.resource.resourceChannel'
+
+  atoolo.search.indexer.internalResourceProgressState:
+    class: Atoolo\Search\Service\Indexer\IndexerProgressState
+    arguments:
+      - '@atoolo.search.indexName'
+      - '@atoolo.search.indexer.statusStore'
+      - 'internal'
+
+  atoolo.search.indexer.internalResourceIndexer:
+    class: Atoolo\Search\Service\Indexer\InternalResourceIndexer
+    arguments:
+      - !tagged_iterator atoolo.search.indexer.documentEnricher.schema2x
+      - '@atoolo.search.indexer.resourceFilter'
+      - '@atoolo.search.indexer.internalResourceProgressState'
+      - '@atoolo.search.indexer.locationFinder'
+      - '@atoolo.resource.resourceLoader'
+      - '@atoolo.search.indexer.translationSplitter'
+      - '@atoolo.search.indexer.solrIndexService'
+      - '@atoolo.search.indexer.aborter'
+      - '@atoolo.search.indexer.configurationLoader'
+      - 'internal'
+      - '@logger'
+    tags:
+      - { name: 'atoolo.search.indexer', priority: 20 }
+
+  atoolo.search.indexer.indexerCollection:
+    class: Atoolo\Search\Service\Indexer\IndexerCollection
+    arguments:
+      - !tagged_iterator { tag: 'atoolo.search.indexer' }
+

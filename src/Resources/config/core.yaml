@@ -1,0 +1,5 @@
+services:
+
+  Atoolo\GraphQL\Search\Service\EnvVarLoader:
+    tags:
+      - { name: 'container.env_var_loader', priority: 10 }

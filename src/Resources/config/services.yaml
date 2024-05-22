@@ -1,0 +1,107 @@
+services:
+
+    Atoolo\GraphQL\Search\Query\Ping:
+      public: true
+
+    Atoolo\GraphQL\Search\Query\Search:
+        public: true
+        arguments:
+            - '@atoolo.search.search'
+
+    Atoolo\GraphQL\Search\Query\Suggest:
+        public: true
+        arguments:
+            - '@atoolo.search.suggest'
+
+    Atoolo\GraphQL\Search\Service\PhpLimitIncreaser:
+        arguments:
+            - '%atoolo.search.indexer.timeLimit%'
+            - '%atoolo.search.indexer.memoryLimit%'
+
+    Atoolo\GraphQL\Search\Query\Indexer:
+        public: true
+        arguments:
+            - '@atoolo.search.indexer'
+
+    Atoolo\GraphQL\Search\Mutation\Indexer:
+        public: true
+        arguments:
+            - '@atoolo.search.indexer'
+            - '@Atoolo\GraphQL\Search\Service\PhpLimitIncreaser'
+
+    atoolo_graphql_search.resolver.urlRewriter:
+      class: Atoolo\GraphQL\Search\Resolver\DoNothingUrlRewriter
+
+    Atoolo\GraphQL\Search\Resolver\ClassNameTypeResolver:
+        tags:
+            - { name: overblog_graphql.query, alias: 'typeByClassName', method: 'resolveType' }
+
+    Atoolo\GraphQL\Search\Resolver\ResolverMapRegistry:
+        arguments:
+            - !tagged_iterator atoolo_graphql_search.resolver
+        tags:
+            - { name: overblog_graphql.resolver_map, schema: default }
+
+    Atoolo\GraphQL\Search\Resolver\ResourceResolver:
+        arguments:
+            - '@Atoolo\GraphQL\Search\Resolver\DelegatingTeaserFactory'
+        tags:
+            - { name: 'atoolo_graphql_search.resolver', priority: 10 }
+
+    Atoolo\GraphQL\Search\Resolver\HierarchyResolver:
+        arguments:
+            - '@atoolo.resource.navigationHierarchyLoader'
+            - '@atoolo.resource.categoryHierarchyLoader'
+        tags:
+            - { name: 'atoolo_graphql_search.resolver' }
+
+    Atoolo\GraphQL\Search\Resolver\ResourceAssetResolver:
+      arguments:
+        - '@atoolo_graphql_search.resolver.urlRewriter'
+        - '@logger'
+
+    Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver:
+      arguments:
+        - '@atoolo.resource.navigationHierarchyLoader'
+
+    Atoolo\GraphQL\Search\Resolver\ResourceDateResolver: ~
+
+    Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver:
+        arguments:
+          - '@Atoolo\GraphQL\Search\Resolver\ResourceAssetResolver'
+          - '@Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver'
+          - '@Atoolo\GraphQL\Search\Resolver\ResourceDateResolver'
+        tags:
+            - { name: 'atoolo_graphql_search.resolver' }
+
+    Atoolo\GraphQL\Search\Resolver\NewsTeaserResolver:
+      arguments:
+        - '@Atoolo\GraphQL\Search\Resolver\ResourceAssetResolver'
+        - '@Atoolo\GraphQL\Search\Resolver\ResourceDateResolver'
+      tags:
+        - { name: 'atoolo_graphql_search.resolver' }
+
+    atoolo_graphql_search.resolver.fallbackTeaserFactory:
+      class: 'Atoolo\GraphQL\Search\Resolver\ArticleTeaserFactory'
+      arguments:
+        - '@atoolo_graphql_search.resolver.urlRewriter'
+
+    atoolo_graphql_search.resolver.mediaTeaserFactory:
+      class : 'Atoolo\GraphQL\Search\Resolver\MediaTeaserFactory'
+      arguments:
+        - '@atoolo_graphql_search.resolver.urlRewriter'
+      tags:
+        - { name: 'atoolo_graphql_search.teaserFactory', objectType: 'media' }
+
+    atoolo_graphql_search.resolver.embeddedMediaTeaserFactory:
+      class : 'Atoolo\GraphQL\Search\Resolver\MediaTeaserFactory'
+      arguments:
+        - '@atoolo_graphql_search.resolver.urlRewriter'
+      tags:
+        - { name: 'atoolo_graphql_search.teaserFactory', objectType: 'embedded-media' }
+
+    Atoolo\GraphQL\Search\Resolver\DelegatingTeaserFactory:
+      arguments:
+        - !tagged_iterator { tag: 'atoolo_graphql_search.teaserFactory', index_by: 'objectType' }
+        - '@atoolo_graphql_search.resolver.fallbackTeaserFactory'
+
