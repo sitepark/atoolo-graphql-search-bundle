@@ -203,8 +203,7 @@ class SelectQueryFactoryTest extends TestCase
 
         $this->assertEquals(
             [
-                new ObjectTypeFilter(['content']),
-                new ArchiveFilter()
+                new ObjectTypeFilter(['content'])
             ],
             $query->filter,
             'filter expected'

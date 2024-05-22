@@ -11,7 +11,6 @@ use Atoolo\GraphQL\Search\Query\FilterListFactory;
 use Atoolo\Search\Dto\Search\Query\DateRangeRound;
 use Atoolo\Search\Dto\Search\Query\Filter\AbsoluteDateRangeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\AndFilter;
-use Atoolo\Search\Dto\Search\Query\Filter\ArchiveFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\CategoryFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ContentSectionTypeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\GroupFilter;
@@ -30,36 +29,6 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(FilterListFactory::class)]
 class FilterListFactoryTest extends TestCase
 {
-    public function testCreateArchiveTrueFilter(): void
-    {
-        $filter = new InputFilter();
-        $filter->archive = true;
-
-        $factory = new FilterListFactory();
-        $filterList = $factory->create([$filter]);
-
-        $this->assertEquals(
-            [],
-            $filterList,
-            'archive filter not expected'
-        );
-    }
-
-    public function testCreateArchiveFalseFilter(): void
-    {
-        $filter = new InputFilter();
-        $filter->archive = false;
-
-        $factory = new FilterListFactory();
-        $filterList = $factory->create([$filter]);
-
-        $this->assertEquals(
-            [new ArchiveFilter()],
-            $filterList,
-            'archive filter expected'
-        );
-    }
-
     public function testCreateObjectTypeFilter(): void
     {
         $filter = new InputFilter();
@@ -70,8 +39,7 @@ class FilterListFactoryTest extends TestCase
 
         $this->assertEquals(
             [
-                new ObjectTypeFilter(['content']),
-                new ArchiveFilter()
+                new ObjectTypeFilter(['content'])
             ],
             $filterList,
             'objectType filter expected'
@@ -88,8 +56,7 @@ class FilterListFactoryTest extends TestCase
 
         $this->assertEquals(
             [
-                new ContentSectionTypeFilter(['youtube']),
-                new ArchiveFilter()
+                new ContentSectionTypeFilter(['youtube'])
             ],
             $filterList,
             'contentSectionType filter expected'
@@ -106,8 +73,7 @@ class FilterListFactoryTest extends TestCase
 
         $this->assertEquals(
             [
-                new CategoryFilter(['123']),
-                new ArchiveFilter()
+                new CategoryFilter(['123'])
             ],
             $filterList,
             'category filter expected'
@@ -124,8 +90,7 @@ class FilterListFactoryTest extends TestCase
 
         $this->assertEquals(
             [
-                new SiteFilter(['123']),
-                new ArchiveFilter()
+                new SiteFilter(['123'])
             ],
             $filterList,
             'site filter expected'
@@ -150,8 +115,7 @@ class FilterListFactoryTest extends TestCase
                 new AbsoluteDateRangeFilter(
                     new DateTime('2021-01-01T00:00:00+00:00'),
                     new DateTime('2021-01-02T00:00:00+00:00')
-                ),
-                new ArchiveFilter()
+                )
             ],
             $filterList,
             'site filter expected'
@@ -179,8 +143,7 @@ class FilterListFactoryTest extends TestCase
                     null,
                     DateRangeRound::START_OF_MONTH,
                     null
-                ),
-                new ArchiveFilter()
+                )
             ],
             $filterList,
             'site filter expected'
@@ -197,8 +160,7 @@ class FilterListFactoryTest extends TestCase
 
         $this->assertEquals(
             [
-                new GroupFilter(['123']),
-                new ArchiveFilter()
+                new GroupFilter(['123'])
             ],
             $filterList,
             'group filter expected'
@@ -223,8 +185,7 @@ class FilterListFactoryTest extends TestCase
                 new AndFilter([
                     new ObjectTypeFilter(['content']),
                     new ContentSectionTypeFilter(['youtube']),
-                ]),
-                new ArchiveFilter()
+                ])
             ],
             $filterList,
             'and filter expected'
@@ -249,8 +210,7 @@ class FilterListFactoryTest extends TestCase
                 new OrFilter([
                     new ObjectTypeFilter(['content']),
                     new ContentSectionTypeFilter(['youtube']),
-                ]),
-                new ArchiveFilter()
+                ])
             ],
             $filterList,
             'or filter expected'
@@ -270,8 +230,7 @@ class FilterListFactoryTest extends TestCase
 
         $this->assertEquals(
             [
-                new NotFilter(new ObjectTypeFilter(['content'])),
-                new ArchiveFilter()
+                new NotFilter(new ObjectTypeFilter(['content']))
             ],
             $filterList,
             'not filter expected'
@@ -288,8 +247,7 @@ class FilterListFactoryTest extends TestCase
 
         $this->assertEquals(
             [
-                new QueryFilter('test:test'),
-                new ArchiveFilter()
+                new QueryFilter('test:test')
             ],
             $filterList,
             'query filter expected'

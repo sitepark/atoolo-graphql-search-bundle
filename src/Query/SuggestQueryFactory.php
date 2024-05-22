@@ -29,7 +29,8 @@ class SuggestQueryFactory
             $input->text,
             ResourceLanguage::of($input->lang),
             $filterList,
-            $input->limit ?? 10
+            $input->limit ?? 10,
+            $input->archive ?? false
         );
     }
 }

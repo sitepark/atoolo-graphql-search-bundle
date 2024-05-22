@@ -8,7 +8,6 @@ use Atoolo\GraphQL\Search\Input\InputFilter;
 use Atoolo\Search\Dto\Search\Query\DateRangeRound;
 use Atoolo\Search\Dto\Search\Query\Filter\AbsoluteDateRangeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\AndFilter;
-use Atoolo\Search\Dto\Search\Query\Filter\ArchiveFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\CategoryFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ContentSectionTypeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\Filter;
@@ -30,26 +29,15 @@ class FilterListFactory
     public function create(array $inputFilterList): array
     {
         $filterList = [];
-        $includeArchived = false;
         foreach ($inputFilterList as $inputFilter) {
-            if ($inputFilter->archive !== null) {
-                $includeArchived = $includeArchived || $inputFilter->archive;
-                continue;
-            }
             $filterList[] = $this->createFilter($inputFilter);
         }
-
-        if (!$includeArchived) {
-            $filterList[] = new ArchiveFilter();
-        }
-
         return $filterList;
     }
 
     private function createFilter(InputFilter $filter): Filter
     {
-        return $this->tryCreateArchiveFilter($filter)
-            ?? $this->tryCreateObjectTypeFilter($filter)
+        return $this->tryCreateObjectTypeFilter($filter)
             ?? $this->tryCreateContentSectionTypeFilter($filter)
             ?? $this->tryCreateCategoryFilter($filter)
             ?? $this->tryCreateSiteFilter($filter)
@@ -63,12 +51,6 @@ class FilterListFactory
             ?? (throw new InvalidArgumentException(
                 "Unable to create filter\n" . print_r($filter, true)
             ));
-    }
-
-    private function tryCreateArchiveFilter(
-        InputFilter $filter
-    ): ?ArchiveFilter {
-        return $filter->archive ? new ArchiveFilter() : null;
     }
 
     private function tryCreateObjectTypeFilter(

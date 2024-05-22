@@ -26,4 +26,7 @@ class SuggestInput
      */
     #[GQL\Field(type:"[InputFilter!]")]
     public ?array $filter = null;
+
+    #[GQL\Field(type:"Boolean")]
+    public ?bool $archive = null;
 }

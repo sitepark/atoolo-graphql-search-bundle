@@ -44,12 +44,11 @@ class SuggestQueryFactoryTest extends TestCase
         $query = $factory->create($input);
 
         $objectTypeFilter = new ObjectTypeFilter(['content']);
-        $archiveFilter = new ArchiveFilter();
 
         $expected = new SuggestQuery(
             'test',
             ResourceLanguage::default(),
-            [$objectTypeFilter, $archiveFilter]
+            [$objectTypeFilter]
         );
 
         $this->assertEquals(
