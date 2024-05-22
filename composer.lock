@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sitepark/atoolo-resource-bundle.git",
-                "reference": "9bb0a69f1c80007632edcc4fba6ab68e7d28e392"
+                "reference": "aa6e8ec37126a70e7c9301b5f5198094aaac5e49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sitepark/atoolo-resource-bundle/zipball/9bb0a69f1c80007632edcc4fba6ab68e7d28e392",
-                "reference": "9bb0a69f1c80007632edcc4fba6ab68e7d28e392",
+                "url": "https://api.github.com/repos/sitepark/atoolo-resource-bundle/zipball/aa6e8ec37126a70e7c9301b5f5198094aaac5e49",
+                "reference": "aa6e8ec37126a70e7c9301b5f5198094aaac5e49",
                 "shasum": ""
             },
             "require": {
@@ -37,6 +37,11 @@
             },
             "default-branch": true,
             "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Atoolo\\Resource\\": "src"
@@ -57,7 +62,7 @@
                 "issues": "https://github.com/sitepark/atoolo-resource-bundle/issues",
                 "source": "https://github.com/sitepark/atoolo-resource-bundle/tree/main"
             },
-            "time": "2024-05-22T10:55:49+00:00"
+            "time": "2024-05-22T13:06:17+00:00"
         },
         {
             "name": "atoolo/search-bundle",
@@ -65,12 +70,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sitepark/atoolo-search-bundle.git",
-                "reference": "74cbe2e6cae58864cfff893886a8eb54c14e5f42"
+                "reference": "d49f150573cb31000b1243961beaebfe8978d13b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sitepark/atoolo-search-bundle/zipball/74cbe2e6cae58864cfff893886a8eb54c14e5f42",
-                "reference": "74cbe2e6cae58864cfff893886a8eb54c14e5f42",
+                "url": "https://api.github.com/repos/sitepark/atoolo-search-bundle/zipball/d49f150573cb31000b1243961beaebfe8978d13b",
+                "reference": "d49f150573cb31000b1243961beaebfe8978d13b",
                 "shasum": ""
             },
             "require": {
@@ -125,7 +130,7 @@
                 "issues": "https://github.com/sitepark/atoolo-search-bundle/issues",
                 "source": "https://github.com/sitepark/atoolo-search-bundle/tree/main"
             },
-            "time": "2024-05-22T10:57:16+00:00"
+            "time": "2024-05-22T11:31:37+00:00"
         },
         {
             "name": "doctrine/deprecations",
