@@ -99,6 +99,16 @@ class ResourceKickerResolverTest extends TestCase
         );
     }
 
+    public function testGetKickerNotFound(): void
+    {
+        $teaser = $this->createResource([
+        ]);
+        $this->assertNull(
+            $this->resolver->getKicker($teaser),
+            'kicker should be null'
+        );
+    }
+
     /**
      * @param array<string,mixed> $data
      */

@@ -4,25 +4,28 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a2ec8892f32e86b3d132bea4c2a0c07a",
+    "content-hash": "e72f46f19168e57d08e074502cfc1fce",
     "packages": [
         {
-            "name": "atoolo/resource",
+            "name": "atoolo/resource-bundle",
             "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sitepark/atoolo-resource.git",
-                "reference": "6cd5a1b25185ca2902384cbeb82e3b2506380e4b"
+                "url": "https://github.com/sitepark/atoolo-resource-bundle.git",
+                "reference": "9bb0a69f1c80007632edcc4fba6ab68e7d28e392"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sitepark/atoolo-resource/zipball/6cd5a1b25185ca2902384cbeb82e3b2506380e4b",
-                "reference": "6cd5a1b25185ca2902384cbeb82e3b2506380e4b",
+                "url": "https://api.github.com/repos/sitepark/atoolo-resource-bundle/zipball/9bb0a69f1c80007632edcc4fba6ab68e7d28e392",
+                "reference": "9bb0a69f1c80007632edcc4fba6ab68e7d28e392",
                 "shasum": ""
             },
             "require": {
                 "ext-intl": "*",
-                "php": ">=8.1 <8.4.0"
+                "php": ">=8.1 <8.4.0",
+                "symfony/config": "^6.3 || ^7.0",
+                "symfony/dependency-injection": "^6.3 || ^7.",
+                "symfony/http-kernel": "^6.3 || ^7.0"
             },
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
@@ -33,7 +36,7 @@
                 "squizlabs/php_codesniffer": "^3.7"
             },
             "default-branch": true,
-            "type": "library",
+            "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
                     "Atoolo\\Resource\\": "src"
@@ -51,27 +54,27 @@
             ],
             "description": "Handle pre-produced data",
             "support": {
-                "issues": "https://github.com/sitepark/atoolo-resource/issues",
-                "source": "https://github.com/sitepark/atoolo-resource/tree/main"
+                "issues": "https://github.com/sitepark/atoolo-resource-bundle/issues",
+                "source": "https://github.com/sitepark/atoolo-resource-bundle/tree/main"
             },
-            "time": "2024-05-15T14:02:36+00:00"
+            "time": "2024-05-22T10:55:49+00:00"
         },
         {
-            "name": "atoolo/search",
+            "name": "atoolo/search-bundle",
             "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sitepark/atoolo-search.git",
-                "reference": "55b97b100ed87d424144255dff7050acec4f5895"
+                "url": "https://github.com/sitepark/atoolo-search-bundle.git",
+                "reference": "74cbe2e6cae58864cfff893886a8eb54c14e5f42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sitepark/atoolo-search/zipball/55b97b100ed87d424144255dff7050acec4f5895",
-                "reference": "55b97b100ed87d424144255dff7050acec4f5895",
+                "url": "https://api.github.com/repos/sitepark/atoolo-search-bundle/zipball/74cbe2e6cae58864cfff893886a8eb54c14e5f42",
+                "reference": "74cbe2e6cae58864cfff893886a8eb54c14e5f42",
                 "shasum": ""
             },
             "require": {
-                "atoolo/resource": "dev-main",
+                "atoolo/resource-bundle": "dev-main",
                 "ext-intl": "*",
                 "php": ">=8.1 <8.4.0",
                 "solarium/solarium": "^6.3",
@@ -80,6 +83,7 @@
                 "symfony/dependency-injection": "^6.3 || ^7.0",
                 "symfony/event-dispatcher": "^6.3 || ^7.0",
                 "symfony/finder": "^6.3 || ^7.0",
+                "symfony/http-kernel": "^6.3 || ^7.0",
                 "symfony/lock": "^6.3 || ^7.0",
                 "symfony/property-access": "^6.3 || ^7.0",
                 "symfony/serializer": "^6.3 || ^7.0",
@@ -95,7 +99,12 @@
                 "symfony/filesystem": "^6.3 || ^7.0"
             },
             "default-branch": true,
-            "type": "library",
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Atoolo\\Search\\": "src"
@@ -113,10 +122,10 @@
             ],
             "description": "Indexing und searching",
             "support": {
-                "issues": "https://github.com/sitepark/atoolo-search/issues",
-                "source": "https://github.com/sitepark/atoolo-search/tree/main"
+                "issues": "https://github.com/sitepark/atoolo-search-bundle/issues",
+                "source": "https://github.com/sitepark/atoolo-search-bundle/tree/main"
             },
-            "time": "2024-05-17T13:02:41+00:00"
+            "time": "2024-05-22T10:57:16+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -4568,12 +4577,12 @@
             "version": "v5.2.13",
             "source": {
                 "type": "git",
-                "url": "https://github.com/justinrainbow/json-schema.git",
+                "url": "https://github.com/jsonrainbow/json-schema.git",
                 "reference": "fbbe7e5d79f618997bc3332a6f49246036c45793"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/justinrainbow/json-schema/zipball/fbbe7e5d79f618997bc3332a6f49246036c45793",
+                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/fbbe7e5d79f618997bc3332a6f49246036c45793",
                 "reference": "fbbe7e5d79f618997bc3332a6f49246036c45793",
                 "shasum": ""
             },
@@ -4628,8 +4637,8 @@
                 "schema"
             ],
             "support": {
-                "issues": "https://github.com/justinrainbow/json-schema/issues",
-                "source": "https://github.com/justinrainbow/json-schema/tree/v5.2.13"
+                "issues": "https://github.com/jsonrainbow/json-schema/issues",
+                "source": "https://github.com/jsonrainbow/json-schema/tree/v5.2.13"
             },
             "time": "2023-09-26T02:20:38+00:00"
         },
@@ -7543,8 +7552,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "atoolo/resource": 20,
-        "atoolo/search": 20,
+        "atoolo/resource-bundle": 20,
+        "atoolo/search-bundle": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": true,
@@ -7554,5 +7563,5 @@
         "ext-sysvsem": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

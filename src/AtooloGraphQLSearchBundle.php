@@ -36,15 +36,7 @@ class AtooloGraphQLSearchBundle extends Bundle
         );
 
         $loader->load('graphql.yaml');
-        $loader->load('resource.yaml');
         $loader->load('core.yaml');
-        $loader->load('search.yaml');
-        $loader->load('search-indexer.yaml');
         $loader->load('services.yaml');
-
-        $bundles = $container->getParameter('kernel.bundles');
-        if (isset($bundles['OverblogGraphiQLBundle'])) {
-            $loader->load('graphiql.yaml');
-        }
     }
 }
