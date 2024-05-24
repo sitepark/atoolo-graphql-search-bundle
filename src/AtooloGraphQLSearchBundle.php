@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search;
 
+use Exception;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\GlobFileLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
@@ -16,6 +17,9 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class AtooloGraphQLSearchBundle extends Bundle
 {
+    /**
+     * @throws Exception
+     */
     public function build(ContainerBuilder $container): void
     {
         $container->setParameter(
@@ -42,7 +46,6 @@ class AtooloGraphQLSearchBundle extends Bundle
         );
 
         $loader->load('graphql.yaml');
-        $loader->load('core.yaml');
         $loader->load('services.yaml');
     }
 }
