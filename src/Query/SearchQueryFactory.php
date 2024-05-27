@@ -8,6 +8,7 @@ use Atoolo\GraphQL\Search\Input\SearchInput;
 use Atoolo\GraphQL\Search\Types\QueryOperator;
 use Atoolo\GraphQL\Search\Types\SortDirection;
 use Atoolo\Resource\ResourceLanguage;
+use Atoolo\Search\Dto\Search\Query\Boosting;
 use Atoolo\Search\Dto\Search\Query\SearchQuery;
 use Atoolo\Search\Dto\Search\Query\SearchQueryBuilder;
 use Atoolo\Search\Dto\Search\Query\Sort\Date;
@@ -42,6 +43,7 @@ class SearchQueryFactory
         $this->addFilterList($builder, $input);
         $this->addFacetList($builder, $input);
         $this->addDateTimeZone($builder, $input);
+        $this->addBoosting($builder, $input);
 
         return $builder->build();
     }
@@ -151,5 +153,22 @@ class SearchQueryFactory
             return;
         }
         $builder->timeZone($input->timeZone);
+    }
+
+    private function addBoosting(
+        SearchQueryBuilder $builder,
+        SearchInput $input
+    ): void {
+        if (!isset($input->boosting)) {
+            return;
+        }
+        $boosting = new Boosting(
+            queryFields: $input->boosting->queryFields ?? [],
+            phraseFields: $input->boosting->phraseFields ?? [],
+            boostQueries: $input->boosting->boostQueries ?? [],
+            boostFunctions: $input->boosting->boostFunctions ?? [],
+            tie: $input->boosting->tie ?? 0.0,
+        );
+        $builder->boosting($boosting);
     }
 }

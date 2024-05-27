@@ -52,4 +52,7 @@ class SearchInput
 
     #[GQL\Field(type:"DateTimeZone")]
     public ?DateTimeZone $timeZone = null;
+
+    #[GQL\Field(type:"InputBoosting")]
+    public ?InputBoosting $boosting = null;
 }
