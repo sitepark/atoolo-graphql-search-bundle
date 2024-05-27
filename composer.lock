@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sitepark/atoolo-resource-bundle.git",
-                "reference": "012f4fcec5dab85b7d7ba917891d25898ec8cb7a"
+                "reference": "797d3c9da9a2d53f3b42c0ee5d42afcb771a7848"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sitepark/atoolo-resource-bundle/zipball/012f4fcec5dab85b7d7ba917891d25898ec8cb7a",
-                "reference": "012f4fcec5dab85b7d7ba917891d25898ec8cb7a",
+                "url": "https://api.github.com/repos/sitepark/atoolo-resource-bundle/zipball/797d3c9da9a2d53f3b42c0ee5d42afcb771a7848",
+                "reference": "797d3c9da9a2d53f3b42c0ee5d42afcb771a7848",
                 "shasum": ""
             },
             "require": {
@@ -62,7 +62,7 @@
                 "issues": "https://github.com/sitepark/atoolo-resource-bundle/issues",
                 "source": "https://github.com/sitepark/atoolo-resource-bundle/tree/main"
             },
-            "time": "2024-05-24T07:42:59+00:00"
+            "time": "2024-05-24T08:00:17+00:00"
         },
         {
             "name": "atoolo/search-bundle",
@@ -70,12 +70,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sitepark/atoolo-search-bundle.git",
-                "reference": "140ef36ce45ac402fe39fe2c2cdc8417c8284491"
+                "reference": "5bfd4d79fae2f36584cba97a3e41bdd96f0e3d43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sitepark/atoolo-search-bundle/zipball/140ef36ce45ac402fe39fe2c2cdc8417c8284491",
-                "reference": "140ef36ce45ac402fe39fe2c2cdc8417c8284491",
+                "url": "https://api.github.com/repos/sitepark/atoolo-search-bundle/zipball/5bfd4d79fae2f36584cba97a3e41bdd96f0e3d43",
+                "reference": "5bfd4d79fae2f36584cba97a3e41bdd96f0e3d43",
                 "shasum": ""
             },
             "require": {
@@ -131,7 +131,7 @@
                 "issues": "https://github.com/sitepark/atoolo-search-bundle/issues",
                 "source": "https://github.com/sitepark/atoolo-search-bundle/tree/main"
             },
-            "time": "2024-05-24T07:47:14+00:00"
+            "time": "2024-05-27T05:46:24+00:00"
         },
         {
             "name": "doctrine/deprecations",

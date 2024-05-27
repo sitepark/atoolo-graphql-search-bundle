@@ -19,6 +19,12 @@ class InputFilter
      * @var ?array<string>
      */
     #[GQL\Field(type:"[String!]")]
+    public ?array $ids = null;
+
+    /**
+     * @var ?array<string>
+     */
+    #[GQL\Field(type:"[String!]")]
     public ?array $objectTypes = null;
 
     /**

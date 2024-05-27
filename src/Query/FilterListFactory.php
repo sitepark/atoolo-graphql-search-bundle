@@ -12,6 +12,7 @@ use Atoolo\Search\Dto\Search\Query\Filter\CategoryFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ContentSectionTypeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\Filter;
 use Atoolo\Search\Dto\Search\Query\Filter\GroupFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\IdFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\NotFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ObjectTypeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\OrFilter;
@@ -42,6 +43,7 @@ class FilterListFactory
             ?? $this->tryCreateCategoryFilter($filter)
             ?? $this->tryCreateSiteFilter($filter)
             ?? $this->tryCreateGroupFilter($filter)
+            ?? $this->tryCreateIdFilter($filter)
             ?? $this->tryCreateAbsoluteDateRangeFilter($filter)
             ?? $this->tryCreateRelativeDateRangeFilter($filter)
             ?? $this->tryCreateAndFilter($filter)
@@ -93,6 +95,14 @@ class FilterListFactory
     ): ?GroupFilter {
         return !empty($filter->groups)
             ? new GroupFilter($filter->groups, $filter->key)
+            : null;
+    }
+
+    private function tryCreateIdFilter(
+        InputFilter $filter
+    ): ?IdFilter {
+        return !empty($filter->ids)
+            ? new IdFilter($filter->ids, $filter->key)
             : null;
     }
 

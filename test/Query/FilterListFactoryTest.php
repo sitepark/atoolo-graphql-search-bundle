@@ -14,6 +14,7 @@ use Atoolo\Search\Dto\Search\Query\Filter\AndFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\CategoryFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ContentSectionTypeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\GroupFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\IdFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\NotFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ObjectTypeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\OrFilter;
@@ -164,6 +165,23 @@ class FilterListFactoryTest extends TestCase
             ],
             $filterList,
             'group filter expected'
+        );
+    }
+
+    public function testCreateIdFilter(): void
+    {
+        $filter = new InputFilter();
+        $filter->ids = ['123'];
+
+        $factory = new FilterListFactory();
+        $filterList = $factory->create([$filter]);
+
+        $this->assertEquals(
+            [
+                new IdFilter(['123'])
+            ],
+            $filterList,
+            'id filter expected'
         );
     }
 
