@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Resolver;
 
+use Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolverChain;
 use Atoolo\GraphQL\Search\Types\Asset;
 use Atoolo\GraphQL\Search\Types\NewsTeaser;
 use DateTime;
@@ -12,7 +13,7 @@ use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 class NewsTeaserResolver implements Resolver
 {
     public function __construct(
-        private readonly ResourceAssetResolver $assetResolver,
+        private readonly ResourceAssetResolverChain $assetResolver,
         private readonly ResourceDateResolver $dateResolver
     ) {
     }

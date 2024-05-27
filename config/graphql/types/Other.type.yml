@@ -87,6 +87,14 @@ ImageSource:
       height: { type: "Int!" }
       mediaQuery: { type: "String" }
 
+SymbolicImage:
+  type: "object"
+  inherits: [Asset]
+  config:
+    interfaces: [Asset]
+    fields:
+      url: { type: "String" }
+
 IndexerStatus:
   type: "object"
   config:

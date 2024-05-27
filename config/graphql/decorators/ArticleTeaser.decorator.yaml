@@ -24,4 +24,7 @@ ArticleTeaserDecorator:
           variant:
             type: "String!"
             description: The teaser variant is used to decide which image format is to be returned.
+          forceSymbolic:
+            type: "Boolean"
+            description: If true, the API will always try to return a SymbolicImage, if available. Null otherwise.
         description: Teaser asset can be e.g. pictures or videos
