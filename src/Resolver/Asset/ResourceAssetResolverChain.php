@@ -12,31 +12,13 @@ use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 class ResourceAssetResolverChain implements Resolver
 {
     /**
-     * @var array<string, ResourceAssetResolver>
-     */
-    private readonly array $regularAssetResolvers;
-
-    /**
-     * @var array<string, ResourceAssetResolver>
-     */
-    private readonly array $symbolicAssetResolvers;
-
-    /**
-     * @param array<string, ResourceAssetResolver> $regularAssetResolvers
-     * @param array<string, ResourceAssetResolver> $symbolicAssetResolvers
+     * @param array<ResourceAssetResolver> $regularAssetResolvers
+     * @param array<ResourceAssetResolver> $symbolicAssetResolvers
      */
     public function __construct(
-        iterable $regularAssetResolvers,
-        iterable $symbolicAssetResolvers
+        private readonly iterable $regularAssetResolvers,
+        private readonly iterable $symbolicAssetResolvers
     ) {
-        $this->regularAssetResolvers =
-            $regularAssetResolvers instanceof \Traversable ?
-            iterator_to_array($regularAssetResolvers) :
-            $regularAssetResolvers;
-        $this->symbolicAssetResolvers =
-            $symbolicAssetResolvers instanceof \Traversable ?
-            iterator_to_array($symbolicAssetResolvers) :
-            $symbolicAssetResolvers;
     }
 
     /**
