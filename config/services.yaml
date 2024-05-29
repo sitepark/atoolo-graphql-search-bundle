@@ -60,19 +60,18 @@ services:
         - '@atoolo_graphql_search.resolver.url_rewriter'
         - '@logger'
       tags:
-        - { name: 'atoolo_graphql_search.resolver.asset.regular', priority: 10 }
+        - { name: 'atoolo_graphql_search.resolver.asset', priority: 20 }
 
-    Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageResolver:
+    Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageHierachyResolver:
       arguments:
         - '@atoolo_graphql_search.resolver.url_rewriter'
         - '@atoolo_resource.navigation_hierarchy_loader'
       tags:
-        - { name: 'atoolo_graphql_search.resolver.asset.symbolic', priority: 10 }
+        - { name: 'atoolo_graphql_search.resolver.asset', priority: 10 }
 
     Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolverChain:
       arguments:
-        - !tagged_iterator { tag: 'atoolo_graphql_search.resolver.asset.regular' }
-        - !tagged_iterator { tag: 'atoolo_graphql_search.resolver.asset.symbolic' }
+        - !tagged_iterator { tag: 'atoolo_graphql_search.resolver.asset' }
 
     Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver:
       arguments:
@@ -83,6 +82,7 @@ services:
     Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver:
         arguments:
           - '@Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolverChain'
+          - '@Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolverChain'
           - '@Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver'
           - '@Atoolo\GraphQL\Search\Resolver\ResourceDateResolver'
         tags:
@@ -90,6 +90,7 @@ services:
 
     Atoolo\GraphQL\Search\Resolver\NewsTeaserResolver:
       arguments:
+        - '@Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolverChain'
         - '@Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolverChain'
         - '@Atoolo\GraphQL\Search\Resolver\ResourceDateResolver'
       tags:

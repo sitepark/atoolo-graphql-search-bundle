@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Resolver;
 
-use Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolverChain;
+use Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolver;
+use Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageResolver;
 use Atoolo\GraphQL\Search\Types\ArticleTeaser;
 use Atoolo\GraphQL\Search\Types\Asset;
 use DateTime;
@@ -31,7 +32,8 @@ use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 class ArticleTeaserResolver implements Resolver
 {
     public function __construct(
-        private readonly ResourceAssetResolverChain $assetResolver,
+        private readonly ResourceAssetResolver $assetResolver,
+        private readonly ResourceSymbolicImageResolver $symbolicImageResolver,
         private readonly ResourceKickerResolver $kickerResolver,
         private readonly ResourceDateResolver $dateResolver
     ) {
@@ -54,5 +56,12 @@ class ArticleTeaserResolver implements Resolver
         ArgumentInterface $args
     ): ?Asset {
         return $this->assetResolver->getAsset($teaser->resource, $args);
+    }
+
+    public function getSymbolicImage(
+        ArticleTeaser $teaser,
+        ArgumentInterface $args
+    ): ?Asset {
+        return $this->symbolicImageResolver->getSymbolicImage($teaser->resource, $args);
     }
 }
