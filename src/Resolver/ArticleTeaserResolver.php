@@ -62,6 +62,7 @@ class ArticleTeaserResolver implements Resolver
         ArticleTeaser $teaser,
         ArgumentInterface $args
     ): ?Asset {
-        return $this->symbolicImageResolver->getSymbolicImage($teaser->resource, $args);
+        return $this->symbolicImageResolver
+            ->getSymbolicImage($teaser->resource, $args);
     }
 }

@@ -38,6 +38,7 @@ class NewsTeaserResolver implements Resolver
         NewsTeaser $teaser,
         ArgumentInterface $args
     ): ?SymbolicImage {
-        return $this->symbolicImageResolver->getSymbolicImage($teaser->resource, $args);
+        return $this->symbolicImageResolver
+            ->getSymbolicImage($teaser->resource, $args);
     }
 }
