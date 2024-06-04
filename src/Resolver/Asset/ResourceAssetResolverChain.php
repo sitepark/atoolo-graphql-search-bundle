@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Resolver\Asset;
 
 use Atoolo\GraphQL\Search\Types\Asset;
-use Atoolo\GraphQL\Search\Types\SymbolicImage;
 use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 
-class ResourceAssetResolverChain implements ResourceAssetResolver, ResourceSymbolicImageResolver
+class ResourceAssetResolverChain implements ResourceAssetResolver
 {
     /**
      * @param array<ResourceAssetResolver> $resolvers
@@ -30,25 +29,6 @@ class ResourceAssetResolverChain implements ResourceAssetResolver, ResourceSymbo
             );
             if ($asset !== null) {
                 return $asset;
-            }
-        }
-        return null;
-    }
-
-    public function getSymbolicImage(
-        Resource $resource,
-        ArgumentInterface $args
-    ): ?SymbolicImage {
-        foreach ($this->resolvers as $resolver) {
-            if (!$resolver instanceof ResourceSymbolicImageResolver) {
-                continue;
-            }
-            $symbolicImage = $resolver->getSymbolicImage(
-                $resource,
-                $args
-            );
-            if ($symbolicImage !== null) {
-                return $symbolicImage;
             }
         }
         return null;

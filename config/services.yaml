@@ -62,7 +62,7 @@ services:
       tags:
         - { name: 'atoolo_graphql_search.resolver.asset', priority: 20 }
 
-    Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageHierachyResolver:
+    Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageHierarchyResolver:
       arguments:
         - '@atoolo_graphql_search.resolver.url_rewriter'
         - '@atoolo_resource.navigation_hierarchy_loader'
@@ -82,7 +82,7 @@ services:
     Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver:
         arguments:
           - '@Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolverChain'
-          - '@Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolverChain'
+          - '@Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageHierarchyResolver'
           - '@Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver'
           - '@Atoolo\GraphQL\Search\Resolver\ResourceDateResolver'
         tags:
@@ -91,7 +91,7 @@ services:
     Atoolo\GraphQL\Search\Resolver\NewsTeaserResolver:
       arguments:
         - '@Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolverChain'
-        - '@Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolverChain'
+        - '@Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageHierarchyResolver'
         - '@Atoolo\GraphQL\Search\Resolver\ResourceDateResolver'
       tags:
         - { name: 'atoolo_graphql_search.resolver' }

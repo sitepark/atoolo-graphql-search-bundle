@@ -13,7 +13,7 @@ use Atoolo\Resource\ResourceHierarchyLoader;
 use Atoolo\Resource\ResourceHierarchyWalker;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 
-class ResourceSymbolicImageHierachyResolver implements ResourceAssetResolver, ResourceSymbolicImageResolver
+class ResourceSymbolicImageHierarchyResolver implements ResourceAssetResolver, ResourceSymbolicImageResolver
 {
     public function __construct(
         private readonly UrlRewriter $urlRewriter,
