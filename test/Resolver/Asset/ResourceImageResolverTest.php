@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Resolver;
 
-use Atoolo\GraphQL\Search\Resolver\ResourceAssetResolver;
+use Atoolo\GraphQL\Search\Resolver\Asset\ResourceImageResolver;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
 use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\GraphQL\Search\Types\Image;
@@ -19,10 +19,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-#[CoversClass(ResourceAssetResolver::class)]
-class ResourceAssetResolverTest extends TestCase
+#[CoversClass(ResourceImageResolver::class)]
+class ResourceImageResolverTest extends TestCase
 {
-    private ResourceAssetResolver $resolver;
+    private ResourceImageResolver $resolver;
 
     private UrlRewriter&MockObject $urlRewriter;
 
@@ -40,7 +40,7 @@ class ResourceAssetResolverTest extends TestCase
             LoggerInterface::class
         );
 
-        $this->resolver = new ResourceAssetResolver(
+        $this->resolver = new ResourceImageResolver(
             $this->urlRewriter,
             $this->logger
         );
