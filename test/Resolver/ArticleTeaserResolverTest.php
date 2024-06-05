@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Test\Resolver;
 
 use Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver;
-use Atoolo\GraphQL\Search\Resolver\ResourceAssetResolver;
+use Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolver;
+use Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageResolver;
 use Atoolo\GraphQL\Search\Resolver\ResourceDateResolver;
 use Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver;
 use Atoolo\GraphQL\Search\Types\ArticleTeaser;
@@ -23,6 +24,8 @@ class ArticleTeaserResolverTest extends TestCase
 
     private ResourceAssetResolver&MockObject $assetResolver;
 
+    private ResourceSymbolicImageResolver&MockObject $symbolicImageResolver;
+
     private ResourceKickerResolver&MockObject $kickerResolver;
 
     private ResourceDateResolver&MockObject $dateResolver;
@@ -35,6 +38,9 @@ class ArticleTeaserResolverTest extends TestCase
         $this->assetResolver = $this->createMock(
             ResourceAssetResolver::class
         );
+        $this->symbolicImageResolver = $this->createMock(
+            ResourceSymbolicImageResolver::class
+        );
         $this->kickerResolver = $this->createMock(
             ResourceKickerResolver::class
         );
@@ -43,6 +49,7 @@ class ArticleTeaserResolverTest extends TestCase
         );
         $this->resolver = new ArticleTeaserResolver(
             $this->assetResolver,
+            $this->symbolicImageResolver,
             $this->kickerResolver,
             $this->dateResolver
         );
@@ -75,6 +82,21 @@ class ArticleTeaserResolverTest extends TestCase
         $args = $this->createStub(ArgumentInterface::class);
 
         $this->resolver->getAsset($teaser, $args);
+    }
+
+    public function testGetSymbolicImage(): void
+    {
+        $this->symbolicImageResolver->expects($this->once())
+            ->method('getSymbolicImage');
+        $teaser = new ArticleTeaser(
+            '',
+            '',
+            '',
+            $this->createStub(Resource::class)
+        );
+        $args = $this->createStub(ArgumentInterface::class);
+
+        $this->resolver->getSymbolicImage($teaser, $args);
     }
 
     public function testGetKicker(): void

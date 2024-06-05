@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Resolver;
+namespace Atoolo\GraphQL\Search\Resolver\Asset;
 
+use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
+use Atoolo\GraphQL\Search\Resolver\UrlRewriterType;
 use Atoolo\GraphQL\Search\Types\Asset;
 use Atoolo\GraphQL\Search\Types\Image;
 use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
@@ -31,7 +33,7 @@ use Psr\Log\LoggerInterface;
  *     mediaQuery?: string
  * }
  */
-class ResourceAssetResolver
+class ResourceImageResolver implements ResourceAssetResolver
 {
     public function __construct(
         private readonly UrlRewriter $urlRewriter,
@@ -43,6 +45,13 @@ class ResourceAssetResolver
         Resource $resource,
         ArgumentInterface $args
     ): ?Asset {
+        return $this->getImage($resource, $args);
+    }
+
+    public function getImage(
+        Resource $resource,
+        ArgumentInterface $args
+    ): ?Image {
 
         /** @var ImageData|array{} $imageData */
         $imageData = $resource->data->getAssociativeArray(
