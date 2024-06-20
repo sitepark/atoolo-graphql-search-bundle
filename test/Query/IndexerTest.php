@@ -6,7 +6,7 @@ namespace Atoolo\GraphQL\Search\Test\Query;
 
 use Atoolo\GraphQL\Search\Query\Indexer;
 use Atoolo\Search\Dto\Indexer\IndexerStatus;
-use Atoolo\Search\Service\Indexer\BackgroundIndexer;
+use Atoolo\Search\Service\Indexer\InternalResourceIndexer;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -15,12 +15,12 @@ class IndexerTest extends TestCase
 {
     public function testIndexerStatus(): void
     {
-        $backgroundIndexer = $this->createMock(BackgroundIndexer::class);
-        $backgroundIndexer->expects($this->once())
+        $indexer = $this->createMock(InternalResourceIndexer::class);
+        $indexer->expects($this->once())
             ->method('getStatus')
             ->willReturn($this->createMock(IndexerStatus::class));
 
-        $indexer = new Indexer($backgroundIndexer);
+        $indexer = new Indexer($indexer);
         $indexer->indexerStatus();
     }
 }
