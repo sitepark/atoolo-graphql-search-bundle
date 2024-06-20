@@ -6,14 +6,14 @@ namespace Atoolo\GraphQL\Search\Mutation;
 
 use Atoolo\GraphQL\Search\Service\PhpLimitIncreaser;
 use Atoolo\Search\Dto\Indexer\IndexerStatus;
-use Atoolo\Search\Service\Indexer\BackgroundIndexer;
+use Atoolo\Search\Service\Indexer\InternalResourceIndexer;
 use Overblog\GraphQLBundle\Annotation as GQL;
 
 #[GQL\Provider]
 class Indexer
 {
     public function __construct(
-        private readonly BackgroundIndexer $indexer,
+        private readonly InternalResourceIndexer $indexer,
         private readonly ?PhpLimitIncreaser $limitIncreaser = null
     ) {
     }
