@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Test\Resolver;
+namespace Atoolo\GraphQL\Search\Test\Resolver\Asset;
 
 use Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolver;
 use Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolverChain;
@@ -11,7 +11,6 @@ use Atoolo\GraphQL\Search\Types\Image;
 use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

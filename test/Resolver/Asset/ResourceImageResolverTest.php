@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Test\Resolver;
+namespace Atoolo\GraphQL\Search\Test\Resolver\Asset;
 
 use Atoolo\GraphQL\Search\Resolver\Asset\ResourceImageResolver;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriter;

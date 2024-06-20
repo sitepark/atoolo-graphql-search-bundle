@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c805e703bf3f6609a08bcdd75126914d",
+    "content-hash": "e72f46f19168e57d08e074502cfc1fce",
     "packages": [
         {
             "name": "atoolo/resource-bundle",

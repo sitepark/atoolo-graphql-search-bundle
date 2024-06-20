@@ -2,26 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Test\Resolver;
+namespace Atoolo\GraphQL\Search\Test\Resolver\Asset;
 
 use Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageHierarchyResolver;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriterType;
 use Atoolo\GraphQL\Search\Test\TestResourceFactory;
-use Atoolo\GraphQL\Search\Types\Image;
-use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
-use Atoolo\GraphQL\Search\Types\ImageSource;
 use Atoolo\GraphQL\Search\Types\SymbolicImage;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceHierarchyLoader;
-use Atoolo\Resource\ResourceLocation;
-use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
 
 #[CoversClass(ResourceSymbolicImageHierarchyResolver::class)]
 class ResourceSymbolicImageHierarchyResolverTest extends TestCase
