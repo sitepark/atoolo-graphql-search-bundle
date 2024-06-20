@@ -13,8 +13,7 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 class Indexer
 {
     public function __construct(
-        private readonly InternalResourceIndexer $indexer,
-        private readonly ?PhpLimitIncreaser $limitIncreaser = null
+        private readonly InternalResourceIndexer $indexer
     ) {
     }
 
@@ -22,12 +21,7 @@ class Indexer
     #[GQL\Access("hasRole('ROLE_API')")]
     public function index(): IndexerStatus
     {
-        $this->limitIncreaser?->increase();
-        try {
-            return $this->indexer->index();
-        } finally {
-            $this->limitIncreaser?->reset();
-        }
+        return $this->indexer->index();
     }
 
     /**
@@ -42,14 +36,8 @@ class Indexer
     )]
     public function indexUpdate(array $paths): IndexerStatus
     {
-        $this->limitIncreaser?->increase();
-        try {
-            return $this->indexer->update($paths);
-        } finally {
-            $this->limitIncreaser?->reset();
-        }
+        return $this->indexer->update($paths);
     }
-
 
     /**
      * @param string[] $idList

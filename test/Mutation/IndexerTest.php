@@ -18,9 +18,8 @@ class IndexerTest extends TestCase
         $indexer = $this->createMock(InternalResourceIndexer::class);
         $indexer->expects($this->once())
             ->method('index');
-        $limitIncreaser = $this->createStub(PhpLimitIncreaser::class);
 
-        $indexer = new Indexer($indexer, $limitIncreaser);
+        $indexer = new Indexer($indexer);
         $indexer->index();
     }
 
@@ -29,31 +28,28 @@ class IndexerTest extends TestCase
         $indexer = $this->createMock(InternalResourceIndexer::class);
         $indexer->expects($this->once())
             ->method('update');
-        $limitIncreaser = $this->createStub(PhpLimitIncreaser::class);
 
-        $indexer = new Indexer($indexer, $limitIncreaser);
+        $indexer = new Indexer($indexer);
         $indexer->indexUpdate(['/index.php']);
     }
 
     public function testRemove(): void
     {
         $indexer = $this->createMock(InternalResourceIndexer::class);
-        $limitIncreaser = $this->createStub(PhpLimitIncreaser::class);
         $indexer->expects($this->once())
             ->method('remove');
 
-        $indexer = new Indexer($indexer, $limitIncreaser);
+        $indexer = new Indexer($indexer);
         $indexer->indexRemove(['123']);
     }
 
     public function testAbort(): void
     {
         $indexer = $this->createMock(InternalResourceIndexer::class);
-        $limitIncreaser = $this->createStub(PhpLimitIncreaser::class);
         $indexer->expects($this->once())
             ->method('abort');
 
-        $indexer = new Indexer($indexer, $limitIncreaser);
+        $indexer = new Indexer($indexer);
         $indexer->indexAbort('index', '123');
     }
 }

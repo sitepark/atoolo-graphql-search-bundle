@@ -13,11 +13,6 @@ services:
     arguments:
       - '@atoolo_search.suggest'
 
-  Atoolo\GraphQL\Search\Service\PhpLimitIncreaser:
-    arguments:
-      - '%atoolo_search.indexer.time_limit%'
-      - '%atoolo_search.indexer.memory_limit%'
-
   Atoolo\GraphQL\Search\Query\Indexer:
     public: true
     arguments:
@@ -27,7 +22,6 @@ services:
     public: true
     arguments:
       - '@atoolo_search.indexer.internal_resource_indexer'
-      - '@Atoolo\GraphQL\Search\Service\PhpLimitIncreaser'
 
   atoolo_graphql_search.resolver.url_rewriter:
     class: Atoolo\GraphQL\Search\Resolver\DoNothingUrlRewriter
