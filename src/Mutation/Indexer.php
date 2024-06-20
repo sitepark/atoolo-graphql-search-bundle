@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Mutation;
 
-use Atoolo\GraphQL\Search\Input\IndexerInput;
 use Atoolo\GraphQL\Search\Service\PhpLimitIncreaser;
 use Atoolo\Search\Dto\Indexer\IndexerStatus;
 use Atoolo\Search\Service\Indexer\BackgroundIndexer;
