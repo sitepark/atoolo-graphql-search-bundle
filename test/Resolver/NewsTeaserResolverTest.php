@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Resolver;
 
-use Atoolo\GraphQL\Search\Resolver\NewsTeaserResolver;
 use Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolver;
 use Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageResolver;
+use Atoolo\GraphQL\Search\Resolver\NewsTeaserResolver;
 use Atoolo\GraphQL\Search\Resolver\ResourceDateResolver;
 use Atoolo\GraphQL\Search\Types\NewsTeaser;
 use Atoolo\Resource\Resource;
