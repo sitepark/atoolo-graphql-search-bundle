@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e72f46f19168e57d08e074502cfc1fce",
+    "content-hash": "ce718ea28fce7e83ee443645d8c4c7f2",
     "packages": [
         {
             "name": "atoolo/resource-bundle",
-            "version": "dev-main",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sitepark/atoolo-resource-bundle.git",
-                "reference": "5bbacbb8412f9e425145a8a0b170de7dece54761"
+                "reference": "2813d7407445d86c87db1d97c12d04a138cb6676"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sitepark/atoolo-resource-bundle/zipball/5bbacbb8412f9e425145a8a0b170de7dece54761",
-                "reference": "5bbacbb8412f9e425145a8a0b170de7dece54761",
+                "url": "https://api.github.com/repos/sitepark/atoolo-resource-bundle/zipball/2813d7407445d86c87db1d97c12d04a138cb6676",
+                "reference": "2813d7407445d86c87db1d97c12d04a138cb6676",
                 "shasum": ""
             },
             "require": {
@@ -38,7 +38,6 @@
                 "roave/security-advisories": "dev-latest",
                 "squizlabs/php_codesniffer": "^3.7"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -63,26 +62,26 @@
             "description": "Handle pre-produced data",
             "support": {
                 "issues": "https://github.com/sitepark/atoolo-resource-bundle/issues",
-                "source": "https://github.com/sitepark/atoolo-resource-bundle/tree/main"
+                "source": "https://github.com/sitepark/atoolo-resource-bundle/tree/1.0.0"
             },
-            "time": "2024-06-20T13:53:31+00:00"
+            "time": "2024-06-28T06:40:20+00:00"
         },
         {
             "name": "atoolo/search-bundle",
-            "version": "dev-main",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sitepark/atoolo-search-bundle.git",
-                "reference": "6e236b4ceeff3c625d8f29cbe0ace562ca196154"
+                "reference": "ed8f437490d8a25075fe5e0373724ab04626c866"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sitepark/atoolo-search-bundle/zipball/6e236b4ceeff3c625d8f29cbe0ace562ca196154",
-                "reference": "6e236b4ceeff3c625d8f29cbe0ace562ca196154",
+                "url": "https://api.github.com/repos/sitepark/atoolo-search-bundle/zipball/ed8f437490d8a25075fe5e0373724ab04626c866",
+                "reference": "ed8f437490d8a25075fe5e0373724ab04626c866",
                 "shasum": ""
             },
             "require": {
-                "atoolo/resource-bundle": "dev-main",
+                "atoolo/resource-bundle": "^1.0",
                 "dragonmantank/cron-expression": "^3.3",
                 "ext-intl": "*",
                 "php": ">=8.1 <8.4.0",
@@ -95,7 +94,7 @@
                 "symfony/finder": "^6.3 || ^7.0",
                 "symfony/http-kernel": "^6.3 || ^7.0",
                 "symfony/lock": "^6.3 || ^7.0",
-                "symfony/messenger": "^6.3 || ^7.1",
+                "symfony/messenger": "^6.3 || ^7.0",
                 "symfony/property-access": "^6.3 || ^7.0",
                 "symfony/scheduler": "^6.3 || ^7.1",
                 "symfony/serializer": "^6.3 || ^7.0",
@@ -110,7 +109,6 @@
                 "squizlabs/php_codesniffer": "^3.7",
                 "symfony/filesystem": "^6.3 || ^7.0"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -135,9 +133,9 @@
             "description": "Indexing und searching",
             "support": {
                 "issues": "https://github.com/sitepark/atoolo-search-bundle/issues",
-                "source": "https://github.com/sitepark/atoolo-search-bundle/tree/main"
+                "source": "https://github.com/sitepark/atoolo-search-bundle/tree/1.0.0"
             },
-            "time": "2024-06-27T09:24:31+00:00"
+            "time": "2024-06-28T06:52:59+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -7933,8 +7931,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "atoolo/resource-bundle": 20,
-        "atoolo/search-bundle": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": true,
