@@ -35,32 +35,31 @@ class ArticleTeaserResolver implements Resolver
         private readonly ResourceAssetResolver $assetResolver,
         private readonly ResourceSymbolicImageResolver $symbolicImageResolver,
         private readonly ResourceKickerResolver $kickerResolver,
-        private readonly ResourceDateResolver $dateResolver
-    ) {
-    }
+        private readonly ResourceDateResolver $dateResolver,
+    ) {}
 
     public function getKicker(
-        ArticleTeaser $teaser
+        ArticleTeaser $teaser,
     ): ?string {
         return $this->kickerResolver->getKicker($teaser->resource);
     }
 
     public function getDate(
-        ArticleTeaser $teaser
+        ArticleTeaser $teaser,
     ): ?DateTime {
         return $this->dateResolver->getDate($teaser->resource);
     }
 
     public function getAsset(
         ArticleTeaser $teaser,
-        ArgumentInterface $args
+        ArgumentInterface $args,
     ): ?Asset {
         return $this->assetResolver->getAsset($teaser->resource, $args);
     }
 
     public function getSymbolicImage(
         ArticleTeaser $teaser,
-        ArgumentInterface $args
+        ArgumentInterface $args,
     ): ?Asset {
         return $this->symbolicImageResolver
             ->getSymbolicImage($teaser->resource, $args);

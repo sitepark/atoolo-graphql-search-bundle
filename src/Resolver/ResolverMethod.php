@@ -15,7 +15,6 @@ class ResolverMethod
     public function __construct(
         public readonly Resolver $resolver,
         public readonly string $fieldName,
-        public readonly ReflectionMethod $reflectionMethod
-    ) {
-    }
+        public readonly ReflectionMethod $reflectionMethod,
+    ) {}
 }

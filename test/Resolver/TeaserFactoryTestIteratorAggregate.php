@@ -14,9 +14,7 @@ class TeaserFactoryTestIteratorAggregate implements IteratorAggregate
     /**
      * @param array<string,TeaserFactory> $factories
      */
-    public function __construct(private readonly array $factories)
-    {
-    }
+    public function __construct(private readonly array $factories) {}
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->factories);

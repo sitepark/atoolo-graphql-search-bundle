@@ -13,6 +13,6 @@ interface ResourceAssetResolver extends Resolver
 {
     public function getAsset(
         Resource $resource,
-        ArgumentInterface $args
+        ArgumentInterface $args,
     ): ?Asset;
 }

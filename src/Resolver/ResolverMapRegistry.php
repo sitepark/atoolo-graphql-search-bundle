@@ -51,9 +51,8 @@ class ResolverMapRegistry extends ResolverMap
      * @param iterable<Resolver> $resolverList
      */
     public function __construct(
-        private readonly iterable $resolverList
-    ) {
-    }
+        private readonly iterable $resolverList,
+    ) {}
 
     /**
      * @return non-empty-array<string, ResolverMapEntry>
@@ -65,17 +64,17 @@ class ResolverMapRegistry extends ResolverMap
                 fn($map) => [
                     self::RESOLVE_FIELD => $this->buildResolverFunction($map),
                 ],
-                $this->loadResolverMap()
+                $this->loadResolverMap(),
             ),
             'Teaser' => [
                 self::RESOLVE_TYPE => function ($value) {
                     return $this->resolveType($value);
-                }
+                },
             ],
             'Asset' => [
                 self::RESOLVE_TYPE => function ($value) {
                     return $this->resolveType($value);
-                }
+                },
             ],
         ];
     }
@@ -96,7 +95,7 @@ class ResolverMapRegistry extends ResolverMap
             $mapList[] = $this->getResolverGetterMap($resolver);
         }
         return array_merge_recursive(
-            ...$mapList
+            ...$mapList,
         );
     }
 
@@ -110,7 +109,7 @@ class ResolverMapRegistry extends ResolverMap
             $value,
             ArgumentInterface $args,
             ArrayObject $context,
-            ResolveInfo $info
+            ResolveInfo $info,
         ) use ($fieldMap) {
             $fieldName = $info->fieldName;
             if (isset($fieldMap[$fieldName])) {
@@ -119,7 +118,7 @@ class ResolverMapRegistry extends ResolverMap
                     return $this->invokeGetter(
                         $resolverMethod,
                         $value,
-                        $args
+                        $args,
                     );
                 }
             }
@@ -134,7 +133,7 @@ class ResolverMapRegistry extends ResolverMap
     private function invokeGetter(
         ResolverMethod $resolverMethod,
         object $obj,
-        ArgumentInterface $args
+        ArgumentInterface $args,
     ): mixed {
         $method = $resolverMethod->reflectionMethod;
         $params = $method->getParameters();
@@ -151,7 +150,7 @@ class ResolverMapRegistry extends ResolverMap
      */
     private function resolveProperty(
         object $obj,
-        string $fieldName
+        string $fieldName,
     ): mixed {
         $reflectionClass = new ReflectionClass(get_class($obj));
         return $reflectionClass
@@ -176,14 +175,14 @@ class ResolverMapRegistry extends ResolverMap
             foreach ($types as $fullTypeName) {
                 $typeName = substr(
                     $fullTypeName,
-                    strrpos($fullTypeName, '\\') + 1
+                    strrpos($fullTypeName, '\\') + 1,
                 );
                 $fieldName = lcfirst(substr($method->getName(), 3));
 
                 $map[$typeName][$fieldName] = new ResolverMethod(
                     $resolver,
                     $fieldName,
-                    $method
+                    $method,
                 );
             }
         }
@@ -221,11 +220,11 @@ class ResolverMapRegistry extends ResolverMap
         if ($objectType instanceof ReflectionUnionType) {
             $namedTypes = array_filter(
                 $objectType->getTypes(),
-                static fn($type) => $type instanceof ReflectionNamedType
+                static fn($type) => $type instanceof ReflectionNamedType,
             );
             return array_map(
                 static fn($type) => $type->getName(),
-                $namedTypes
+                $namedTypes,
             );
         }
 

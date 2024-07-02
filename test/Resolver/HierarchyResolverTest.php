@@ -23,14 +23,14 @@ class HierarchyResolverTest extends TestCase
     public function setUp(): void
     {
         $this->navigationLoader = $this->createMock(
-            ResourceHierarchyLoader::class
+            ResourceHierarchyLoader::class,
         );
         $this->categoryHierarchyLoader = $this->createMock(
-            ResourceHierarchyLoader::class
+            ResourceHierarchyLoader::class,
         );
         $this->resolver = new HierarchyResolver(
             $this->navigationLoader,
-            $this->categoryHierarchyLoader
+            $this->categoryHierarchyLoader,
         );
     }
 
@@ -44,7 +44,7 @@ class HierarchyResolverTest extends TestCase
             ->willReturn($resource);
         $this->assertEquals(
             $resource,
-            $this->resolver->getRoot($hierarchy)
+            $this->resolver->getRoot($hierarchy),
         );
     }
 
@@ -58,7 +58,7 @@ class HierarchyResolverTest extends TestCase
             ->willReturn($resource);
         $this->assertEquals(
             $resource,
-            $this->resolver->getRoot($hierarchy)
+            $this->resolver->getRoot($hierarchy),
         );
     }
 
@@ -85,7 +85,7 @@ class HierarchyResolverTest extends TestCase
             ->willReturn($resource);
         $this->assertEquals(
             $resource,
-            $this->resolver->getPrimaryParent($hierarchy)
+            $this->resolver->getPrimaryParent($hierarchy),
         );
     }
 
@@ -99,7 +99,7 @@ class HierarchyResolverTest extends TestCase
             ->willReturn([$resource]);
         $this->assertEquals(
             [$resource],
-            $this->resolver->getPrimaryPath($hierarchy)
+            $this->resolver->getPrimaryPath($hierarchy),
         );
     }
 
@@ -113,7 +113,7 @@ class HierarchyResolverTest extends TestCase
             ->willReturn([$resource]);
         $this->assertEquals(
             [$resource],
-            $this->resolver->getChildren($hierarchy)
+            $this->resolver->getChildren($hierarchy),
         );
     }
 }

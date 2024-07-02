@@ -15,7 +15,7 @@ class ArticleTeaser extends Teaser
         ?string $url,
         public readonly ?string $headline,
         public readonly ?string $text,
-        public readonly Resource $resource
+        public readonly Resource $resource,
     ) {
         parent::__construct($url);
     }

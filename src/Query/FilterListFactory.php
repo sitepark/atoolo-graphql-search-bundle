@@ -51,12 +51,12 @@ class FilterListFactory
             ?? $this->tryCreateNotFilter($filter)
             ?? $this->tryCreateQueryFilter($filter)
             ?? (throw new InvalidArgumentException(
-                "Unable to create filter\n" . print_r($filter, true)
+                "Unable to create filter\n" . print_r($filter, true),
             ));
     }
 
     private function tryCreateObjectTypeFilter(
-        InputFilter $filter
+        InputFilter $filter,
     ): ?ObjectTypeFilter {
         return !empty($filter->objectTypes)
             ? new ObjectTypeFilter($filter->objectTypes, $filter->key)
@@ -64,18 +64,18 @@ class FilterListFactory
     }
 
     private function tryCreateContentSectionTypeFilter(
-        InputFilter $filter
+        InputFilter $filter,
     ): ?ContentSectionTypeFilter {
         return !empty($filter->contentSectionTypes)
             ? new ContentSectionTypeFilter(
                 $filter->contentSectionTypes,
-                $filter->key
+                $filter->key,
             )
             : null;
     }
 
     private function tryCreateCategoryFilter(
-        InputFilter $filter
+        InputFilter $filter,
     ): ?CategoryFilter {
         return !empty($filter->categories)
             ? new CategoryFilter($filter->categories, $filter->key)
@@ -83,7 +83,7 @@ class FilterListFactory
     }
 
     private function tryCreateSiteFilter(
-        InputFilter $filter
+        InputFilter $filter,
     ): ?SiteFilter {
         return !empty($filter->sites)
             ? new SiteFilter($filter->sites, $filter->key)
@@ -91,7 +91,7 @@ class FilterListFactory
     }
 
     private function tryCreateGroupFilter(
-        InputFilter $filter
+        InputFilter $filter,
     ): ?GroupFilter {
         return !empty($filter->groups)
             ? new GroupFilter($filter->groups, $filter->key)
@@ -99,7 +99,7 @@ class FilterListFactory
     }
 
     private function tryCreateIdFilter(
-        InputFilter $filter
+        InputFilter $filter,
     ): ?IdFilter {
         return !empty($filter->ids)
             ? new IdFilter($filter->ids, $filter->key)
@@ -107,19 +107,19 @@ class FilterListFactory
     }
 
     private function tryCreateAbsoluteDateRangeFilter(
-        InputFilter $filter
+        InputFilter $filter,
     ): ?AbsoluteDateRangeFilter {
         return ($filter->absoluteDateRange != null)
             ? new AbsoluteDateRangeFilter(
                 $filter->absoluteDateRange->from,
                 $filter->absoluteDateRange->to,
-                $filter->key
+                $filter->key,
             )
             : null;
     }
 
     private function tryCreateRelativeDateRangeFilter(
-        InputFilter $filter
+        InputFilter $filter,
     ): ?RelativeDateRangeFilter {
         return ($filter->relativeDateRange != null)
             ? new RelativeDateRangeFilter(
@@ -127,41 +127,41 @@ class FilterListFactory
                 $filter->relativeDateRange->before,
                 $filter->relativeDateRange->after,
                 $this->mapDateRangeRound(
-                    $filter->relativeDateRange->roundStart
+                    $filter->relativeDateRange->roundStart,
                 ),
                 $this->mapDateRangeRound(
-                    $filter->relativeDateRange->roundEnd
+                    $filter->relativeDateRange->roundEnd,
                 ),
-                $filter->key
+                $filter->key,
             )
             : null;
     }
 
 
     private function tryCreateAndFilter(
-        InputFilter $filter
+        InputFilter $filter,
     ): ?AndFilter {
         return !empty($filter->and)
             ? new AndFilter(
                 array_map(fn($and) => $this->createFilter($and), $filter->and),
-                $filter->key
+                $filter->key,
             )
             : null;
     }
 
     private function tryCreateOrFilter(
-        InputFilter $filter
+        InputFilter $filter,
     ): ?OrFilter {
         return !empty($filter->or)
             ? new OrFilter(
                 array_map(fn($or) => $this->createFilter($or), $filter->or),
-                $filter->key
+                $filter->key,
             )
             : null;
     }
 
     private function tryCreateNotFilter(
-        InputFilter $filter
+        InputFilter $filter,
     ): ?NotFilter {
         return isset($filter->not)
             ? new NotFilter($this->createFilter($filter->not), $filter->key)
@@ -169,14 +169,14 @@ class FilterListFactory
     }
 
     private function tryCreateQueryFilter(
-        InputFilter $filter
+        InputFilter $filter,
     ): ?QueryFilter {
         return isset($filter->query)
             ? new QueryFilter($filter->query, $filter->key)
             : null;
     }
     private function mapDateRangeRound(
-        ?\Atoolo\GraphQL\Search\Types\DateRangeRound $round
+        ?\Atoolo\GraphQL\Search\Types\DateRangeRound $round,
     ): ?DateRangeRound {
         return $round !== null
             ? DateRangeRound::from($round->name)

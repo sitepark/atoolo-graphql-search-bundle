@@ -18,7 +18,7 @@ class TestResourceFactory
             $data['name'] ?? '',
             $data['objectType'] ?? '',
             ResourceLanguage::of($data['locale'] ?? ''),
-            new DataBag($data)
+            new DataBag($data),
         );
     }
 }

@@ -21,12 +21,12 @@ class ResolverMapRegistryTest extends TestCase
     public function testResolveWithGetterWithArgsResolve(): void
     {
         $registry = new ResolverMapRegistry([
-            new DummyTeaserGetterResolver()
+            new DummyTeaserGetterResolver(),
         ]);
         $articleTeaser = $this->createStub(ArticleTeaser::class);
         $fn = $registry->resolve(
             'ArticleTeaser',
-            ResolverMapInterface::RESOLVE_FIELD
+            ResolverMapInterface::RESOLVE_FIELD,
         );
         $args = $this->createStub(ArgumentInterface::class);
         $context = $this->createStub(ArrayObject::class);
@@ -37,19 +37,19 @@ class ResolverMapRegistryTest extends TestCase
         $this->assertEquals(
             'fieldvalue',
             $value,
-            'unexpected value'
+            'unexpected value',
         );
     }
 
     public function testResolveWithGetterWithoutArgsResolve(): void
     {
         $registry = new ResolverMapRegistry([
-            new DummyTeaserGetterResolver()
+            new DummyTeaserGetterResolver(),
         ]);
         $articleTeaser = $this->createStub(ArticleTeaser::class);
         $fn = $registry->resolve(
             'ArticleTeaser',
-            ResolverMapInterface::RESOLVE_FIELD
+            ResolverMapInterface::RESOLVE_FIELD,
         );
         $args = $this->createStub(ArgumentInterface::class);
         $context = $this->createStub(ArrayObject::class);
@@ -60,24 +60,24 @@ class ResolverMapRegistryTest extends TestCase
         $this->assertEquals(
             'fieldvalue',
             $value,
-            'unexpected value'
+            'unexpected value',
         );
     }
 
     public function testResolvePropertyWithGetterResolve(): void
     {
         $registry = new ResolverMapRegistry([
-            new DummyTeaserGetterResolver()
+            new DummyTeaserGetterResolver(),
         ]);
         $articleTeaser = new ArticleTeaser(
             'url',
             'headline',
             'text',
-            $this->createStub(Resource::class)
+            $this->createStub(Resource::class),
         );
         $fn = $registry->resolve(
             'ArticleTeaser',
-            ResolverMapInterface::RESOLVE_FIELD
+            ResolverMapInterface::RESOLVE_FIELD,
         );
         $args = $this->createStub(ArgumentInterface::class);
         $context = $this->createStub(ArrayObject::class);
@@ -88,7 +88,7 @@ class ResolverMapRegistryTest extends TestCase
         $this->assertEquals(
             'headline',
             $value,
-            'unexpected headline'
+            'unexpected headline',
         );
     }
 
@@ -102,7 +102,7 @@ class ResolverMapRegistryTest extends TestCase
             'url',
             'headline',
             'text',
-            $this->createStub(Resource::class)
+            $this->createStub(Resource::class),
         );
 
         $type = $fn($teaser);
@@ -110,7 +110,7 @@ class ResolverMapRegistryTest extends TestCase
         $this->assertEquals(
             'ArticleTeaser',
             $type,
-            'unexpected type'
+            'unexpected type',
         );
     }
 
@@ -127,7 +127,7 @@ class ResolverMapRegistryTest extends TestCase
             '',
             null,
             null,
-            []
+            [],
         );
 
         $type = $fn($image);
@@ -135,7 +135,7 @@ class ResolverMapRegistryTest extends TestCase
         $this->assertEquals(
             'Image',
             $type,
-            'unexpected type'
+            'unexpected type',
         );
     }
 }

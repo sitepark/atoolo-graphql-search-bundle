@@ -19,7 +19,7 @@ class ResourceResolverTest extends TestCase
     public function testGetTeaser(): void
     {
         $teaserFactory = $this->createStub(
-            DelegatingTeaserFactory::class
+            DelegatingTeaserFactory::class,
         );
 
         $teaser = $this->createStub(Teaser::class);
@@ -31,14 +31,14 @@ class ResourceResolverTest extends TestCase
         $this->assertEquals(
             $teaser,
             $resolver->getTeaser($this->createStub(Resource::class)),
-            'Should return the teaser resolved by the teaserFactory'
+            'Should return the teaser resolved by the teaserFactory',
         );
     }
 
     public function testGetNavigation(): void
     {
         $resolver = new ResourceResolver(
-            $this->createStub(DelegatingTeaserFactory::class)
+            $this->createStub(DelegatingTeaserFactory::class),
         );
 
         $resource = $this->createStub(Resource::class);
@@ -49,24 +49,24 @@ class ResourceResolverTest extends TestCase
             $expected,
             $hierarchy,
             'Should return a Hierarchy with the navigation ' .
-            'type and the resource'
+            'type and the resource',
         );
     }
 
     public function testGetContentSectionTypes(): void
     {
         $resolver = new ResourceResolver(
-            $this->createStub(DelegatingTeaserFactory::class)
+            $this->createStub(DelegatingTeaserFactory::class),
         );
 
         $resource = TestResourceFactory::create([
-            'contentSectionTypes' => ['type1']
+            'contentSectionTypes' => ['type1'],
         ]);
 
         $this->assertEquals(
             ['type1'],
             $resolver->getContentSectionTypes($resource),
-            'Should return the content section types from the resource'
+            'Should return the content section types from the resource',
         );
     }
 }

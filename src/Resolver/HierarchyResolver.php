@@ -17,9 +17,8 @@ class HierarchyResolver implements Resolver
 
     public function __construct(
         private readonly ResourceHierarchyLoader $navigationLoader,
-        private readonly ResourceHierarchyLoader $categoryHierarchyLoader
-    ) {
-    }
+        private readonly ResourceHierarchyLoader $categoryHierarchyLoader,
+    ) {}
 
     /**
      * @throws InvalidArgumentException
@@ -76,7 +75,7 @@ class HierarchyResolver implements Resolver
         }
         throw new InvalidArgumentException(
             'unknown tree type ' .
-            '"' . $type . '"'
+            '"' . $type . '"',
         );
     }
 }

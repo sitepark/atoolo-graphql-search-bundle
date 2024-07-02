@@ -29,18 +29,18 @@ class NewsTeaserResolverTest extends TestCase
     public function setUp(): void
     {
         $this->assetResolver = $this->createMock(
-            ResourceAssetResolver::class
+            ResourceAssetResolver::class,
         );
         $this->symbolicImageResolver = $this->createMock(
-            ResourceSymbolicImageResolver::class
+            ResourceSymbolicImageResolver::class,
         );
         $this->dateResolver = $this->createMock(
-            ResourceDateResolver::class
+            ResourceDateResolver::class,
         );
         $this->newsTeaserResolver = new NewsTeaserResolver(
             $this->assetResolver,
             $this->symbolicImageResolver,
-            $this->dateResolver
+            $this->dateResolver,
         );
     }
 
@@ -52,7 +52,7 @@ class NewsTeaserResolverTest extends TestCase
             '',
             '',
             '',
-            $this->createStub(Resource::class)
+            $this->createStub(Resource::class),
         );
 
         $this->newsTeaserResolver->getDate($teaser);
@@ -66,7 +66,7 @@ class NewsTeaserResolverTest extends TestCase
             '',
             '',
             '',
-            $this->createStub(Resource::class)
+            $this->createStub(Resource::class),
         );
         $args = $this->createStub(ArgumentInterface::class);
 
@@ -81,7 +81,7 @@ class NewsTeaserResolverTest extends TestCase
             '',
             '',
             '',
-            $this->createStub(Resource::class)
+            $this->createStub(Resource::class),
         );
         $args = $this->createStub(ArgumentInterface::class);
 

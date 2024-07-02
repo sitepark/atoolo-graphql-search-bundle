@@ -19,7 +19,7 @@ class DelegatingTeaserFactory implements TeaserFactory
      */
     public function __construct(
         iterable $factories,
-        private readonly TeaserFactory $fallbackFactory
+        private readonly TeaserFactory $fallbackFactory,
     ) {
         $this->factories = $factories instanceof \Traversable ?
             iterator_to_array($factories) :

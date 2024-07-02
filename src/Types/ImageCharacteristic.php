@@ -12,7 +12,7 @@ enum ImageCharacteristic: string
     case DECORATIVE_IMAGE_NOT_CUT = 'DECORATIVE_IMAGE_NOT_CUT';
 
     public static function valueOfCamelCase(
-        string $name
+        string $name,
     ): ImageCharacteristic {
         $name = self::camelCaseToSnakeCase(trim($name));
         foreach (self::cases() as $case) {
@@ -21,18 +21,18 @@ enum ImageCharacteristic: string
             }
         }
         throw new InvalidArgumentException(
-            'unsupported name for ImageCharacteristic: ' . $name
+            'unsupported name for ImageCharacteristic: ' . $name,
         );
     }
 
     private static function camelCaseToSnakeCase(
-        string $camelCaseString
+        string $camelCaseString,
     ): string {
         /** @var string $snakeCase */
         $snakeCase = preg_replace(
             '/(?<!^)[A-Z]/',
             '_$0',
-            $camelCaseString
+            $camelCaseString,
         );
         return strtoupper($snakeCase);
     }

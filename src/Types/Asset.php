@@ -12,7 +12,6 @@ abstract class Asset
     public function __construct(
         public readonly ?string $copyright,
         public readonly ?string $caption,
-        public readonly ?string $description
-    ) {
-    }
+        public readonly ?string $description,
+    ) {}
 }

@@ -17,7 +17,7 @@ class DelegatingTeaserFactoryTest extends TestCase
     public function testCreate(): void
     {
         $resource = TestResourceFactory::create([
-            'objectType' => 'myObjectType'
+            'objectType' => 'myObjectType',
         ]);
 
         $teaser = $this->createStub(Teaser::class);
@@ -27,22 +27,22 @@ class DelegatingTeaserFactoryTest extends TestCase
             ->willReturn($teaser);
         $resolver = new DelegatingTeaserFactory(
             [
-                'myObjectType' => $teaserFactory
+                'myObjectType' => $teaserFactory,
             ],
-            $fallbackFactory
+            $fallbackFactory,
         );
 
         $this->assertEquals(
             $teaser,
             $resolver->create($resource),
-            'Should return the teaser resolved by the myObjectType resolver'
+            'Should return the teaser resolved by the myObjectType resolver',
         );
     }
 
     public function testCreateWithTraversable(): void
     {
         $resource = TestResourceFactory::create([
-            'objectType' => 'myObjectType'
+            'objectType' => 'myObjectType',
         ]);
 
         $teaser = $this->createStub(Teaser::class);
@@ -52,15 +52,15 @@ class DelegatingTeaserFactoryTest extends TestCase
             ->willReturn($teaser);
         $resolver = new DelegatingTeaserFactory(
             new TeaserFactoryTestIteratorAggregate([
-                'myObjectType' => $teaserFactory
+                'myObjectType' => $teaserFactory,
             ]),
-            $fallbackFactory
+            $fallbackFactory,
         );
 
         $this->assertEquals(
             $teaser,
             $resolver->create($resource),
-            'Should return the teaser resolved by the myObjectType resolver'
+            'Should return the teaser resolved by the myObjectType resolver',
         );
     }
 
@@ -79,7 +79,7 @@ class DelegatingTeaserFactoryTest extends TestCase
         $this->assertEquals(
             $teaser,
             $resolver->create($resource),
-            'Should return the teaser by the fallback resolver'
+            'Should return the teaser by the fallback resolver',
         );
     }
 }
