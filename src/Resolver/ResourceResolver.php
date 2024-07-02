@@ -11,9 +11,8 @@ use Atoolo\Resource\Resource;
 class ResourceResolver implements Resolver
 {
     public function __construct(
-        private readonly DelegatingTeaserFactory $teaserFactory
-    ) {
-    }
+        private readonly DelegatingTeaserFactory $teaserFactory,
+    ) {}
 
     public function getTeaser(Resource $resource): Teaser
     {
@@ -32,7 +31,7 @@ class ResourceResolver implements Resolver
     {
         /** @var string[] $contentSectionTypes */
         $contentSectionTypes = $resource->data->getArray(
-            'contentSectionTypes'
+            'contentSectionTypes',
         );
         return $contentSectionTypes;
     }

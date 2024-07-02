@@ -13,13 +13,13 @@ class DummyTeaserGetterResolver implements Resolver
 {
     public function getFieldWithArgs(
         ArticleTeaser $teaser,
-        ArgumentInterface $args
+        ArgumentInterface $args,
     ): ?string {
         return 'fieldvalue';
     }
 
     public function getFieldWithoutArgs(
-        ArticleTeaser $teaser
+        ArticleTeaser $teaser,
     ): ?string {
         return 'fieldvalue';
     }
@@ -50,14 +50,14 @@ class DummyTeaserGetterResolver implements Resolver
     }
 
     public function getWithArgOneIsIntersectionType(
-        ArticleTeaser&MediaTeaser $a
+        ArticleTeaser&MediaTeaser $a,
     ): string {
         return 'dummy';
     }
 
     public function getWithArgTwoAsNoType(
         int $a,
-        $b // phpstan-ignore-line
+        $b, // phpstan-ignore-line
     ): string {
         return 'dummy';
     }
@@ -69,7 +69,7 @@ class DummyTeaserGetterResolver implements Resolver
 
     public function getWithArgTwoNamedTypeButNotArgumentInterface(
         int $a,
-        int $b
+        int $b,
     ): string {
         return 'dummy';
     }

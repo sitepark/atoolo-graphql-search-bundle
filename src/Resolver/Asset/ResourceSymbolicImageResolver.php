@@ -13,6 +13,6 @@ interface ResourceSymbolicImageResolver extends Resolver
 {
     public function getSymbolicImage(
         Resource $resource,
-        ArgumentInterface $args
+        ArgumentInterface $args,
     ): ?SymbolicImage;
 }

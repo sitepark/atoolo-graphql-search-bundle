@@ -27,7 +27,7 @@ class MediaTeaserFactoryTest extends TestCase
     public function testCreateWithUnsupportedObjectType(): void
     {
         $resource = TestResourceFactory::create([
-            'objectType' => 'other'
+            'objectType' => 'other',
         ]);
 
         $this->expectException(\InvalidArgumentException::class);
@@ -43,14 +43,14 @@ class MediaTeaserFactoryTest extends TestCase
         ]);
 
         $this->urlRewriter->method('rewrite')
-            ->willReturnCallback(static fn ($type, $url) => $url);
+            ->willReturnCallback(static fn($type, $url) => $url);
 
         $teaser = $this->factory->create($resource);
 
         $this->assertEquals(
             'mediaUrl',
             $teaser->url,
-            'unexpected url'
+            'unexpected url',
         );
     }
 
@@ -60,9 +60,9 @@ class MediaTeaserFactoryTest extends TestCase
             'objectType' => 'embedded-media',
             'base' => [
                 'teaser' => [
-                    'headline' => 'Headline'
-                ]
-            ]
+                    'headline' => 'Headline',
+                ],
+            ],
         ]);
 
         /** @var MediaTeaser $teaser */
@@ -71,7 +71,7 @@ class MediaTeaserFactoryTest extends TestCase
         $this->assertEquals(
             'Headline',
             $teaser->headline,
-            'unexpected headline'
+            'unexpected headline',
         );
     }
 
@@ -88,7 +88,7 @@ class MediaTeaserFactoryTest extends TestCase
         $this->assertEquals(
             'ResourceName',
             $teaser->headline,
-            'unexpected fallback headline'
+            'unexpected fallback headline',
         );
     }
 
@@ -96,7 +96,7 @@ class MediaTeaserFactoryTest extends TestCase
     {
 
         $this->urlRewriter->method('rewrite')
-            ->willReturnCallback(static fn ($type, $url) => $url);
+            ->willReturnCallback(static fn($type, $url) => $url);
 
         $resource = TestResourceFactory::create([
             'objectType' => 'media',
@@ -107,8 +107,8 @@ class MediaTeaserFactoryTest extends TestCase
                     'text' => 'Text',
                 ],
                 'mime' => 'mime',
-                'filesize' => 100
-            ]
+                'filesize' => 100,
+            ],
         ]);
 
         $teaser = $this->factory->create($resource);
@@ -120,13 +120,13 @@ class MediaTeaserFactoryTest extends TestCase
             'mime',
             100,
             null,
-            $resource
+            $resource,
         );
 
         $this->assertEquals(
             $expected,
             $teaser,
-            'unexpected media teaser'
+            'unexpected media teaser',
         );
     }
 }

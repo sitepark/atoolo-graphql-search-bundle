@@ -23,7 +23,7 @@ class DateInterval
                 'Y' => $interval->y,
                 'M' => $interval->m,
                 'D' => $interval->d,
-            ]
+            ],
         );
 
         // Reading all non-zero time parts.
@@ -32,7 +32,7 @@ class DateInterval
                 'H' => $interval->h,
                 'M' => $interval->i,
                 'S' => $interval->s,
-            ]
+            ],
         );
 
         $specString = 'P';
@@ -68,7 +68,7 @@ class DateInterval
     {
         if (!property_exists($valueNode, 'value')) {
             throw new \InvalidArgumentException(
-                'expected node with string value, got ' . get_class($valueNode)
+                'expected node with string value, got ' . get_class($valueNode),
             );
         }
         $value = $valueNode->value;
@@ -87,7 +87,7 @@ class DateInterval
             throw new InvalidArgumentException(
                 'Invalid DateInterval string: ' . $value,
                 0,
-                $e
+                $e,
             );
         }
     }

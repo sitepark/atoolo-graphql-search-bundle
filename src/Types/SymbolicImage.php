@@ -10,7 +10,7 @@ namespace Atoolo\GraphQL\Search\Types;
 class SymbolicImage extends Asset
 {
     public function __construct(
-        public readonly string $url
+        public readonly string $url,
     ) {
         parent::__construct(null, null, null);
     }

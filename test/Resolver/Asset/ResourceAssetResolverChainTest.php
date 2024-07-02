@@ -26,14 +26,14 @@ class ResourceAssetResolverChainTest extends TestCase
     public function setUp(): void
     {
         $this->firstInnerResolver = $this->createMock(
-            ResourceAssetResolver::class
+            ResourceAssetResolver::class,
         );
         $this->lastInnerResolver = $this->createMock(
-            ResourceAssetResolver::class
+            ResourceAssetResolver::class,
         );
         $this->resolver = new ResourceAssetResolverChain([
             $this->firstInnerResolver,
-            $this->lastInnerResolver
+            $this->lastInnerResolver,
         ]);
     }
 
@@ -50,7 +50,7 @@ class ResourceAssetResolverChainTest extends TestCase
         $asset = $this->resolver->getAsset($resource, $args);
         $this->assertNull(
             $asset,
-            'asset should be null'
+            'asset should be null',
         );
     }
 
@@ -69,7 +69,7 @@ class ResourceAssetResolverChainTest extends TestCase
         $asset = $this->resolver->getAsset($resource, $args);
         $this->assertEquals(
             $expected,
-            $asset
+            $asset,
         );
     }
 
@@ -88,7 +88,7 @@ class ResourceAssetResolverChainTest extends TestCase
         $asset = $this->resolver->getAsset($resource, $args);
         $this->assertEquals(
             $expected,
-            $asset
+            $asset,
         );
     }
 

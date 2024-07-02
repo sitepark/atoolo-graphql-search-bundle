@@ -14,7 +14,7 @@ class Search
     private readonly SearchQueryFactory $factory;
 
     public function __construct(
-        private readonly \Atoolo\Search\Search $search
+        private readonly \Atoolo\Search\Search $search,
     ) {
         $this->factory = new SearchQueryFactory();
     }

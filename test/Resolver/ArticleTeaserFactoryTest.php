@@ -23,7 +23,7 @@ class ArticleTeaserFactoryTest extends TestCase
     {
         $this->urlRewriter = $this->createStub(UrlRewriter::class);
         $this->factory = new ArticleTeaserFactory(
-            $this->urlRewriter
+            $this->urlRewriter,
         );
     }
 
@@ -35,7 +35,7 @@ class ArticleTeaserFactoryTest extends TestCase
             '',
             '',
             ResourceLanguage::default(),
-            new DataBag([])
+            new DataBag([]),
         );
 
         $this->urlRewriter->method('rewrite')
@@ -46,7 +46,7 @@ class ArticleTeaserFactoryTest extends TestCase
         $this->assertEquals(
             'rewrittenUrl',
             $teaser->url,
-            'unexpected url'
+            'unexpected url',
         );
     }
 
@@ -57,10 +57,10 @@ class ArticleTeaserFactoryTest extends TestCase
             [
                 'base' => [
                     'teaser' => [
-                        'headline' => 'Headline'
-                    ]
-                ]
-            ]
+                        'headline' => 'Headline',
+                    ],
+                ],
+            ],
         );
 
         $teaser = $this->factory->create($resource);
@@ -68,7 +68,7 @@ class ArticleTeaserFactoryTest extends TestCase
         $this->assertEquals(
             'Headline',
             $teaser->headline,
-            'unexpected headline'
+            'unexpected headline',
         );
     }
 
@@ -80,7 +80,7 @@ class ArticleTeaserFactoryTest extends TestCase
             'ResourceName',
             '',
             ResourceLanguage::default(),
-            new DataBag([])
+            new DataBag([]),
         );
 
         $teaser = $this->factory->create($resource);
@@ -88,7 +88,7 @@ class ArticleTeaserFactoryTest extends TestCase
         $this->assertEquals(
             'ResourceName',
             $teaser->headline,
-            'unexpected headline'
+            'unexpected headline',
         );
     }
 
@@ -98,10 +98,10 @@ class ArticleTeaserFactoryTest extends TestCase
             [
                 'base' => [
                     'teaser' => [
-                        'text' => 'Text'
-                    ]
-                ]
-            ]
+                        'text' => 'Text',
+                    ],
+                ],
+            ],
         );
 
         $teaser = $this->factory->create($resource);
@@ -109,7 +109,7 @@ class ArticleTeaserFactoryTest extends TestCase
         $this->assertEquals(
             'Text',
             $teaser->text,
-            'unexpected text'
+            'unexpected text',
         );
     }
 
@@ -121,7 +121,7 @@ class ArticleTeaserFactoryTest extends TestCase
             $data['name'] ?? '',
             $data['objectType'] ?? '',
             ResourceLanguage::default(),
-            new DataBag($data)
+            new DataBag($data),
         );
     }
 }

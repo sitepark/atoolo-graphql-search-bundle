@@ -41,72 +41,72 @@ class FacetListFactory
             ?? $this->tryCreateAbsoluteDateRangeInputFacet($facet)
             ?? $this->tryCreateRelativeDateRangeInputFacet($facet)
             ?? (throw new InvalidArgumentException(
-                "Unable to create facet\n" . print_r($facet, true)
+                "Unable to create facet\n" . print_r($facet, true),
             ));
     }
 
     private function tryCreateObjectTypeFacet(
-        InputFacet $facet
+        InputFacet $facet,
     ): ?ObjectTypeFacet {
         return !empty($facet->objectTypes)
             ? new ObjectTypeFacet(
                 $facet->key,
                 $facet->objectTypes,
-                $facet->excludeFilter ?? []
+                $facet->excludeFilter ?? [],
             )
             : null;
     }
 
     private function tryCreateContentSectionTypeFacet(
-        InputFacet $facet
+        InputFacet $facet,
     ): ?ContentSectionTypeFacet {
         return !empty($facet->contentSectionTypes)
             ? new ContentSectionTypeFacet(
                 $facet->key,
                 $facet->contentSectionTypes,
-                $facet->excludeFilter ?? []
+                $facet->excludeFilter ?? [],
             )
             : null;
     }
 
     private function tryCreateCategoryFacet(
-        InputFacet $facet
+        InputFacet $facet,
     ): ?CategoryFacet {
         return !empty($facet->categories)
             ? new CategoryFacet(
                 $facet->key,
                 $facet->categories,
-                $facet->excludeFilter ?? []
+                $facet->excludeFilter ?? [],
             )
             : null;
     }
 
     private function tryCreateSiteFacet(
-        InputFacet $facet
+        InputFacet $facet,
     ): ?SiteFacet {
         return !empty($facet->sites)
             ? new SiteFacet(
                 $facet->key,
                 $facet->sites,
-                $facet->excludeFilter ?? []
+                $facet->excludeFilter ?? [],
             )
             : null;
     }
 
     private function tryCreateGroupFacet(
-        InputFacet $facet
+        InputFacet $facet,
     ): ?GroupFacet {
         return !empty($facet->groups)
             ? new GroupFacet(
                 $facet->key,
                 $facet->groups,
-                $facet->excludeFilter ?? []
+                $facet->excludeFilter ?? [],
             )
             : null;
     }
 
     private function tryCreateAbsoluteDateRangeInputFacet(
-        InputFacet $facet
+        InputFacet $facet,
     ): ?AbsoluteDateRangeFacet {
         if (empty($facet->absoluteDateRange)) {
             return null;
@@ -117,7 +117,7 @@ class FacetListFactory
         ) {
             throw new InvalidArgumentException(
                 'At least `from` or `to` must be specified for ' .
-                'the `absoluteDateRange`'
+                'the `absoluteDateRange`',
             );
         }
         return new AbsoluteDateRangeFacet(
@@ -125,12 +125,12 @@ class FacetListFactory
             $facet->absoluteDateRange->from,
             $facet->absoluteDateRange->to,
             $facet->absoluteDateRange->gap,
-            $facet->excludeFilter ?? []
+            $facet->excludeFilter ?? [],
         );
     }
 
     private function tryCreateRelativeDateRangeInputFacet(
-        InputFacet $facet
+        InputFacet $facet,
     ): ?RelativeDateRangeFacet {
         return !empty($facet->relativeDateRange)
             ? new RelativeDateRangeFacet(
@@ -141,13 +141,13 @@ class FacetListFactory
                 $facet->relativeDateRange->gap,
                 $this->mapDateRangeRound($facet->relativeDateRange->roundStart),
                 $this->mapDateRangeRound($facet->relativeDateRange->roundEnd),
-                $facet->excludeFilter ?? []
+                $facet->excludeFilter ?? [],
             )
             : null;
     }
 
     private function mapDateRangeRound(
-        ?\Atoolo\GraphQL\Search\Types\DateRangeRound $round
+        ?\Atoolo\GraphQL\Search\Types\DateRangeRound $round,
     ): ?DateRangeRound {
         return $round !== null
             ? DateRangeRound::from($round->name)

@@ -24,14 +24,14 @@ class AtooloGraphQLSearchBundle extends Bundle
     {
         $container->setParameter(
             'atoolo_graphql_search.src_dir',
-            __DIR__
+            __DIR__,
         );
 
         $configDir = __DIR__ . '/../config';
 
         $container->setParameter(
             'atoolo_graphql_search.config_dir',
-            $configDir
+            $configDir,
         );
 
 
@@ -41,8 +41,8 @@ class AtooloGraphQLSearchBundle extends Bundle
             new LoaderResolver(
                 [
                     new YamlFileLoader($container, $locator),
-                ]
-            )
+                ],
+            ),
         );
 
         $loader->load('graphql.yaml');

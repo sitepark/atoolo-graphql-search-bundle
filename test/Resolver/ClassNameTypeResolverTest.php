@@ -16,7 +16,7 @@ class ClassNameTypeResolverTest extends TestCase
         $resolver = new ClassNameTypeResolver();
         $this->assertEquals(
             'ClassNameTypeResolverDummyClass',
-            $resolver->resolveType(new ClassNameTypeResolverDummyClass())
+            $resolver->resolveType(new ClassNameTypeResolverDummyClass()),
         );
     }
 }

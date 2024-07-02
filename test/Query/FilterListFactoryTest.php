@@ -40,10 +40,10 @@ class FilterListFactoryTest extends TestCase
 
         $this->assertEquals(
             [
-                new ObjectTypeFilter(['content'])
+                new ObjectTypeFilter(['content']),
             ],
             $filterList,
-            'objectType filter expected'
+            'objectType filter expected',
         );
     }
 
@@ -57,10 +57,10 @@ class FilterListFactoryTest extends TestCase
 
         $this->assertEquals(
             [
-                new ContentSectionTypeFilter(['youtube'])
+                new ContentSectionTypeFilter(['youtube']),
             ],
             $filterList,
-            'contentSectionType filter expected'
+            'contentSectionType filter expected',
         );
     }
 
@@ -74,10 +74,10 @@ class FilterListFactoryTest extends TestCase
 
         $this->assertEquals(
             [
-                new CategoryFilter(['123'])
+                new CategoryFilter(['123']),
             ],
             $filterList,
-            'category filter expected'
+            'category filter expected',
         );
     }
 
@@ -91,10 +91,10 @@ class FilterListFactoryTest extends TestCase
 
         $this->assertEquals(
             [
-                new SiteFilter(['123'])
+                new SiteFilter(['123']),
             ],
             $filterList,
-            'site filter expected'
+            'site filter expected',
         );
     }
 
@@ -115,11 +115,11 @@ class FilterListFactoryTest extends TestCase
             [
                 new AbsoluteDateRangeFilter(
                     new DateTime('2021-01-01T00:00:00+00:00'),
-                    new DateTime('2021-01-02T00:00:00+00:00')
-                )
+                    new DateTime('2021-01-02T00:00:00+00:00'),
+                ),
             ],
             $filterList,
-            'site filter expected'
+            'site filter expected',
         );
     }
 
@@ -143,11 +143,11 @@ class FilterListFactoryTest extends TestCase
                     new DateInterval('P1D'),
                     null,
                     DateRangeRound::START_OF_MONTH,
-                    null
-                )
+                    null,
+                ),
             ],
             $filterList,
-            'site filter expected'
+            'site filter expected',
         );
     }
 
@@ -161,10 +161,10 @@ class FilterListFactoryTest extends TestCase
 
         $this->assertEquals(
             [
-                new GroupFilter(['123'])
+                new GroupFilter(['123']),
             ],
             $filterList,
-            'group filter expected'
+            'group filter expected',
         );
     }
 
@@ -178,10 +178,10 @@ class FilterListFactoryTest extends TestCase
 
         $this->assertEquals(
             [
-                new IdFilter(['123'])
+                new IdFilter(['123']),
             ],
             $filterList,
-            'id filter expected'
+            'id filter expected',
         );
     }
 
@@ -203,10 +203,10 @@ class FilterListFactoryTest extends TestCase
                 new AndFilter([
                     new ObjectTypeFilter(['content']),
                     new ContentSectionTypeFilter(['youtube']),
-                ])
+                ]),
             ],
             $filterList,
-            'and filter expected'
+            'and filter expected',
         );
     }
 
@@ -228,10 +228,10 @@ class FilterListFactoryTest extends TestCase
                 new OrFilter([
                     new ObjectTypeFilter(['content']),
                     new ContentSectionTypeFilter(['youtube']),
-                ])
+                ]),
             ],
             $filterList,
-            'or filter expected'
+            'or filter expected',
         );
     }
 
@@ -248,10 +248,10 @@ class FilterListFactoryTest extends TestCase
 
         $this->assertEquals(
             [
-                new NotFilter(new ObjectTypeFilter(['content']))
+                new NotFilter(new ObjectTypeFilter(['content'])),
             ],
             $filterList,
-            'not filter expected'
+            'not filter expected',
         );
     }
 
@@ -265,10 +265,10 @@ class FilterListFactoryTest extends TestCase
 
         $this->assertEquals(
             [
-                new QueryFilter('test:test')
+                new QueryFilter('test:test'),
             ],
             $filterList,
-            'query filter expected'
+            'query filter expected',
         );
     }
 

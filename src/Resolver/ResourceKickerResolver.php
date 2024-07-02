@@ -11,16 +11,15 @@ use Atoolo\Resource\ResourceHierarchyWalker;
 class ResourceKickerResolver
 {
     public function __construct(
-        private readonly ResourceHierarchyLoader $hierarchyLoader
-    ) {
-    }
+        private readonly ResourceHierarchyLoader $hierarchyLoader,
+    ) {}
 
     public function getKicker(
         Resource $resource,
     ): ?string {
         $kickerText = $resource->data->getString(
             'base.teaser.kicker',
-            $resource->data->getString('base.kicker')
+            $resource->data->getString('base.kicker'),
         );
         if (!empty($kickerText)) {
             return $kickerText;

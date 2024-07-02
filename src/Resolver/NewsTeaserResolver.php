@@ -17,26 +17,25 @@ class NewsTeaserResolver implements Resolver
     public function __construct(
         private readonly ResourceAssetResolver $assetResolver,
         private readonly ResourceSymbolicImageResolver $symbolicImageResolver,
-        private readonly ResourceDateResolver $dateResolver
-    ) {
-    }
+        private readonly ResourceDateResolver $dateResolver,
+    ) {}
 
     public function getDate(
-        NewsTeaser $teaser
+        NewsTeaser $teaser,
     ): ?DateTime {
         return $this->dateResolver->getDate($teaser->resource);
     }
 
     public function getAsset(
         NewsTeaser $teaser,
-        ArgumentInterface $args
+        ArgumentInterface $args,
     ): ?Asset {
         return $this->assetResolver->getAsset($teaser->resource, $args);
     }
 
     public function getSymbolicImage(
         NewsTeaser $teaser,
-        ArgumentInterface $args
+        ArgumentInterface $args,
     ): ?SymbolicImage {
         return $this->symbolicImageResolver
             ->getSymbolicImage($teaser->resource, $args);

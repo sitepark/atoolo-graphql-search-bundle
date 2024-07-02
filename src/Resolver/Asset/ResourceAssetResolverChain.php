@@ -14,18 +14,17 @@ class ResourceAssetResolverChain implements ResourceAssetResolver
      * @param array<ResourceAssetResolver> $resolvers
      */
     public function __construct(
-        private readonly iterable $resolvers
-    ) {
-    }
+        private readonly iterable $resolvers,
+    ) {}
 
     public function getAsset(
         Resource $resource,
-        ArgumentInterface $args
+        ArgumentInterface $args,
     ): ?Asset {
         foreach ($this->resolvers as $resolver) {
             $asset = $resolver->getAsset(
                 $resource,
-                $args
+                $args,
             );
             if ($asset !== null) {
                 return $asset;

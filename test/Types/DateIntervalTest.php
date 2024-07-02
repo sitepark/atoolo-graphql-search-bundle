@@ -19,7 +19,7 @@ class DateIntervalTest extends TestCase
         $value = new \DateInterval('P1Y2M2DT2H30M10S');
         self::assertSame(
             'P1Y2M2DT2H30M10S',
-            DateInterval::serialize($value)
+            DateInterval::serialize($value),
         );
     }
 
@@ -28,7 +28,7 @@ class DateIntervalTest extends TestCase
         $value = 'P1Y2M2DT2H30M10S';
         self::assertEquals(
             new \DateInterval($value),
-            DateInterval::parseValue('P1Y2M2DT2H30M10S')
+            DateInterval::parseValue('P1Y2M2DT2H30M10S'),
         );
     }
 
@@ -45,7 +45,7 @@ class DateIntervalTest extends TestCase
         $valueNode = new StringValueNode(['value' => $value]);
         self::assertEquals(
             new \DateInterval($value),
-            DateInterval::parseLiteral($valueNode)
+            DateInterval::parseLiteral($valueNode),
         );
     }
 

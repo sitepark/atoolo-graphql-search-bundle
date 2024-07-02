@@ -10,6 +10,6 @@ return TestResourceFactory::create([
     'name' => 'parent',
     'locale' => 'en_US',
     'base' => [
-        'kicker' => 'Parent-Kicker'
-    ]
+        'kicker' => 'Parent-Kicker',
+    ],
 ]);

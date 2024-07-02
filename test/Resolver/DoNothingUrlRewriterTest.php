@@ -17,7 +17,7 @@ class DoNothingUrlRewriterTest extends TestCase
         $rewriter = new DoNothingUrlRewriter();
         $this->assertEquals(
             'url',
-            $rewriter->rewrite(UrlRewriterType::LINK, 'url')
+            $rewriter->rewrite(UrlRewriterType::LINK, 'url'),
         );
     }
 }

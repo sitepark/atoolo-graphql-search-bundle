@@ -17,7 +17,7 @@ class PingTest extends TestCase
         $this->assertEquals(
             'pong',
             $ping->ping(),
-            'pong expected'
+            'pong expected',
         );
     }
 }

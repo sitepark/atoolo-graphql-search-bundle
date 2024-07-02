@@ -38,24 +38,23 @@ class ResourceImageResolver implements ResourceAssetResolver
     public function __construct(
         private readonly UrlRewriter $urlRewriter,
         private readonly LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     public function getAsset(
         Resource $resource,
-        ArgumentInterface $args
+        ArgumentInterface $args,
     ): ?Asset {
         return $this->getImage($resource, $args);
     }
 
     public function getImage(
         Resource $resource,
-        ArgumentInterface $args
+        ArgumentInterface $args,
     ): ?Image {
 
         /** @var ImageData|array{} $imageData */
         $imageData = $resource->data->getAssociativeArray(
-            'base.teaser.image'
+            'base.teaser.image',
         );
         if (empty($imageData)) {
             return null;
@@ -63,15 +62,15 @@ class ResourceImageResolver implements ResourceAssetResolver
 
         try {
             $characteristic = ImageCharacteristic::valueOfCamelCase(
-                $imageData['characteristic'] ?? 'normal'
+                $imageData['characteristic'] ?? 'normal',
             );
         } catch (InvalidArgumentException $e) {
             $this->logger->error(
                 'Invalid characteristic for teaser image',
                 [
                     'resource' => $resource->location,
-                    'exception' => $e
-                ]
+                    'exception' => $e,
+                ],
             );
             return null;
         }
@@ -84,7 +83,7 @@ class ResourceImageResolver implements ResourceAssetResolver
         if (isset($imageData['original'])) {
             $original = $this->toImageSource(
                 'original',
-                $imageData['original']
+                $imageData['original'],
             );
         }
 
@@ -98,7 +97,7 @@ class ResourceImageResolver implements ResourceAssetResolver
         ) {
             $sources = $this->toImageSourceList(
                 $variant,
-                $imageData['variants'][$variant]
+                $imageData['variants'][$variant],
             );
         }
 
@@ -109,7 +108,7 @@ class ResourceImageResolver implements ResourceAssetResolver
             $alternativeText,
             $original,
             $characteristic,
-            $sources
+            $sources,
         );
     }
 
@@ -119,13 +118,13 @@ class ResourceImageResolver implements ResourceAssetResolver
      */
     private function toImageSourceList(
         string $variant,
-        array $variantData
+        array $variantData,
     ): array {
         $sources = [];
         foreach ($variantData as $sourceData) {
             $sources[] = $this->toImageSource(
                 $variant,
-                $sourceData
+                $sourceData,
             );
         }
         return $sources;
@@ -136,11 +135,11 @@ class ResourceImageResolver implements ResourceAssetResolver
      */
     private function toImageSource(
         string $variant,
-        array $sourceData
+        array $sourceData,
     ): ImageSource {
         $url = $this->urlRewriter->rewrite(
             UrlRewriterType::IMAGE,
-            $sourceData['url']
+            $sourceData['url'],
         );
         $width = $sourceData['width'];
         $height = $sourceData['height'];
@@ -151,7 +150,7 @@ class ResourceImageResolver implements ResourceAssetResolver
             $url,
             $width,
             $height,
-            $mediaQuery
+            $mediaQuery,
         );
     }
 }

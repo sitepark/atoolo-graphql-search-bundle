@@ -23,10 +23,10 @@ class ResourceKickerResolverTest extends TestCase
     {
         $resourceBaseDir = realpath(
             __DIR__ . '/../resources/' .
-            'ArticleTeaserResolver'
+            'ArticleTeaserResolver',
         );
         $resourceLoader = $this->createStub(
-            ResourceLoader::class
+            ResourceLoader::class,
         );
         $resourceLoader->method('load')
             ->willReturnCallback(static function ($location) use (
@@ -38,7 +38,7 @@ class ResourceKickerResolverTest extends TestCase
             });
 
         $this->hierarchyLoader = new SiteKitNavigationHierarchyLoader(
-            $resourceLoader
+            $resourceLoader,
         );
         $this->resolver = new ResourceKickerResolver(
             $this->hierarchyLoader,
@@ -50,15 +50,15 @@ class ResourceKickerResolverTest extends TestCase
         $resource = $this->createResource([
             'base' => [
                 'teaser' => [
-                    'kicker' => 'Teaser-Kicker'
+                    'kicker' => 'Teaser-Kicker',
                 ],
-                'kicker' => 'Base-Kicker'
-            ]
+                'kicker' => 'Base-Kicker',
+            ],
         ]);
         $this->assertEquals(
             'Teaser-Kicker',
             $this->resolver->getKicker($resource),
-            'unexpected teaser kicker'
+            'unexpected teaser kicker',
         );
     }
 
@@ -66,13 +66,13 @@ class ResourceKickerResolverTest extends TestCase
     {
         $teaser = $this->createResource([
             'base' => [
-                'kicker' => 'Base-Kicker'
-            ]
+                'kicker' => 'Base-Kicker',
+            ],
         ]);
         $this->assertEquals(
             'Base-Kicker',
             $this->resolver->getKicker($teaser),
-            'unexpected teaser kicker'
+            'unexpected teaser kicker',
         );
     }
 
@@ -85,17 +85,17 @@ class ResourceKickerResolverTest extends TestCase
                         'parents' => [
                             'parent' => [
                                 'id' => 'parent',
-                                'url' => '/parent.php'
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                'url' => '/parent.php',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ]);
         $this->assertEquals(
             'Parent-Kicker',
             $this->resolver->getKicker($teaser),
-            'unexpected teaser kicker'
+            'unexpected teaser kicker',
         );
     }
 
@@ -105,7 +105,7 @@ class ResourceKickerResolverTest extends TestCase
         ]);
         $this->assertNull(
             $this->resolver->getKicker($teaser),
-            'kicker should be null'
+            'kicker should be null',
         );
     }
 

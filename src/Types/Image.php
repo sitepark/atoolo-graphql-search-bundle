@@ -19,7 +19,7 @@ class Image extends Asset
         public readonly ?string $alternativeText,
         public readonly ?ImageSource $original,
         public readonly ?ImageCharacteristic $characteristic,
-        public readonly array $sources
+        public readonly array $sources,
     ) {
         parent::__construct($copyright, $caption, $description);
     }

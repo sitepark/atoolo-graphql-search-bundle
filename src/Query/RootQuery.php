@@ -12,6 +12,4 @@ use Overblog\GraphQLBundle\Annotation as GQL;
  * GraphQL bundle yet and is therefore stored here for the time being.
  */
 #[GQL\Type]
-class RootQuery
-{
-}
+class RootQuery {}

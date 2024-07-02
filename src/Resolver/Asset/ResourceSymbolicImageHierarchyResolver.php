@@ -19,13 +19,12 @@ class ResourceSymbolicImageHierarchyResolver implements
 {
     public function __construct(
         private readonly UrlRewriter $urlRewriter,
-        private readonly ResourceHierarchyLoader $hierarchyLoader
-    ) {
-    }
+        private readonly ResourceHierarchyLoader $hierarchyLoader,
+    ) {}
 
     public function getAsset(
         Resource $resource,
-        ArgumentInterface $args
+        ArgumentInterface $args,
     ): ?Asset {
         return $this->getSymbolicImage($resource, $args);
     }
@@ -38,7 +37,7 @@ class ResourceSymbolicImageHierarchyResolver implements
      */
     public function getSymbolicImage(
         Resource $resource,
-        ArgumentInterface $args
+        ArgumentInterface $args,
     ): ?SymbolicImage {
         $walker = new ResourceHierarchyWalker($this->hierarchyLoader);
         $walker->init($resource);
@@ -48,7 +47,7 @@ class ResourceSymbolicImageHierarchyResolver implements
             if (!empty($url)) {
                 $rewrittenUrl = $this->urlRewriter->rewrite(
                     UrlRewriterType::IMAGE,
-                    $url
+                    $url,
                 );
                 return  new SymbolicImage($rewrittenUrl);
             }

@@ -39,7 +39,7 @@ class DateTime
     {
         if (!property_exists($valueNode, 'value')) {
             throw new \InvalidArgumentException(
-                'expected node with string value, got ' . get_class($valueNode)
+                'expected node with string value, got ' . get_class($valueNode),
             );
         }
         $value = $valueNode->value;
@@ -56,7 +56,7 @@ class DateTime
             return new \DateTime($value);
         } catch (Exception $e) {
             throw new InvalidArgumentException(
-                'Invalid date/time string, got ' . $value
+                'Invalid date/time string, got ' . $value,
             );
         }
     }

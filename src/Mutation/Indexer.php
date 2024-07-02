@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Mutation;
 
-use Atoolo\GraphQL\Search\Service\PhpLimitIncreaser;
 use Atoolo\Search\Dto\Indexer\IndexerStatus;
 use Atoolo\Search\Service\Indexer\InternalResourceIndexer;
 use Overblog\GraphQLBundle\Annotation as GQL;
@@ -13,9 +12,8 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 class Indexer
 {
     public function __construct(
-        private readonly InternalResourceIndexer $indexer
-    ) {
-    }
+        private readonly InternalResourceIndexer $indexer,
+    ) {}
 
     #[GQL\Mutation(name: 'index', type: 'IndexerStatus!')]
     #[GQL\Access("hasRole('ROLE_API')")]
@@ -32,7 +30,7 @@ class Indexer
     #[GQL\Arg(
         name:"paths",
         type:"[String!]!",
-        description:"List of resource paths that are to be updated."
+        description:"List of resource paths that are to be updated.",
     )]
     public function indexUpdate(array $paths): IndexerStatus
     {
@@ -47,7 +45,7 @@ class Indexer
     #[GQL\Arg(
         name:"idList",
         type:"[String!]",
-        description:"list of id's of the entries to be deleted"
+        description:"list of id's of the entries to be deleted",
     )]
     public function indexRemove(array $idList): bool
     {

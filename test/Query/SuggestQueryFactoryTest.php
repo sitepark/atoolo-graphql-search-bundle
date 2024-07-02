@@ -28,7 +28,7 @@ class SuggestQueryFactoryTest extends TestCase
         $this->assertEquals(
             new SuggestQuery('test', ResourceLanguage::default()),
             $query,
-            'unexpected text'
+            'unexpected text',
         );
     }
 
@@ -48,13 +48,13 @@ class SuggestQueryFactoryTest extends TestCase
         $expected = new SuggestQuery(
             'test',
             ResourceLanguage::default(),
-            [$objectTypeFilter]
+            [$objectTypeFilter],
         );
 
         $this->assertEquals(
             $expected,
             $query,
-            'unexpected filter'
+            'unexpected filter',
         );
     }
 
@@ -72,10 +72,10 @@ class SuggestQueryFactoryTest extends TestCase
                 'test',
                 ResourceLanguage::default(),
                 [],
-                10
+                10,
             ),
             $query,
-            'unexpected limit'
+            'unexpected limit',
         );
     }
 }

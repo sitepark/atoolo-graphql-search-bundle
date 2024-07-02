@@ -37,7 +37,7 @@ class FacetListFactoryTest extends TestCase
         $this->assertEquals(
             [new ObjectTypeFacet('objectType', ['content'])],
             $facetList,
-            'objectType facet expected'
+            'objectType facet expected',
         );
     }
 
@@ -53,7 +53,7 @@ class FacetListFactoryTest extends TestCase
         $this->assertEquals(
             [new ContentSectionTypeFacet('contentSectionType', ['youtube'])],
             $facetList,
-            'contentSectionType facet expected'
+            'contentSectionType facet expected',
         );
     }
 
@@ -69,7 +69,7 @@ class FacetListFactoryTest extends TestCase
         $this->assertEquals(
             [new CategoryFacet('categories', ['123'])],
             $facetList,
-            'categories facet expected'
+            'categories facet expected',
         );
     }
 
@@ -85,7 +85,7 @@ class FacetListFactoryTest extends TestCase
         $this->assertEquals(
             [new SiteFacet('site', ['123'])],
             $facetList,
-            'site facet expected'
+            'site facet expected',
         );
     }
 
@@ -101,7 +101,7 @@ class FacetListFactoryTest extends TestCase
         $this->assertEquals(
             [new GroupFacet('group', ['123'])],
             $facetList,
-            'group facet expected'
+            'group facet expected',
         );
     }
 
@@ -140,11 +140,11 @@ class FacetListFactoryTest extends TestCase
                     new DateTime('2021-01-01T00:00:00+00:00'),
                     new DateTime('2021-01-02T00:00:00+00:00'),
                     new DateInterval('P1D'),
-                    ['exclude']
-                )
+                    ['exclude'],
+                ),
             ],
             $facetList,
-            'absolute date range facet expected'
+            'absolute date range facet expected',
         );
     }
 
@@ -191,15 +191,13 @@ class FacetListFactoryTest extends TestCase
                     new DateInterval('P2D'),
                     new DateInterval('P4D'),
                     new DateInterval('P1D'),
-                    \Atoolo\Search\Dto\Search\Query\DateRangeRound
-                        ::START_OF_YEAR,
-                    \Atoolo\Search\Dto\Search\Query\DateRangeRound
-                        ::END_OF_MONTH,
-                    ['exclude']
-                )
+                    \Atoolo\Search\Dto\Search\Query\DateRangeRound::START_OF_YEAR,
+                    \Atoolo\Search\Dto\Search\Query\DateRangeRound::END_OF_MONTH,
+                    ['exclude'],
+                ),
             ],
             $facetList,
-            'relative date range facet expected'
+            'relative date range facet expected',
         );
     }
 }

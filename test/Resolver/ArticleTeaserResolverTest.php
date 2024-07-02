@@ -36,22 +36,22 @@ class ArticleTeaserResolverTest extends TestCase
     public function setUp(): void
     {
         $this->assetResolver = $this->createMock(
-            ResourceAssetResolver::class
+            ResourceAssetResolver::class,
         );
         $this->symbolicImageResolver = $this->createMock(
-            ResourceSymbolicImageResolver::class
+            ResourceSymbolicImageResolver::class,
         );
         $this->kickerResolver = $this->createMock(
-            ResourceKickerResolver::class
+            ResourceKickerResolver::class,
         );
         $this->dateResolver = $this->createMock(
-            ResourceDateResolver::class
+            ResourceDateResolver::class,
         );
         $this->resolver = new ArticleTeaserResolver(
             $this->assetResolver,
             $this->symbolicImageResolver,
             $this->kickerResolver,
-            $this->dateResolver
+            $this->dateResolver,
         );
     }
 
@@ -63,7 +63,7 @@ class ArticleTeaserResolverTest extends TestCase
             '',
             '',
             '',
-            $this->createStub(Resource::class)
+            $this->createStub(Resource::class),
         );
 
         $this->resolver->getDate($teaser);
@@ -77,7 +77,7 @@ class ArticleTeaserResolverTest extends TestCase
             '',
             '',
             '',
-            $this->createStub(Resource::class)
+            $this->createStub(Resource::class),
         );
         $args = $this->createStub(ArgumentInterface::class);
 
@@ -92,7 +92,7 @@ class ArticleTeaserResolverTest extends TestCase
             '',
             '',
             '',
-            $this->createStub(Resource::class)
+            $this->createStub(Resource::class),
         );
         $args = $this->createStub(ArgumentInterface::class);
 
@@ -107,7 +107,7 @@ class ArticleTeaserResolverTest extends TestCase
             '',
             '',
             '',
-            $this->createStub(Resource::class)
+            $this->createStub(Resource::class),
         );
         $args = $this->createStub(ArgumentInterface::class);
 

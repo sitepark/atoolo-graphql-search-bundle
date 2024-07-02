@@ -30,9 +30,9 @@ class ResourceDateResolverTest extends TestCase
         $resource = $this->createResource([
             'base' => [
                 'teaser' => [
-                    'date' => $date->getTimestamp()
-                ]
-            ]
+                    'date' => $date->getTimestamp(),
+                ],
+            ],
         ]);
 
         $teaserDate = $this->resolver->getDate($resource);
@@ -40,7 +40,7 @@ class ResourceDateResolverTest extends TestCase
         $this->assertEquals(
             $date,
             $teaserDate,
-            'unexpected teaser date'
+            'unexpected teaser date',
         );
     }
 

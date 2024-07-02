@@ -15,6 +15,4 @@ use Overblog\GraphQLBundle\Annotation as GQL;
  * @codeCoverageIgnore
  */
 #[GQL\Type]
-class RootMutation
-{
-}
+class RootMutation {}

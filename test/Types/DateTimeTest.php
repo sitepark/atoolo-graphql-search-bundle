@@ -20,7 +20,7 @@ class DateTimeTest extends TestCase
         $value = new \DateTime('2021-01-01T00:00:00+00:00');
         self::assertSame(
             '2021-01-01T00:00:00+00:00',
-            DateTime::serialize($value)
+            DateTime::serialize($value),
         );
     }
 
@@ -30,7 +30,7 @@ class DateTimeTest extends TestCase
         $dateTime = DateTime::parseValue($value);
         self::assertSame(
             $value,
-            $dateTime->format(DateTimeInterface::RFC3339)
+            $dateTime->format(DateTimeInterface::RFC3339),
         );
     }
 
@@ -48,7 +48,7 @@ class DateTimeTest extends TestCase
         $dateTime = DateTime::parseLiteral($valueNode);
         self::assertSame(
             $value,
-            $dateTime->format(DateTimeInterface::RFC3339)
+            $dateTime->format(DateTimeInterface::RFC3339),
         );
     }
 

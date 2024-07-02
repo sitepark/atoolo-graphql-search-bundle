@@ -38,7 +38,7 @@ class DateTimeZone
     {
         if (!property_exists($valueNode, 'value')) {
             throw new \InvalidArgumentException(
-                'expected node with string value, got ' . get_class($valueNode)
+                'expected node with string value, got ' . get_class($valueNode),
             );
         }
         $value = $valueNode->value;
@@ -55,7 +55,7 @@ class DateTimeZone
             return new \DateTimeZone($value);
         } catch (Exception $e) {
             throw new InvalidArgumentException(
-                'Invalid timezone, got ' . $value
+                'Invalid timezone, got ' . $value,
             );
         }
     }

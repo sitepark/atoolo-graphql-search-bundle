@@ -18,7 +18,7 @@ class ImageCharacteristicTest extends TestCase
         $expected = ImageCharacteristic::DECORATIVE_IMAGE;
         self::assertSame(
             $expected,
-            ImageCharacteristic::valueOfCamelCase($value)
+            ImageCharacteristic::valueOfCamelCase($value),
         );
     }
 

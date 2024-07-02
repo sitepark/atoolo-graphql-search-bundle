@@ -14,8 +14,7 @@ class Indexer
 {
     public function __construct(
         private readonly InternalResourceIndexer $indexer,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws ExceptionInterface

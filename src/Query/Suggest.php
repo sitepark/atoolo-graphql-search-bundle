@@ -14,7 +14,7 @@ class Suggest
     private readonly SuggestQueryFactory $factory;
 
     public function __construct(
-        private readonly \Atoolo\Search\Suggest $suggest
+        private readonly \Atoolo\Search\Suggest $suggest,
     ) {
         $this->factory = new SuggestQueryFactory();
     }

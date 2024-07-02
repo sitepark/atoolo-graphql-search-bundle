@@ -10,9 +10,7 @@ use Atoolo\Resource\Resource;
 
 class MediaTeaserFactory implements TeaserFactory
 {
-    public function __construct(private readonly UrlRewriter $urlRewriter)
-    {
-    }
+    public function __construct(private readonly UrlRewriter $urlRewriter) {}
 
     public function create(Resource $resource): Teaser
     {
@@ -24,11 +22,11 @@ class MediaTeaserFactory implements TeaserFactory
 
         $url = $this->urlRewriter->rewrite(
             UrlRewriterType::MEDIA,
-            $resource->data->getString('mediaUrl')
+            $resource->data->getString('mediaUrl'),
         );
         $headline = $resource->data->getString(
             'base.teaser.headline',
-            $resource->name
+            $resource->name,
         );
         $text = $resource->data->getString('base.teaser.text');
         $contentType = $resource->data->getString('base.mime');
@@ -41,7 +39,7 @@ class MediaTeaserFactory implements TeaserFactory
             $contentType,
             $contentLength,
             null,
-            $resource
+            $resource,
         );
     }
 

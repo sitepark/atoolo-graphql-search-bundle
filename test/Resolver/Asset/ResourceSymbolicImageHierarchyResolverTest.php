@@ -32,14 +32,14 @@ class ResourceSymbolicImageHierarchyResolverTest extends TestCase
     public function setUp(): void
     {
         $this->urlRewriter = $this->createMock(
-            UrlRewriter::class
+            UrlRewriter::class,
         );
         $this->hierarchyLoader = $this->createMock(
-            ResourceHierarchyLoader::class
+            ResourceHierarchyLoader::class,
         );
         $this->resolver = new ResourceSymbolicImageHierarchyResolver(
             $this->urlRewriter,
-            $this->hierarchyLoader
+            $this->hierarchyLoader,
         );
     }
 
@@ -50,7 +50,7 @@ class ResourceSymbolicImageHierarchyResolverTest extends TestCase
         $symbolicImage = $this->resolver->getAsset($resource, $args);
         $this->assertNull(
             $symbolicImage,
-            'symbolicImage should be null'
+            'symbolicImage should be null',
         );
     }
 
@@ -60,9 +60,9 @@ class ResourceSymbolicImageHierarchyResolverTest extends TestCase
         $parentResource = $this->createResource([
             'base' => [
                 'symbolicImage' => [
-                    'url' => $symbolicImageUrl
-                ]
-            ]
+                    'url' => $symbolicImageUrl,
+                ],
+            ],
         ]);
         $parentResourceLocation = $parentResource->toLocation();
         $childResource = $this->createResource([]);
@@ -82,15 +82,15 @@ class ResourceSymbolicImageHierarchyResolverTest extends TestCase
             ->method('rewrite')
             ->with(
                 UrlRewriterType::IMAGE,
-                $symbolicImageUrl
+                $symbolicImageUrl,
             )->willReturn(
-                $symbolicImageUrl
+                $symbolicImageUrl,
             );
         /** @var SymbolicImage $symbolicImage */
         $symbolicImage = $this->resolver->getAsset($childResource, $args);
         $this->assertEquals(
             $symbolicImage->url,
-            $symbolicImageUrl
+            $symbolicImageUrl,
         );
     }
 

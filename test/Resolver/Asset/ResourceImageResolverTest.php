@@ -34,15 +34,15 @@ class ResourceImageResolverTest extends TestCase
     public function setUp(): void
     {
         $this->urlRewriter = $this->createMock(
-            UrlRewriter::class
+            UrlRewriter::class,
         );
         $this->logger = $this->createMock(
-            LoggerInterface::class
+            LoggerInterface::class,
         );
 
         $this->resolver = new ResourceImageResolver(
             $this->urlRewriter,
-            $this->logger
+            $this->logger,
         );
     }
 
@@ -55,14 +55,14 @@ class ResourceImageResolverTest extends TestCase
 
         $this->assertNull(
             $asset,
-            'asset should be null'
+            'asset should be null',
         );
     }
 
     public function testGetAssertWithImage(): void
     {
         $this->urlRewriter->method('rewrite')
-            ->willReturnCallback(fn ($type, $url) => $url);
+            ->willReturnCallback(fn($type, $url) => $url);
 
         $resource = $this->createResourceWithImage(
             [
@@ -74,7 +74,7 @@ class ResourceImageResolverTest extends TestCase
                 'original' => [
                     'url' => 'originalUrl',
                     'width' => 100,
-                    'height' => 100
+                    'height' => 100,
                 ],
                 'variants' => [
                     'teaser' => [
@@ -82,11 +82,11 @@ class ResourceImageResolverTest extends TestCase
                             'url' => 'normalUrl',
                             'width' => 100,
                             'height' => 100,
-                            'mediaQuery' => 'mediaQuery'
-                        ]
-                    ]
-                ]
-            ]
+                            'mediaQuery' => 'mediaQuery',
+                        ],
+                    ],
+                ],
+            ],
         );
 
         $args = new Argument(['variant' => 'teaser']);
@@ -101,7 +101,7 @@ class ResourceImageResolverTest extends TestCase
                 'original',
                 'originalUrl',
                 100,
-                100
+                100,
             ),
             ImageCharacteristic::DECORATIVE_IMAGE,
             [
@@ -110,29 +110,29 @@ class ResourceImageResolverTest extends TestCase
                     'normalUrl',
                     100,
                     100,
-                    'mediaQuery'
-                )
-            ]
+                    'mediaQuery',
+                ),
+            ],
         );
 
         $this->assertEquals(
             $expected,
             $image,
-            'unexpected image'
+            'unexpected image',
         );
     }
 
     public function testGetAssertWithImageAndInvalidCharacteristic(): void
     {
         $this->urlRewriter->method('rewrite')
-            ->willReturnCallback(fn ($type, $url) => $url);
+            ->willReturnCallback(fn($type, $url) => $url);
 
         $this->logger->expects($this->once())->method('error');
 
         $resource = $this->createResourceWithImage(
             [
                 'characteristic' => 'invalid',
-            ]
+            ],
         );
 
         $args = new Argument(['variant' => 'teaser']);
@@ -143,14 +143,14 @@ class ResourceImageResolverTest extends TestCase
      * @param array<string,mixed> $imageData
      */
     private function createResourceWithImage(
-        array $imageData
+        array $imageData,
     ): Resource {
         return TestResourceFactory::create([
             'base' => [
                 'teaser' => [
-                    'image' => $imageData
-                ]
-            ]
+                    'image' => $imageData,
+                ],
+            ],
         ]);
     }
 

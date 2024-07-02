@@ -19,7 +19,7 @@ class DateTimeZoneTest extends TestCase
         $value = new \DateTimeZone('Europe/Berlin');
         self::assertSame(
             'Europe/Berlin',
-            DateTimeZone::serialize($value)
+            DateTimeZone::serialize($value),
         );
     }
 
@@ -29,7 +29,7 @@ class DateTimeZoneTest extends TestCase
         $timeZone = DateTimeZone::parseValue($value);
         self::assertSame(
             $value,
-            $timeZone->getName()
+            $timeZone->getName(),
         );
     }
 
@@ -47,7 +47,7 @@ class DateTimeZoneTest extends TestCase
         $timeZone = DateTimeZone::parseLiteral($valueNode);
         self::assertSame(
             $value,
-            $timeZone->getName()
+            $timeZone->getName(),
         );
     }
 

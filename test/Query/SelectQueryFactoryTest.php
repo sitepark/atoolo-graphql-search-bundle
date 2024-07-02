@@ -38,7 +38,7 @@ class SelectQueryFactoryTest extends TestCase
         $this->assertEquals(
             10,
             $query->limit,
-            'limit expected'
+            'limit expected',
         );
     }
 
@@ -52,7 +52,7 @@ class SelectQueryFactoryTest extends TestCase
         $this->assertEquals(
             \Atoolo\Search\Dto\Search\Query\QueryOperator::AND,
             $query->defaultQueryOperator,
-            'limit expected'
+            'limit expected',
         );
     }
 
@@ -66,7 +66,7 @@ class SelectQueryFactoryTest extends TestCase
         $this->assertEquals(
             10,
             $query->offset,
-            'offset expected'
+            'offset expected',
         );
     }
 
@@ -80,7 +80,7 @@ class SelectQueryFactoryTest extends TestCase
         $this->assertEquals(
             'text',
             $query->text,
-            'text expected'
+            'text expected',
         );
     }
 
@@ -96,7 +96,7 @@ class SelectQueryFactoryTest extends TestCase
         $this->assertEquals(
             \Atoolo\Search\Dto\Search\Query\QueryOperator::OR,
             $query->defaultQueryOperator,
-            'text expected'
+            'text expected',
         );
     }
 
@@ -110,7 +110,7 @@ class SelectQueryFactoryTest extends TestCase
         $this->assertEquals(
             [new Name(Direction::ASC)],
             $query->sort,
-            'name sort expected'
+            'name sort expected',
         );
     }
 
@@ -124,7 +124,7 @@ class SelectQueryFactoryTest extends TestCase
         $this->assertEquals(
             [new Headline(Direction::ASC)],
             $query->sort,
-            'headline sort expected'
+            'headline sort expected',
         );
     }
 
@@ -138,7 +138,7 @@ class SelectQueryFactoryTest extends TestCase
         $this->assertEquals(
             [new Date(Direction::ASC)],
             $query->sort,
-            'date sort expected'
+            'date sort expected',
         );
     }
 
@@ -152,7 +152,7 @@ class SelectQueryFactoryTest extends TestCase
         $this->assertEquals(
             [new Natural(Direction::ASC)],
             $query->sort,
-            'natural sort expected'
+            'natural sort expected',
         );
     }
 
@@ -166,7 +166,7 @@ class SelectQueryFactoryTest extends TestCase
         $this->assertEquals(
             [new Score(Direction::ASC)],
             $query->sort,
-            'score sort expected'
+            'score sort expected',
         );
     }
 
@@ -204,10 +204,10 @@ class SelectQueryFactoryTest extends TestCase
 
         $this->assertEquals(
             [
-                new ObjectTypeFilter(['content'])
+                new ObjectTypeFilter(['content']),
             ],
             $query->filter,
-            'filter expected'
+            'filter expected',
         );
     }
 
@@ -227,7 +227,7 @@ class SelectQueryFactoryTest extends TestCase
         $this->assertEquals(
             [new ObjectTypeFacet('objectTypes', ['content'])],
             $query->facets,
-            'facets expected'
+            'facets expected',
         );
     }
 
@@ -242,7 +242,7 @@ class SelectQueryFactoryTest extends TestCase
         $this->assertEquals(
             new \DateTimeZone('Europe/Berlin'),
             $query->timeZone,
-            'timeZone expected'
+            'timeZone expected',
         );
     }
 
@@ -257,10 +257,10 @@ class SelectQueryFactoryTest extends TestCase
 
         $this->assertEquals(
             new Boosting(
-                queryFields: ['sp_title^2']
+                queryFields: ['sp_title^2'],
             ),
             $query->boosting,
-            'boosting expected'
+            'boosting expected',
         );
     }
 }

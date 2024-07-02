@@ -50,12 +50,12 @@ class SearchQueryFactory
 
     private function addTextFilter(
         SearchQueryBuilder $builder,
-        SearchInput $input
+        SearchInput $input,
     ): void {
         $builder->defaultQueryOperator(
             $input->defaultQueryOperator === QueryOperator::AND
                 ? \Atoolo\Search\Dto\Search\Query\QueryOperator::AND
-                : \Atoolo\Search\Dto\Search\Query\QueryOperator::OR
+                : \Atoolo\Search\Dto\Search\Query\QueryOperator::OR,
         );
 
         if (isset($input->text)) {
@@ -65,7 +65,7 @@ class SearchQueryFactory
 
     private function addSort(
         SearchQueryBuilder $builder,
-        SearchInput $input
+        SearchInput $input,
     ): void {
         if (!isset($input->sort)) {
             return;
@@ -74,27 +74,27 @@ class SearchQueryFactory
             if (isset($criteria->name)) {
                 $direction = $this->mapDirection($criteria->name);
                 $builder->sort(
-                    new Name($direction)
+                    new Name($direction),
                 );
             } elseif (isset($criteria->headline)) {
                 $direction = $this->mapDirection($criteria->headline);
                 $builder->sort(
-                    new Headline($direction)
+                    new Headline($direction),
                 );
             } elseif (isset($criteria->date)) {
                 $direction = $this->mapDirection($criteria->date);
                 $builder->sort(
-                    new Date($direction)
+                    new Date($direction),
                 );
             } elseif (isset($criteria->natural)) {
                 $direction = $this->mapDirection($criteria->natural);
                 $builder->sort(
-                    new Natural($direction)
+                    new Natural($direction),
                 );
             } elseif (isset($criteria->score)) {
                 $direction = $this->mapDirection($criteria->score);
                 $builder->sort(
-                    new Score($direction)
+                    new Score($direction),
                 );
             } else {
                 throw new InvalidArgumentException('Sort criteria not found');
@@ -111,7 +111,7 @@ class SearchQueryFactory
 
     private function addPagination(
         SearchQueryBuilder $builder,
-        SearchInput $input
+        SearchInput $input,
     ): void {
         if (isset($input->limit)) {
             $builder->limit($input->limit);
@@ -123,7 +123,7 @@ class SearchQueryFactory
 
     private function addFilterList(
         SearchQueryBuilder $builder,
-        SearchInput $input
+        SearchInput $input,
     ): void {
         if (!isset($input->filter)) {
             return;
@@ -135,7 +135,7 @@ class SearchQueryFactory
 
     private function addFacetList(
         SearchQueryBuilder $builder,
-        SearchInput $input
+        SearchInput $input,
     ): void {
         if (!isset($input->facets)) {
             return;
@@ -147,7 +147,7 @@ class SearchQueryFactory
 
     private function addDateTimeZone(
         SearchQueryBuilder $builder,
-        SearchInput $input
+        SearchInput $input,
     ): void {
         if (!isset($input->timeZone)) {
             return;
@@ -157,7 +157,7 @@ class SearchQueryFactory
 
     private function addBoosting(
         SearchQueryBuilder $builder,
-        SearchInput $input
+        SearchInput $input,
     ): void {
         if (!isset($input->boosting)) {
             return;

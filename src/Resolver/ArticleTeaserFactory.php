@@ -11,20 +11,19 @@ use Atoolo\Resource\Resource;
 class ArticleTeaserFactory implements TeaserFactory
 {
     public function __construct(
-        private readonly UrlRewriter $urlRewriter
-    ) {
-    }
+        private readonly UrlRewriter $urlRewriter,
+    ) {}
 
     public function create(Resource $resource): Teaser
     {
         $url = $this->urlRewriter->rewrite(
             UrlRewriterType::LINK,
-            $resource->location
+            $resource->location,
         );
 
         $headline = $resource->data->getString(
             'base.teaser.headline',
-            $resource->name
+            $resource->name,
         );
         $text = $resource->data->getString('base.teaser.text');
 
@@ -32,7 +31,7 @@ class ArticleTeaserFactory implements TeaserFactory
             $url,
             $headline,
             $text === '' ? null : $text,
-            $resource
+            $resource,
         );
     }
 }
