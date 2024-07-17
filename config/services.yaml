@@ -91,6 +91,13 @@ services:
     tags:
       - { name: 'atoolo_graphql_search.resolver' }
 
+  Atoolo\GraphQL\Search\Resolver\MediaTeaserResolver:
+      arguments:
+        - '@Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolverChain'
+        - '@atoolo_graphql_search.resolver.asset.resource_symbolic_image_resolver'
+      tags:
+        - { name: 'atoolo_graphql_search.resolver' }
+
   atoolo_graphql_search.resolver.fallback_teaser_factory:
     class: 'Atoolo\GraphQL\Search\Resolver\ArticleTeaserFactory'
     arguments:
