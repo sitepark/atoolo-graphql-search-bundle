@@ -119,7 +119,6 @@ class MediaTeaserFactoryTest extends TestCase
             'Text',
             'mime',
             100,
-            null,
             $resource,
         );
 

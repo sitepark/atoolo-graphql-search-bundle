@@ -54,7 +54,6 @@ class MediaTeaserResolverTest extends TestCase
             null,
             null,
             null,
-            null,
             $this->createStub(Resource::class),
         );
         $args = $this->createStub(ArgumentInterface::class);
@@ -67,7 +66,6 @@ class MediaTeaserResolverTest extends TestCase
         $this->symbolicImageResolver->expects($this->once())
             ->method('getSymbolicImage');
             $teaser = new MediaTeaser(
-                null,
                 null,
                 null,
                 null,

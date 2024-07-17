@@ -17,7 +17,6 @@ class MediaTeaser extends Teaser
         public readonly ?string $text,
         public readonly ?string $contentType,
         public readonly ?int $contentLength,
-        public readonly ?Asset $asset,
         public readonly Resource $resource,
     ) {
         parent::__construct($url);

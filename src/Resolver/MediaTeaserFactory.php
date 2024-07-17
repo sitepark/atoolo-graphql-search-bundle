@@ -38,7 +38,6 @@ class MediaTeaserFactory implements TeaserFactory
             $text === '' ? null : $text,
             $contentType,
             $contentLength,
-            null,
             $resource,
         );
     }
