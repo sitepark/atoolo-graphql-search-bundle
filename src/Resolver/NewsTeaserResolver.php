@@ -17,8 +17,15 @@ class NewsTeaserResolver implements Resolver
     public function __construct(
         private readonly ResourceAssetResolver $assetResolver,
         private readonly ResourceSymbolicImageResolver $symbolicImageResolver,
+        private readonly ResourceKickerResolver $kickerResolver,
         private readonly ResourceDateResolver $dateResolver,
     ) {}
+
+    public function getKicker(
+        NewsTeaser $teaser,
+    ): ?string {
+        return $this->kickerResolver->getKicker($teaser->resource);
+    }
 
     public function getDate(
         NewsTeaser $teaser,

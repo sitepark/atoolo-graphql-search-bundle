@@ -8,6 +8,7 @@ use Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolver;
 use Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageResolver;
 use Atoolo\GraphQL\Search\Resolver\NewsTeaserResolver;
 use Atoolo\GraphQL\Search\Resolver\ResourceDateResolver;
+use Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver;
 use Atoolo\GraphQL\Search\Types\NewsTeaser;
 use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
@@ -24,6 +25,8 @@ class NewsTeaserResolverTest extends TestCase
 
     private ResourceSymbolicImageResolver&MockObject $symbolicImageResolver;
 
+    private ResourceKickerResolver&MockObject $kickerResolver;
+
     private ResourceDateResolver&MockObject $dateResolver;
 
     public function setUp(): void
@@ -34,12 +37,16 @@ class NewsTeaserResolverTest extends TestCase
         $this->symbolicImageResolver = $this->createMock(
             ResourceSymbolicImageResolver::class,
         );
+        $this->kickerResolver = $this->createMock(
+            ResourceKickerResolver::class,
+        );
         $this->dateResolver = $this->createMock(
             ResourceDateResolver::class,
         );
         $this->newsTeaserResolver = new NewsTeaserResolver(
             $this->assetResolver,
             $this->symbolicImageResolver,
+            $this->kickerResolver,
             $this->dateResolver,
         );
     }
@@ -86,5 +93,20 @@ class NewsTeaserResolverTest extends TestCase
         $args = $this->createStub(ArgumentInterface::class);
 
         $this->newsTeaserResolver->getSymbolicImage($teaser, $args);
+    }
+
+    public function testGetKicker(): void
+    {
+        $this->kickerResolver->expects($this->once())
+            ->method('getKicker');
+        $teaser = new NewsTeaser(
+            '',
+            '',
+            '',
+            $this->createStub(Resource::class),
+        );
+        $args = $this->createStub(ArgumentInterface::class);
+
+        $this->newsTeaserResolver->getKicker($teaser, $args);
     }
 }
