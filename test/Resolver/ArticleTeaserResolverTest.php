@@ -9,6 +9,7 @@ use Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolver;
 use Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageResolver;
 use Atoolo\GraphQL\Search\Resolver\ResourceDateResolver;
 use Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver;
+use Atoolo\GraphQL\Search\Resolver\ResourceLinkNewWindowResolver;
 use Atoolo\GraphQL\Search\Types\ArticleTeaser;
 use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
@@ -30,6 +31,8 @@ class ArticleTeaserResolverTest extends TestCase
 
     private ResourceDateResolver&MockObject $dateResolver;
 
+    private ResourceLinkNewWindowResolver&MockObject $linkNewWindowResolver;
+
     /**
      * @throws Exception
      */
@@ -47,11 +50,15 @@ class ArticleTeaserResolverTest extends TestCase
         $this->dateResolver = $this->createMock(
             ResourceDateResolver::class,
         );
+        $this->linkNewWindowResolver = $this->createMock(
+            ResourceLinkNewWindowResolver::class,
+        );
         $this->resolver = new ArticleTeaserResolver(
             $this->assetResolver,
             $this->symbolicImageResolver,
             $this->kickerResolver,
             $this->dateResolver,
+            $this->linkNewWindowResolver,
         );
     }
 
@@ -112,5 +119,18 @@ class ArticleTeaserResolverTest extends TestCase
         $args = $this->createStub(ArgumentInterface::class);
 
         $this->resolver->getKicker($teaser, $args);
+    }
+
+    public function testGetLinkNewWindow(): void
+    {
+        $this->linkNewWindowResolver->expects($this->once())
+            ->method('getLinkNewWindow');
+        $teaser = new ArticleTeaser(
+            '',
+            '',
+            '',
+            $this->createStub(Resource::class),
+        );
+        $this->resolver->getLinkNewWindow($teaser);
     }
 }

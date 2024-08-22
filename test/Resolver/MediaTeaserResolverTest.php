@@ -7,7 +7,7 @@ namespace Atoolo\GraphQL\Search\Test\Resolver;
 use Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolver;
 use Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageResolver;
 use Atoolo\GraphQL\Search\Resolver\MediaTeaserResolver;
-use Atoolo\GraphQL\Search\Resolver\ResourceDateResolver;
+use Atoolo\GraphQL\Search\Resolver\ResourceLinkNewWindowResolver;
 use Atoolo\GraphQL\Search\Types\MediaTeaser;
 use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
@@ -24,7 +24,7 @@ class MediaTeaserResolverTest extends TestCase
 
     private ResourceSymbolicImageResolver&MockObject $symbolicImageResolver;
 
-    private ResourceDateResolver&MockObject $dateResolver;
+    private ResourceLinkNewWindowResolver&MockObject $linkNewWindowResolver;
 
     public function setUp(): void
     {
@@ -34,13 +34,13 @@ class MediaTeaserResolverTest extends TestCase
         $this->symbolicImageResolver = $this->createMock(
             ResourceSymbolicImageResolver::class,
         );
-        $this->dateResolver = $this->createMock(
-            ResourceDateResolver::class,
+        $this->linkNewWindowResolver = $this->createMock(
+            ResourceLinkNewWindowResolver::class,
         );
         $this->mediaTeaserResolver = new MediaTeaserResolver(
             $this->assetResolver,
             $this->symbolicImageResolver,
-            $this->dateResolver,
+            $this->linkNewWindowResolver,
         );
     }
 
@@ -76,5 +76,20 @@ class MediaTeaserResolverTest extends TestCase
         $args = $this->createStub(ArgumentInterface::class);
 
         $this->mediaTeaserResolver->getSymbolicImage($teaser, $args);
+    }
+
+    public function testGetLinkNewWindow(): void
+    {
+        $this->linkNewWindowResolver->expects($this->once())
+            ->method('getLinkNewWindow');
+        $teaser = new MediaTeaser(
+            null,
+            null,
+            null,
+            null,
+            null,
+            $this->createStub(Resource::class),
+        );
+        $this->mediaTeaserResolver->getLinkNewWindow($teaser);
     }
 }

@@ -68,7 +68,6 @@ class ArticleTeaserResolver implements Resolver
 
     public function getLinkNewWindow(
         ArticleTeaser $teaser,
-        ArgumentInterface $args,
     ): bool {
         return $this->linkNewWindowResolver->getLinkNewWindow($teaser->resource);
     }
