@@ -36,6 +36,7 @@ class ArticleTeaserResolver implements Resolver
         private readonly ResourceSymbolicImageResolver $symbolicImageResolver,
         private readonly ResourceKickerResolver $kickerResolver,
         private readonly ResourceDateResolver $dateResolver,
+        private readonly ResourceLinkNewWindowResolver $linkNewWindowResolver,
     ) {}
 
     public function getKicker(
@@ -63,5 +64,12 @@ class ArticleTeaserResolver implements Resolver
     ): ?Asset {
         return $this->symbolicImageResolver
             ->getSymbolicImage($teaser->resource, $args);
+    }
+
+    public function getLinkNewWindow(
+        ArticleTeaser $teaser,
+        ArgumentInterface $args,
+    ): bool {
+        return $this->linkNewWindowResolver->getLinkNewWindow($teaser->resource);
     }
 }
