@@ -96,6 +96,7 @@ services:
       arguments:
         - '@Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolverChain'
         - '@atoolo_graphql_search.resolver.asset.resource_symbolic_image_resolver'
+        - '@Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver'
       tags:
         - { name: 'atoolo_graphql_search.resolver' }
 
