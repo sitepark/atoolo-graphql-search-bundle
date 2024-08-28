@@ -16,7 +16,7 @@ class MediaTeaserResolver implements Resolver
     public function __construct(
         private readonly ResourceAssetResolver $assetResolver,
         private readonly ResourceSymbolicImageResolver $symbolicImageResolver,
-        private readonly ResourceLinkNewWindowResolver $linkNewWindowResolver,
+        private readonly ResourceOpensNewWindowResolver $opensNewWindowResolver,
     ) {}
 
     public function getAsset(
@@ -34,9 +34,9 @@ class MediaTeaserResolver implements Resolver
             ->getSymbolicImage($teaser->resource, $args);
     }
 
-    public function getLinkNewWindow(
+    public function getOpensNewWindow(
         MediaTeaser $teaser,
     ): bool {
-        return $this->linkNewWindowResolver->getLinkNewWindow($teaser->resource);
+        return $this->opensNewWindowResolver->getOpensNewWindow($teaser->resource);
     }
 }

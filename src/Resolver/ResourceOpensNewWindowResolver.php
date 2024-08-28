@@ -6,9 +6,9 @@ namespace Atoolo\GraphQL\Search\Resolver;
 
 use Atoolo\Resource\Resource;
 
-class ResourceLinkNewWindowResolver
+class ResourceOpensNewWindowResolver
 {
-    public function getLinkNewWindow(
+    public function getOpensNewWindow(
         Resource $resource,
     ): bool {
         return $resource->data->getBool('external.newWindow', false);

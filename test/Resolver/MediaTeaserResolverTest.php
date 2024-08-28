@@ -7,7 +7,7 @@ namespace Atoolo\GraphQL\Search\Test\Resolver;
 use Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolver;
 use Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageResolver;
 use Atoolo\GraphQL\Search\Resolver\MediaTeaserResolver;
-use Atoolo\GraphQL\Search\Resolver\ResourceLinkNewWindowResolver;
+use Atoolo\GraphQL\Search\Resolver\ResourceOpensNewWindowResolver;
 use Atoolo\GraphQL\Search\Types\MediaTeaser;
 use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
@@ -24,7 +24,7 @@ class MediaTeaserResolverTest extends TestCase
 
     private ResourceSymbolicImageResolver&MockObject $symbolicImageResolver;
 
-    private ResourceLinkNewWindowResolver&MockObject $linkNewWindowResolver;
+    private ResourceOpensNewWindowResolver&MockObject $opensNewWindowResolver;
 
     public function setUp(): void
     {
@@ -34,13 +34,13 @@ class MediaTeaserResolverTest extends TestCase
         $this->symbolicImageResolver = $this->createMock(
             ResourceSymbolicImageResolver::class,
         );
-        $this->linkNewWindowResolver = $this->createMock(
-            ResourceLinkNewWindowResolver::class,
+        $this->opensNewWindowResolver = $this->createMock(
+            ResourceOpensNewWindowResolver::class,
         );
         $this->mediaTeaserResolver = new MediaTeaserResolver(
             $this->assetResolver,
             $this->symbolicImageResolver,
-            $this->linkNewWindowResolver,
+            $this->opensNewWindowResolver,
         );
     }
 
@@ -78,10 +78,10 @@ class MediaTeaserResolverTest extends TestCase
         $this->mediaTeaserResolver->getSymbolicImage($teaser, $args);
     }
 
-    public function testGetLinkNewWindow(): void
+    public function testGetOpensNewWindow(): void
     {
-        $this->linkNewWindowResolver->expects($this->once())
-            ->method('getLinkNewWindow');
+        $this->opensNewWindowResolver->expects($this->once())
+            ->method('getOpensNewWindow');
         $teaser = new MediaTeaser(
             null,
             null,
@@ -90,6 +90,6 @@ class MediaTeaserResolverTest extends TestCase
             null,
             $this->createStub(Resource::class),
         );
-        $this->mediaTeaserResolver->getLinkNewWindow($teaser);
+        $this->mediaTeaserResolver->getOpensNewWindow($teaser);
     }
 }

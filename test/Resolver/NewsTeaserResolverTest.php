@@ -9,7 +9,7 @@ use Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageResolver;
 use Atoolo\GraphQL\Search\Resolver\NewsTeaserResolver;
 use Atoolo\GraphQL\Search\Resolver\ResourceDateResolver;
 use Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver;
-use Atoolo\GraphQL\Search\Resolver\ResourceLinkNewWindowResolver;
+use Atoolo\GraphQL\Search\Resolver\ResourceOpensNewWindowResolver;
 use Atoolo\GraphQL\Search\Types\NewsTeaser;
 use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
@@ -30,7 +30,7 @@ class NewsTeaserResolverTest extends TestCase
 
     private ResourceDateResolver&MockObject $dateResolver;
 
-    private ResourceLinkNewWindowResolver&MockObject $linkNewWindowResolver;
+    private ResourceOpensNewWindowResolver&MockObject $opensNewWindowResolver;
 
     public function setUp(): void
     {
@@ -46,15 +46,15 @@ class NewsTeaserResolverTest extends TestCase
         $this->dateResolver = $this->createMock(
             ResourceDateResolver::class,
         );
-        $this->linkNewWindowResolver = $this->createMock(
-            ResourceLinkNewWindowResolver::class,
+        $this->opensNewWindowResolver = $this->createMock(
+            ResourceOpensNewWindowResolver::class,
         );
         $this->newsTeaserResolver = new NewsTeaserResolver(
             $this->assetResolver,
             $this->symbolicImageResolver,
             $this->kickerResolver,
             $this->dateResolver,
-            $this->linkNewWindowResolver,
+            $this->opensNewWindowResolver,
         );
     }
 
@@ -117,16 +117,16 @@ class NewsTeaserResolverTest extends TestCase
         $this->newsTeaserResolver->getKicker($teaser, $args);
     }
 
-    public function testGetLinkNewWindow(): void
+    public function testGetOpensNewWindow(): void
     {
-        $this->linkNewWindowResolver->expects($this->once())
-            ->method('getLinkNewWindow');
+        $this->opensNewWindowResolver->expects($this->once())
+            ->method('getOpensNewWindow');
         $teaser = new NewsTeaser(
             '',
             '',
             '',
             $this->createStub(Resource::class),
         );
-        $this->newsTeaserResolver->getLinkNewWindow($teaser);
+        $this->newsTeaserResolver->getOpensNewWindow($teaser);
     }
 }
