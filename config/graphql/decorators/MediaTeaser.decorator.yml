@@ -20,6 +20,3 @@ MediaTeaserDecorator:
       symbolicImage:
         type: "SymbolicImage"
         description: symbolic image associated with the teaser
-      opensNewWindow:
-        type: "Boolean!"
-        description: if true, the teaser link should open a new tab/window

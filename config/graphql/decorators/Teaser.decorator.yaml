@@ -6,3 +6,6 @@ TeaserDecorator:
       url:
         type: "String!"
         description: Teaser URL
+      opensNewWindow:
+        type: "Boolean"
+        description: if true, the teaser link should open a new tab/window
