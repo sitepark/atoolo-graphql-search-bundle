@@ -11,24 +11,6 @@ use Atoolo\GraphQL\Search\Types\Asset;
 use DateTime;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 
-/**
- * @phpstan-type ImageData array{
- *     characteristic?: string,
- *     copyright?: string,
- *     text?: string,
- *     legend?: string,
- *     description?: string,
- *     original? : ImageSourceData,
- *     variants?: array<string,array<ImageSourceData>>
- * }
- *
- * @phpstan-type ImageSourceData array{
- *     url: string,
- *     width: int,
- *     height: int,
- *     mediaQuery?: string
- * }
- */
 class ArticleTeaserResolver implements Resolver
 {
     public function __construct(
