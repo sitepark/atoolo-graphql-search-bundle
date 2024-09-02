@@ -8,6 +8,7 @@ use Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolver;
 use Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageResolver;
 use Atoolo\GraphQL\Search\Resolver\MediaTeaserResolver;
 use Atoolo\GraphQL\Search\Resolver\ResourceOpensNewWindowResolver;
+use Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver;
 use Atoolo\GraphQL\Search\Types\MediaTeaser;
 use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
@@ -26,6 +27,8 @@ class MediaTeaserResolverTest extends TestCase
 
     private ResourceOpensNewWindowResolver&MockObject $opensNewWindowResolver;
 
+    private ResourceKickerResolver&MockObject $kickerResolver;
+
     public function setUp(): void
     {
         $this->assetResolver = $this->createMock(
@@ -36,10 +39,14 @@ class MediaTeaserResolverTest extends TestCase
         );
         $this->opensNewWindowResolver = $this->createMock(
             ResourceOpensNewWindowResolver::class,
+        $this->kickerResolver = $this->createMock(
+            ResourceKickerResolver::class,
+
         );
         $this->mediaTeaserResolver = new MediaTeaserResolver(
             $this->assetResolver,
             $this->symbolicImageResolver,
+            $this->kickerResolver,
             $this->opensNewWindowResolver,
         );
     }
@@ -76,6 +83,22 @@ class MediaTeaserResolverTest extends TestCase
         $args = $this->createStub(ArgumentInterface::class);
 
         $this->mediaTeaserResolver->getSymbolicImage($teaser, $args);
+    }
+
+    public function testGetKicker(): void
+    {
+        $this->kickerResolver->expects($this->once())
+            ->method('getKicker');
+        $teaser = new MediaTeaser(
+            null,
+            null,
+            null,
+            null,
+            null,
+            $this->createStub(Resource::class),
+        );
+        $args = $this->createStub(ArgumentInterface::class);
+        $this->mediaTeaserResolver->getKicker($teaser, $args);
     }
 
     public function testGetOpensNewWindow(): void

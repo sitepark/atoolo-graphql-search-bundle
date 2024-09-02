@@ -16,8 +16,15 @@ class MediaTeaserResolver implements Resolver
     public function __construct(
         private readonly ResourceAssetResolver $assetResolver,
         private readonly ResourceSymbolicImageResolver $symbolicImageResolver,
+        private readonly ResourceKickerResolver $kickerResolver,
         private readonly ResourceOpensNewWindowResolver $opensNewWindowResolver,
     ) {}
+
+    public function getKicker(
+        MediaTeaser $teaser,
+    ): ?string {
+        return $this->kickerResolver->getKicker($teaser->resource);
+    }
 
     public function getAsset(
         MediaTeaser $teaser,
