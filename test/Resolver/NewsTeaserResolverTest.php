@@ -9,6 +9,7 @@ use Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageResolver;
 use Atoolo\GraphQL\Search\Resolver\NewsTeaserResolver;
 use Atoolo\GraphQL\Search\Resolver\ResourceDateResolver;
 use Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver;
+use Atoolo\GraphQL\Search\Resolver\ResourceOpensNewWindowResolver;
 use Atoolo\GraphQL\Search\Types\NewsTeaser;
 use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
@@ -29,6 +30,8 @@ class NewsTeaserResolverTest extends TestCase
 
     private ResourceDateResolver&MockObject $dateResolver;
 
+    private ResourceOpensNewWindowResolver&MockObject $opensNewWindowResolver;
+
     public function setUp(): void
     {
         $this->assetResolver = $this->createMock(
@@ -43,11 +46,15 @@ class NewsTeaserResolverTest extends TestCase
         $this->dateResolver = $this->createMock(
             ResourceDateResolver::class,
         );
+        $this->opensNewWindowResolver = $this->createMock(
+            ResourceOpensNewWindowResolver::class,
+        );
         $this->newsTeaserResolver = new NewsTeaserResolver(
             $this->assetResolver,
             $this->symbolicImageResolver,
             $this->kickerResolver,
             $this->dateResolver,
+            $this->opensNewWindowResolver,
         );
     }
 
@@ -108,5 +115,18 @@ class NewsTeaserResolverTest extends TestCase
         $args = $this->createStub(ArgumentInterface::class);
 
         $this->newsTeaserResolver->getKicker($teaser, $args);
+    }
+
+    public function testGetOpensNewWindow(): void
+    {
+        $this->opensNewWindowResolver->expects($this->once())
+            ->method('getOpensNewWindow');
+        $teaser = new NewsTeaser(
+            '',
+            '',
+            '',
+            $this->createStub(Resource::class),
+        );
+        $this->newsTeaserResolver->getOpensNewWindow($teaser);
     }
 }

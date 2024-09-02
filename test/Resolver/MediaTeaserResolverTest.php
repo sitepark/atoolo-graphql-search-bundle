@@ -7,6 +7,7 @@ namespace Atoolo\GraphQL\Search\Test\Resolver;
 use Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolver;
 use Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageResolver;
 use Atoolo\GraphQL\Search\Resolver\MediaTeaserResolver;
+use Atoolo\GraphQL\Search\Resolver\ResourceOpensNewWindowResolver;
 use Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver;
 use Atoolo\GraphQL\Search\Types\MediaTeaser;
 use Atoolo\Resource\Resource;
@@ -24,6 +25,8 @@ class MediaTeaserResolverTest extends TestCase
 
     private ResourceSymbolicImageResolver&MockObject $symbolicImageResolver;
 
+    private ResourceOpensNewWindowResolver&MockObject $opensNewWindowResolver;
+
     private ResourceKickerResolver&MockObject $kickerResolver;
 
     public function setUp(): void
@@ -34,6 +37,9 @@ class MediaTeaserResolverTest extends TestCase
         $this->symbolicImageResolver = $this->createMock(
             ResourceSymbolicImageResolver::class,
         );
+        $this->opensNewWindowResolver = $this->createMock(
+            ResourceOpensNewWindowResolver::class,
+        );
         $this->kickerResolver = $this->createMock(
             ResourceKickerResolver::class,
         );
@@ -41,6 +47,7 @@ class MediaTeaserResolverTest extends TestCase
             $this->assetResolver,
             $this->symbolicImageResolver,
             $this->kickerResolver,
+            $this->opensNewWindowResolver,
         );
     }
 
@@ -91,7 +98,21 @@ class MediaTeaserResolverTest extends TestCase
             $this->createStub(Resource::class),
         );
         $args = $this->createStub(ArgumentInterface::class);
-
         $this->mediaTeaserResolver->getKicker($teaser, $args);
+    }
+
+    public function testGetOpensNewWindow(): void
+    {
+        $this->opensNewWindowResolver->expects($this->once())
+            ->method('getOpensNewWindow');
+        $teaser = new MediaTeaser(
+            null,
+            null,
+            null,
+            null,
+            null,
+            $this->createStub(Resource::class),
+        );
+        $this->mediaTeaserResolver->getOpensNewWindow($teaser);
     }
 }

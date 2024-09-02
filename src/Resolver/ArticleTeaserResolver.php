@@ -11,24 +11,6 @@ use Atoolo\GraphQL\Search\Types\Asset;
 use DateTime;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 
-/**
- * @phpstan-type ImageData array{
- *     characteristic?: string,
- *     copyright?: string,
- *     text?: string,
- *     legend?: string,
- *     description?: string,
- *     original? : ImageSourceData,
- *     variants?: array<string,array<ImageSourceData>>
- * }
- *
- * @phpstan-type ImageSourceData array{
- *     url: string,
- *     width: int,
- *     height: int,
- *     mediaQuery?: string
- * }
- */
 class ArticleTeaserResolver implements Resolver
 {
     public function __construct(
@@ -36,6 +18,7 @@ class ArticleTeaserResolver implements Resolver
         private readonly ResourceSymbolicImageResolver $symbolicImageResolver,
         private readonly ResourceKickerResolver $kickerResolver,
         private readonly ResourceDateResolver $dateResolver,
+        private readonly ResourceOpensNewWindowResolver $opensNewWindowResolver,
     ) {}
 
     public function getKicker(
@@ -63,5 +46,11 @@ class ArticleTeaserResolver implements Resolver
     ): ?Asset {
         return $this->symbolicImageResolver
             ->getSymbolicImage($teaser->resource, $args);
+    }
+
+    public function getOpensNewWindow(
+        ArticleTeaser $teaser,
+    ): bool {
+        return $this->opensNewWindowResolver->getOpensNewWindow($teaser->resource);
     }
 }
