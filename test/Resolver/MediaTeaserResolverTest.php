@@ -39,9 +39,9 @@ class MediaTeaserResolverTest extends TestCase
         );
         $this->opensNewWindowResolver = $this->createMock(
             ResourceOpensNewWindowResolver::class,
+        );
         $this->kickerResolver = $this->createMock(
             ResourceKickerResolver::class,
-
         );
         $this->mediaTeaserResolver = new MediaTeaserResolver(
             $this->assetResolver,
