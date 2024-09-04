@@ -19,6 +19,12 @@ class MediaTeaserResolver implements Resolver
         private readonly ResourceKickerResolver $kickerResolver,
     ) {}
 
+    public function getUrl(
+        MediaTeaser $teaser,
+    ): string {
+        return $teaser->link->url ?? '';
+    }
+
     public function getKicker(
         MediaTeaser $teaser,
     ): ?string {
