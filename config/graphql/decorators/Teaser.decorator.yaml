@@ -10,6 +10,3 @@ TeaserDecorator:
       link:
         type: "Link"
         description: Teaser Link
-      opensNewWindow:
-        type: "Boolean"
-        description: if true, the teaser link should open a new tab/window
