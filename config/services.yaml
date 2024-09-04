@@ -48,6 +48,10 @@ services:
       - '@atoolo_resource.category_hierarchy_loader'
     tags:
       - { name: 'atoolo_graphql_search.resolver' }
+  
+  Atoolo\GraphQL\Search\Resolver\LinkResolver:
+    tags:
+      - { name: 'atoolo_graphql_search.resolver' }
 
   Atoolo\GraphQL\Search\Resolver\Asset\ResourceImageResolver:
     arguments:
@@ -72,8 +76,6 @@ services:
     arguments:
       - '@atoolo_resource.navigation_hierarchy_loader'
 
-  Atoolo\GraphQL\Search\Resolver\ResourceOpensNewWindowResolver: ~
-
   Atoolo\GraphQL\Search\Resolver\ResourceDateResolver: ~
 
   Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver:
@@ -82,7 +84,6 @@ services:
       - '@atoolo_graphql_search.resolver.asset.resource_symbolic_image_resolver'
       - '@Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver'
       - '@Atoolo\GraphQL\Search\Resolver\ResourceDateResolver'
-      - '@Atoolo\GraphQL\Search\Resolver\ResourceOpensNewWindowResolver'
     tags:
       - { name: 'atoolo_graphql_search.resolver' }
 
@@ -92,7 +93,6 @@ services:
       - '@atoolo_graphql_search.resolver.asset.resource_symbolic_image_resolver'
       - '@Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver'
       - '@Atoolo\GraphQL\Search\Resolver\ResourceDateResolver'
-      - '@Atoolo\GraphQL\Search\Resolver\ResourceOpensNewWindowResolver'
     tags:
       - { name: 'atoolo_graphql_search.resolver' }
 
@@ -101,7 +101,6 @@ services:
         - '@Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolverChain'
         - '@atoolo_graphql_search.resolver.asset.resource_symbolic_image_resolver'
         - '@Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver'
-        - '@Atoolo\GraphQL\Search\Resolver\ResourceOpensNewWindowResolver'
       tags:
         - { name: 'atoolo_graphql_search.resolver' }
 

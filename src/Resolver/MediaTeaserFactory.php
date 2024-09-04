@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Resolver;
 
+use Atoolo\GraphQL\Search\Types\Link;
 use Atoolo\GraphQL\Search\Types\MediaTeaser;
 use Atoolo\GraphQL\Search\Types\Teaser;
 use Atoolo\Resource\Resource;
@@ -24,6 +25,17 @@ class MediaTeaserFactory implements TeaserFactory
             UrlRewriterType::MEDIA,
             $resource->data->getString('mediaUrl'),
         );
+
+        $link = new Link(
+            $url,
+            null,
+            null,
+            null,
+            null,
+            null,
+            $resource,
+        );
+
         $headline = $resource->data->getString(
             'base.teaser.headline',
             $resource->name,
@@ -33,11 +45,9 @@ class MediaTeaserFactory implements TeaserFactory
         $contentLength = $resource->data->getInt('base.filesize');
 
         return new MediaTeaser(
-            $url,
+            $link,
             $headline,
             $text === '' ? null : $text,
-            $contentType,
-            $contentLength,
             $resource,
         );
     }

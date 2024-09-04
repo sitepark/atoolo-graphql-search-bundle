@@ -19,7 +19,6 @@ class NewsTeaserResolver implements Resolver
         private readonly ResourceSymbolicImageResolver $symbolicImageResolver,
         private readonly ResourceKickerResolver $kickerResolver,
         private readonly ResourceDateResolver $dateResolver,
-        private readonly ResourceOpensNewWindowResolver $opensNewWindowResolver,
     ) {}
 
     public function getKicker(
@@ -47,11 +46,5 @@ class NewsTeaserResolver implements Resolver
     ): ?SymbolicImage {
         return $this->symbolicImageResolver
             ->getSymbolicImage($teaser->resource, $args);
-    }
-
-    public function getOpensNewWindow(
-        NewsTeaser $teaser,
-    ): bool {
-        return $this->opensNewWindowResolver->getOpensNewWindow($teaser->resource);
     }
 }
