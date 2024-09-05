@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Resolver;
 
-use Atoolo\GraphQL\Search\Resolver\Converter\ResourceToLinkConverter;
+use Atoolo\GraphQL\Search\Resolver\Link\ResourceLinkResolver;
 use Atoolo\GraphQL\Search\Types\NewsTeaser;
 use Atoolo\GraphQL\Search\Types\Teaser;
 use Atoolo\Resource\Resource;
@@ -12,11 +12,12 @@ use Atoolo\Resource\Resource;
 class NewsTeaserFactory implements TeaserFactory
 {
     public function __construct(
-        private readonly ResourceToLinkConverter $resourceToLinkConverter,
+        private readonly ResourceLinkResolver $resourceLinkResolver,
     ) {}
+
     public function create(Resource $resource): Teaser
     {
-        $link = $this->resourceToLinkConverter->convert(
+        $link = $this->resourceLinkResolver->getLink(
             $resource,
         );
 

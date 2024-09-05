@@ -100,30 +100,30 @@ services:
       tags:
         - { name: 'atoolo_graphql_search.resolver' }
 
-  Atoolo\GraphQL\Search\Resolver\Converter\ArticleResourceToLinkConverter:
+  Atoolo\GraphQL\Search\Resolver\Link\ArticleResourceLinkResolver:
     arguments:
       - '@atoolo_graphql_search.resolver.url_rewriter'
 
-  Atoolo\GraphQL\Search\Resolver\Converter\MediaResourceToLinkConverter:
+  Atoolo\GraphQL\Search\Resolver\Link\MediaResourceLinkResolver:
     arguments:
       - '@atoolo_graphql_search.resolver.url_rewriter'
 
   atoolo_graphql_search.resolver.fallback_teaser_factory:
     class: 'Atoolo\GraphQL\Search\Resolver\ArticleTeaserFactory'
     arguments:
-      - '@Atoolo\GraphQL\Search\Resolver\Converter\ArticleResourceToLinkConverter'
+      - '@Atoolo\GraphQL\Search\Resolver\Link\ArticleResourceLinkResolver'
 
   atoolo_graphql_search.resolver.media_teaser_factory:
     class: 'Atoolo\GraphQL\Search\Resolver\MediaTeaserFactory'
     arguments:
-      - '@Atoolo\GraphQL\Search\Resolver\Converter\MediaResourceToLinkConverter'
+      - '@Atoolo\GraphQL\Search\Resolver\Link\MediaResourceLinkResolver'
     tags:
       - { name: 'atoolo_graphql_search.teaser_factory', objectType: 'media' }
 
   atoolo_graphql_search.resolver.embedded_media_teaser_factory:
     class: 'Atoolo\GraphQL\Search\Resolver\MediaTeaserFactory'
     arguments:
-      - '@Atoolo\GraphQL\Search\Resolver\Converter\MediaResourceToLinkConverter'
+      - '@Atoolo\GraphQL\Search\Resolver\Link\MediaResourceLinkResolver'
     tags:
       - { name: 'atoolo_graphql_search.teaser_factory', objectType: 'embedded-media' }
 

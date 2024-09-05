@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Resolver\Converter;
+namespace Atoolo\GraphQL\Search\Resolver\Link;
 
 use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriterType;
 use Atoolo\GraphQL\Search\Types\Link;
 use Atoolo\Resource\Resource;
 
-class ArticleResourceToLinkConverter implements ResourceToLinkConverter
+class MediaResourceLinkResolver implements ResourceLinkResolver
 {
     public function __construct(
         private readonly UrlRewriter $urlRewriter,
     ) {}
 
-    public function convert(Resource $resource): ?Link
+    public function getLink(Resource $resource): ?Link
     {
         return new Link(
             $this->getUrl($resource),
@@ -30,8 +30,8 @@ class ArticleResourceToLinkConverter implements ResourceToLinkConverter
     protected function getUrl(Resource $resource): string
     {
         return $this->urlRewriter->rewrite(
-            UrlRewriterType::LINK,
-            $resource->location,
+            UrlRewriterType::MEDIA,
+            $resource->data->getString('mediaUrl'),
         );
     }
 
