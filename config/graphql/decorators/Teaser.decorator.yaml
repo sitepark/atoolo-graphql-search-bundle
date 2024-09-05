@@ -6,7 +6,7 @@ TeaserDecorator:
       url:
         type: "String!"
         description: Teaser URL
-        deprecationReason: use field 'link' instead
+        deprecationReason: Use field 'link' instead
       link:
         type: "Link"
         description: Teaser Link

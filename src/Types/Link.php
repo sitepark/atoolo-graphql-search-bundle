@@ -18,6 +18,5 @@ class Link
         public readonly ?string $description = null,
         public readonly ?bool $opensNewWindow = null,
         public readonly ?bool $isExternal = null,
-        public readonly ?Resource $resource = null,
     ) {}
 }
