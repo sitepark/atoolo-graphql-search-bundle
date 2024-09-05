@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Resolver;
+namespace Atoolo\GraphQL\Search\Factory;
 
-use Atoolo\GraphQL\Search\Types\ArticleTeaser;
+use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
+use Atoolo\GraphQL\Search\Resolver\UrlRewriterType;
+use Atoolo\GraphQL\Search\Types\NewsTeaser;
 use Atoolo\GraphQL\Search\Types\Teaser;
 use Atoolo\Resource\Resource;
 
-class ArticleTeaserFactory implements TeaserFactory
+class NewsTeaserFactory implements TeaserFactory
 {
     public function __construct(
         private readonly UrlRewriter $urlRewriter,
@@ -27,7 +29,7 @@ class ArticleTeaserFactory implements TeaserFactory
         );
         $text = $resource->data->getString('base.teaser.text');
 
-        return new ArticleTeaser(
+        return new NewsTeaser(
             $url,
             $headline,
             $text === '' ? null : $text,
