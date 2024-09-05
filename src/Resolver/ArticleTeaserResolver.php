@@ -17,7 +17,7 @@ class ArticleTeaserResolver implements Resolver
         private readonly ResourceAssetResolver $assetResolver,
         private readonly ResourceSymbolicImageResolver $symbolicImageResolver,
         private readonly ResourceKickerResolver $kickerResolver,
-        private readonly ResourceDateResolver $dateResolver,
+        private readonly ResourceDateTimeResolver $dateResolver,
     ) {}
 
     public function getKicker(

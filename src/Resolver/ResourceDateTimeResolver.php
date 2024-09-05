@@ -7,7 +7,7 @@ namespace Atoolo\GraphQL\Search\Resolver;
 use Atoolo\Resource\Resource;
 use DateTime;
 
-class ResourceDateResolver
+class ResourceDateTimeResolver implements Resolver
 {
     public function getDate(
         Resource $resource,

@@ -9,6 +9,8 @@ Resource:
       contentSectionTypes: { type: "[String!]" }
       teaser: { type: "Teaser!" }
       navigation: { type: "Hierarchy!" }
+      kicker: { type: "String" }
+      date: { type: "DateTime" }
 
 Hierarchy:
   type: "object"

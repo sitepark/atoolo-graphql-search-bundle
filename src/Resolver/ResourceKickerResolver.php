@@ -8,7 +8,7 @@ use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceHierarchyLoader;
 use Atoolo\Resource\ResourceHierarchyWalker;
 
-class ResourceKickerResolver
+class ResourceKickerResolver implements Resolver
 {
     public function __construct(
         private readonly ResourceHierarchyLoader $hierarchyLoader,
