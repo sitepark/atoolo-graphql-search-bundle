@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Resolver;
+namespace Atoolo\GraphQL\Search\Resolver\Resource;
 
+use Atoolo\GraphQL\Search\Resolver\Resolver;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceHierarchyLoader;
 use Atoolo\Resource\ResourceHierarchyWalker;

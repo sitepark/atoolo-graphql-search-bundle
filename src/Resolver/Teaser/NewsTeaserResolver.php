@@ -2,10 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Resolver;
+namespace Atoolo\GraphQL\Search\Resolver\Teaser;
 
-use Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolver;
-use Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageResolver;
+use Atoolo\GraphQL\Search\Resolver\Resolver;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceAssetResolver;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceDateTimeResolver;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceKickerResolver;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceSymbolicImageResolver;
 use Atoolo\GraphQL\Search\Types\Asset;
 use Atoolo\GraphQL\Search\Types\NewsTeaser;
 use Atoolo\GraphQL\Search\Types\SymbolicImage;

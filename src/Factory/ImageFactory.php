@@ -2,17 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Resolver\Asset;
+namespace Atoolo\GraphQL\Search\Factory;
 
+use Atoolo\GraphQL\Search\Types\Image;
+use Atoolo\Resource\Resource;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriterType;
-use Atoolo\GraphQL\Search\Types\Asset;
-use Atoolo\GraphQL\Search\Types\Image;
 use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
 use Atoolo\GraphQL\Search\Types\ImageSource;
-use Atoolo\Resource\Resource;
 use InvalidArgumentException;
-use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -33,24 +31,27 @@ use Psr\Log\LoggerInterface;
  *     mediaQuery?: string
  * }
  */
-class ResourceImageResolver implements ResourceAssetResolver
+
+class ImageFactory implements AssetFactory
 {
     public function __construct(
         private readonly UrlRewriter $urlRewriter,
         private readonly LoggerInterface $logger,
     ) {}
 
-    public function getAsset(
+    public function create(
         Resource $resource,
-        ArgumentInterface $args,
-    ): ?Asset {
-        return $this->getImage($resource, $args);
-    }
-
-    public function getImage(
-        Resource $resource,
-        ArgumentInterface $args,
+        ?string $variant = null,
     ): ?Image {
+        if ($variant === null) {
+            $this->logger->error(
+                'variant must not be null when creating an Image',
+                [
+                    'resource' => $resource->location,
+                ],
+            );
+            return null;
+        }
 
         /** @var ImageData|array{} $imageData */
         $imageData = $resource->data->getAssociativeArray(
@@ -86,9 +87,6 @@ class ResourceImageResolver implements ResourceAssetResolver
                 $imageData['original'],
             );
         }
-
-        /** @var string $variant */
-        $variant = $args['variant'];
 
         $sources = [];
         if (

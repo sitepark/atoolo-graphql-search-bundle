@@ -2,42 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Resolver\Asset;
+namespace Atoolo\GraphQL\Search\Factory;
 
+use Atoolo\Resource\Resource;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriterType;
-use Atoolo\GraphQL\Search\Types\Asset;
 use Atoolo\GraphQL\Search\Types\SymbolicImage;
-use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceHierarchyLoader;
 use Atoolo\Resource\ResourceHierarchyWalker;
-use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 
-class ResourceSymbolicImageHierarchyResolver implements
-    ResourceAssetResolver,
-    ResourceSymbolicImageResolver
+class SymbolicImageFactory implements AssetFactory
 {
     public function __construct(
         private readonly UrlRewriter $urlRewriter,
         private readonly ResourceHierarchyLoader $hierarchyLoader,
     ) {}
 
-    public function getAsset(
+    public function create(
         Resource $resource,
-        ArgumentInterface $args,
-    ): ?Asset {
-        return $this->getSymbolicImage($resource, $args);
-    }
-
-    /**
-     * Traverses the resources hierarchy from bottom
-     * to top (including the passed resource) and returns
-     * the first non-null symbolic image found in the
-     * base data
-     */
-    public function getSymbolicImage(
-        Resource $resource,
-        ArgumentInterface $args,
+        ?string $variant = null,
     ): ?SymbolicImage {
         $walker = new ResourceHierarchyWalker($this->hierarchyLoader);
         $walker->init($resource);
