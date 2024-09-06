@@ -15,7 +15,7 @@ Resource:
         type: "Asset"
         args:
           variant:
-            type: "String!"
+            type: "String"
       symbolicImage:
         type: "SymbolicImage"
 
