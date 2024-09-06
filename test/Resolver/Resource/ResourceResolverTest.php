@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Test\Resolver;
+namespace Atoolo\GraphQL\Search\Test\Resolver\Resource;
 
-use Atoolo\GraphQL\Search\Resolver\DelegatingTeaserFactory;
-use Atoolo\GraphQL\Search\Resolver\ResourceResolver;
+use Atoolo\GraphQL\Search\Factory\DelegatingTeaserFactory;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceResolver;
 use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\GraphQL\Search\Types\Hierarchy;
 use Atoolo\GraphQL\Search\Types\Teaser;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Test\Resolver;
+namespace Atoolo\GraphQL\Search\Test\Factory;
 
-use Atoolo\GraphQL\Search\Resolver\MediaTeaserFactory;
+use Atoolo\GraphQL\Search\Factory\MediaTeaserFactory;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
 use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\GraphQL\Search\Types\MediaTeaser;

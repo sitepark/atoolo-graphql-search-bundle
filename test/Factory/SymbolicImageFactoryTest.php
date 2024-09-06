@@ -2,42 +2,34 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Test\Resolver\Asset;
+namespace Atoolo\GraphQL\Search\Test\Factory;
 
-use Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageHierarchyResolver;
+use Atoolo\GraphQL\Search\Factory\SymbolicImageFactory;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriterType;
-use Atoolo\GraphQL\Search\Test\TestResourceFactory;
-use Atoolo\GraphQL\Search\Types\SymbolicImage;
+use Atoolo\Resource\DataBag;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceHierarchyLoader;
+use Atoolo\Resource\ResourceLanguage;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(ResourceSymbolicImageHierarchyResolver::class)]
-class ResourceSymbolicImageHierarchyResolverTest extends TestCase
+#[CoversClass(SymbolicImageFactory::class)]
+class SymbolicImageFactoryTest extends TestCase
 {
-    private ResourceSymbolicImageHierarchyResolver $resolver;
+    private SymbolicImageFactory $factory;
 
     private UrlRewriter&MockObject $urlRewriter;
 
     private ResourceHierarchyLoader&MockObject $hierarchyLoader;
 
-    /**
-     * @throws Exception
-     */
     public function setUp(): void
     {
-        $this->urlRewriter = $this->createMock(
-            UrlRewriter::class,
-        );
-        $this->hierarchyLoader = $this->createMock(
-            ResourceHierarchyLoader::class,
-        );
-        $this->resolver = new ResourceSymbolicImageHierarchyResolver(
+        $this->urlRewriter = $this->createStub(UrlRewriter::class);
+        $this->hierarchyLoader = $this->createStub(ResourceHierarchyLoader::class);
+        $this->factory = new SymbolicImageFactory(
             $this->urlRewriter,
             $this->hierarchyLoader,
         );
@@ -46,8 +38,7 @@ class ResourceSymbolicImageHierarchyResolverTest extends TestCase
     public function testGetAssetWithoutResult(): void
     {
         $resource = $this->createResource([]);
-        $args = $this->createStub(ArgumentInterface::class);
-        $symbolicImage = $this->resolver->getAsset($resource, $args);
+        $symbolicImage = $this->factory->create($resource);
         $this->assertNull(
             $symbolicImage,
             'symbolicImage should be null',
@@ -66,7 +57,6 @@ class ResourceSymbolicImageHierarchyResolverTest extends TestCase
         ]);
         $parentResourceLocation = $parentResource->toLocation();
         $childResource = $this->createResource([]);
-        $args = $this->createStub(ArgumentInterface::class);
         $this->hierarchyLoader
             ->expects($this->atLeastOnce())
             ->method('getPrimaryParentLocation')
@@ -86,19 +76,22 @@ class ResourceSymbolicImageHierarchyResolverTest extends TestCase
             )->willReturn(
                 $symbolicImageUrl,
             );
-        /** @var SymbolicImage $symbolicImage */
-        $symbolicImage = $this->resolver->getAsset($childResource, $args);
+        $symbolicImage = $this->factory->create($childResource);
         $this->assertEquals(
             $symbolicImage->url,
             $symbolicImageUrl,
         );
     }
 
-    /**
-     * @param array<string,mixed> $data
-     */
     private function createResource(array $data): Resource
     {
-        return TestResourceFactory::create($data);
+        return new Resource(
+            $data['url'] ?? '',
+            $data['id'] ?? '',
+            $data['name'] ?? '',
+            $data['objectType'] ?? '',
+            ResourceLanguage::default(),
+            new DataBag($data),
+        );
     }
 }

@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Test\Resolver;
+namespace Atoolo\GraphQL\Search\Test\Resolver\Resoure;
 
-use Atoolo\GraphQL\Search\Resolver\ResourceDateResolver;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceDateTimeResolver;
 use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\Resource\Resource;
 use DateTime;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(ResourceDateResolver::class)]
-class ResourceDateResolverTest extends TestCase
+#[CoversClass(ResourceDateTimeResolver::class)]
+class ResourceDateTimeResolverTest extends TestCase
 {
-    private ResourceDateResolver $resolver;
+    private ResourceDateTimeResolver $resolver;
 
     public function setUp(): void
     {
-        $this->resolver = new ResourceDateResolver();
+        $this->resolver = new ResourceDateTimeResolver();
     }
 
     public function testGetDate(): void

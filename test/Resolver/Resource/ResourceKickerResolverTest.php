@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Test\Resolver;
+namespace Atoolo\GraphQL\Search\Test\Resolver\Resource;
 
-use Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceKickerResolver;
 use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\Resource\Loader\SiteKitNavigationHierarchyLoader;
 use Atoolo\Resource\Resource;
@@ -22,8 +22,8 @@ class ResourceKickerResolverTest extends TestCase
     public function setUp(): void
     {
         $resourceBaseDir = realpath(
-            __DIR__ . '/../resources/' .
-            'ArticleTeaserResolver',
+            __DIR__ . '/../../resources/' .
+                'ArticleTeaserResolver',
         );
         $resourceLoader = $this->createStub(
             ResourceLoader::class,
@@ -101,8 +101,7 @@ class ResourceKickerResolverTest extends TestCase
 
     public function testGetKickerNotFound(): void
     {
-        $teaser = $this->createResource([
-        ]);
+        $teaser = $this->createResource([]);
         $this->assertNull(
             $this->resolver->getKicker($teaser),
             'kicker should be null',

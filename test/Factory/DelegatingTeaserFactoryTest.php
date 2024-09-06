@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Test\Resolver;
+namespace Atoolo\GraphQL\Search\Test\Factory;
 
-use Atoolo\GraphQL\Search\Resolver\DelegatingTeaserFactory;
-use Atoolo\GraphQL\Search\Resolver\TeaserFactory;
+use Atoolo\GraphQL\Search\Factory\DelegatingTeaserFactory;
+use Atoolo\GraphQL\Search\Factory\TeaserFactory;
 use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\GraphQL\Search\Types\Teaser;
 use PHPUnit\Framework\Attributes\CoversClass;

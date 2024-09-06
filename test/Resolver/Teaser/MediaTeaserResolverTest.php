@@ -2,33 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Test\Resolver;
+namespace Atoolo\GraphQL\Search\Test\Resolver\Teaser;
 
-use Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolver;
-use Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageResolver;
-use Atoolo\GraphQL\Search\Resolver\NewsTeaserResolver;
-use Atoolo\GraphQL\Search\Resolver\ResourceDateResolver;
-use Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver;
-use Atoolo\GraphQL\Search\Resolver\ResourceOpensNewWindowResolver;
-use Atoolo\GraphQL\Search\Types\NewsTeaser;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceAssetResolver;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceKickerResolver;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceSymbolicImageResolver;
+use Atoolo\GraphQL\Search\Resolver\Teaser\MediaTeaserResolver;
+use Atoolo\GraphQL\Search\Types\MediaTeaser;
 use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(NewsTeaserResolver::class)]
-class NewsTeaserResolverTest extends TestCase
+#[CoversClass(MediaTeaserResolver::class)]
+class MediaTeaserResolverTest extends TestCase
 {
-    private NewsTeaserResolver $newsTeaserResolver;
+    private MediaTeaserResolver $mediaTeaserResolver;
 
     private ResourceAssetResolver&MockObject $assetResolver;
 
     private ResourceSymbolicImageResolver&MockObject $symbolicImageResolver;
 
     private ResourceKickerResolver&MockObject $kickerResolver;
-
-    private ResourceDateResolver&MockObject $dateResolver;
 
     public function setUp(): void
     {
@@ -41,73 +37,60 @@ class NewsTeaserResolverTest extends TestCase
         $this->kickerResolver = $this->createMock(
             ResourceKickerResolver::class,
         );
-        $this->dateResolver = $this->createMock(
-            ResourceDateResolver::class,
-        );
-        $this->newsTeaserResolver = new NewsTeaserResolver(
+        $this->mediaTeaserResolver = new MediaTeaserResolver(
             $this->assetResolver,
             $this->symbolicImageResolver,
             $this->kickerResolver,
-            $this->dateResolver,
         );
-    }
-
-    public function testGetDate(): void
-    {
-        $this->dateResolver->expects($this->once())
-            ->method('getDate');
-        $teaser = new NewsTeaser(
-            '',
-            '',
-            '',
-            $this->createStub(Resource::class),
-        );
-
-        $this->newsTeaserResolver->getDate($teaser);
     }
 
     public function testGetAsset(): void
     {
         $this->assetResolver->expects($this->once())
             ->method('getAsset');
-        $teaser = new NewsTeaser(
-            '',
-            '',
-            '',
+        $teaser = new MediaTeaser(
+            null,
+            null,
+            null,
+            null,
+            null,
             $this->createStub(Resource::class),
         );
         $args = $this->createStub(ArgumentInterface::class);
 
-        $this->newsTeaserResolver->getAsset($teaser, $args);
+        $this->mediaTeaserResolver->getAsset($teaser, $args);
     }
 
     public function testGetSymbolicImage(): void
     {
         $this->symbolicImageResolver->expects($this->once())
             ->method('getSymbolicImage');
-        $teaser = new NewsTeaser(
-            '',
-            '',
-            '',
+        $teaser = new MediaTeaser(
+            null,
+            null,
+            null,
+            null,
+            null,
             $this->createStub(Resource::class),
         );
         $args = $this->createStub(ArgumentInterface::class);
 
-        $this->newsTeaserResolver->getSymbolicImage($teaser, $args);
+        $this->mediaTeaserResolver->getSymbolicImage($teaser, $args);
     }
 
     public function testGetKicker(): void
     {
         $this->kickerResolver->expects($this->once())
             ->method('getKicker');
-        $teaser = new NewsTeaser(
-            '',
-            '',
-            '',
+        $teaser = new MediaTeaser(
+            null,
+            null,
+            null,
+            null,
+            null,
             $this->createStub(Resource::class),
         );
         $args = $this->createStub(ArgumentInterface::class);
-
-        $this->newsTeaserResolver->getKicker($teaser, $args);
+        $this->mediaTeaserResolver->getKicker($teaser, $args);
     }
 }

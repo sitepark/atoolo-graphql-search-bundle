@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Test\Resolver;
+namespace Atoolo\GraphQL\Search\Test\Factory;
 
 use ArrayIterator;
 use Atoolo\GraphQL\Search\Resolver\TeaserFactory;

@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Test\Resolver;
+namespace Atoolo\GraphQL\Search\Test\Resolver\Teaser;
 
-use Atoolo\GraphQL\Search\Resolver\ArticleTeaserResolver;
-use Atoolo\GraphQL\Search\Resolver\Asset\ResourceAssetResolver;
-use Atoolo\GraphQL\Search\Resolver\Asset\ResourceSymbolicImageResolver;
-use Atoolo\GraphQL\Search\Resolver\ResourceDateResolver;
-use Atoolo\GraphQL\Search\Resolver\ResourceKickerResolver;
-use Atoolo\GraphQL\Search\Resolver\ResourceOpensNewWindowResolver;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceAssetResolver;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceDateTimeResolver;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceKickerResolver;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceSymbolicImageResolver;
+use Atoolo\GraphQL\Search\Resolver\Teaser\ArticleTeaserResolver;
 use Atoolo\GraphQL\Search\Types\ArticleTeaser;
 use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
@@ -29,7 +28,7 @@ class ArticleTeaserResolverTest extends TestCase
 
     private ResourceKickerResolver&MockObject $kickerResolver;
 
-    private ResourceDateResolver&MockObject $dateResolver;
+    private ResourceDateTimeResolver&MockObject $dateTimeResolver;
 
     /**
      * @throws Exception
@@ -45,20 +44,20 @@ class ArticleTeaserResolverTest extends TestCase
         $this->kickerResolver = $this->createMock(
             ResourceKickerResolver::class,
         );
-        $this->dateResolver = $this->createMock(
-            ResourceDateResolver::class,
+        $this->dateTimeResolver = $this->createMock(
+            ResourceDateTimeResolver::class,
         );
         $this->resolver = new ArticleTeaserResolver(
             $this->assetResolver,
             $this->symbolicImageResolver,
             $this->kickerResolver,
-            $this->dateResolver,
+            $this->dateTimeResolver,
         );
     }
 
     public function testGetDate(): void
     {
-        $this->dateResolver->expects($this->once())
+        $this->dateTimeResolver->expects($this->once())
             ->method('getDate');
         $teaser = new ArticleTeaser(
             '',
