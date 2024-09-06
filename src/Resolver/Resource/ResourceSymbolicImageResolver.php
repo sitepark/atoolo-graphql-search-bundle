@@ -22,13 +22,13 @@ class ResourceSymbolicImageResolver implements Resolver
         Resource $resource,
         ArgumentInterface $args,
     ): ?SymbolicImage {
-        if (!isset($args['variant']) || !is_string($args['variant'])) {
+        if (isset($args['variant']) && !is_string($args['variant'])) {
             throw new \InvalidArgumentException(
                 'argument \'variant\' must be of type string',
             );
         }
-        /** @var string $variant */
-        $variant = $args['variant'];
+        /** @var ?string $variant */
+        $variant = $args['variant'] ?? null;
         $asset = $this->symbolicImageFactory->create(
             $resource,
             $variant,
