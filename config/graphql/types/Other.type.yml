@@ -9,6 +9,15 @@ Resource:
       contentSectionTypes: { type: "[String!]" }
       teaser: { type: "Teaser!" }
       navigation: { type: "Hierarchy!" }
+      kicker: { type: "String" }
+      date: { type: "DateTime" }
+      asset:
+        type: "Asset"
+        args:
+          variant:
+            type: "String"
+      symbolicImage:
+        type: "SymbolicImage"
 
 Hierarchy:
   type: "object"
