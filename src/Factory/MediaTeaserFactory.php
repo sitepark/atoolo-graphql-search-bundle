@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Factory;
 
-use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
-use Atoolo\GraphQL\Search\Resolver\UrlRewriterType;
 use Atoolo\GraphQL\Search\Types\MediaTeaser;
 use Atoolo\GraphQL\Search\Types\Teaser;
 use Atoolo\Resource\Resource;
 
 class MediaTeaserFactory implements TeaserFactory
 {
-    public function __construct(private readonly UrlRewriter $urlRewriter) {}
+    public function __construct(
+        private readonly LinkFactory $linkFactory,
+    ) {}
 
     public function create(Resource $resource): Teaser
     {
@@ -22,10 +22,10 @@ class MediaTeaserFactory implements TeaserFactory
                 'objectType: ' . $resource->objectType);
         }
 
-        $url = $this->urlRewriter->rewrite(
-            UrlRewriterType::MEDIA,
-            $resource->data->getString('mediaUrl'),
+        $link = $this->linkFactory->create(
+            $resource,
         );
+
         $headline = $resource->data->getString(
             'base.teaser.headline',
             $resource->name,
@@ -35,7 +35,7 @@ class MediaTeaserFactory implements TeaserFactory
         $contentLength = $resource->data->getInt('base.filesize');
 
         return new MediaTeaser(
-            $url,
+            $link,
             $headline,
             $text === '' ? null : $text,
             $contentType,

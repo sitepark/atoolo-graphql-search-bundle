@@ -23,6 +23,12 @@ class ArticleTeaserResolver implements Resolver
         private readonly ResourceDateTimeResolver $dateResolver,
     ) {}
 
+    public function getUrl(
+        ArticleTeaser $teaser,
+    ): ?string {
+        return $teaser->link?->url;
+    }
+
     public function getKicker(
         ArticleTeaser $teaser,
     ): ?string {

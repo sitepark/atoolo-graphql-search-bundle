@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Factory;
 
+use Atoolo\GraphQL\Search\Factory\LinkFactory;
 use Atoolo\GraphQL\Search\Factory\MediaTeaserFactory;
-use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
 use Atoolo\GraphQL\Search\Test\TestResourceFactory;
+use Atoolo\GraphQL\Search\Types\Link;
 use Atoolo\GraphQL\Search\Types\MediaTeaser;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -16,12 +17,12 @@ class MediaTeaserFactoryTest extends TestCase
 {
     private MediaTeaserFactory $factory;
 
-    private UrlRewriter $urlRewriter;
+    private LinkFactory $linkFactory;
 
     public function setUp(): void
     {
-        $this->urlRewriter = $this->createStub(UrlRewriter::class);
-        $this->factory = new MediaTeaserFactory($this->urlRewriter);
+        $this->linkFactory = $this->createStub(LinkFactory::class);
+        $this->factory = new MediaTeaserFactory($this->linkFactory);
     }
 
     public function testCreateWithUnsupportedObjectType(): void
@@ -34,23 +35,21 @@ class MediaTeaserFactoryTest extends TestCase
         $this->factory->create($resource);
     }
 
-    public function testResolveWithMediaUrl(): void
+    public function testLink(): void
     {
         $resource = TestResourceFactory::create([
             'objectType' => 'media',
-            'url' => 'url',
-            'mediaUrl' => 'mediaUrl',
         ]);
-
-        $this->urlRewriter->method('rewrite')
-            ->willReturnCallback(static fn($type, $url) => $url);
+        $link = new Link('url');
+        $this->linkFactory->method('create')
+            ->willReturn($link);
 
         $teaser = $this->factory->create($resource);
 
         $this->assertEquals(
-            'mediaUrl',
-            $teaser->url,
-            'unexpected url',
+            $link,
+            $teaser->link,
+            'unexpected link',
         );
     }
 
@@ -94,13 +93,12 @@ class MediaTeaserFactoryTest extends TestCase
 
     public function testResolveMediaTeaser(): void
     {
-
-        $this->urlRewriter->method('rewrite')
-            ->willReturnCallback(static fn($type, $url) => $url);
+        $link = new Link('url');
+        $this->linkFactory->method('create')
+            ->willReturn($link);
 
         $resource = TestResourceFactory::create([
             'objectType' => 'media',
-            'mediaUrl' => 'mediaUrl',
             'base' => [
                 'teaser' => [
                     'headline' => 'Headline',
@@ -114,7 +112,7 @@ class MediaTeaserFactoryTest extends TestCase
         $teaser = $this->factory->create($resource);
 
         $expected = new MediaTeaser(
-            'mediaUrl',
+            $link,
             'Headline',
             'Text',
             'mime',

@@ -8,6 +8,7 @@ use Atoolo\GraphQL\Search\Resolver\Resource\ResourceAssetResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceKickerResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceSymbolicImageResolver;
 use Atoolo\GraphQL\Search\Resolver\Teaser\MediaTeaserResolver;
+use Atoolo\GraphQL\Search\Types\Link;
 use Atoolo\GraphQL\Search\Types\MediaTeaser;
 use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
@@ -41,6 +42,25 @@ class MediaTeaserResolverTest extends TestCase
             $this->assetResolver,
             $this->symbolicImageResolver,
             $this->kickerResolver,
+        );
+    }
+
+    public function testGetUrl(): void
+    {
+        $url = '/some_url.php';
+        $link = new Link($url);
+        $teaser = new MediaTeaser(
+            $link,
+            null,
+            null,
+            null,
+            null,
+            $this->createStub(Resource::class),
+        );
+        $this->assertEquals(
+            $url,
+            $this->mediaTeaserResolver->getUrl($teaser),
+            'getUrl should return the url of the teaser link',
         );
     }
 

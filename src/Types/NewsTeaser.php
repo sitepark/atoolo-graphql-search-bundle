@@ -12,11 +12,11 @@ use Atoolo\Resource\Resource;
 class NewsTeaser extends Teaser
 {
     public function __construct(
-        ?string $url,
+        ?Link $link,
         public readonly ?string $headline,
         public readonly ?string $text,
         public readonly Resource $resource,
     ) {
-        parent::__construct($url);
+        parent::__construct($link);
     }
 }

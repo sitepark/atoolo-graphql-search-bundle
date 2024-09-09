@@ -112,22 +112,27 @@ services:
 
   # Factories
 
+  atoolo_graphql_search.factory.link_factory:
+    class: 'Atoolo\GraphQL\Search\Factory\LinkFactory'
+    arguments:
+      - '@atoolo_graphql_search.resolver.url_rewriter'
+
   atoolo_graphql_search.factory.fallback_teaser_factory:
     class: 'Atoolo\GraphQL\Search\Factory\ArticleTeaserFactory'
     arguments:
-      - '@atoolo_graphql_search.resolver.url_rewriter'
+      - '@atoolo_graphql_search.factory.link_factory'
 
   atoolo_graphql_search.factory.media_teaser_factory:
     class: 'Atoolo\GraphQL\Search\Factory\MediaTeaserFactory'
     arguments:
-      - '@atoolo_graphql_search.resolver.url_rewriter'
+      - '@atoolo_graphql_search.factory.link_factory'
     tags:
       - { name: 'atoolo_graphql_search.teaser_factory', objectType: 'media' }
 
   atoolo_graphql_search.factory.embedded_media_teaser_factory:
     class: 'Atoolo\GraphQL\Search\Factory\MediaTeaserFactory'
     arguments:
-      - '@atoolo_graphql_search.resolver.url_rewriter'
+      - '@atoolo_graphql_search.factory.link_factory'
     tags:
       - { name: 'atoolo_graphql_search.teaser_factory', objectType: 'embedded-media' }
 

@@ -12,13 +12,13 @@ use Atoolo\Resource\Resource;
 class MediaTeaser extends Teaser
 {
     public function __construct(
-        ?string $url,
+        ?Link $link,
         public readonly ?string $headline,
         public readonly ?string $text,
         public readonly ?string $contentType,
         public readonly ?int $contentLength,
         public readonly Resource $resource,
     ) {
-        parent::__construct($url);
+        parent::__construct($link);
     }
 }
