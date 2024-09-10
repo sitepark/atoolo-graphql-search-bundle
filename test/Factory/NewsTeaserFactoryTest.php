@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Factory;
 
+use Atoolo\GraphQL\Search\Factory\LinkFactory;
 use Atoolo\GraphQL\Search\Factory\NewsTeaserFactory;
-use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
+use Atoolo\GraphQL\Search\Types\Link;
 use Atoolo\Resource\DataBag;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceLanguage;
@@ -17,17 +18,17 @@ class NewsTeaserFactoryTest extends TestCase
 {
     private NewsTeaserFactory $factory;
 
-    private UrlRewriter $urlRewriter;
+    private LinkFactory $linkFactory;
 
     public function setUp(): void
     {
-        $this->urlRewriter = $this->createStub(UrlRewriter::class);
+        $this->linkFactory = $this->createStub(LinkFactory::class);
         $this->factory = new NewsTeaserFactory(
-            $this->urlRewriter,
+            $this->linkFactory,
         );
     }
 
-    public function testUrl(): void
+    public function testLink(): void
     {
         $resource = new Resource(
             'originalUrl',
@@ -37,16 +38,16 @@ class NewsTeaserFactoryTest extends TestCase
             ResourceLanguage::default(),
             new DataBag([]),
         );
-
-        $this->urlRewriter->method('rewrite')
-            ->willReturn('rewrittenUrl');
+        $link = new Link('url');
+        $this->linkFactory->method('create')
+            ->willReturn($link);
 
         $teaser = $this->factory->create($resource);
 
         $this->assertEquals(
-            'rewrittenUrl',
-            $teaser->url,
-            'unexpected url',
+            $link,
+            $teaser->link,
+            'unexpected link',
         );
     }
 

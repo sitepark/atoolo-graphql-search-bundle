@@ -4,5 +4,9 @@ TeaserDecorator:
   config:
     fields:
       url:
-        type: "String!"
+        type: "String"
         description: Teaser URL
+        deprecationReason: Use field 'link' instead
+      link:
+        type: "Link"
+        description: Teaser Link

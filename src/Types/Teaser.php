@@ -10,6 +10,6 @@ namespace Atoolo\GraphQL\Search\Types;
 abstract class Teaser
 {
     public function __construct(
-        public readonly ?string $url,
+        public readonly ?Link $link,
     ) {}
 }

@@ -117,3 +117,14 @@ IndexerStatus:
       updated: { type: "Int" }
       errors: { type: "Int" }
       statusLine: { type: "String" }
+
+Link:
+  type: "object"
+  config:
+    fields:
+      url : { type: "String!" }
+      label : { type: "String" }
+      accessibilityLabel : { type: "String" }
+      description: { type: "String" }
+      opensNewWindow: { type: "Boolean!" }
+      isExternal: { type: "Boolean!" }

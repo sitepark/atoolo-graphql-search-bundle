@@ -8,6 +8,7 @@ use ArrayObject;
 use Atoolo\GraphQL\Search\Resolver\ResolverMapRegistry;
 use Atoolo\GraphQL\Search\Types\ArticleTeaser;
 use Atoolo\GraphQL\Search\Types\Image;
+use Atoolo\GraphQL\Search\Types\Link;
 use Atoolo\Resource\Resource;
 use GraphQL\Type\Definition\ResolveInfo;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
@@ -70,7 +71,7 @@ class ResolverMapRegistryTest extends TestCase
             new DummyTeaserGetterResolver(),
         ]);
         $articleTeaser = new ArticleTeaser(
-            'url',
+            new Link('url'),
             'headline',
             'text',
             $this->createStub(Resource::class),
@@ -99,7 +100,7 @@ class ResolverMapRegistryTest extends TestCase
         $fn = $registry->resolve('Teaser', ResolverMapInterface::RESOLVE_TYPE);
 
         $teaser = new ArticleTeaser(
-            'url',
+            new Link('url'),
             'headline',
             'text',
             $this->createStub(Resource::class),

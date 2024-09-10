@@ -10,6 +10,7 @@ use Atoolo\GraphQL\Search\Resolver\Resource\ResourceKickerResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceSymbolicImageResolver;
 use Atoolo\GraphQL\Search\Resolver\Teaser\ArticleTeaserResolver;
 use Atoolo\GraphQL\Search\Types\ArticleTeaser;
+use Atoolo\GraphQL\Search\Types\Link;
 use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -55,12 +56,29 @@ class ArticleTeaserResolverTest extends TestCase
         );
     }
 
+    public function testGetUrl(): void
+    {
+        $url = '/some_url.php';
+        $link = new Link($url);
+        $teaser = new ArticleTeaser(
+            $link,
+            '',
+            '',
+            $this->createStub(Resource::class),
+        );
+        $this->assertEquals(
+            $url,
+            $this->resolver->getUrl($teaser),
+            'getUrl should return the url of the teaser link',
+        );
+    }
+
     public function testGetDate(): void
     {
         $this->dateTimeResolver->expects($this->once())
             ->method('getDate');
         $teaser = new ArticleTeaser(
-            '',
+            null,
             '',
             '',
             $this->createStub(Resource::class),
@@ -74,7 +92,7 @@ class ArticleTeaserResolverTest extends TestCase
         $this->assetResolver->expects($this->once())
             ->method('getAsset');
         $teaser = new ArticleTeaser(
-            '',
+            null,
             '',
             '',
             $this->createStub(Resource::class),
@@ -89,7 +107,7 @@ class ArticleTeaserResolverTest extends TestCase
         $this->symbolicImageResolver->expects($this->once())
             ->method('getSymbolicImage');
         $teaser = new ArticleTeaser(
-            '',
+            null,
             '',
             '',
             $this->createStub(Resource::class),
@@ -104,7 +122,7 @@ class ArticleTeaserResolverTest extends TestCase
         $this->kickerResolver->expects($this->once())
             ->method('getKicker');
         $teaser = new ArticleTeaser(
-            '',
+            null,
             '',
             '',
             $this->createStub(Resource::class),
