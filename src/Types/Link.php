@@ -12,7 +12,7 @@ class Link
     public function __construct(
         public readonly string $url,
         public readonly ?string $label = null,
-        public readonly ?string $ariaLabel = null,
+        public readonly ?string $accessibilityLabel = null,
         public readonly ?string $description = null,
         public readonly bool $opensNewWindow = false,
         public readonly bool $isExternal = false,

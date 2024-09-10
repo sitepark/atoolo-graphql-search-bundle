@@ -20,7 +20,7 @@ class LinkFactory
         return new Link(
             $this->getUrl($resource),
             $this->getLabel($resource),
-            $this->getAriaLabel($resource),
+            $this->getAccessibilityLabel($resource),
             $this->getDescription($resource),
             $this->opensNewWindow($resource),
             $this->isExternal($resource),
@@ -51,7 +51,7 @@ class LinkFactory
         );
     }
 
-    protected function getAriaLabel(Resource $resource): ?string
+    protected function getAccessibilityLabel(Resource $resource): ?string
     {
         return $resource->data->has('external.accessibilityLabel')
             ? $resource->data->getString('external.accessibilityLabel')

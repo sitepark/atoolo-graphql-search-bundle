@@ -124,7 +124,7 @@ Link:
     fields:
       url : { type: "String!" }
       label : { type: "String" }
-      ariaLabel : { type: "String" }
+      accessibilityLabel : { type: "String" }
       description: { type: "String" }
       opensNewWindow: { type: "Boolean!" }
       isExternal: { type: "Boolean!" }

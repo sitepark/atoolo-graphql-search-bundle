@@ -51,7 +51,7 @@ class LinkFactoryTest extends TestCase
 
         $this->assertEquals($url, $link->url);
         $this->assertEquals($title, $link->label);
-        $this->assertNull($link->ariaLabel);
+        $this->assertNull($link->accessibilityLabel);
         $this->assertNull($link->description);
         $this->assertFalse($link->opensNewWindow);
         $this->assertFalse($link->isExternal);
@@ -123,7 +123,7 @@ class LinkFactoryTest extends TestCase
 
         $this->assertEquals($url, $link->url);
         $this->assertEquals($label, $link->label);
-        $this->assertEquals($accessibilityLabel, $link->ariaLabel);
+        $this->assertEquals($accessibilityLabel, $link->accessibilityLabel);
         $this->assertEquals($description, $link->description);
         $this->assertTrue($link->opensNewWindow);
         $this->assertTrue($link->isExternal);
