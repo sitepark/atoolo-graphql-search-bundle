@@ -122,6 +122,13 @@ services:
     arguments:
       - '@atoolo_graphql_search.factory.link_factory'
 
+  atoolo_graphql_search.factory.news_teaser_factory:
+    class: 'Atoolo\GraphQL\Search\Factory\NewsTeaserFactory'
+    arguments:
+      - '@atoolo_graphql_search.factory.link_factory'
+    tags:
+      - { name: 'atoolo_graphql_search.teaser_factory', objectType: 'news' }
+
   atoolo_graphql_search.factory.media_teaser_factory:
     class: 'Atoolo\GraphQL\Search\Factory\MediaTeaserFactory'
     arguments:
