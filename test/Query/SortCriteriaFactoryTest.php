@@ -20,7 +20,6 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(SortCriteriaFactory::class)]
 class SortCriteriaFactoryTest extends TestCase
 {
-
     public function testCreateWithSortName(): void
     {
         $criteria = $this->createSearchInputWithSort('name');
