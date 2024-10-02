@@ -123,6 +123,7 @@ class ResolverMapRegistryTest extends TestCase
 
         $image = new Image(
             '',
+            null,
             '',
             '',
             '',

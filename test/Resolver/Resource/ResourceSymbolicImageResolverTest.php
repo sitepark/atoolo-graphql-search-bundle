@@ -61,6 +61,7 @@ class ResourceSymbolicImageResolverTest extends TestCase
         $resource = $this->createResource([]);
         $image = new Image(
             '',
+            null,
             '',
             '',
             '',

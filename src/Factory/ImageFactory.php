@@ -4,19 +4,31 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Factory;
 
-use Atoolo\GraphQL\Search\Types\Image;
-use Atoolo\Resource\Resource;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriterType;
+use Atoolo\GraphQL\Search\Types\CopyrightDetails;
+use Atoolo\GraphQL\Search\Types\Image;
 use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
 use Atoolo\GraphQL\Search\Types\ImageSource;
+use Atoolo\GraphQL\Search\Types\Link;
+use Atoolo\Resource\Resource;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 
 /**
+ * @phpstan-type CopyrightLinkData array{
+ *      url: string,
+ *      label?: string,
+ *  }
+ * @phpstan-type CopyrightDetailsData array{
+ *     original?: CopyrightLinkData,
+ *     author?: CopyrightLinkData,
+ *     license?: CopyrightLinkData,
+ * }
  * @phpstan-type ImageData array{
  *     characteristic?: string,
  *     copyright?: string,
+ *     copyrightDetails?: CopyrightDetailsData,
  *     text?: string,
  *     legend?: string,
  *     description?: string,
@@ -53,7 +65,7 @@ class ImageFactory implements AssetFactory
             return null;
         }
 
-        /** @var ImageData|array{} $imageData */
+        /** @var ImageData $imageData */
         $imageData = $resource->data->getAssociativeArray(
             'base.teaser.image',
         );
@@ -77,6 +89,9 @@ class ImageFactory implements AssetFactory
         }
 
         $copyright = $imageData['copyright'] ?? null;
+        $copyrightDetails = $this->toCopyrightDetails(
+            $imageData['copyrightDetails'] ?? null,
+        );
         $alternativeText = $imageData['text'] ?? null;
         $caption = $imageData['legend'] ?? null;
         $description = $imageData['description'] ?? null;
@@ -101,6 +116,7 @@ class ImageFactory implements AssetFactory
 
         return new Image(
             $copyright,
+            $copyrightDetails,
             $caption,
             $description,
             $alternativeText,
@@ -149,6 +165,33 @@ class ImageFactory implements AssetFactory
             $width,
             $height,
             $mediaQuery,
+        );
+    }
+
+    /**
+     * @param CopyrightDetailsData|null $data
+     */
+    private function toCopyrightDetails(?array $data): ?CopyrightDetails
+    {
+        return empty($data) ? null : new CopyrightDetails(
+            original: $this->toLink($data['original'] ?? null),
+            author: $this->toLink($data['author'] ?? null),
+            license: $this->toLink($data['license'] ?? null),
+        );
+    }
+
+    /**
+     * @param CopyrightLinkData|null $data
+     */
+    private function toLink(?array $data): ?Link
+    {
+        return empty($data['url']) ? null : new Link(
+            url: $data['url'],
+            label: $data['label'] ?? null,
+            accessibilityLabel: null,
+            description: null,
+            opensNewWindow: true,
+            isExternal: true,
         );
     }
 }

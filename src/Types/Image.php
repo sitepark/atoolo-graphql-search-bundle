@@ -14,6 +14,7 @@ class Image extends Asset
      */
     public function __construct(
         ?string $copyright,
+        ?CopyrightDetails $copyrightDetails,
         ?string $caption,
         ?string $description,
         public readonly ?string $alternativeText,
@@ -21,6 +22,6 @@ class Image extends Asset
         public readonly ?ImageCharacteristic $characteristic,
         public readonly array $sources,
     ) {
-        parent::__construct($copyright, $caption, $description);
+        parent::__construct($copyright, $copyrightDetails, $caption, $description);
     }
 }

@@ -72,6 +72,7 @@ Asset:
   config:
     fields:
       copyright: { type: "String" }
+      copyrightDetails: { type: "CopyrightDetails" }
       caption: { type: "String" }
       description:  { type: "String" }
 
@@ -103,6 +104,14 @@ SymbolicImage:
     interfaces: [Asset]
     fields:
       url: { type: "String" }
+
+CopyrightDetails:
+  type: "object"
+  config:
+    fields:
+      original: { type: "Link" }
+      author: { type: "Link" }
+      license: { type: "Link" }
 
 IndexerStatus:
   type: "object"
