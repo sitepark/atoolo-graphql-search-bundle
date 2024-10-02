@@ -8,6 +8,11 @@ services:
     arguments:
       - '@atoolo_search.search'
 
+  Atoolo\GraphQL\Search\Query\MoreLikeThis:
+    public: true
+    arguments:
+      - '@atoolo_search.more_like_this'
+
   Atoolo\GraphQL\Search\Query\Suggest:
     public: true
     arguments:
