@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce718ea28fce7e83ee443645d8c4c7f2",
+    "content-hash": "74aca2deffde90988bec1436940a2642",
     "packages": [
         {
             "name": "atoolo/resource-bundle",
@@ -65,16 +65,16 @@
         },
         {
             "name": "atoolo/search-bundle",
-            "version": "1.1.0",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sitepark/atoolo-search-bundle.git",
-                "reference": "23fe37e16bab3fc25d7df050954aafbf4c47e9c4"
+                "reference": "5d7e6e9713ffc3888c177b70ab0d8593b1a2f304"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sitepark/atoolo-search-bundle/zipball/23fe37e16bab3fc25d7df050954aafbf4c47e9c4",
-                "reference": "23fe37e16bab3fc25d7df050954aafbf4c47e9c4",
+                "url": "https://api.github.com/repos/sitepark/atoolo-search-bundle/zipball/5d7e6e9713ffc3888c177b70ab0d8593b1a2f304",
+                "reference": "5d7e6e9713ffc3888c177b70ab0d8593b1a2f304",
                 "shasum": ""
             },
             "require": {
@@ -107,6 +107,7 @@
                 "squizlabs/php_codesniffer": "^3.7",
                 "symfony/filesystem": "^6.3 || ^7.0"
             },
+            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -131,9 +132,9 @@
             "description": "Indexing und searching",
             "support": {
                 "issues": "https://github.com/sitepark/atoolo-search-bundle/issues",
-                "source": "https://github.com/sitepark/atoolo-search-bundle/tree/1.1.0"
+                "source": "https://github.com/sitepark/atoolo-search-bundle/tree/main"
             },
-            "time": "2024-07-08T07:44:03+00:00"
+            "time": "2024-10-02T15:20:46+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -7957,6 +7958,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "atoolo/search-bundle": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": true,
