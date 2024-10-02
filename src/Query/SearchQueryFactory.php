@@ -6,18 +6,10 @@ namespace Atoolo\GraphQL\Search\Query;
 
 use Atoolo\GraphQL\Search\Input\SearchInput;
 use Atoolo\GraphQL\Search\Types\QueryOperator;
-use Atoolo\GraphQL\Search\Types\SortDirection;
 use Atoolo\Resource\ResourceLanguage;
 use Atoolo\Search\Dto\Search\Query\Boosting;
 use Atoolo\Search\Dto\Search\Query\SearchQuery;
 use Atoolo\Search\Dto\Search\Query\SearchQueryBuilder;
-use Atoolo\Search\Dto\Search\Query\Sort\Date;
-use Atoolo\Search\Dto\Search\Query\Sort\Direction;
-use Atoolo\Search\Dto\Search\Query\Sort\Headline;
-use Atoolo\Search\Dto\Search\Query\Sort\Name;
-use Atoolo\Search\Dto\Search\Query\Sort\Natural;
-use Atoolo\Search\Dto\Search\Query\Sort\Score;
-use InvalidArgumentException;
 
 class SearchQueryFactory
 {
@@ -25,10 +17,13 @@ class SearchQueryFactory
 
     private readonly FacetListFactory $facetFactory;
 
+    private readonly SortCriteriaFactory $sortCriteriaFactory;
+
     public function __construct()
     {
         $this->filterFactory = new FilterListFactory();
         $this->facetFactory = new FacetListFactory();
+        $this->sortCriteriaFactory = new SortCriteriaFactory();
     }
 
     public function create(SearchInput $input): SearchQuery
@@ -71,42 +66,8 @@ class SearchQueryFactory
             return;
         }
         foreach ($input->sort as $criteria) {
-            if (isset($criteria->name)) {
-                $direction = $this->mapDirection($criteria->name);
-                $builder->sort(
-                    new Name($direction),
-                );
-            } elseif (isset($criteria->headline)) {
-                $direction = $this->mapDirection($criteria->headline);
-                $builder->sort(
-                    new Headline($direction),
-                );
-            } elseif (isset($criteria->date)) {
-                $direction = $this->mapDirection($criteria->date);
-                $builder->sort(
-                    new Date($direction),
-                );
-            } elseif (isset($criteria->natural)) {
-                $direction = $this->mapDirection($criteria->natural);
-                $builder->sort(
-                    new Natural($direction),
-                );
-            } elseif (isset($criteria->score)) {
-                $direction = $this->mapDirection($criteria->score);
-                $builder->sort(
-                    new Score($direction),
-                );
-            } else {
-                throw new InvalidArgumentException('Sort criteria not found');
-            }
+            $builder->sort($this->sortCriteriaFactory->create($criteria));
         }
-    }
-
-    private function mapDirection(SortDirection $direction): Direction
-    {
-        return $direction === SortDirection::ASC
-            ? Direction::ASC
-            : Direction::DESC;
     }
 
     private function addPagination(

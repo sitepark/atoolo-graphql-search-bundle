@@ -15,13 +15,8 @@ use Atoolo\GraphQL\Search\Types\SortDirection;
 use Atoolo\Search\Dto\Search\Query\Boosting;
 use Atoolo\Search\Dto\Search\Query\Facet\ObjectTypeFacet;
 use Atoolo\Search\Dto\Search\Query\Filter\ObjectTypeFilter;
-use Atoolo\Search\Dto\Search\Query\Sort\Date;
 use Atoolo\Search\Dto\Search\Query\Sort\Direction;
-use Atoolo\Search\Dto\Search\Query\Sort\Headline;
 use Atoolo\Search\Dto\Search\Query\Sort\Name;
-use Atoolo\Search\Dto\Search\Query\Sort\Natural;
-use Atoolo\Search\Dto\Search\Query\Sort\Score;
-use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -102,9 +97,14 @@ class SelectQueryFactoryTest extends TestCase
 
     public function testCreateWithSortName(): void
     {
-        $input = $this->createSearchInputWithSort('name');
-
         $factory = new SearchQueryFactory();
+
+        $sort = new InputSortCriteria();
+        $sort->name = SortDirection::ASC;
+
+        $input = new SearchInput();
+        $input->sort = [$sort];
+
         $query = $factory->create($input);
 
         $this->assertEquals(
@@ -112,84 +112,6 @@ class SelectQueryFactoryTest extends TestCase
             $query->sort,
             'name sort expected',
         );
-    }
-
-    public function testCreateWithSortHeadline(): void
-    {
-        $input = $this->createSearchInputWithSort('headline');
-
-        $factory = new SearchQueryFactory();
-        $query = $factory->create($input);
-
-        $this->assertEquals(
-            [new Headline(Direction::ASC)],
-            $query->sort,
-            'headline sort expected',
-        );
-    }
-
-    public function testCreateWithSortDate(): void
-    {
-        $input = $this->createSearchInputWithSort('date');
-
-        $factory = new SearchQueryFactory();
-        $query = $factory->create($input);
-
-        $this->assertEquals(
-            [new Date(Direction::ASC)],
-            $query->sort,
-            'date sort expected',
-        );
-    }
-
-    public function testCreateWithSortNatural(): void
-    {
-        $input = $this->createSearchInputWithSort('natural');
-
-        $factory = new SearchQueryFactory();
-        $query = $factory->create($input);
-
-        $this->assertEquals(
-            [new Natural(Direction::ASC)],
-            $query->sort,
-            'natural sort expected',
-        );
-    }
-
-    public function testCreateWithSortScore(): void
-    {
-        $input = $this->createSearchInputWithSort('score');
-
-        $factory = new SearchQueryFactory();
-        $query = $factory->create($input);
-
-        $this->assertEquals(
-            [new Score(Direction::ASC)],
-            $query->sort,
-            'score sort expected',
-        );
-    }
-
-    public function testCreateWithInvalidSort(): void
-    {
-        $input = new SearchInput();
-        $input->sort = [new InputSortCriteria()];
-
-        $factory = new SearchQueryFactory();
-
-        $this->expectException(InvalidArgumentException::class);
-        $factory->create($input);
-    }
-
-    private function createSearchInputWithSort(string $name): SearchInput
-    {
-        $sort = new InputSortCriteria();
-        $sort->$name = SortDirection::ASC;
-
-        $input = new SearchInput();
-        $input->sort = [$sort];
-
-        return $input;
     }
 
     public function testCreateWithFilter(): void
