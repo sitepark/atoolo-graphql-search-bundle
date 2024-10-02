@@ -12,6 +12,6 @@ class SymbolicImage extends Asset
     public function __construct(
         public readonly string $url,
     ) {
-        parent::__construct(null, null, null);
+        parent::__construct(null, null, null, null);
     }
 }

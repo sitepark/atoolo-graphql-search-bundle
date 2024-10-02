@@ -6,7 +6,11 @@ namespace Atoolo\GraphQL\Search\Test\Factory;
 
 use Atoolo\GraphQL\Search\Factory\ImageFactory;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
+use Atoolo\GraphQL\Search\Types\CopyrightDetails;
+use Atoolo\GraphQL\Search\Types\Image;
 use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
+use Atoolo\GraphQL\Search\Types\ImageSource;
+use Atoolo\GraphQL\Search\Types\Link;
 use Atoolo\Resource\DataBag;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceLanguage;
@@ -14,7 +18,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 
 #[CoversClass(ImageFactory::class)]
 class ImageFactoryTest extends TestCase
@@ -44,29 +47,67 @@ class ImageFactoryTest extends TestCase
             ->willReturnArgument(1);
         $image = $this->factory->create($resource, 'teaser');
 
-        $this->assertEquals($image->copyright, 'SomeCopyright');
-        $this->assertEquals($image->alternativeText, 'SomeText');
-        $this->assertEquals($image->caption, 'SomeLegend');
-        $this->assertEquals($image->description, 'SomeDescription');
-        $this->assertEquals($image->characteristic, ImageCharacteristic::NORMAL);
-
-        $this->assertEquals($image->original?->variant, 'original');
-        $this->assertEquals($image->original?->url, '/some_image_url.original.png');
-        $this->assertEquals($image->original?->width, 4000);
-        $this->assertEquals($image->original?->height, 3000);
-        $this->assertNull($image->original?->mediaQuery);
-
-        $this->assertEquals($image->sources[0]?->variant, 'teaser');
-        $this->assertEquals($image->sources[0]?->url, '/some_image_url.first.png');
-        $this->assertEquals($image->sources[0]?->width, 400);
-        $this->assertEquals($image->sources[0]?->height, 300);
-        $this->assertEquals($image->sources[0]?->mediaQuery, '(min-width: 1920px)');
-
-        $this->assertEquals($image->sources[1]?->variant, 'teaser');
-        $this->assertEquals($image->sources[1]?->url, '/some_image_url.second.png');
-        $this->assertEquals($image->sources[1]?->width, 200);
-        $this->assertEquals($image->sources[1]?->height, 150);
-        $this->assertNull($image->sources[1]?->mediaQuery);
+        $expectedImage = new Image(
+            copyright: 'SomeCopyright',
+            copyrightDetails: new CopyrightDetails(
+                original: new Link(
+                    url: 'https://www.images.test',
+                    label: 'Original Source',
+                    accessibilityLabel: null,
+                    description: null,
+                    opensNewWindow: true,
+                    isExternal: true,
+                ),
+                author: new Link(
+                    url: 'https://www.neverland.test/peter-pan',
+                    label: 'Peter Pan',
+                    accessibilityLabel: null,
+                    description: null,
+                    opensNewWindow: true,
+                    isExternal: true,
+                ),
+                license: new Link(
+                    url: 'https://creativecommons.org/publicdomain/zero/1.0/',
+                    label: 'CC0 1.0',
+                    accessibilityLabel: null,
+                    description: null,
+                    opensNewWindow: true,
+                    isExternal: true,
+                ),
+            ),
+            caption: 'SomeLegend',
+            description: 'SomeDescription',
+            alternativeText: 'SomeText',
+            original: new ImageSource(
+                variant: 'original',
+                url: '/some_image_url.original.png',
+                width: 4000,
+                height: 3000,
+                mediaQuery: null,
+            ),
+            characteristic: ImageCharacteristic::NORMAL,
+            sources: [
+                new ImageSource(
+                    variant: 'teaser',
+                    url: '/some_image_url.first.png',
+                    width: 400,
+                    height: 300,
+                    mediaQuery: '(min-width: 1920px)',
+                ),
+                new ImageSource(
+                    variant: 'teaser',
+                    url: '/some_image_url.second.png',
+                    width: 200,
+                    height: 150,
+                    mediaQuery: null,
+                ),
+            ],
+        );
+        $this->assertEquals(
+            $expectedImage,
+            $image,
+            'unexpected image',
+        );
     }
 
     public function testCreateInvalidCharacteristic(): void
@@ -96,6 +137,99 @@ class ImageFactoryTest extends TestCase
         $this->assertNull($result);
     }
 
+    public function testMinimal(): void
+    {
+        $this->urlRewriter
+            ->expects($this->atLeastOnce())
+            ->method('rewrite')
+            ->willReturnArgument(1);
+        $resource = $this->createResource(['base' => [
+            'teaser' => [
+                'image' => [
+                    'original' => [
+                        'url' => '/some_image_url.original.png',
+                        'width' => 4000,
+                        'height' => 3000,
+                    ],
+                ],
+            ],
+        ]]);
+        $expectedImage = new Image(
+            copyright: null,
+            copyrightDetails: null,
+            caption: null,
+            description: null,
+            alternativeText: null,
+            original: new ImageSource(
+                variant: 'original',
+                url: '/some_image_url.original.png',
+                width: 4000,
+                height: 3000,
+                mediaQuery: null,
+            ),
+            characteristic: ImageCharacteristic::NORMAL,
+            sources: [
+            ],
+        );
+        $image = $this->factory->create($resource, 'teaser');
+        $this->assertEquals(
+            $expectedImage,
+            $image,
+            'unexpected image',
+        );
+    }
+
+    public function testIncompleteCopyrightDetails(): void
+    {
+        $this->urlRewriter
+            ->expects($this->atLeastOnce())
+            ->method('rewrite')
+            ->willReturnArgument(1);
+        $resource = $this->createResource(['base' => [
+            'teaser' => [
+                'image' => [
+                    "copyrightDetails" => [
+                        "original" => [
+                            "label" => "Original Source",
+                            "url" => "https://www.images.test",
+                        ],
+                        "author" => [
+                            "label" => "Peter Pan",
+                        ],
+                    ],
+                ],
+            ],
+        ]]);
+        $expectedImage = new Image(
+            copyright: null,
+            copyrightDetails: new CopyrightDetails(
+                original: new Link(
+                    url: 'https://www.images.test',
+                    label: 'Original Source',
+                    accessibilityLabel: null,
+                    description: null,
+                    opensNewWindow: true,
+                    isExternal: true,
+                ),
+                author: null,
+                license: null,
+            ),
+            caption: null,
+            description: null,
+            alternativeText: null,
+            original: null,
+            characteristic: ImageCharacteristic::NORMAL,
+            sources: [
+            ],
+        );
+        $image = $this->factory->create($resource, 'teaser');
+        $this->assertEquals(
+            $expectedImage,
+            $image,
+            'unexpected image',
+        );
+    }
+
     private function createResourceWithImage(string $characteristic = 'normal'): Resource
     {
         return $this->createResource([
@@ -104,6 +238,20 @@ class ImageFactoryTest extends TestCase
                     'image' => [
                         'characteristic' => $characteristic,
                         'copyright' => 'SomeCopyright',
+                        "copyrightDetails" => [
+                            "original" => [
+                                "label" => "Original Source",
+                                "url" => "https://www.images.test",
+                            ],
+                            "author" => [
+                                "label" => "Peter Pan",
+                                "url" => "https://www.neverland.test/peter-pan",
+                            ],
+                            "license" => [
+                                "label" => "CC0 1.0",
+                                "url" => "https://creativecommons.org/publicdomain/zero/1.0/",
+                            ],
+                        ],
                         'text' => 'SomeText',
                         'legend' => 'SomeLegend',
                         'description' => 'SomeDescription',
