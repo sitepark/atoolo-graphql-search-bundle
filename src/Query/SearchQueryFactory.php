@@ -39,6 +39,7 @@ class SearchQueryFactory
         $this->addFacetList($builder, $input);
         $this->addDateTimeZone($builder, $input);
         $this->addBoosting($builder, $input);
+        $builder->explain($input->explain);
 
         return $builder->build();
     }

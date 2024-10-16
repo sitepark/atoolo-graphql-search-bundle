@@ -11,6 +11,7 @@ use Atoolo\GraphQL\Search\Types\Hierarchy;
 use Atoolo\GraphQL\Search\Types\Teaser;
 use Atoolo\Resource\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(ResourceResolver::class)]
@@ -67,6 +68,51 @@ class ResourceResolverTest extends TestCase
             ['type1'],
             $resolver->getContentSectionTypes($resource),
             'Should return the content section types from the resource',
+        );
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testGetExplain(): void
+    {
+        $resolver = new ResourceResolver(
+            $this->createStub(DelegatingTeaserFactory::class),
+        );
+
+        $resource = TestResourceFactory::create([
+            'explain' => [
+                'score' => 5.0,
+                'type' => 'score',
+                'description' => 'test',
+            ],
+        ]);
+
+        $this->assertEquals(
+            [
+                'score' => 5.0,
+                'type' => 'score',
+                'description' => 'test',
+            ],
+            $resolver->getExplain($resource),
+            'Should return the explain data from the resource',
+        );
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testGetExplainWithoutExplainInResourceData(): void
+    {
+        $resolver = new ResourceResolver(
+            $this->createStub(DelegatingTeaserFactory::class),
+        );
+
+        $resource = TestResourceFactory::create([]);
+
+        $this->assertNull(
+            $resolver->getExplain($resource),
+            'Should return null if there is no explain data in the resource',
         );
     }
 }

@@ -10,6 +10,15 @@ use Atoolo\GraphQL\Search\Types\Hierarchy;
 use Atoolo\GraphQL\Search\Types\Teaser;
 use Atoolo\Resource\Resource;
 
+/**
+ * @phpstan-type ExplainDetail array{
+ *    score: float,
+ *    type: string,
+ *    field: string|null,
+ *    description: string,
+ *    details?: array<array<string,mixed>>,
+ *  }
+ */
 class ResourceResolver implements Resolver
 {
     public function __construct(
@@ -24,6 +33,20 @@ class ResourceResolver implements Resolver
     public function getNavigation(Resource $resource): Hierarchy
     {
         return new Hierarchy('navigation', $resource);
+    }
+
+    /**
+     * @param Resource $resource
+     * @return ExplainDetail
+     */
+    public function getExplain(Resource $resource): ?array
+    {
+        if (!$resource->data->has('explain')) {
+            return null;
+        }
+        /** @var ExplainDetail $explain */
+        $explain = $resource->data->getArray('explain');
+        return $explain;
     }
 
     /**

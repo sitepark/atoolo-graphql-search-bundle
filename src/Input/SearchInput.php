@@ -55,4 +55,7 @@ class SearchInput
 
     #[GQL\Field(type:"InputBoosting")]
     public ?InputBoosting $boosting = null;
+
+    #[GQL\Field(type:"Boolean")]
+    public bool $explain = false;
 }
