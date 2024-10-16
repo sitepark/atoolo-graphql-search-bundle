@@ -18,6 +18,8 @@ Resource:
             type: "String"
       symbolicImage:
         type: "SymbolicImage"
+      explain:
+        type: "ResultExplain"
 
 Hierarchy:
   type: "object"
@@ -137,3 +139,13 @@ Link:
       description: { type: "String" }
       opensNewWindow: { type: "Boolean!" }
       isExternal: { type: "Boolean!" }
+
+ResultExplain:
+  type: "object"
+  config:
+    fields:
+      score: { type: "Float" }
+      type: { type: "String" }
+      field: { type: "String" }
+      description: { type: "String" }
+      details: { type: "[ResultExplain!]" }
