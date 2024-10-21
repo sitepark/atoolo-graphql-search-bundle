@@ -11,7 +11,6 @@ use Atoolo\Resource\DataBag;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceHierarchyLoader;
 use Atoolo\Resource\ResourceLanguage;
-use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -51,7 +50,9 @@ class SymbolicImageFactoryTest extends TestCase
         $parentResource = $this->createResource([
             'base' => [
                 'symbolicImage' => [
-                    'url' => $symbolicImageUrl,
+                    'content' => [
+                        'url' => $symbolicImageUrl,
+                    ],
                 ],
             ],
         ]);
@@ -78,7 +79,7 @@ class SymbolicImageFactoryTest extends TestCase
             );
         $symbolicImage = $this->factory->create($childResource);
         $this->assertEquals(
-            $symbolicImage->url,
+            $symbolicImage?->url,
             $symbolicImageUrl,
         );
     }

@@ -26,13 +26,14 @@ class SymbolicImageFactory implements AssetFactory
         $walker->init($resource);
         $currentResource = $resource;
         do {
-            $url = $currentResource->data->getString('base.symbolicImage.url');
+            // FIXME: 'symbolicImage.content' may instead contain 'html' or 'key'
+            $url = $currentResource->data->getString('base.symbolicImage.content.url');
             if (!empty($url)) {
                 $rewrittenUrl = $this->urlRewriter->rewrite(
                     UrlRewriterType::IMAGE,
                     $url,
                 );
-                return  new SymbolicImage($rewrittenUrl);
+                return new SymbolicImage($rewrittenUrl);
             }
         } while ($currentResource = $walker->primaryParent());
         return null;
