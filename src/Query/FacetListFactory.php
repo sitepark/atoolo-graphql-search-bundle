@@ -14,6 +14,7 @@ use Atoolo\Search\Dto\Search\Query\Facet\GroupFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\ObjectTypeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\RelativeDateRangeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\SiteFacet;
+use Atoolo\Search\Dto\Search\Query\Facet\SpatialDistanceRangeFacet;
 use InvalidArgumentException;
 
 class FacetListFactory
@@ -40,6 +41,7 @@ class FacetListFactory
             ?? $this->tryCreateGroupFacet($facet)
             ?? $this->tryCreateAbsoluteDateRangeInputFacet($facet)
             ?? $this->tryCreateRelativeDateRangeInputFacet($facet)
+            ?? $this->tryCreateGeoDistanceRangeInputFacet($facet)
             ?? (throw new InvalidArgumentException(
                 "Unable to create facet\n" . print_r($facet, true),
             ));
@@ -132,6 +134,7 @@ class FacetListFactory
     private function tryCreateRelativeDateRangeInputFacet(
         InputFacet $facet,
     ): ?RelativeDateRangeFacet {
+
         return !empty($facet->relativeDateRange)
             ? new RelativeDateRangeFacet(
                 $facet->key,
@@ -144,6 +147,29 @@ class FacetListFactory
                 $facet->excludeFilter ?? [],
             )
             : null;
+    }
+
+    private function tryCreateGeoDistanceRangeInputFacet(
+        InputFacet $facet,
+    ): ?SpatialDistanceRangeFacet {
+
+        if ($facet->spatialDistanceRange === null) {
+            return null;
+        }
+
+        if ($facet->spatialDistanceRange->point === null) {
+            throw new InvalidArgumentException(
+                'Point is required for geo distance range facet',
+            );
+        }
+
+        return new SpatialDistanceRangeFacet(
+            $facet->key,
+            $facet->spatialDistanceRange->point->toGeoPoint(),
+            $facet->spatialDistanceRange->from,
+            $facet->spatialDistanceRange->to,
+            $facet->excludeFilter ?? [],
+        );
     }
 
     private function mapDateRangeRound(

@@ -13,6 +13,7 @@ use Atoolo\Search\Dto\Search\Query\Sort\Headline;
 use Atoolo\Search\Dto\Search\Query\Sort\Name;
 use Atoolo\Search\Dto\Search\Query\Sort\Natural;
 use Atoolo\Search\Dto\Search\Query\Sort\Score;
+use Atoolo\Search\Dto\Search\Query\Sort\SpatialDist;
 use InvalidArgumentException;
 
 class SortCriteriaFactory
@@ -42,6 +43,14 @@ class SortCriteriaFactory
         if (isset($criteria->score)) {
             $direction = $this->mapDirection($criteria->score);
             return new Score($direction);
+        }
+
+        if (isset($criteria->spatialDist)) {
+            if ($criteria->spatialPoint === null) {
+                throw new InvalidArgumentException('spatialPoint is required for sort criteria spatialDist');
+            }
+            $direction = $this->mapDirection($criteria->spatialDist);
+            return new SpatialDist($direction, $criteria->spatialPoint->toGeoPoint());
         }
 
         throw new InvalidArgumentException('Sort criteria not found');

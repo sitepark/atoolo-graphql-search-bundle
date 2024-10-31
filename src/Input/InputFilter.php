@@ -57,6 +57,12 @@ class InputFilter
     #[GQL\Field(type:"RelativeDateRangeInputFilter")]
     public ?RelativeDateRangeInputFilter $relativeDateRange = null;
 
+    #[GQL\Field(type:"SpatialOrbitalInputFilter")]
+    public ?SpatialOrbitalInputFilter $spatialOrbital = null;
+
+    #[GQL\Field(type:"SpatialOrbitalInputFilter")]
+    public ?SpatialArbitraryRectangleInputFilter $spatialArbitraryRectangle = null;
+
     /**
      * @var ?array<InputFilter>
      */

@@ -27,4 +27,11 @@ class InputSortCriteria
 
     #[GQL\Field(type:"SortDirection")]
     public ?SortDirection $score = null;
+
+    #[GQL\Field(type:"SortDirection")]
+    public ?SortDirection $spatialDist = null;
+
+    #[GQL\Field(type:"InputGeoPoint")]
+    public ?InputGeoPoint $spatialPoint = null;
+
 }

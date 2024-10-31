@@ -19,6 +19,9 @@ use Atoolo\Search\Dto\Search\Query\Filter\OrFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\QueryFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\RelativeDateRangeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SiteFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\SpatialArbitraryRectangleFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\SpatialOrbitalFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\SpatialOrbitalMode;
 use InvalidArgumentException;
 
 class FilterListFactory
@@ -50,6 +53,8 @@ class FilterListFactory
             ?? $this->tryCreateOrFilter($filter)
             ?? $this->tryCreateNotFilter($filter)
             ?? $this->tryCreateQueryFilter($filter)
+            ?? $this->tryCreateSpatialOrbitalFilter($filter)
+            ?? $this->tryCreateSpatialArbitraryRectangleFilter($filter)
             ?? (throw new InvalidArgumentException(
                 "Unable to create filter\n" . print_r($filter, true),
             ));
@@ -137,6 +142,60 @@ class FilterListFactory
             : null;
     }
 
+    private function tryCreateSpatialOrbitalFilter(
+        InputFilter $filter,
+    ): ?SpatialOrbitalFilter {
+        if ($filter->spatialOrbital === null) {
+            return null;
+        }
+
+        if ($filter->spatialOrbital->distance === null) {
+            throw new InvalidArgumentException(
+                'Distance is required for spatial orbital filter',
+            );
+        }
+
+        if ($filter->spatialOrbital->centerPoint === null) {
+            throw new InvalidArgumentException(
+                'Center point is required for spatial orbital filter',
+            );
+        }
+
+        return new SpatialOrbitalFilter(
+            distance: $filter->spatialOrbital->distance,
+            centerPoint: $filter->spatialOrbital->centerPoint->toGeoPoint(),
+            mode: $filter->spatialOrbital->mode
+                ? SpatialOrbitalMode::from($filter->spatialOrbital->mode->value)
+                : SpatialOrbitalMode::GREAT_CIRCLE_DISTANCE,
+            key: $filter->key,
+        );
+    }
+
+    private function tryCreateSpatialArbitraryRectangleFilter(
+        InputFilter $filter,
+    ): ?SpatialArbitraryRectangleFilter {
+        if ($filter->spatialArbitraryRectangle === null) {
+            return null;
+        }
+
+        if ($filter->spatialArbitraryRectangle->lowerLeftCorner === null) {
+            throw new InvalidArgumentException(
+                'LowerLeftCorner is required for arbitrary rectangle filter',
+            );
+        }
+
+        if ($filter->spatialArbitraryRectangle->upperRightCorner === null) {
+            throw new InvalidArgumentException(
+                'UpperRightCorner is required for arbitrary rectangle filter',
+            );
+        }
+
+        return new SpatialArbitraryRectangleFilter(
+            lowerLeftCorner: $filter->spatialArbitraryRectangle->lowerLeftCorner->toGeoPoint(),
+            upperRightCorner: $filter->spatialArbitraryRectangle->upperRightCorner->toGeoPoint(),
+            key: $filter->key,
+        );
+    }
 
     private function tryCreateAndFilter(
         InputFilter $filter,
@@ -175,6 +234,7 @@ class FilterListFactory
             ? new QueryFilter($filter->query, $filter->key)
             : null;
     }
+
     private function mapDateRangeRound(
         ?\Atoolo\GraphQL\Search\Types\DateRangeRound $round,
     ): ?DateRangeRound {

@@ -7,6 +7,7 @@ namespace Atoolo\GraphQL\Search\Test\Query;
 use Atoolo\GraphQL\Search\Input\InputBoosting;
 use Atoolo\GraphQL\Search\Input\InputFacet;
 use Atoolo\GraphQL\Search\Input\InputFilter;
+use Atoolo\GraphQL\Search\Input\InputGeoPoint;
 use Atoolo\GraphQL\Search\Input\InputSortCriteria;
 use Atoolo\GraphQL\Search\Input\SearchInput;
 use Atoolo\GraphQL\Search\Query\SearchQueryFactory;
@@ -15,6 +16,7 @@ use Atoolo\GraphQL\Search\Types\SortDirection;
 use Atoolo\Search\Dto\Search\Query\Boosting;
 use Atoolo\Search\Dto\Search\Query\Facet\ObjectTypeFacet;
 use Atoolo\Search\Dto\Search\Query\Filter\ObjectTypeFilter;
+use Atoolo\Search\Dto\Search\Query\GeoPoint;
 use Atoolo\Search\Dto\Search\Query\Sort\Direction;
 use Atoolo\Search\Dto\Search\Query\Sort\Name;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -183,6 +185,23 @@ class SelectQueryFactoryTest extends TestCase
             ),
             $query->boosting,
             'boosting expected',
+        );
+    }
+
+    public function testCreateWithDistanceReferencePoint(): void
+    {
+        $input = new SearchInput();
+        $input->distanceReferencePoint = new InputGeoPoint();
+        $input->distanceReferencePoint->lng = 1;
+        $input->distanceReferencePoint->lat = 2;
+
+        $factory = new SearchQueryFactory();
+        $query = $factory->create($input);
+
+        $this->assertEquals(
+            new GeoPoint(1, 2),
+            $query->distanceReferencePoint,
+            'distanceReferencePoint expected',
         );
     }
 }

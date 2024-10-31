@@ -11,6 +11,7 @@ Resource:
       navigation: { type: "Hierarchy!" }
       kicker: { type: "String" }
       date: { type: "DateTime" }
+      geo: { type: "Geo" }
       asset:
         type: "Asset"
         args:
@@ -149,3 +150,18 @@ ResultExplain:
       field: { type: "String" }
       description: { type: "String" }
       details: { type: "[ResultExplain!]" }
+
+Geo:
+  type: "object"
+  config:
+    fields:
+      primary : { type: "GeoPoint" }
+      secondary : { type: "GeoJson" }
+      distance : { type: "Float" }
+
+GeoPoint:
+  type: "object"
+  config:
+    fields:
+        lng : { type: "Float!" }
+        lat : { type: "Float!" }
