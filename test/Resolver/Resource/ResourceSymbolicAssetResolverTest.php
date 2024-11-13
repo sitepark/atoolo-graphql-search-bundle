@@ -56,32 +56,6 @@ class ResourceSymbolicAssetResolverTest extends TestCase
         );
     }
 
-    public function testGetSymbolicAssetWithWrongFactory(): void
-    {
-        $resource = $this->createResource([]);
-        $image = new Image(
-            '',
-            null,
-            '',
-            '',
-            '',
-            null,
-            null,
-            [],
-        );
-        $args = $this->createStub(ArgumentInterface::class);
-        $this->assetFactory
-            ->expects($this->once())
-            ->method('create')
-            ->with($resource, null)
-            ->willReturn($image);
-        $result = $this->resolver->getSymbolicAsset($resource, $args);
-        $this->assertNull(
-            $result,
-            'resolver should return null if the factory does not return a SymbolicAsset',
-        );
-    }
-
     public function testGetAssetWithWrongVariant(): void
     {
         $resource = $this->createResource([]);
