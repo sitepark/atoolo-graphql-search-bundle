@@ -64,11 +64,10 @@ services:
     tags:
       - { name: 'atoolo_graphql_search.resolver' }
 
-  atoolo_graphql_search.resolver.resource.resource_symbolic_image_resolver:
-    class: Atoolo\GraphQL\Search\Resolver\Resource\ResourceSymbolicImageResolver
+  atoolo_graphql_search.resolver.resource.resource_symbolic_asset_resolver:
+    class: Atoolo\GraphQL\Search\Resolver\Resource\ResourceSymbolicAssetResolver
     arguments:
-      - '@atoolo_graphql_search.factory.symbolic_image_factory'
-      - '@logger'
+      - '@atoolo_graphql_search.factory.symbolic_asset_factory'
     tags:
       - { name: 'atoolo_graphql_search.resolver' }
 
@@ -90,7 +89,7 @@ services:
     class: Atoolo\GraphQL\Search\Resolver\Teaser\ArticleTeaserResolver
     arguments:
       - '@atoolo_graphql_search.resolver.resource.resource_asset_resolver'
-      - '@atoolo_graphql_search.resolver.resource.resource_symbolic_image_resolver'
+      - '@atoolo_graphql_search.resolver.resource.resource_symbolic_asset_resolver'
       - '@atoolo_graphql_search.resolver.resource.resource_kicker_resolver'
       - '@atoolo_graphql_search.resolver.resource.resource_datetime_resolver'
     tags:
@@ -100,7 +99,7 @@ services:
     class: Atoolo\GraphQL\Search\Resolver\Teaser\NewsTeaserResolver
     arguments:
       - '@atoolo_graphql_search.resolver.resource.resource_asset_resolver'
-      - '@atoolo_graphql_search.resolver.resource.resource_symbolic_image_resolver'
+      - '@atoolo_graphql_search.resolver.resource.resource_symbolic_asset_resolver'
       - '@atoolo_graphql_search.resolver.resource.resource_kicker_resolver'
       - '@atoolo_graphql_search.resolver.resource.resource_datetime_resolver'
     tags:
@@ -110,7 +109,7 @@ services:
     class: Atoolo\GraphQL\Search\Resolver\Teaser\MediaTeaserResolver
     arguments:
       - '@atoolo_graphql_search.resolver.resource.resource_asset_resolver'
-      - '@atoolo_graphql_search.resolver.resource.resource_symbolic_image_resolver'
+      - '@atoolo_graphql_search.resolver.resource.resource_symbolic_asset_resolver'
       - '@atoolo_graphql_search.resolver.resource.resource_kicker_resolver'
     tags:
       - { name: 'atoolo_graphql_search.resolver' }
@@ -162,8 +161,8 @@ services:
     tags:
       - { name: 'atoolo_graphql_search.asset_factory' }
 
-  atoolo_graphql_search.factory.symbolic_image_factory:
-    class: 'Atoolo\GraphQL\Search\Factory\SymbolicImageFactory'
+  atoolo_graphql_search.factory.symbolic_asset_factory:
+    class: 'Atoolo\GraphQL\Search\Factory\SymbolicAssetFactory'
     arguments:
       - '@atoolo_graphql_search.resolver.url_rewriter'
       - '@atoolo_resource.navigation_hierarchy_loader'
