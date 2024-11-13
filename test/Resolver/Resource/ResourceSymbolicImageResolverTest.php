@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Test\Resolver\Resource;
 
 use Atoolo\GraphQL\Search\Factory\AssetFactory;
-use Atoolo\GraphQL\Search\Resolver\Resource\ResourceSymbolicImageResolver;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceSymbolicAssetResolver;
 use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\GraphQL\Search\Types\Image;
-use Atoolo\GraphQL\Search\Types\SymbolicImage;
+use Atoolo\GraphQL\Search\Types\Svg;
 use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -17,10 +17,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 
-#[CoversClass(ResourceSymbolicImageResolver::class)]
-class ResourceSymbolicImageResolverTest extends TestCase
+#[CoversClass(ResourceSymbolicAssetResolver::class)]
+class ResourceSymbolicAssetResolverTest extends TestCase
 {
-    private ResourceSymbolicImageResolver $resolver;
+    private ResourceSymbolicAssetResolver $resolver;
 
     private AssetFactory&MockObject $assetFactory;
 
@@ -32,31 +32,31 @@ class ResourceSymbolicImageResolverTest extends TestCase
         $this->assetFactory = $this->createMock(
             AssetFactory::class,
         );
-        $this->resolver = new ResourceSymbolicImageResolver(
+        $this->resolver = new ResourceSymbolicAssetResolver(
             $this->assetFactory,
             new NullLogger(),
         );
     }
 
-    public function testGetSymbolicImage(): void
+    public function testGetSymbolicAsset(): void
     {
         $resource = $this->createResource([]);
-        $symbolicImage = new SymbolicImage('/some_url.svg');
+        $symbolicAsset = new Svg('/some_url.svg');
         $args = $this->createStub(ArgumentInterface::class);
         $this->assetFactory
             ->expects($this->once())
             ->method('create')
             ->with($resource, null)
-            ->willReturn($symbolicImage);
-        $result = $this->resolver->getSymbolicImage($resource, $args);
+            ->willReturn($symbolicAsset);
+        $result = $this->resolver->getSymbolicAsset($resource, $args);
         $this->assertEquals(
-            $symbolicImage,
+            $symbolicAsset,
             $result,
             'resolver should return the symbolic image created by the factory',
         );
     }
 
-    public function testGetSymbolicImageWithWrongFactory(): void
+    public function testGetSymbolicAssetWithWrongFactory(): void
     {
         $resource = $this->createResource([]);
         $image = new Image(
@@ -75,10 +75,10 @@ class ResourceSymbolicImageResolverTest extends TestCase
             ->method('create')
             ->with($resource, null)
             ->willReturn($image);
-        $result = $this->resolver->getSymbolicImage($resource, $args);
+        $result = $this->resolver->getSymbolicAsset($resource, $args);
         $this->assertNull(
             $result,
-            'resolver should return null if the factory does not return a SymbolicImage',
+            'resolver should return null if the factory does not return a SymbolicAsset',
         );
     }
 
@@ -95,7 +95,7 @@ class ResourceSymbolicImageResolverTest extends TestCase
             ->with('variant')
             ->willReturn(true);
         $this->expectException(\InvalidArgumentException::class);
-        $this->resolver->getSymbolicImage($resource, $args);
+        $this->resolver->getSymbolicAsset($resource, $args);
     }
 
     /**

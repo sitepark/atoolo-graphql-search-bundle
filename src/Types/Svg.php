@@ -7,7 +7,7 @@ namespace Atoolo\GraphQL\Search\Types;
 /**
  * @codeCoverageIgnore
  */
-class SymbolicImage extends Asset
+class Svg extends Asset
 {
     public function __construct(
         public readonly string $url,

@@ -25,6 +25,6 @@ ArticleTeaserDecorator:
             type: "String"
             description: The teaser variant is used to decide which image format is to be returned.
         description: Teaser asset can be e.g. pictures or videos
-      symbolicImage:
-        type: "SymbolicImage"
-        description: symbolic image associated with the teaser
+      symbolicAsset:
+        type: "Asset"
+        description: symbolic asset associated with the teaser
