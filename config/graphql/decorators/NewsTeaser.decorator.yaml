@@ -28,3 +28,7 @@ NewsTeaserDecorator:
       symbolicAsset:
         type: "Asset"
         description: symbolic asset associated with the teaser
+        args:
+          variant:
+            type: "String"
+            description: The asset variant is used to decide which image format is to be returned.
