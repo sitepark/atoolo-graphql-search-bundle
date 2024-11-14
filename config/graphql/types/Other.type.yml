@@ -18,6 +18,9 @@ Resource:
             type: "String"
       symbolicAsset:
         type: "Asset"
+        args:
+          variant:
+            type: "String"
       explain:
         type: "ResultExplain"
 
