@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Factory;
 
-use Atoolo\GraphQL\Search\Factory\SymbolicImageFactory;
+use Atoolo\GraphQL\Search\Factory\SymbolicAssetFactory;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
 use Atoolo\GraphQL\Search\Resolver\UrlRewriterType;
 use Atoolo\Resource\DataBag;
@@ -15,10 +15,10 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(SymbolicImageFactory::class)]
-class SymbolicImageFactoryTest extends TestCase
+#[CoversClass(SymbolicAssetFactory::class)]
+class SymbolicAssetFactoryTest extends TestCase
 {
-    private SymbolicImageFactory $factory;
+    private SymbolicAssetFactory $factory;
 
     private UrlRewriter&MockObject $urlRewriter;
 
@@ -28,7 +28,7 @@ class SymbolicImageFactoryTest extends TestCase
     {
         $this->urlRewriter = $this->createStub(UrlRewriter::class);
         $this->hierarchyLoader = $this->createStub(ResourceHierarchyLoader::class);
-        $this->factory = new SymbolicImageFactory(
+        $this->factory = new SymbolicAssetFactory(
             $this->urlRewriter,
             $this->hierarchyLoader,
         );
@@ -37,21 +37,21 @@ class SymbolicImageFactoryTest extends TestCase
     public function testGetAssetWithoutResult(): void
     {
         $resource = $this->createResource([]);
-        $symbolicImage = $this->factory->create($resource);
+        $symbolicAsset = $this->factory->create($resource);
         $this->assertNull(
-            $symbolicImage,
-            'symbolicImage should be null',
+            $symbolicAsset,
+            'symbolicAsset should be null',
         );
     }
 
     public function testGetAssetWithResult(): void
     {
-        $symbolicImageUrl = '/some_url.svg';
+        $symbolicAssetUrl = '/some_url.svg';
         $parentResource = $this->createResource([
             'base' => [
-                'symbolicImage' => [
+                'symbolicAsset' => [
                     'content' => [
-                        'url' => $symbolicImageUrl,
+                        'url' => $symbolicAssetUrl,
                     ],
                 ],
             ],
@@ -73,14 +73,14 @@ class SymbolicImageFactoryTest extends TestCase
             ->method('rewrite')
             ->with(
                 UrlRewriterType::IMAGE,
-                $symbolicImageUrl,
+                $symbolicAssetUrl,
             )->willReturn(
-                $symbolicImageUrl,
+                $symbolicAssetUrl,
             );
-        $symbolicImage = $this->factory->create($childResource);
+        $symbolicAsset = $this->factory->create($childResource);
         $this->assertEquals(
-            $symbolicImage?->url,
-            $symbolicImageUrl,
+            $symbolicAsset?->url,
+            $symbolicAssetUrl,
         );
     }
 

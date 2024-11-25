@@ -17,8 +17,11 @@ Resource:
         args:
           variant:
             type: "String"
-      symbolicImage:
-        type: "SymbolicImage"
+      symbolicAsset:
+        type: "Asset"
+        args:
+          variant:
+            type: "String"
       explain:
         type: "ResultExplain"
 
@@ -100,7 +103,7 @@ ImageSource:
       height: { type: "Int!" }
       mediaQuery: { type: "String" }
 
-SymbolicImage:
+Svg:
   type: "object"
   inherits: [Asset]
   config:

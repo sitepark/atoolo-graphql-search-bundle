@@ -7,7 +7,7 @@ namespace Atoolo\GraphQL\Search\Test\Resolver\Teaser;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceAssetResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceDateTimeResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceKickerResolver;
-use Atoolo\GraphQL\Search\Resolver\Resource\ResourceSymbolicImageResolver;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceSymbolicAssetResolver;
 use Atoolo\GraphQL\Search\Resolver\Teaser\NewsTeaserResolver;
 use Atoolo\GraphQL\Search\Types\Link;
 use Atoolo\GraphQL\Search\Types\NewsTeaser;
@@ -25,7 +25,7 @@ class NewsTeaserResolverTest extends TestCase
 
     private ResourceAssetResolver&MockObject $assetResolver;
 
-    private ResourceSymbolicImageResolver&MockObject $symbolicImageResolver;
+    private ResourceSymbolicAssetResolver&MockObject $symbolicAssetResolver;
 
     private ResourceKickerResolver&MockObject $kickerResolver;
 
@@ -39,8 +39,8 @@ class NewsTeaserResolverTest extends TestCase
         $this->assetResolver = $this->createMock(
             ResourceAssetResolver::class,
         );
-        $this->symbolicImageResolver = $this->createMock(
-            ResourceSymbolicImageResolver::class,
+        $this->symbolicAssetResolver = $this->createMock(
+            ResourceSymbolicAssetResolver::class,
         );
         $this->kickerResolver = $this->createMock(
             ResourceKickerResolver::class,
@@ -50,7 +50,7 @@ class NewsTeaserResolverTest extends TestCase
         );
         $this->resolver = new NewsTeaserResolver(
             $this->assetResolver,
-            $this->symbolicImageResolver,
+            $this->symbolicAssetResolver,
             $this->kickerResolver,
             $this->dateTimeResolver,
         );
@@ -102,10 +102,10 @@ class NewsTeaserResolverTest extends TestCase
         $this->resolver->getAsset($teaser, $args);
     }
 
-    public function testGetSymbolicImage(): void
+    public function testGetSymbolicAsset(): void
     {
-        $this->symbolicImageResolver->expects($this->once())
-            ->method('getSymbolicImage');
+        $this->symbolicAssetResolver->expects($this->once())
+            ->method('getSymbolicAsset');
         $teaser = new NewsTeaser(
             null,
             '',
@@ -114,7 +114,7 @@ class NewsTeaserResolverTest extends TestCase
         );
         $args = $this->createStub(ArgumentInterface::class);
 
-        $this->resolver->getSymbolicImage($teaser, $args);
+        $this->resolver->getSymbolicAsset($teaser, $args);
     }
 
     public function testGetKicker(): void

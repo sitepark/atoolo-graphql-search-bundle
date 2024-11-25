@@ -7,17 +7,16 @@ namespace Atoolo\GraphQL\Search\Resolver\Teaser;
 use Atoolo\GraphQL\Search\Resolver\Resolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceAssetResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceKickerResolver;
-use Atoolo\GraphQL\Search\Resolver\Resource\ResourceSymbolicImageResolver;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceSymbolicAssetResolver;
 use Atoolo\GraphQL\Search\Types\Asset;
 use Atoolo\GraphQL\Search\Types\MediaTeaser;
-use Atoolo\GraphQL\Search\Types\SymbolicImage;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 
 class MediaTeaserResolver implements Resolver
 {
     public function __construct(
         private readonly ResourceAssetResolver $assetResolver,
-        private readonly ResourceSymbolicImageResolver $symbolicImageResolver,
+        private readonly ResourceSymbolicAssetResolver $symbolicAssetResolver,
         private readonly ResourceKickerResolver $kickerResolver,
     ) {}
 
@@ -40,11 +39,11 @@ class MediaTeaserResolver implements Resolver
         return $this->assetResolver->getAsset($teaser->resource, $args);
     }
 
-    public function getSymbolicImage(
+    public function getSymbolicAsset(
         MediaTeaser $teaser,
         ArgumentInterface $args,
-    ): ?SymbolicImage {
-        return $this->symbolicImageResolver
-            ->getSymbolicImage($teaser->resource, $args);
+    ): ?Asset {
+        return $this->symbolicAssetResolver
+            ->getSymbolicAsset($teaser->resource, $args);
     }
 }
