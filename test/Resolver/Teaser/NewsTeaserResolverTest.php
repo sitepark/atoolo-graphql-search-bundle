@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Resolver\Teaser;
 
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceActionLinkResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceAssetResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceDateTimeResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceKickerResolver;
@@ -31,6 +32,8 @@ class NewsTeaserResolverTest extends TestCase
 
     private ResourceDateTimeResolver&MockObject $dateTimeResolver;
 
+    private ResourceActionLinkResolver&MockObject $actionLinkResolver;
+
     /**
      * @throws Exception
      */
@@ -48,11 +51,15 @@ class NewsTeaserResolverTest extends TestCase
         $this->dateTimeResolver = $this->createMock(
             ResourceDateTimeResolver::class,
         );
+        $this->actionLinkResolver = $this->createMock(
+            ResourceActionLinkResolver::class,
+        );
         $this->resolver = new NewsTeaserResolver(
             $this->assetResolver,
             $this->symbolicAssetResolver,
             $this->kickerResolver,
             $this->dateTimeResolver,
+            $this->actionLinkResolver,
         );
     }
 
@@ -130,5 +137,19 @@ class NewsTeaserResolverTest extends TestCase
         $args = $this->createStub(ArgumentInterface::class);
 
         $this->resolver->getKicker($teaser, $args);
+    }
+
+    public function testGetActions(): void
+    {
+        $this->actionLinkResolver->expects($this->once())
+            ->method('getActionLinks');
+        $teaser = new NewsTeaser(
+            null,
+            '',
+            '',
+            $this->createStub(Resource::class),
+        );
+        $args = $this->createStub(ArgumentInterface::class);
+        $this->resolver->getActions($teaser, $args);
     }
 }
