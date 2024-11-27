@@ -9,7 +9,6 @@ use Atoolo\GraphQL\Search\Types\SortDirection;
 use Atoolo\Search\Dto\Search\Query\Sort\Criteria;
 use Atoolo\Search\Dto\Search\Query\Sort\Date;
 use Atoolo\Search\Dto\Search\Query\Sort\Direction;
-use Atoolo\Search\Dto\Search\Query\Sort\Headline;
 use Atoolo\Search\Dto\Search\Query\Sort\Name;
 use Atoolo\Search\Dto\Search\Query\Sort\Natural;
 use Atoolo\Search\Dto\Search\Query\Sort\Score;
@@ -22,11 +21,6 @@ class SortCriteriaFactory
         if (isset($criteria->name)) {
             $direction = $this->mapDirection($criteria->name);
             return new Name($direction);
-        }
-
-        if (isset($criteria->headline)) {
-            $direction = $this->mapDirection($criteria->headline);
-            return new Headline($direction);
         }
 
         if (isset($criteria->date)) {
