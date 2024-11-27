@@ -9,7 +9,6 @@ use Atoolo\GraphQL\Search\Query\SortCriteriaFactory;
 use Atoolo\GraphQL\Search\Types\SortDirection;
 use Atoolo\Search\Dto\Search\Query\Sort\Date;
 use Atoolo\Search\Dto\Search\Query\Sort\Direction;
-use Atoolo\Search\Dto\Search\Query\Sort\Headline;
 use Atoolo\Search\Dto\Search\Query\Sort\Name;
 use Atoolo\Search\Dto\Search\Query\Sort\Natural;
 use Atoolo\Search\Dto\Search\Query\Sort\Score;
@@ -31,21 +30,6 @@ class SortCriteriaFactoryTest extends TestCase
             new Name(Direction::ASC),
             $sort,
             'name sort expected',
-        );
-    }
-
-    public function testCreateWithSortHeadline(): void
-    {
-        $criteria = $this->createSearchInputWithSort('headline');
-
-        $factory = new SortCriteriaFactory();
-
-        $sort = $factory->create($criteria);
-
-        $this->assertEquals(
-            new Headline(Direction::ASC),
-            $sort,
-            'headline sort expected',
         );
     }
 
