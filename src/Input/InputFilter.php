@@ -57,7 +57,7 @@ class InputFilter
     #[GQL\Field(type:"RelativeDateRangeInputFilter")]
     public ?RelativeDateRangeInputFilter $relativeDateRange = null;
 
-    #[GQL\Field(type:"Boolean!")]
+    #[GQL\Field(type:"Boolean")]
     public ?bool $geoLocatedFilter = null;
 
     #[GQL\Field(type:"SpatialOrbitalInputFilter")]
