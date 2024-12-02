@@ -196,7 +196,7 @@ class FilterListFactoryTest extends TestCase
     public function testGeoLocatedFilter(): void
     {
         $filter = new InputFilter();
-        $filter->geoLocatedFilter = true;
+        $filter->geoLocated = true;
 
         $factory = new FilterListFactory();
         $filterList = $factory->create([$filter]);

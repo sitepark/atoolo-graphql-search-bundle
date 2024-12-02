@@ -148,11 +148,11 @@ class FilterListFactory
         InputFilter $filter,
     ): ?GeoLocatedFilter {
 
-        if ($filter->geoLocatedFilter === null) {
+        if ($filter->geoLocated === null) {
             return null;
         }
         return new GeoLocatedFilter(
-            exists: $filter->geoLocatedFilter,
+            exists: $filter->geoLocated,
             key: $filter->key,
         );
     }
