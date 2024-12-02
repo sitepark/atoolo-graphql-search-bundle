@@ -6,13 +6,18 @@ namespace Atoolo\GraphQL\Search\Test\Query;
 
 use Atoolo\GraphQL\Search\Input\AbsoluteDateRangeInputFilter;
 use Atoolo\GraphQL\Search\Input\InputFilter;
+use Atoolo\GraphQL\Search\Input\InputGeoPoint;
 use Atoolo\GraphQL\Search\Input\RelativeDateRangeInputFilter;
+use Atoolo\GraphQL\Search\Input\SpatialArbitraryRectangleInputFilter;
+use Atoolo\GraphQL\Search\Input\SpatialOrbitalInputFilter;
 use Atoolo\GraphQL\Search\Query\FilterListFactory;
+use Atoolo\GraphQL\Search\Types\SpatialOrbitalMode;
 use Atoolo\Search\Dto\Search\Query\DateRangeRound;
 use Atoolo\Search\Dto\Search\Query\Filter\AbsoluteDateRangeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\AndFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\CategoryFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ContentSectionTypeFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\GeoLocatedFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\GroupFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\IdFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\NotFilter;
@@ -21,6 +26,9 @@ use Atoolo\Search\Dto\Search\Query\Filter\OrFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\QueryFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\RelativeDateRangeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SiteFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\SpatialArbitraryRectangleFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\SpatialOrbitalFilter;
+use Atoolo\Search\Dto\Search\Query\GeoPoint;
 use DateInterval;
 use DateTime;
 use InvalidArgumentException;
@@ -183,6 +191,153 @@ class FilterListFactoryTest extends TestCase
             $filterList,
             'id filter expected',
         );
+    }
+
+    public function testGeoLocatedFilter(): void
+    {
+        $filter = new InputFilter();
+        $filter->geoLocatedFilter = true;
+
+        $factory = new FilterListFactory();
+        $filterList = $factory->create([$filter]);
+
+        $this->assertEquals(
+            [
+                new GeoLocatedFilter(true),
+            ],
+            $filterList,
+            'geo-located filter expected',
+        );
+    }
+
+    public function testCreateSpatialOrbitalFilter(): void
+    {
+        $centerPoint = new InputGeoPoint();
+        $centerPoint->lng = 1;
+        $centerPoint->lat = 2;
+        $spatialOrbital = new SpatialOrbitalInputFilter();
+        $spatialOrbital->centerPoint = $centerPoint;
+        $spatialOrbital->distance = 10;
+        $spatialOrbital->mode = SpatialOrbitalMode::BOUNDING_BOX;
+
+        $filter = new InputFilter();
+        $filter->spatialOrbital = $spatialOrbital;
+
+        $factory = new FilterListFactory();
+        $filterList = $factory->create([$filter]);
+
+        $this->assertEquals(
+            [
+                new SpatialOrbitalFilter(
+                    10,
+                    new GeoPoint(1, 2),
+                    \Atoolo\Search\Dto\Search\Query\Filter\SpatialOrbitalMode::BOUNDING_BOX,
+                ),
+            ],
+            $filterList,
+            'spatialOrbitalFilter filter expected',
+        );
+    }
+
+    public function testCreateSpatialOrbitalFilterWithMissingDistance(): void
+    {
+        $centerPoint = new InputGeoPoint();
+        $centerPoint->lng = 1;
+        $centerPoint->lat = 2;
+        $spatialOrbital = new SpatialOrbitalInputFilter();
+        $spatialOrbital->centerPoint = $centerPoint;
+        $spatialOrbital->mode = SpatialOrbitalMode::BOUNDING_BOX;
+
+        $filter = new InputFilter();
+        $filter->spatialOrbital = $spatialOrbital;
+
+        $this->expectException(InvalidArgumentException::class);
+        $factory = new FilterListFactory();
+        $factory->create([$filter]);
+    }
+
+    public function testCreateSpatialOrbitalFilterWithMissingCenterPoint(): void
+    {
+        $spatialOrbital = new SpatialOrbitalInputFilter();
+        $spatialOrbital->distance = 10;
+        $spatialOrbital->mode = SpatialOrbitalMode::BOUNDING_BOX;
+
+        $filter = new InputFilter();
+        $filter->spatialOrbital = $spatialOrbital;
+
+        $this->expectException(InvalidArgumentException::class);
+        $factory = new FilterListFactory();
+        $factory->create([$filter]);
+    }
+
+    public function testCreateSpatialArbitraryRectangleFilter(): void
+    {
+        $lowerLeftCorner = new InputGeoPoint();
+        $lowerLeftCorner->lng = 1;
+        $lowerLeftCorner->lat = 2;
+
+        $upperRightCorner = new InputGeoPoint();
+        $upperRightCorner->lng = 3;
+        $upperRightCorner->lat = 4;
+
+        $spatialArbitraryRectangle = new SpatialArbitraryRectangleInputFilter();
+        $spatialArbitraryRectangle->lowerLeftCorner = $lowerLeftCorner;
+        $spatialArbitraryRectangle->upperRightCorner = $upperRightCorner;
+
+        $filter = new InputFilter();
+        $filter->key = 'geo';
+        $filter->spatialArbitraryRectangle = $spatialArbitraryRectangle;
+
+        $factory = new FilterListFactory();
+        $filterList = $factory->create([$filter]);
+
+        $this->assertEquals(
+            [
+                new SpatialArbitraryRectangleFilter(
+                    new GeoPoint(1, 2),
+                    new GeoPoint(3, 4),
+                    'geo',
+                ),
+            ],
+            $filterList,
+            'spatialArbitraryRectangle filter expected',
+        );
+    }
+
+    public function testCreateSpatialArbitraryRectangleFilterWithMissingLowerLeftCorner(): void
+    {
+        $upperRightCorner = new InputGeoPoint();
+        $upperRightCorner->lng = 3;
+        $upperRightCorner->lat = 4;
+
+        $spatialArbitraryRectangle = new SpatialArbitraryRectangleInputFilter();
+        $spatialArbitraryRectangle->upperRightCorner = $upperRightCorner;
+
+        $filter = new InputFilter();
+        $filter->key = 'geo';
+        $filter->spatialArbitraryRectangle = $spatialArbitraryRectangle;
+
+        $this->expectException(InvalidArgumentException::class);
+        $factory = new FilterListFactory();
+        $factory->create([$filter]);
+    }
+
+    public function testCreateSpatialArbitraryRectangleFilterWithMissingUpperRightCorner(): void
+    {
+        $lowerLeftCorner = new InputGeoPoint();
+        $lowerLeftCorner->lng = 1;
+        $lowerLeftCorner->lat = 2;
+
+        $spatialArbitraryRectangle = new SpatialArbitraryRectangleInputFilter();
+        $spatialArbitraryRectangle->lowerLeftCorner = $lowerLeftCorner;
+
+        $filter = new InputFilter();
+        $filter->key = 'geo';
+        $filter->spatialArbitraryRectangle = $spatialArbitraryRectangle;
+
+        $this->expectException(InvalidArgumentException::class);
+        $factory = new FilterListFactory();
+        $factory->create([$filter]);
     }
 
     public function testCreateAndFilter(): void

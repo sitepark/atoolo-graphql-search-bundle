@@ -56,4 +56,8 @@ class InputFacet
 
     #[GQL\Field(type:"RelativeDateRangeInputFacet")]
     public ?RelativeDateRangeInputFacet $relativeDateRange = null;
+
+    #[GQL\Field(type:"SpatialDistanceRangeInputFacet")]
+    public ?SpatialDistanceRangeInputFacet $spatialDistanceRange = null;
+
 }

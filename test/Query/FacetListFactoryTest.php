@@ -6,7 +6,9 @@ namespace Atoolo\GraphQL\Search\Test\Query;
 
 use Atoolo\GraphQL\Search\Input\AbsoluteDateRangeInputFacet;
 use Atoolo\GraphQL\Search\Input\InputFacet;
+use Atoolo\GraphQL\Search\Input\InputGeoPoint;
 use Atoolo\GraphQL\Search\Input\RelativeDateRangeInputFacet;
+use Atoolo\GraphQL\Search\Input\SpatialDistanceRangeInputFacet;
 use Atoolo\GraphQL\Search\Query\FacetListFactory;
 use Atoolo\GraphQL\Search\Types\DateRangeRound;
 use Atoolo\Search\Dto\Search\Query\Facet\AbsoluteDateRangeFacet;
@@ -16,6 +18,8 @@ use Atoolo\Search\Dto\Search\Query\Facet\GroupFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\ObjectTypeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\RelativeDateRangeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\SiteFacet;
+use Atoolo\Search\Dto\Search\Query\Facet\SpatialDistanceRangeFacet;
+use Atoolo\Search\Dto\Search\Query\GeoPoint;
 use DateInterval;
 use DateTime;
 use InvalidArgumentException;
@@ -199,5 +203,56 @@ class FacetListFactoryTest extends TestCase
             $facetList,
             'relative date range facet expected',
         );
+    }
+
+    public function testCreateSpatialDistanceRangeFacet(): void
+    {
+        $point = new InputGeoPoint();
+        $point->lng = 1;
+        $point->lat = 2;
+        $spatialDistanceRangeFacet = new SpatialDistanceRangeInputFacet();
+        $spatialDistanceRangeFacet->point = $point;
+        $spatialDistanceRangeFacet->from = 0;
+        $spatialDistanceRangeFacet->to = 10;
+
+        $facet = new InputFacet();
+        $facet->key = 'geo';
+        $facet->excludeFilter = ['geofilter'];
+        $facet->spatialDistanceRange = $spatialDistanceRangeFacet;
+
+        $factory = new FacetListFactory();
+        $facetList = $factory->create([$facet]);
+
+        $this->assertEquals(
+            [
+                new SpatialDistanceRangeFacet(
+                    'geo',
+                    new GeoPoint(1, 2),
+                    0,
+                    10,
+                    ['geofilter'],
+                ),
+            ],
+            $facetList,
+            'SpatialDistanceRangeFacet facet expected',
+        );
+    }
+
+    public function testCreateSpatialDistanceRangeFacetWithMissingPoint(): void
+    {
+        $spatialDistanceRangeFacet = new SpatialDistanceRangeInputFacet();
+        $spatialDistanceRangeFacet->from = 0;
+        $spatialDistanceRangeFacet->to = 10;
+
+        $facet = new InputFacet();
+        $facet->key = 'geo';
+        $facet->excludeFilter = ['geofilter'];
+        $facet->spatialDistanceRange = $spatialDistanceRangeFacet;
+
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $factory = new FacetListFactory();
+        $factory->create([$facet]);
     }
 }

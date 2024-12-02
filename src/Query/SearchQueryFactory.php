@@ -39,6 +39,7 @@ class SearchQueryFactory
         $this->addFacetList($builder, $input);
         $this->addDateTimeZone($builder, $input);
         $this->addBoosting($builder, $input);
+        $this->addDistanceReferencePoint($builder, $input);
         $builder->explain($input->explain);
 
         return $builder->build();
@@ -132,5 +133,15 @@ class SearchQueryFactory
             tie: $input->boosting->tie ?? 0.0,
         );
         $builder->boosting($boosting);
+    }
+
+    private function addDistanceReferencePoint(
+        SearchQueryBuilder $builder,
+        SearchInput $input,
+    ): void {
+        if (!isset($input->distanceReferencePoint)) {
+            return;
+        }
+        $builder->distanceReferencePoint($input->distanceReferencePoint->toGeoPoint());
     }
 }

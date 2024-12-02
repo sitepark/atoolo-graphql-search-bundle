@@ -83,6 +83,11 @@ services:
     tags:
       - { name: 'atoolo_graphql_search.resolver' }
 
+  atoolo_graphql_search.resolver.resource.resource_geo_resolver:
+    class: Atoolo\GraphQL\Search\Resolver\Resource\ResourceGeoResolver
+    tags:
+      - { name: 'atoolo_graphql_search.resolver' }
+
   atoolo_graphql_search.resolver.resource.resource_action_link_resolver:
     class: Atoolo\GraphQL\Search\Resolver\Resource\ResourceActionLinkResolver
     arguments:
