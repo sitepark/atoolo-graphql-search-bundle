@@ -60,7 +60,7 @@ class InputFilter
     #[GQL\Field(type:"SpatialOrbitalInputFilter")]
     public ?SpatialOrbitalInputFilter $spatialOrbital = null;
 
-    #[GQL\Field(type:"SpatialOrbitalInputFilter")]
+    #[GQL\Field(type:"SpatialArbitraryRectangleInputFilter")]
     public ?SpatialArbitraryRectangleInputFilter $spatialArbitraryRectangle = null;
 
     /**
