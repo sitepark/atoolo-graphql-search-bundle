@@ -11,6 +11,7 @@ use Atoolo\Search\Dto\Search\Query\Filter\AndFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\CategoryFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ContentSectionTypeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\Filter;
+use Atoolo\Search\Dto\Search\Query\Filter\GeoLocatedFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\GroupFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\IdFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\NotFilter;
@@ -53,6 +54,7 @@ class FilterListFactory
             ?? $this->tryCreateOrFilter($filter)
             ?? $this->tryCreateNotFilter($filter)
             ?? $this->tryCreateQueryFilter($filter)
+            ?? $this->tryGeoLocatedFilter($filter)
             ?? $this->tryCreateSpatialOrbitalFilter($filter)
             ?? $this->tryCreateSpatialArbitraryRectangleFilter($filter)
             ?? (throw new InvalidArgumentException(
@@ -114,7 +116,7 @@ class FilterListFactory
     private function tryCreateAbsoluteDateRangeFilter(
         InputFilter $filter,
     ): ?AbsoluteDateRangeFilter {
-        return ($filter->absoluteDateRange != null)
+        return ($filter->absoluteDateRange !== null)
             ? new AbsoluteDateRangeFilter(
                 $filter->absoluteDateRange->from,
                 $filter->absoluteDateRange->to,
@@ -126,7 +128,7 @@ class FilterListFactory
     private function tryCreateRelativeDateRangeFilter(
         InputFilter $filter,
     ): ?RelativeDateRangeFilter {
-        return ($filter->relativeDateRange != null)
+        return ($filter->relativeDateRange !== null)
             ? new RelativeDateRangeFilter(
                 $filter->relativeDateRange->base,
                 $filter->relativeDateRange->before,
@@ -140,6 +142,19 @@ class FilterListFactory
                 $filter->key,
             )
             : null;
+    }
+
+    private function tryGeoLocatedFilter(
+        InputFilter $filter,
+    ): ?GeoLocatedFilter {
+
+        if ($filter->geoLocatedFilter === null) {
+            return null;
+        }
+        return new GeoLocatedFilter(
+            exists: $filter->geoLocatedFilter,
+            key: $filter->key,
+        );
     }
 
     private function tryCreateSpatialOrbitalFilter(
