@@ -17,6 +17,7 @@ use Atoolo\Search\Dto\Search\Query\Filter\AbsoluteDateRangeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\AndFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\CategoryFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ContentSectionTypeFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\GeoLocatedFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\GroupFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\IdFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\NotFilter;
@@ -189,6 +190,23 @@ class FilterListFactoryTest extends TestCase
             ],
             $filterList,
             'id filter expected',
+        );
+    }
+
+    public function testGeoLocatedFilter(): void
+    {
+        $filter = new InputFilter();
+        $filter->geoLocatedFilter = true;
+
+        $factory = new FilterListFactory();
+        $filterList = $factory->create([$filter]);
+
+        $this->assertEquals(
+            [
+                new GeoLocatedFilter(true),
+            ],
+            $filterList,
+            'geo-located filter expected',
         );
     }
 
