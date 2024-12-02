@@ -17,9 +17,6 @@ class InputSortCriteria
     public ?SortDirection $name = null;
 
     #[GQL\Field(type:"SortDirection")]
-    public ?SortDirection $headline = null;
-
-    #[GQL\Field(type:"SortDirection")]
     public ?SortDirection $date = null;
 
     #[GQL\Field(type:"SortDirection")]

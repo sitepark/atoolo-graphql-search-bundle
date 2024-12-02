@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Resolver\Teaser;
 
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceActionLinkResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceAssetResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceKickerResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceSymbolicAssetResolver;
@@ -27,6 +28,8 @@ class MediaTeaserResolverTest extends TestCase
 
     private ResourceKickerResolver&MockObject $kickerResolver;
 
+    private ResourceActionLinkResolver&MockObject $actionLinkResolver;
+
     public function setUp(): void
     {
         $this->assetResolver = $this->createMock(
@@ -38,10 +41,14 @@ class MediaTeaserResolverTest extends TestCase
         $this->kickerResolver = $this->createMock(
             ResourceKickerResolver::class,
         );
+        $this->actionLinkResolver = $this->createMock(
+            ResourceActionLinkResolver::class,
+        );
         $this->mediaTeaserResolver = new MediaTeaserResolver(
             $this->assetResolver,
             $this->symbolicAssetResolver,
             $this->kickerResolver,
+            $this->actionLinkResolver,
         );
     }
 
@@ -112,5 +119,21 @@ class MediaTeaserResolverTest extends TestCase
         );
         $args = $this->createStub(ArgumentInterface::class);
         $this->mediaTeaserResolver->getKicker($teaser, $args);
+    }
+
+    public function testGetActions(): void
+    {
+        $this->actionLinkResolver->expects($this->once())
+            ->method('getActionLinks');
+        $teaser = new MediaTeaser(
+            null,
+            null,
+            null,
+            null,
+            null,
+            $this->createStub(Resource::class),
+        );
+        $args = $this->createStub(ArgumentInterface::class);
+        $this->mediaTeaserResolver->getActions($teaser, $args);
     }
 }
