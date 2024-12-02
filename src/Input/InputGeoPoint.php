@@ -11,10 +11,10 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 #[GQL\Input(name:"InputGeoPoint")]
 class InputGeoPoint
 {
-    #[GQL\Field(type:"Float")]
+    #[GQL\Field(type:"Float!")]
     public ?float $lng;
 
-    #[GQL\Field(type:"Float")]
+    #[GQL\Field(type:"Float!")]
     public ?float $lat;
 
     public function toGeoPoint(): GeoPoint
