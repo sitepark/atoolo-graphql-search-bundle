@@ -10,25 +10,25 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 /**
  * @codeCoverageIgnore
  */
-#[GQL\Input(name:"InputSortCriteria")]
+#[GQL\Input(name: "InputSortCriteria")]
 class InputSortCriteria
 {
-    #[GQL\Field(type:"SortDirection")]
+    #[GQL\Field(type: "SortDirection")]
     public ?SortDirection $name = null;
 
-    #[GQL\Field(type:"SortDirection")]
+    #[GQL\Field(type: "SortDirection")]
     public ?SortDirection $date = null;
 
-    #[GQL\Field(type:"SortDirection")]
+    #[GQL\Field(type: "SortDirection")]
     public ?SortDirection $natural = null;
 
-    #[GQL\Field(type:"SortDirection")]
+    #[GQL\Field(type: "SortDirection")]
     public ?SortDirection $score = null;
 
-    #[GQL\Field(type:"SortDirection")]
+    #[GQL\Field(type: "SortDirection")]
     public ?SortDirection $spatialDist = null;
 
-    #[GQL\Field(type:"InputGeoPoint")]
+    #[GQL\Field(type: "InputGeoPoint")]
     public ?InputGeoPoint $spatialPoint = null;
 
 }

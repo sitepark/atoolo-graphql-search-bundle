@@ -10,15 +10,15 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 /**
  * @codeCoverageIgnore
  */
-#[GQL\Input(name:"SpatialOrbitalInputFilter")]
+#[GQL\Input(name: "SpatialOrbitalInputFilter")]
 class SpatialOrbitalInputFilter
 {
-    #[GQL\Field(type:"Float!")]
+    #[GQL\Field(type: "Float!")]
     public ?float $distance = null;
 
-    #[GQL\Field(type:"InputGeoPoint!")]
+    #[GQL\Field(type: "InputGeoPoint!")]
     public ?InputGeoPoint $centerPoint = null;
 
-    #[GQL\Field(type:"SpatialOrbitalMode")]
+    #[GQL\Field(type: "SpatialOrbitalMode")]
     public ?SpatialOrbitalMode $mode = null;
 }

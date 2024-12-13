@@ -9,12 +9,12 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 /**
  * @codeCoverageIgnore
  */
-#[GQL\Input(name:"SpatialArbitraryRectangleInputFilter")]
+#[GQL\Input(name: "SpatialArbitraryRectangleInputFilter")]
 class SpatialArbitraryRectangleInputFilter
 {
-    #[GQL\Field(type:"InputGeoPoint!")]
+    #[GQL\Field(type: "InputGeoPoint!")]
     public ?InputGeoPoint $lowerLeftCorner = null;
 
-    #[GQL\Field(type:"InputGeoPoint!")]
+    #[GQL\Field(type: "InputGeoPoint!")]
     public ?InputGeoPoint $upperRightCorner = null;
 }

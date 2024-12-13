@@ -9,7 +9,7 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 /**
  * @codeCoverageIgnore
  */
-#[GQL\Input(name:"InputBoosting")]
+#[GQL\Input(name: "InputBoosting")]
 class InputBoosting
 {
     /**
@@ -17,7 +17,7 @@ class InputBoosting
      * building DisjunctionMaxQueries from the user's query.
      * @var ?array<string>
      */
-    #[GQL\Field(type:"[String!]")]
+    #[GQL\Field(type: "[String!]")]
     public ?array $queryFields = null;
 
     /**
@@ -25,7 +25,7 @@ class InputBoosting
      * where all of the terms in the "q" param appear in close proximity.
      * @var ?array<string>
      */
-    #[GQL\Field(type:"[String!]")]
+    #[GQL\Field(type: "[String!]")]
     public ?array $phraseFields = null;
 
     /**
@@ -33,7 +33,7 @@ class InputBoosting
      * influence the score.
      * @var ?array<string>
      */
-    #[GQL\Field(type:"[String!]")]
+    #[GQL\Field(type: "[String!]")]
     public ?array $boostQueries = null;
 
     /**
@@ -41,13 +41,13 @@ class InputBoosting
      * to influence the score.
      * @var ?array<string>
      */
-    #[GQL\Field(type:"[String!]")]
+    #[GQL\Field(type: "[String!]")]
     public ?array $boostFunctions = null;
 
     /**
      * The tie parameter is used to control how much the score of the
      * non-phrase query should influence the score of the phrase query.
      */
-    #[GQL\Field(type:"Float")]
+    #[GQL\Field(type: "Float")]
     public ?float $tie = 0.0;
 }
