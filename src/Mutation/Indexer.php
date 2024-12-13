@@ -28,9 +28,9 @@ class Indexer
     #[GQL\Mutation(name: 'indexUpdate', type: 'IndexerStatus!')]
     #[GQL\Access("hasRole('ROLE_API')")]
     #[GQL\Arg(
-        name:"paths",
-        type:"[String!]!",
-        description:"List of resource paths that are to be updated.",
+        name: "paths",
+        type: "[String!]!",
+        description: "List of resource paths that are to be updated.",
     )]
     public function indexUpdate(array $paths): IndexerStatus
     {
@@ -43,9 +43,9 @@ class Indexer
     #[GQL\Mutation(name: 'indexRemove', type: 'Boolean!')]
     #[GQL\Access("hasRole('ROLE_API')")]
     #[GQL\Arg(
-        name:"idList",
-        type:"[String!]",
-        description:"list of id's of the entries to be deleted",
+        name: "idList",
+        type: "[String!]",
+        description: "list of id's of the entries to be deleted",
     )]
     public function indexRemove(array $idList): bool
     {

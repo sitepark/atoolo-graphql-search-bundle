@@ -9,12 +9,12 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 /**
  * @codeCoverageIgnore
  */
-#[GQL\Input(name:"AbsoluteDateRangeInputFilter")]
+#[GQL\Input(name: "AbsoluteDateRangeInputFilter")]
 class AbsoluteDateRangeInputFilter
 {
-    #[GQL\Field(type:"DateTime")]
+    #[GQL\Field(type: "DateTime")]
     public ?\DateTime $from = null;
 
-    #[GQL\Field(type:"DateTime")]
+    #[GQL\Field(type: "DateTime")]
     public ?\DateTime $to = null;
 }

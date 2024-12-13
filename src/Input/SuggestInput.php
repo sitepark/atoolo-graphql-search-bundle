@@ -12,21 +12,21 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 #[GQL\Input]
 class SuggestInput
 {
-    #[GQL\Field(type:"String!")]
+    #[GQL\Field(type: "String!")]
     public string $text;
 
-    #[GQL\Field(type:"Int")]
+    #[GQL\Field(type: "Int")]
     public ?int $limit = null;
 
-    #[GQL\Field(type:"String")]
+    #[GQL\Field(type: "String")]
     public ?string $lang = null;
 
     /**
      * @var ?array<InputFilter>
      */
-    #[GQL\Field(type:"[InputFilter!]")]
+    #[GQL\Field(type: "[InputFilter!]")]
     public ?array $filter = null;
 
-    #[GQL\Field(type:"Boolean")]
+    #[GQL\Field(type: "Boolean")]
     public ?bool $archive = null;
 }
