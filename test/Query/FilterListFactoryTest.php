@@ -17,6 +17,7 @@ use Atoolo\Search\Dto\Search\Query\Filter\AbsoluteDateRangeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\AndFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\CategoryFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ContentSectionTypeFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\ContentTypeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\GeoLocatedFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\GroupFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\IdFilter;
@@ -26,6 +27,7 @@ use Atoolo\Search\Dto\Search\Query\Filter\OrFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\QueryFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\RelativeDateRangeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SiteFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\SourceFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SpatialArbitraryRectangleFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SpatialOrbitalFilter;
 use Atoolo\Search\Dto\Search\Query\GeoPoint;
@@ -103,6 +105,40 @@ class FilterListFactoryTest extends TestCase
             ],
             $filterList,
             'site filter expected',
+        );
+    }
+
+    public function testCreateSourceFilter(): void
+    {
+        $filter = new InputFilter();
+        $filter->sources = ['internal'];
+
+        $factory = new FilterListFactory();
+        $filterList = $factory->create([$filter]);
+
+        $this->assertEquals(
+            [
+                new SourceFilter(['internal']),
+            ],
+            $filterList,
+            'source filter expected',
+        );
+    }
+
+    public function testCreateContentTypeFilter(): void
+    {
+        $filter = new InputFilter();
+        $filter->contentTypes = ['html/text*'];
+
+        $factory = new FilterListFactory();
+        $filterList = $factory->create([$filter]);
+
+        $this->assertEquals(
+            [
+                new ContentTypeFilter(['html/text*']),
+            ],
+            $filterList,
+            'contentType filter expected',
         );
     }
 

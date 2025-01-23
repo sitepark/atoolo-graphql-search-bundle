@@ -14,10 +14,12 @@ use Atoolo\GraphQL\Search\Types\DateRangeRound;
 use Atoolo\Search\Dto\Search\Query\Facet\AbsoluteDateRangeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\CategoryFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\ContentSectionTypeFacet;
+use Atoolo\Search\Dto\Search\Query\Facet\ContentTypeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\GroupFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\ObjectTypeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\RelativeDateRangeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\SiteFacet;
+use Atoolo\Search\Dto\Search\Query\Facet\SourceFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\SpatialDistanceRangeFacet;
 use Atoolo\Search\Dto\Search\Query\GeoPoint;
 use DateInterval;
@@ -90,6 +92,38 @@ class FacetListFactoryTest extends TestCase
             [new SiteFacet('site', ['123'])],
             $facetList,
             'site facet expected',
+        );
+    }
+
+    public function testCreateSourceFacet(): void
+    {
+        $facet = new InputFacet();
+        $facet->key = 'source';
+        $facet->sources = ['internal'];
+
+        $factory = new FacetListFactory();
+        $facetList = $factory->create([$facet]);
+
+        $this->assertEquals(
+            [new SourceFacet('source', ['internal'])],
+            $facetList,
+            'source facet expected',
+        );
+    }
+
+    public function testCreateContentTypeFacet(): void
+    {
+        $facet = new InputFacet();
+        $facet->key = 'contentType';
+        $facet->contentTypes = ['text/html*'];
+
+        $factory = new FacetListFactory();
+        $facetList = $factory->create([$facet]);
+
+        $this->assertEquals(
+            [new ContentTypeFacet('contentType', ['text/html*'])],
+            $facetList,
+            'source facet expected',
         );
     }
 

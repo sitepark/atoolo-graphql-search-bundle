@@ -9,11 +9,13 @@ use Atoolo\Search\Dto\Search\Query\DateRangeRound;
 use Atoolo\Search\Dto\Search\Query\Facet\AbsoluteDateRangeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\CategoryFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\ContentSectionTypeFacet;
+use Atoolo\Search\Dto\Search\Query\Facet\ContentTypeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\Facet;
 use Atoolo\Search\Dto\Search\Query\Facet\GroupFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\ObjectTypeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\RelativeDateRangeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\SiteFacet;
+use Atoolo\Search\Dto\Search\Query\Facet\SourceFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\SpatialDistanceRangeFacet;
 use InvalidArgumentException;
 
@@ -38,6 +40,8 @@ class FacetListFactory
             ?? $this->tryCreateContentSectionTypeFacet($facet)
             ?? $this->tryCreateCategoryFacet($facet)
             ?? $this->tryCreateSiteFacet($facet)
+            ?? $this->tryCreateSourceFacet($facet)
+            ?? $this->tryCreateContentTypeFacet($facet)
             ?? $this->tryCreateGroupFacet($facet)
             ?? $this->tryCreateAbsoluteDateRangeInputFacet($facet)
             ?? $this->tryCreateRelativeDateRangeInputFacet($facet)
@@ -90,6 +94,30 @@ class FacetListFactory
             ? new SiteFacet(
                 $facet->key,
                 $facet->sites,
+                $facet->excludeFilter ?? [],
+            )
+            : null;
+    }
+
+    private function tryCreateSourceFacet(
+        InputFacet $facet,
+    ): ?SourceFacet {
+        return !empty($facet->sources)
+            ? new SourceFacet(
+                $facet->key,
+                $facet->sources,
+                $facet->excludeFilter ?? [],
+            )
+            : null;
+    }
+
+    private function tryCreateContentTypeFacet(
+        InputFacet $facet,
+    ): ?ContentTypeFacet {
+        return !empty($facet->contentTypes)
+            ? new ContentTypeFacet(
+                $facet->key,
+                $facet->contentTypes,
                 $facet->excludeFilter ?? [],
             )
             : null;
