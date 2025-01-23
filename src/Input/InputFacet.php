@@ -49,6 +49,18 @@ class InputFacet
      * @var ?array<string>
      */
     #[GQL\Field(type: "[String!]")]
+    public ?array $sources = null;
+
+    /**
+     * @var ?array<string>
+     */
+    #[GQL\Field(type: "[String!]")]
+    public ?array $contentTypes = null;
+
+    /**
+     * @var ?array<string>
+     */
+    #[GQL\Field(type: "[String!]")]
     public ?array $groups = null;
 
     #[GQL\Field(type: "AbsoluteDateRangeInputFacet")]

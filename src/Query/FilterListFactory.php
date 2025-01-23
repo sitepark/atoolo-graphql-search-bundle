@@ -10,6 +10,7 @@ use Atoolo\Search\Dto\Search\Query\Filter\AbsoluteDateRangeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\AndFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\CategoryFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ContentSectionTypeFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\ContentTypeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\Filter;
 use Atoolo\Search\Dto\Search\Query\Filter\GeoLocatedFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\GroupFilter;
@@ -20,6 +21,7 @@ use Atoolo\Search\Dto\Search\Query\Filter\OrFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\QueryFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\RelativeDateRangeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SiteFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\SourceFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SpatialArbitraryRectangleFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SpatialOrbitalFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SpatialOrbitalMode;
@@ -46,6 +48,8 @@ class FilterListFactory
             ?? $this->tryCreateContentSectionTypeFilter($filter)
             ?? $this->tryCreateCategoryFilter($filter)
             ?? $this->tryCreateSiteFilter($filter)
+            ?? $this->tryCreateSourceFilter($filter)
+            ?? $this->tryCreateContentTypeFilter($filter)
             ?? $this->tryCreateGroupFilter($filter)
             ?? $this->tryCreateIdFilter($filter)
             ?? $this->tryCreateAbsoluteDateRangeFilter($filter)
@@ -94,6 +98,22 @@ class FilterListFactory
     ): ?SiteFilter {
         return !empty($filter->sites)
             ? new SiteFilter($filter->sites, $filter->key)
+            : null;
+    }
+
+    private function tryCreateSourceFilter(
+        InputFilter $filter,
+    ): ?SourceFilter {
+        return !empty($filter->sources)
+            ? new SourceFilter($filter->sources, $filter->key)
+            : null;
+    }
+
+    private function tryCreateContentTypeFilter(
+        InputFilter $filter,
+    ): ?ContentTypeFilter {
+        return !empty($filter->contentTypes)
+            ? new ContentTypeFilter($filter->contentTypes, $filter->key)
             : null;
     }
 
