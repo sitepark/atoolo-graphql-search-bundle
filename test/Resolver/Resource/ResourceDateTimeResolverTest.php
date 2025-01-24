@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\GraphQL\Search\Test\Resolver\Resoure;
+namespace Atoolo\GraphQL\Search\Test\Resolver\Resource;
 
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceDateTimeResolver;
 use Atoolo\GraphQL\Search\Test\TestResourceFactory;
