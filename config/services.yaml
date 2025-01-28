@@ -28,9 +28,6 @@ services:
     arguments:
       - '@atoolo_search.indexer.internal_resource_indexer'
 
-  atoolo_graphql_search.resolver.url_rewriter:
-    class: Atoolo\GraphQL\Search\Resolver\DoNothingUrlRewriter
-
   Atoolo\GraphQL\Search\Resolver\ClassNameTypeResolver:
     tags:
       - { name: overblog_graphql.query, alias: 'typeByClassName', method: 'resolveType' }
@@ -134,7 +131,7 @@ services:
   atoolo_graphql_search.factory.link_factory:
     class: 'Atoolo\GraphQL\Search\Factory\LinkFactory'
     arguments:
-      - '@atoolo_graphql_search.resolver.url_rewriter'
+      - '@atoolo_rewrite.url_rewriter'
 
   atoolo_graphql_search.factory.fallback_teaser_factory:
     class: 'Atoolo\GraphQL\Search\Factory\ArticleTeaserFactory'
@@ -171,7 +168,7 @@ services:
   atoolo_graphql_search.factory.image_factory:
     class: 'Atoolo\GraphQL\Search\Factory\ImageFactory'
     arguments:
-      - '@atoolo_graphql_search.resolver.url_rewriter'
+      - '@atoolo_rewrite.url_rewriter'
       - '@logger'
     tags:
       - { name: 'atoolo_graphql_search.asset_factory' }
@@ -179,7 +176,7 @@ services:
   atoolo_graphql_search.factory.symbolic_asset_factory:
     class: 'Atoolo\GraphQL\Search\Factory\SymbolicAssetFactory'
     arguments:
-      - '@atoolo_graphql_search.resolver.url_rewriter'
+      - '@atoolo_rewrite.url_rewriter'
       - '@atoolo_resource.navigation_hierarchy_loader'
     tags:
       - { name: 'atoolo_graphql_search.asset_factory' }

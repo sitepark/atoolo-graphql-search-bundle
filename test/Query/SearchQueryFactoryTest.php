@@ -23,7 +23,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(SearchQueryFactory::class)]
-class SelectQueryFactoryTest extends TestCase
+class SearchQueryFactoryTest extends TestCase
 {
     public function testCreateWithLimit(): void
     {

@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Factory;
 
-use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
-use Atoolo\GraphQL\Search\Resolver\UrlRewriterType;
 use Atoolo\GraphQL\Search\Types\CopyrightDetails;
 use Atoolo\GraphQL\Search\Types\Image;
 use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
 use Atoolo\GraphQL\Search\Types\ImageSource;
 use Atoolo\GraphQL\Search\Types\Link;
 use Atoolo\Resource\Resource;
+use Atoolo\Resource\ResourceLanguage;
+use Atoolo\Rewrite\Dto\UrlRewriteOptions;
+use Atoolo\Rewrite\Dto\UrlRewriteType;
+use Atoolo\Rewrite\Service\UrlRewriter;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 
@@ -90,6 +92,7 @@ class ImageFactory implements AssetFactory
 
         $copyright = $imageData['copyright'] ?? null;
         $copyrightDetails = $this->toCopyrightDetails(
+            $resource->lang,
             $imageData['copyrightDetails'] ?? null,
         );
         $alternativeText = $imageData['text'] ?? null;
@@ -98,6 +101,7 @@ class ImageFactory implements AssetFactory
         $original = null;
         if (isset($imageData['original'])) {
             $original = $this->toImageSource(
+                $resource->lang,
                 'original',
                 $imageData['original'],
             );
@@ -109,6 +113,7 @@ class ImageFactory implements AssetFactory
             is_array($imageData['variants'][$variant])
         ) {
             $sources = $this->toImageSourceList(
+                $resource->lang,
                 $variant,
                 $imageData['variants'][$variant],
             );
@@ -131,12 +136,14 @@ class ImageFactory implements AssetFactory
      * @return ImageSource[]
      */
     private function toImageSourceList(
+        ResourceLanguage $lang,
         string $variant,
         array $variantData,
     ): array {
         $sources = [];
         foreach ($variantData as $sourceData) {
             $sources[] = $this->toImageSource(
+                $lang,
                 $variant,
                 $sourceData,
             );
@@ -148,12 +155,14 @@ class ImageFactory implements AssetFactory
      * @param ImageSourceData $sourceData
      */
     private function toImageSource(
+        ResourceLanguage $lang,
         string $variant,
         array $sourceData,
     ): ImageSource {
         $url = $this->urlRewriter->rewrite(
-            UrlRewriterType::IMAGE,
+            UrlRewriteType::IMAGE,
             $sourceData['url'],
+            UrlRewriteOptions::builder()->lang($lang->code)->build(),
         );
         $width = $sourceData['width'];
         $height = $sourceData['height'];
@@ -171,22 +180,32 @@ class ImageFactory implements AssetFactory
     /**
      * @param CopyrightDetailsData|null $data
      */
-    private function toCopyrightDetails(?array $data): ?CopyrightDetails
+    private function toCopyrightDetails(ResourceLanguage $lang, ?array $data): ?CopyrightDetails
     {
         return empty($data) ? null : new CopyrightDetails(
-            original: $this->toLink($data['original'] ?? null),
-            author: $this->toLink($data['author'] ?? null),
-            license: $this->toLink($data['license'] ?? null),
+            original: $this->toLink($lang, $data['original'] ?? null),
+            author: $this->toLink($lang, $data['author'] ?? null),
+            license: $this->toLink($lang, $data['license'] ?? null),
         );
     }
 
     /**
      * @param CopyrightLinkData|null $data
      */
-    private function toLink(?array $data): ?Link
+    private function toLink(ResourceLanguage $lang, ?array $data): ?Link
     {
-        return empty($data['url']) ? null : new Link(
-            url: $data['url'],
+        if (empty($data['url'])) {
+            return null;
+        }
+
+        $url = $this->urlRewriter->rewrite(
+            UrlRewriteType::IMAGE,
+            $data['url'],
+            UrlRewriteOptions::builder()->lang($lang->code)->build(),
+        );
+
+        return new Link(
+            url: $url,
             label: $data['label'] ?? null,
             accessibilityLabel: null,
             description: null,

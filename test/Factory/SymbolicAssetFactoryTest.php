@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Test\Factory;
 
 use Atoolo\GraphQL\Search\Factory\SymbolicAssetFactory;
-use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
-use Atoolo\GraphQL\Search\Resolver\UrlRewriterType;
 use Atoolo\Resource\DataBag;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceHierarchyLoader;
 use Atoolo\Resource\ResourceLanguage;
+use Atoolo\Rewrite\Dto\UrlRewriteType;
+use Atoolo\Rewrite\Service\UrlRewriter;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -24,10 +25,13 @@ class SymbolicAssetFactoryTest extends TestCase
 
     private ResourceHierarchyLoader&MockObject $hierarchyLoader;
 
+    /**
+     * @throws Exception
+     */
     public function setUp(): void
     {
-        $this->urlRewriter = $this->createStub(UrlRewriter::class);
-        $this->hierarchyLoader = $this->createStub(ResourceHierarchyLoader::class);
+        $this->urlRewriter = $this->createMock(UrlRewriter::class);
+        $this->hierarchyLoader = $this->createMock(ResourceHierarchyLoader::class);
         $this->factory = new SymbolicAssetFactory(
             $this->urlRewriter,
             $this->hierarchyLoader,
@@ -72,7 +76,7 @@ class SymbolicAssetFactoryTest extends TestCase
             ->expects($this->once())
             ->method('rewrite')
             ->with(
-                UrlRewriterType::IMAGE,
+                UrlRewriteType::IMAGE,
                 $symbolicAssetUrl,
             )->willReturn(
                 $symbolicAssetUrl,

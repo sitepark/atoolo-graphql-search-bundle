@@ -4,19 +4,16 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Factory;
 
-use Atoolo\GraphQL\Search\Factory\ImageFactory;
 use Atoolo\GraphQL\Search\Factory\LinkFactory;
-use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
-use Atoolo\GraphQL\Search\Resolver\UrlRewriterType;
-use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
 use Atoolo\Resource\DataBag;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceLanguage;
+use Atoolo\Rewrite\Dto\UrlRewriteType;
+use Atoolo\Rewrite\Service\UrlRewriter;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 
 #[CoversClass(LinkFactory::class)]
 class LinkFactoryTest extends TestCase
@@ -25,9 +22,12 @@ class LinkFactoryTest extends TestCase
 
     private UrlRewriter&MockObject $urlRewriter;
 
+    /**
+     * @throws Exception
+     */
     public function setUp(): void
     {
-        $this->urlRewriter = $this->createStub(UrlRewriter::class);
+        $this->urlRewriter = $this->createMock(UrlRewriter::class);
         $this->factory = new LinkFactory(
             $this->urlRewriter,
         );
@@ -87,7 +87,7 @@ class LinkFactoryTest extends TestCase
         $this->urlRewriter
             ->expects($this->atLeastOnce())
             ->method('rewrite')
-            ->with(UrlRewriterType::MEDIA, $mediaUrl)
+            ->with(UrlRewriteType::MEDIA, $mediaUrl)
             ->willReturn($mediaUrl);
         $link = $this->factory->create($resource);
         $this->assertEquals($mediaUrl, $link->url);
