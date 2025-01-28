@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Factory;
 
-use Atoolo\Resource\Resource;
-use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
-use Atoolo\GraphQL\Search\Resolver\UrlRewriterType;
 use Atoolo\GraphQL\Search\Types\Asset;
 use Atoolo\GraphQL\Search\Types\Svg;
+use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceHierarchyLoader;
 use Atoolo\Resource\ResourceHierarchyWalker;
+use Atoolo\Rewrite\Dto\UrlRewriteOptions;
+use Atoolo\Rewrite\Dto\UrlRewriteType;
+use Atoolo\Rewrite\Service\UrlRewriter;
 
 class SymbolicAssetFactory implements AssetFactory
 {
@@ -31,8 +32,9 @@ class SymbolicAssetFactory implements AssetFactory
             $url = $currentResource->data->getString('base.symbolicAsset.content.url');
             if (!empty($url)) {
                 $rewrittenUrl = $this->urlRewriter->rewrite(
-                    UrlRewriterType::IMAGE,
+                    UrlRewriteType::IMAGE,
                     $url,
+                    UrlRewriteOptions::builder()->lang($resource->lang->code)->build(),
                 );
                 return new Svg($rewrittenUrl);
             }

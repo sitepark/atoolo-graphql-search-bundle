@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Test\Factory;
 
 use Atoolo\GraphQL\Search\Factory\ImageFactory;
-use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
 use Atoolo\GraphQL\Search\Types\CopyrightDetails;
 use Atoolo\GraphQL\Search\Types\Image;
 use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
@@ -14,7 +13,9 @@ use Atoolo\GraphQL\Search\Types\Link;
 use Atoolo\Resource\DataBag;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceLanguage;
+use Atoolo\Rewrite\Service\UrlRewriter;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -28,10 +29,13 @@ class ImageFactoryTest extends TestCase
 
     private LoggerInterface&MockObject $logger;
 
+    /**
+     * @throws Exception
+     */
     public function setUp(): void
     {
-        $this->urlRewriter = $this->createStub(UrlRewriter::class);
-        $this->logger = $this->createStub(LoggerInterface::class);
+        $this->urlRewriter = $this->createMock(UrlRewriter::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
         $this->factory = new ImageFactory(
             $this->urlRewriter,
             $this->logger,

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Factory;
 
-use Atoolo\GraphQL\Search\Resolver\UrlRewriter;
-use Atoolo\GraphQL\Search\Resolver\UrlRewriterType;
 use Atoolo\GraphQL\Search\Types\Link;
 use Atoolo\Resource\Resource;
+use Atoolo\Rewrite\Dto\UrlRewriteOptions;
+use Atoolo\Rewrite\Dto\UrlRewriteType;
+use Atoolo\Rewrite\Service\UrlRewriter;
 
 class LinkFactory
 {
@@ -31,12 +32,14 @@ class LinkFactory
     {
         return $this->isMedia($resource)
             ? $this->urlRewriter->rewrite(
-                UrlRewriterType::MEDIA,
+                UrlRewriteType::MEDIA,
                 $resource->data->getString('mediaUrl'),
+                UrlRewriteOptions::builder()->lang($resource->lang->code)->build(),
             )
             : $this->urlRewriter->rewrite(
-                UrlRewriterType::LINK,
+                UrlRewriteType::LINK,
                 $resource->location,
+                UrlRewriteOptions::builder()->lang($resource->lang->code)->build(),
             );
     }
 

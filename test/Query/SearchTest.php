@@ -8,11 +8,12 @@ use Atoolo\GraphQL\Search\Input\SearchInput;
 use Atoolo\GraphQL\Search\Query\Search;
 use Atoolo\Search\Dto\Search\Query\SearchQueryBuilder;
 use Atoolo\Search\Dto\Search\Result\SearchResult;
+use GraphQL\Error\UserError;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Search::class)]
-class SelectTest extends TestCase
+class SearchTest extends TestCase
 {
     public function testSearch(): void
     {
@@ -33,4 +34,21 @@ class SelectTest extends TestCase
         $select = new Search($searcher);
         $select->search($input);
     }
+
+    public function testSearchWithException(): void
+    {
+        $input = new SearchInput();
+        $input->text = 'query';
+
+        $searcher = $this->createMock(\Atoolo\Search\Search::class);
+        $searcher->expects($this->once())
+            ->method('search')
+            ->willThrowException(new \Exception('test'));
+
+        $select = new Search($searcher);
+
+        $this->expectException(UserError::class);
+        $select->search($input);
+    }
+
 }
