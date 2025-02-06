@@ -84,7 +84,7 @@ class ResourceGeoResolver implements Resolver
     private function getSecondaryGeoJson(array $geo): ?array
     {
 
-        if (!isset($geo['features']['secondary'])) {
+        if (!isset($geo['features']['secondary']) || empty($geo['features']['secondary'])) {
             return null;
         }
 
