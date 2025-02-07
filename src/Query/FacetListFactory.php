@@ -13,6 +13,7 @@ use Atoolo\Search\Dto\Search\Query\Facet\ContentTypeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\Facet;
 use Atoolo\Search\Dto\Search\Query\Facet\GroupFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\ObjectTypeFacet;
+use Atoolo\Search\Dto\Search\Query\Facet\QueryFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\RelativeDateRangeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\SiteFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\SourceFacet;
@@ -43,9 +44,10 @@ class FacetListFactory
             ?? $this->tryCreateSourceFacet($facet)
             ?? $this->tryCreateContentTypeFacet($facet)
             ?? $this->tryCreateGroupFacet($facet)
-            ?? $this->tryCreateAbsoluteDateRangeInputFacet($facet)
-            ?? $this->tryCreateRelativeDateRangeInputFacet($facet)
-            ?? $this->tryCreateGeoDistanceRangeInputFacet($facet)
+            ?? $this->tryCreateAbsoluteDateRangeFacet($facet)
+            ?? $this->tryCreateRelativeDateRangeFacet($facet)
+            ?? $this->tryCreateGeoDistanceRangeFacet($facet)
+            ?? $this->tryCreateQueryFacet($facet)
             ?? (throw new InvalidArgumentException(
                 "Unable to create facet\n" . print_r($facet, true),
             ));
@@ -135,7 +137,7 @@ class FacetListFactory
             : null;
     }
 
-    private function tryCreateAbsoluteDateRangeInputFacet(
+    private function tryCreateAbsoluteDateRangeFacet(
         InputFacet $facet,
     ): ?AbsoluteDateRangeFacet {
         if (empty($facet->absoluteDateRange)) {
@@ -159,7 +161,7 @@ class FacetListFactory
         );
     }
 
-    private function tryCreateRelativeDateRangeInputFacet(
+    private function tryCreateRelativeDateRangeFacet(
         InputFacet $facet,
     ): ?RelativeDateRangeFacet {
 
@@ -177,7 +179,7 @@ class FacetListFactory
             : null;
     }
 
-    private function tryCreateGeoDistanceRangeInputFacet(
+    private function tryCreateGeoDistanceRangeFacet(
         InputFacet $facet,
     ): ?SpatialDistanceRangeFacet {
 
@@ -198,6 +200,18 @@ class FacetListFactory
             $facet->spatialDistanceRange->to,
             $facet->excludeFilter ?? [],
         );
+    }
+
+    private function tryCreateQueryFacet(
+        InputFacet $facet,
+    ): ?QueryFacet {
+        return !empty($facet->query)
+            ? new QueryFacet(
+                $facet->key,
+                $facet->query,
+                $facet->excludeFilter ?? [],
+            )
+            : null;
     }
 
     private function mapDateRangeRound(

@@ -72,4 +72,7 @@ class InputFacet
     #[GQL\Field(type: "SpatialDistanceRangeInputFacet")]
     public ?SpatialDistanceRangeInputFacet $spatialDistanceRange = null;
 
+    #[GQL\Field(type: "String")]
+    public ?string $query = null;
+
 }

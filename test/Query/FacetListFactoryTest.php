@@ -17,6 +17,7 @@ use Atoolo\Search\Dto\Search\Query\Facet\ContentSectionTypeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\ContentTypeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\GroupFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\ObjectTypeFacet;
+use Atoolo\Search\Dto\Search\Query\Facet\QueryFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\RelativeDateRangeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\SiteFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\SourceFacet;
@@ -288,5 +289,22 @@ class FacetListFactoryTest extends TestCase
 
         $factory = new FacetListFactory();
         $factory->create([$facet]);
+    }
+
+    public function testCreateQueryFacet(): void
+    {
+        $facet = new InputFacet();
+        $facet->key = 'query';
+        $facet->query = 'content:abc';
+        $facet->excludeFilter = ['queryfilter'];
+
+        $factory = new FacetListFactory();
+        $facetList = $factory->create([$facet]);
+
+        $this->assertEquals(
+            [new QueryFacet('query', 'content:abc', ['queryfilter'])],
+            $facetList,
+            'group facet expected',
+        );
     }
 }
