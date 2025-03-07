@@ -10,6 +10,7 @@ use Atoolo\GraphQL\Search\Input\InputGeoPoint;
 use Atoolo\GraphQL\Search\Input\RelativeDateRangeInputFilter;
 use Atoolo\GraphQL\Search\Input\SpatialArbitraryRectangleInputFilter;
 use Atoolo\GraphQL\Search\Input\SpatialOrbitalInputFilter;
+use Atoolo\GraphQL\Search\Input\TeaserPropertyInputFilter;
 use Atoolo\GraphQL\Search\Query\FilterListFactory;
 use Atoolo\GraphQL\Search\Types\SpatialOrbitalMode;
 use Atoolo\Search\Dto\Search\Query\DateRangeRound;
@@ -30,6 +31,7 @@ use Atoolo\Search\Dto\Search\Query\Filter\SiteFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SourceFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SpatialArbitraryRectangleFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SpatialOrbitalFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\TeaserPropertyFilter;
 use Atoolo\Search\Dto\Search\Query\GeoPoint;
 use DateInterval;
 use DateTime;
@@ -136,6 +138,29 @@ class FilterListFactoryTest extends TestCase
         $this->assertEquals(
             [
                 new ContentTypeFilter(['html/text*']),
+            ],
+            $filterList,
+            'contentType filter expected',
+        );
+    }
+
+    public function testCreateTeaserPropertyFilter(): void
+    {
+        $filter = new InputFilter();
+        $filter->teaserProperty = new TeaserPropertyInputFilter();
+        $filter->teaserProperty->image = true;
+
+        $factory = new FilterListFactory();
+        $filterList = $factory->create([$filter]);
+
+        $this->assertEquals(
+            [
+                new TeaserPropertyFilter(
+                    image: true,
+                    imageCopyright: null,
+                    headline: null,
+                    text: null,
+                ),
             ],
             $filterList,
             'contentType filter expected',
