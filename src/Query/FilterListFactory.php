@@ -25,6 +25,7 @@ use Atoolo\Search\Dto\Search\Query\Filter\SourceFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SpatialArbitraryRectangleFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SpatialOrbitalFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SpatialOrbitalMode;
+use Atoolo\Search\Dto\Search\Query\Filter\TeaserPropertyFilter;
 use InvalidArgumentException;
 
 class FilterListFactory
@@ -50,6 +51,7 @@ class FilterListFactory
             ?? $this->tryCreateSiteFilter($filter)
             ?? $this->tryCreateSourceFilter($filter)
             ?? $this->tryCreateContentTypeFilter($filter)
+            ?? $this->tryCreateTeaserPropertyFilter($filter)
             ?? $this->tryCreateGroupFilter($filter)
             ?? $this->tryCreateIdFilter($filter)
             ?? $this->tryCreateAbsoluteDateRangeFilter($filter)
@@ -114,6 +116,20 @@ class FilterListFactory
     ): ?ContentTypeFilter {
         return !empty($filter->contentTypes)
             ? new ContentTypeFilter($filter->contentTypes, $filter->key)
+            : null;
+    }
+
+    private function tryCreateTeaserPropertyFilter(
+        InputFilter $filter,
+    ): ?TeaserPropertyFilter {
+        return !empty($filter->teaserProperty)
+            ? new TeaserPropertyFilter(
+                image: $filter->teaserProperty->image,
+                imageCopyright: $filter->teaserProperty->imageCopyright,
+                headline: $filter->teaserProperty->headline,
+                text: $filter->teaserProperty->text,
+                key: $filter->key,
+            )
             : null;
     }
 

@@ -33,6 +33,9 @@ class InputFilter
     #[GQL\Field(type: "[String!]")]
     public ?array $contentSectionTypes = null;
 
+    #[GQL\Field(type: "TeaserPropertyInputFilter")]
+    public ?TeaserPropertyInputFilter $teaserProperty = null;
+
     /**
      * @var ?array<string>
      */
