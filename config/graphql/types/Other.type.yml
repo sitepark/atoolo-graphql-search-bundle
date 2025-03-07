@@ -48,6 +48,27 @@ Facet:
         key: { type: "String!" }
         hits: { type: "Int!" }
 
+SpellcheckWord:
+  type: "object"
+  config:
+    fields:
+      word: { type: "String!" }
+      frequency: { type: "Int!" }
+
+SpellcheckSuggestion:
+  type: "object"
+  config:
+    fields:
+      original: { type: "SpellcheckWord!" }
+      suggestion: { type: "SpellcheckWord!" }
+
+Spellcheck:
+  type: "object"
+  config:
+    fields:
+      suggestions: { type: "[SpellcheckSuggestion!]!" }
+      collation: { type: "String!" }
+
 SearchResult:
   type: "object"
   config:
@@ -58,6 +79,7 @@ SearchResult:
         limit: { type: "Int!" }
         results: { type: "[Resource!]!" }
         facetGroups: { type: "[FacetGroup!]!" }
+        spellcheck: { type: "Spellcheck" }
 
 SuggestResult:
   type: "object"

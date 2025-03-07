@@ -48,6 +48,9 @@ class SearchInput
     public ?array $facets = null;
 
     #[GQL\Field(type: "Boolean")]
+    public ?bool $spellcheck = null;
+
+    #[GQL\Field(type: "Boolean")]
     public ?bool $archive = null;
 
     #[GQL\Field(type: "DateTimeZone")]
