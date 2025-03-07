@@ -31,6 +31,7 @@ class SearchQueryFactory
         $builder = new SearchQueryBuilder();
         $builder->lang(ResourceLanguage::of($input->lang));
         $builder->archive($input->archive ?? false);
+        $builder->spellcheck($input->spellcheck ?? false);
 
         $this->addTextFilter($builder, $input);
         $this->addSort($builder, $input);
