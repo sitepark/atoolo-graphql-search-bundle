@@ -49,6 +49,7 @@ class SearchInput
 
     #[GQL\Field(type: "Boolean")]
     public ?bool $spellcheck = null;
+
     #[GQL\Field(type: "Boolean")]
     public ?bool $archive = null;
 
