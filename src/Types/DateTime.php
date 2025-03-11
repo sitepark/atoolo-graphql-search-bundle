@@ -15,6 +15,7 @@ use Overblog\GraphQLBundle\Annotation as GQL;
  * https://github.com/overblog/GraphQLBundle/blob/master/docs/definitions/type-system/scalars.md#custom-scalar
  */
 #[GQL\Scalar('DateTime')]
+#[GQL\Description('The scalar type `DateTime` represents a date and time string. It is specified with the UTC time zone in ISO-8601 format (e.g. `2024-05-22T10:13:00Z`).')]
 class DateTime
 {
     public static function serialize(\DateTime $value): string
