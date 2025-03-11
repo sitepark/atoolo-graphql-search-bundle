@@ -13,6 +13,7 @@ use Overblog\GraphQLBundle\Annotation as GQL;
  * https://github.com/overblog/GraphQLBundle/blob/master/docs/definitions/type-system/scalars.md#custom-scalar
  */
 #[GQL\Scalar('DateInterval')]
+#[GQL\Description('The scalar type `DateInterval` represents a date interval duration string. It is specified in ISO-8601 format (e.g. `P3Y6M4DT12H30M5S`).')]
 class DateInterval
 {
     public static function serialize(\DateInterval $interval): string

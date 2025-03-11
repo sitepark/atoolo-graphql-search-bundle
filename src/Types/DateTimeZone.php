@@ -14,6 +14,7 @@ use Overblog\GraphQLBundle\Annotation as GQL;
  * https://github.com/overblog/GraphQLBundle/blob/master/docs/definitions/type-system/scalars.md#custom-scalar
  */
 #[GQL\Scalar('DateTimeZone')]
+#[GQL\Description('The scalar type `DateTimeZone` represents a timezone string. It is specified in the IANA timezone database format (e.g. `America/New_York`).')]
 class DateTimeZone
 {
     public static function serialize(\DateTimeZone $value): string
