@@ -109,7 +109,7 @@ class ImageFactory implements AssetFactory
 
         $sources = [];
         if (
-            isset($imageData['variants']) &&
+            isset($imageData['variants'][$variant]) &&
             is_array($imageData['variants'][$variant])
         ) {
             $sources = $this->toImageSourceList(
