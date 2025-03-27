@@ -26,4 +26,7 @@ class MoreLikeThisInput
 
     #[GQL\Field(type: "Int")]
     public ?int $limit = null;
+
+    #[GQL\Field(type: "Boolean")]
+    public ?bool $archive = null;
 }
