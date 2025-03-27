@@ -30,6 +30,7 @@ class MoreLikeThisQueryFactory
             lang: ResourceLanguage::of($input->lang),
             limit: $input->limit ?? 5,
             filter: $filterList,
+            archive: $input->archive ?? false,
         );
     }
 }
