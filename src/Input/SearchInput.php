@@ -26,6 +26,9 @@ class SearchInput
     #[GQL\Field(type: "String")]
     public ?string $lang = null;
 
+    #[GQL\Field(type: "String")]
+    public ?string $urlBasePath = null;
+
     #[GQL\Field(type: "QueryOperator")]
     public ?QueryOperator $defaultQueryOperator = null;
 

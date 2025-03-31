@@ -7,6 +7,7 @@ namespace Atoolo\GraphQL\Search\Test\Query;
 use Atoolo\GraphQL\Search\Input\MoreLikeThisInput;
 use Atoolo\GraphQL\Search\Query\MoreLikeThis;
 use Atoolo\Resource\ResourceLanguage;
+use Atoolo\Rewrite\Service\UrlRewriteContext;
 use Atoolo\Search\Dto\Search\Query\MoreLikeThisQuery;
 use Atoolo\Search\Dto\Search\Result\SearchResult;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -19,6 +20,7 @@ class MoreLikeThisTest extends TestCase
     {
         $input = new MoreLikeThisInput();
         $input->id = '123';
+        $input->urlBasePath = '/test';
 
         $query = new MoreLikeThisQuery(
             id: '123',
@@ -31,7 +33,11 @@ class MoreLikeThisTest extends TestCase
             ->with($query)
             ->willReturn($this->createMock(SearchResult::class));
 
-        $select = new MoreLikeThis($searcher);
+        $urlRewriteContext = $this->createMock(UrlRewriteContext::class);
+        $urlRewriteContext->expects($this->once())
+            ->method('setBasePath')
+            ->with('/test');
+        $select = new MoreLikeThis($searcher, $urlRewriteContext);
         $select->moreLikeThis($input);
     }
 }

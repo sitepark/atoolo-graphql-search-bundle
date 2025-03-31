@@ -3,6 +3,8 @@ overblog_graphql:
     exceptions:
       errors:
         - "InvalidArgumentException"
+        - "Atoolo\\Resource\\Exception\\ResourceNotFoundException"
+        - "Atoolo\\Resource\\Exception\\InvalidResourceException"
   definitions:
     schema:
       query: RootQuery
