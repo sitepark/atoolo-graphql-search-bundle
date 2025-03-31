@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Query;
 
 use Atoolo\GraphQL\Search\Input\SearchInput;
+use Atoolo\Rewrite\Service\UrlRewriteContext;
 use Atoolo\Search\Dto\Search\Result\SearchResult;
 use Exception;
 use Overblog\GraphQLBundle\Annotation as GQL;
@@ -17,6 +18,7 @@ class Search
 
     public function __construct(
         private readonly \Atoolo\Search\Search $search,
+        private readonly UrlRewriteContext $urlRewriteContext,
     ) {
         $this->factory = new SearchQueryFactory();
     }
@@ -24,6 +26,9 @@ class Search
     #[GQL\Query(name: 'search', type: 'SearchResult!')]
     public function search(SearchInput $input): SearchResult
     {
+        if ($input->urlBasePath !== null) {
+            $this->urlRewriteContext->setBasePath($input->urlBasePath);
+        }
         $query = $this->factory->create($input);
         try {
             return $this->search->search($query);

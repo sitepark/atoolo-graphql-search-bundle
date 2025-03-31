@@ -6,6 +6,7 @@ namespace Atoolo\GraphQL\Search\Test\Query;
 
 use Atoolo\GraphQL\Search\Input\SearchInput;
 use Atoolo\GraphQL\Search\Query\Search;
+use Atoolo\Rewrite\Service\UrlRewriteContext;
 use Atoolo\Search\Dto\Search\Query\SearchQueryBuilder;
 use Atoolo\Search\Dto\Search\Result\SearchResult;
 use GraphQL\Error\UserError;
@@ -19,6 +20,7 @@ class SearchTest extends TestCase
     {
         $input = new SearchInput();
         $input->text = 'query';
+        $input->urlBasePath = '/test';
 
         $builder = new SearchQueryBuilder();
         $query = $builder
@@ -31,7 +33,12 @@ class SearchTest extends TestCase
             ->with($query)
             ->willReturn($this->createMock(SearchResult::class));
 
-        $select = new Search($searcher);
+        $urlRewriteContext = $this->createMock(UrlRewriteContext::class);
+        $urlRewriteContext->expects($this->once())
+            ->method('setBasePath')
+            ->with('/test');
+
+        $select = new Search($searcher, $urlRewriteContext);
         $select->search($input);
     }
 
@@ -45,7 +52,9 @@ class SearchTest extends TestCase
             ->method('search')
             ->willThrowException(new \Exception('test'));
 
-        $select = new Search($searcher);
+        $urlRewriteContext = $this->createMock(UrlRewriteContext::class);
+
+        $select = new Search($searcher, $urlRewriteContext);
 
         $this->expectException(UserError::class);
         $select->search($input);
