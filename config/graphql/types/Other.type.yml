@@ -156,7 +156,7 @@ IndexerStatus:
       statusLine: { type: "String" }
 
 TeaserFeature:
-  type: "object"
+  type: "interface"
   config:
     fields:
       label : { type: "String" }
