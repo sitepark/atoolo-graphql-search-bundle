@@ -53,7 +53,7 @@ class MediaTeaserResolver implements Resolver
     /**
      * @return TeaserFeature[]
      */
-    public function getActions(
+    public function getTeaserFeatures(
         MediaTeaser $teaser,
         ArgumentInterface $args,
     ): array {
