@@ -62,7 +62,7 @@ class ArticleTeaserResolver implements Resolver
     /**
      * @return TeaserFeature[]
      */
-    public function getTeaserFeatures(
+    public function getFeatures(
         ArticleTeaser $teaser,
         ArgumentInterface $args,
     ): array {
