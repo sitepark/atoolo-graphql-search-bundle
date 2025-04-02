@@ -11,6 +11,5 @@ class TeaserFeature
 {
     public function __construct(
         public readonly ?string $label = null,
-        public readonly ?Link $link = null,
     ) {}
 }

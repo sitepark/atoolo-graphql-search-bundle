@@ -160,7 +160,6 @@ TeaserFeature:
   config:
     fields:
       label : { type: "String" }
-      link : { type: "Link" }
 
 Link:
   type: "object"
