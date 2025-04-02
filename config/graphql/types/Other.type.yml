@@ -155,6 +155,12 @@ IndexerStatus:
       errors: { type: "Int" }
       statusLine: { type: "String" }
 
+TeaserFeature:
+  type: "interface"
+  config:
+    fields:
+      label : { type: "String" }
+
 Link:
   type: "object"
   config:
