@@ -21,5 +21,10 @@ class ContextDispatcher
         if ($context->resourceLocation !== null) {
             $this->urlRewriteContext->setResourceLocation($context->resourceLocation);
         }
+        if ($context->options !== null) {
+            if ($context->options->sameNavigation !== null) {
+                $this->urlRewriteContext->setSameNavigation($context->options->sameNavigation);
+            }
+        }
     }
 }

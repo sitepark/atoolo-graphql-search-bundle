@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Test\Query\Context;
 
 use Atoolo\GraphQL\Search\Input\SearchContextInput;
+use Atoolo\GraphQL\Search\Input\SearchContextOptionsInput;
 use Atoolo\GraphQL\Search\Query\Context\ContextDispatcher;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\Exception;
@@ -51,4 +52,19 @@ class ContextDispatcherTest extends TestCase
         $dispatcher->dispatch($context);
     }
 
+    public function testDispatchSameNavigation(): void
+    {
+        $context = new SearchContextInput();
+        $option = new SearchContextOptionsInput();
+        $option->sameNavigation = true;
+        $context->options = $option;
+
+        $urlRewriteContext = $this->createMock(\Atoolo\Rewrite\Service\UrlRewriteContext::class);
+        $urlRewriteContext->expects($this->once())
+            ->method('setSameNavigation')
+            ->with(true);
+
+        $dispatcher = new ContextDispatcher($urlRewriteContext);
+        $dispatcher->dispatch($context);
+    }
 }
