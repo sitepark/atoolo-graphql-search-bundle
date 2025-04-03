@@ -15,6 +15,9 @@ class SearchContextInput
     #[GQL\Field(type: "String")]
     public ?string $urlBasePath = null;
 
+    #[GQL\Field(type: "String")]
+    public ?string $resourceLocation = null;
+
     #[GQL\Field(type: "SearchContextOptionsInput")]
     public ?SearchContextOptionsInput $options = null;
 
