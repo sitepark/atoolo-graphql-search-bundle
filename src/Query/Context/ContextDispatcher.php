@@ -18,5 +18,8 @@ class ContextDispatcher
         if ($context->urlBasePath !== null) {
             $this->urlRewriteContext->setBasePath($context->urlBasePath);
         }
+        if ($context->resourceLocation !== null) {
+            $this->urlRewriteContext->setResourceLocation($context->resourceLocation);
+        }
     }
 }
