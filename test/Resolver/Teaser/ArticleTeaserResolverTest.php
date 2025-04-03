@@ -139,7 +139,7 @@ class ArticleTeaserResolverTest extends TestCase
         $this->resolver->getKicker($teaser, $args);
     }
 
-    public function testGetActions(): void
+    public function testGetFeatures(): void
     {
         $this->teaserFeatureResolver->expects($this->once())
             ->method('getTeaserFeatures');
@@ -150,6 +150,6 @@ class ArticleTeaserResolverTest extends TestCase
             $this->createStub(Resource::class),
         );
         $args = $this->createStub(ArgumentInterface::class);
-        $this->resolver->getTeaserFeatures($teaser, $args);
+        $this->resolver->getFeatures($teaser, $args);
     }
 }
