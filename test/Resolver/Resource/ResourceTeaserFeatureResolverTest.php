@@ -43,19 +43,22 @@ class ResourceTeaserFeatureResolverTest extends TestCase
         );
     }
 
-    public function testGetActionLinks(): void
+    public function testGetTeaserFeatures(): void
     {
         $resource = $this->createResource([]);
         $args = $this->createStub(ArgumentInterface::class);
+        $teaserFeatureFirst = $this->createStub(TeaserFeature::class);
+        $teaserFeatureOther = $this->createStub(TeaserFeature::class);
+        $teaserFeatureLast = $this->createStub(TeaserFeature::class);
         $this->firstTeaserFeatureFactory
             ->expects($this->once())
             ->method('create')
             ->with($resource)
             ->willReturn(
                 [
-                    new TeaserFeature('first_feature'),
+                    $teaserFeatureFirst,
                     null,
-                    new TeaserFeature('first_other_feature'),
+                    $teaserFeatureOther,
                 ],
             );
         $this->lastTeaserFeatureFactory
@@ -65,18 +68,18 @@ class ResourceTeaserFeatureResolverTest extends TestCase
             ->willReturn(
                 [
                     null,
-                    new TeaserFeature('last_feature'),
-                    new TeaserFeature('last_feature'),
+                    $teaserFeatureLast,
+                    $teaserFeatureLast,
                 ],
             );
 
         $result = $this->resolver->getTeaserFeatures($resource, $args);
-        $this->assertEquals(
+        $this->assertSame(
             [
-                new TeaserFeature('first_feature'),
-                new TeaserFeature('first_other_feature'),
-                new TeaserFeature('last_feature'),
-                new TeaserFeature('last_feature'),
+                $teaserFeatureFirst,
+                $teaserFeatureOther,
+                $teaserFeatureLast,
+                $teaserFeatureLast,
             ],
             $result,
         );
