@@ -7,7 +7,7 @@ namespace Atoolo\GraphQL\Search\Types;
 /**
  * @codeCoverageIgnore
  */
-class TeaserFeature
+abstract class TeaserFeature
 {
     public function __construct(
         public readonly ?string $label = null,
