@@ -76,6 +76,11 @@ class ResolverMapRegistry extends ResolverMap
                     return $this->resolveType($value);
                 },
             ],
+            'TeaserFeature' => [
+                self::RESOLVE_TYPE => function ($value) {
+                    return $this->resolveType($value);
+                },
+            ],
         ];
     }
 
