@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Resolver\Teaser;
 
 use Atoolo\GraphQL\Search\Resolver\Resolver;
-use Atoolo\GraphQL\Search\Resolver\Resource\ResourceActionLinkResolver;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceTeaserFeatureResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceAssetResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceDateTimeResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceKickerResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceSymbolicAssetResolver;
 use Atoolo\GraphQL\Search\Types\ArticleTeaser;
 use Atoolo\GraphQL\Search\Types\Asset;
-use Atoolo\GraphQL\Search\Types\Link;
+use Atoolo\GraphQL\Search\Types\TeaserFeature;
 use DateTime;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 
@@ -23,7 +23,7 @@ class ArticleTeaserResolver implements Resolver
         private readonly ResourceSymbolicAssetResolver $symbolicAssetResolver,
         private readonly ResourceKickerResolver $kickerResolver,
         private readonly ResourceDateTimeResolver $dateResolver,
-        private readonly ResourceActionLinkResolver $actionLinkResolver,
+        private readonly ResourceTeaserFeatureResolver $teaserFeatureResolver,
     ) {}
 
     public function getUrl(
@@ -60,13 +60,13 @@ class ArticleTeaserResolver implements Resolver
     }
 
     /**
-     * @return Link[]
+     * @return TeaserFeature[]
      */
-    public function getActions(
+    public function getFeatures(
         ArticleTeaser $teaser,
         ArgumentInterface $args,
     ): array {
-        return $this->actionLinkResolver
-            ->getActionLinks($teaser->resource);
+        return $this->teaserFeatureResolver
+            ->getTeaserFeatures($teaser->resource);
     }
 }

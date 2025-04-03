@@ -4,31 +4,31 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Resolver\Resource;
 
-use Atoolo\GraphQL\Search\Factory\ActionLinkFactory;
+use Atoolo\GraphQL\Search\Factory\TeaserFeatureFactory;
 use Atoolo\GraphQL\Search\Resolver\Resolver;
-use Atoolo\GraphQL\Search\Types\Link;
+use Atoolo\GraphQL\Search\Types\TeaserFeature;
 use Atoolo\Resource\Resource;
 
-class ResourceActionLinkResolver implements Resolver
+class ResourceTeaserFeatureResolver implements Resolver
 {
     /**
-     * @param array<ActionLinkFactory> $factories
+     * @param array<TeaserFeatureFactory> $factories
      */
     public function __construct(
         private readonly iterable $factories,
     ) {}
 
     /**
-     * @return Link[]
+     * @return TeaserFeature[]
      */
-    public function getActionLinks(
+    public function getTeaserFeatures(
         Resource $resource,
     ): array {
         $links = [];
         foreach ($this->factories as $factory) {
-            foreach ($factory->create($resource) as $createdLink) {
-                if ($createdLink !== null) {
-                    $links[] = $createdLink;
+            foreach ($factory->create($resource) as $createdFeature) {
+                if ($createdFeature !== null) {
+                    $links[] = $createdFeature;
                 }
             }
         }

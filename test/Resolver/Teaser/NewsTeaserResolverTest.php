@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Resolver\Teaser;
 
-use Atoolo\GraphQL\Search\Resolver\Resource\ResourceActionLinkResolver;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceTeaserFeatureResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceAssetResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceDateTimeResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceKickerResolver;
@@ -32,7 +32,7 @@ class NewsTeaserResolverTest extends TestCase
 
     private ResourceDateTimeResolver&MockObject $dateTimeResolver;
 
-    private ResourceActionLinkResolver&MockObject $actionLinkResolver;
+    private ResourceTeaserFeatureResolver&MockObject $teaserFeatureResolver;
 
     /**
      * @throws Exception
@@ -51,15 +51,15 @@ class NewsTeaserResolverTest extends TestCase
         $this->dateTimeResolver = $this->createMock(
             ResourceDateTimeResolver::class,
         );
-        $this->actionLinkResolver = $this->createMock(
-            ResourceActionLinkResolver::class,
+        $this->teaserFeatureResolver = $this->createMock(
+            ResourceTeaserFeatureResolver::class,
         );
         $this->resolver = new NewsTeaserResolver(
             $this->assetResolver,
             $this->symbolicAssetResolver,
             $this->kickerResolver,
             $this->dateTimeResolver,
-            $this->actionLinkResolver,
+            $this->teaserFeatureResolver,
         );
     }
 
@@ -139,10 +139,10 @@ class NewsTeaserResolverTest extends TestCase
         $this->resolver->getKicker($teaser, $args);
     }
 
-    public function testGetActions(): void
+    public function testGetFeatures(): void
     {
-        $this->actionLinkResolver->expects($this->once())
-            ->method('getActionLinks');
+        $this->teaserFeatureResolver->expects($this->once())
+            ->method('getTeaserFeatures');
         $teaser = new NewsTeaser(
             null,
             '',
@@ -150,6 +150,6 @@ class NewsTeaserResolverTest extends TestCase
             $this->createStub(Resource::class),
         );
         $args = $this->createStub(ArgumentInterface::class);
-        $this->resolver->getActions($teaser, $args);
+        $this->resolver->getFeatures($teaser, $args);
     }
 }

@@ -32,7 +32,6 @@ ArticleTeaserDecorator:
           variant:
             type: "String"
             description: The asset variant is used to decide which image format is to be returned.
-      actions:
-        type: "[Link!]!"
-        description: additional, context dependent links
-
+      features:
+        type: "[TeaserFeature!]!"
+        description: additional, context dependent teaser features indicating information about the underling resource
