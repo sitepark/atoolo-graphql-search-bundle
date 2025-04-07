@@ -114,6 +114,7 @@ Image:
       original: { type: "ImageSource!" }
       characteristic: { type: "ImageCharacteristic" }
       sources: { type: "[ImageSource!]!" }
+      static: { type: "ImageSource!" }
 
 ImageSource:
   type: "object"
