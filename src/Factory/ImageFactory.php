@@ -42,7 +42,8 @@ use Psr\Log\LoggerInterface;
  *     url: string,
  *     width: int,
  *     height: int,
- *     mediaQuery?: string
+ *     mediaQuery?: string,
+ *     static?: bool
  * }
  */
 
@@ -108,13 +109,20 @@ class ImageFactory implements AssetFactory
         }
 
         $sources = [];
-        if (isset($imageData['variants'][$variant])) {
-            $sources = $this->toImageSourceList(
+        $static = null;
+        foreach (($imageData['variants'][$variant] ?? []) as $sourceData) {
+            $source = $this->toImageSource(
                 $resource->lang,
                 $variant,
-                $imageData['variants'][$variant],
+                $sourceData,
             );
+            $sources[] = $source;
+            if ($sourceData['static'] ?? false) {
+                $static = $source;
+            }
         }
+        // if no static is set explicitely, use first source or original
+        $static ??= $sources[0] ?? $original;
 
         return new Image(
             $copyright,
@@ -125,27 +133,8 @@ class ImageFactory implements AssetFactory
             $original,
             $characteristic,
             $sources,
+            $static,
         );
-    }
-
-    /**
-     * @param array<ImageSourceData> $variantData
-     * @return ImageSource[]
-     */
-    private function toImageSourceList(
-        ResourceLanguage $lang,
-        string $variant,
-        array $variantData,
-    ): array {
-        $sources = [];
-        foreach ($variantData as $sourceData) {
-            $sources[] = $this->toImageSource(
-                $lang,
-                $variant,
-                $sourceData,
-            );
-        }
-        return $sources;
     }
 
     /**

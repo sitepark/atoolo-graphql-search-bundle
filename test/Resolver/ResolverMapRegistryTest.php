@@ -132,6 +132,7 @@ class ResolverMapRegistryTest extends TestCase
             null,
             null,
             [],
+            null,
         );
 
         $type = $fn($image);

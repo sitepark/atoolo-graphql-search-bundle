@@ -106,6 +106,13 @@ class ImageFactoryTest extends TestCase
                     mediaQuery: null,
                 ),
             ],
+            static: new ImageSource(
+                variant: 'teaser',
+                url: '/some_image_url.first.png',
+                width: 400,
+                height: 300,
+                mediaQuery: '(min-width: 1920px)',
+            ),
         );
         $this->assertEquals(
             $expectedImage,
@@ -172,8 +179,14 @@ class ImageFactoryTest extends TestCase
                 mediaQuery: null,
             ),
             characteristic: ImageCharacteristic::NORMAL,
-            sources: [
-            ],
+            sources: [],
+            static: new ImageSource(
+                variant: 'original',
+                url: '/some_image_url.original.png',
+                width: 4000,
+                height: 3000,
+                mediaQuery: null,
+            ),
         );
         $image = $this->factory->create($resource, 'teaser');
         $this->assertEquals(
@@ -223,8 +236,8 @@ class ImageFactoryTest extends TestCase
             alternativeText: null,
             original: null,
             characteristic: ImageCharacteristic::NORMAL,
-            sources: [
-            ],
+            sources: [],
+            static: null,
         );
         $image = $this->factory->create($resource, 'teaser');
         $this->assertEquals(
@@ -271,6 +284,7 @@ class ImageFactoryTest extends TestCase
                                     'width' => 400,
                                     'height' => 300,
                                     'mediaQuery' => '(min-width: 1920px)',
+                                    'static' => true,
                                 ],
                                 [
                                     'url' => '/some_image_url.second.png',
