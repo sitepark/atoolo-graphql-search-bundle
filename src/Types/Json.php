@@ -15,8 +15,8 @@ use Overblog\GraphQLBundle\Annotation as GQL;
  * This is specified by overblog/GraphQLBundle
  * https://github.com/overblog/GraphQLBundle/blob/master/docs/definitions/type-system/scalars.md#custom-scalar
  */
-#[GQL\Scalar('GeoJson')]
-class GeoJson
+#[GQL\Scalar('Json')]
+class Json
 {
     /**
      * @param JsonArray $value
@@ -43,9 +43,8 @@ class GeoJson
     public static function parseLiteral(Node $valueNode): array
     {
         if (!$valueNode instanceof ObjectValueNode) {
-            throw new InvalidArgumentException('GeoJson must be a object');
+            throw new InvalidArgumentException('Json must be a object');
         }
-
         return AstToArrayConverter::convert($valueNode);
     }
 }

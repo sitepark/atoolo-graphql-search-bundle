@@ -7,6 +7,7 @@ namespace Atoolo\GraphQL\Search\Test\Query;
 use Atoolo\GraphQL\Search\Input\AbsoluteDateRangeInputFacet;
 use Atoolo\GraphQL\Search\Input\InputFacet;
 use Atoolo\GraphQL\Search\Input\InputGeoPoint;
+use Atoolo\GraphQL\Search\Input\QueryTemplateInput;
 use Atoolo\GraphQL\Search\Input\RelativeDateRangeInputFacet;
 use Atoolo\GraphQL\Search\Input\SpatialDistanceRangeInputFacet;
 use Atoolo\GraphQL\Search\Query\FacetListFactory;
@@ -18,6 +19,7 @@ use Atoolo\Search\Dto\Search\Query\Facet\ContentTypeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\GroupFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\ObjectTypeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\QueryFacet;
+use Atoolo\Search\Dto\Search\Query\Facet\QueryTemplateFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\RelativeDateRangeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\SiteFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\SourceFacet;
@@ -303,6 +305,26 @@ class FacetListFactoryTest extends TestCase
 
         $this->assertEquals(
             [new QueryFacet('query', 'content:abc', ['queryfilter'])],
+            $facetList,
+            'group facet expected',
+        );
+    }
+
+    public function testCreateQueryTemplateFacet(): void
+    {
+        $facet = new InputFacet();
+        $facet->key = 'query';
+        $queryTemplate = new QueryTemplateInput();
+        $queryTemplate->query = 'myfield:{myvar}';
+        $queryTemplate->variables = ['myvar' => 'myvalue'];
+        $facet->queryTemplate = $queryTemplate;
+        $facet->excludeFilter = ['queryfilter'];
+
+        $factory = new FacetListFactory();
+        $facetList = $factory->create([$facet]);
+
+        $this->assertEquals(
+            [new QueryTemplateFacet('query', 'myfield:{myvar}', ['myvar' => 'myvalue'], ['queryfilter'])],
             $facetList,
             'group facet expected',
         );
