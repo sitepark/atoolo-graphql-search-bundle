@@ -19,6 +19,7 @@ use Atoolo\Search\Dto\Search\Query\Filter\NotFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ObjectTypeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\OrFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\QueryFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\QueryTemplateFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\RelativeDateRangeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SiteFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SourceFilter;
@@ -60,6 +61,7 @@ class FilterListFactory
             ?? $this->tryCreateOrFilter($filter)
             ?? $this->tryCreateNotFilter($filter)
             ?? $this->tryCreateQueryFilter($filter)
+            ?? $this->tryCreateQueryTemplateFilter($filter)
             ?? $this->tryGeoLocatedFilter($filter)
             ?? $this->tryCreateSpatialOrbitalFilter($filter)
             ?? $this->tryCreateSpatialArbitraryRectangleFilter($filter)
@@ -283,6 +285,18 @@ class FilterListFactory
     ): ?QueryFilter {
         return isset($filter->query)
             ? new QueryFilter($filter->query, $filter->key)
+            : null;
+    }
+
+    private function tryCreateQueryTemplateFilter(
+        InputFilter $filter,
+    ): ?QueryTemplateFilter {
+        return isset($filter->queryTemplate)
+            ? new QueryTemplateFilter(
+                $filter->queryTemplate->query ?? '',
+                $filter->queryTemplate->variables ?? [],
+                $filter->key,
+            )
             : null;
     }
 

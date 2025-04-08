@@ -7,6 +7,7 @@ namespace Atoolo\GraphQL\Search\Test\Query;
 use Atoolo\GraphQL\Search\Input\AbsoluteDateRangeInputFilter;
 use Atoolo\GraphQL\Search\Input\InputFilter;
 use Atoolo\GraphQL\Search\Input\InputGeoPoint;
+use Atoolo\GraphQL\Search\Input\QueryTemplateInput;
 use Atoolo\GraphQL\Search\Input\RelativeDateRangeInputFilter;
 use Atoolo\GraphQL\Search\Input\SpatialArbitraryRectangleInputFilter;
 use Atoolo\GraphQL\Search\Input\SpatialOrbitalInputFilter;
@@ -26,6 +27,7 @@ use Atoolo\Search\Dto\Search\Query\Filter\NotFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\ObjectTypeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\OrFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\QueryFilter;
+use Atoolo\Search\Dto\Search\Query\Filter\QueryTemplateFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\RelativeDateRangeFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SiteFilter;
 use Atoolo\Search\Dto\Search\Query\Filter\SourceFilter;
@@ -482,6 +484,26 @@ class FilterListFactoryTest extends TestCase
         $this->assertEquals(
             [
                 new QueryFilter('test:test'),
+            ],
+            $filterList,
+            'query filter expected',
+        );
+    }
+
+    public function testCreateQueryTemplateFilter(): void
+    {
+        $filter = new InputFilter();
+        $queryTemplate = new QueryTemplateInput();
+        $queryTemplate->query = 'myfield:{myvar}';
+        $queryTemplate->variables = ['myvar' => 'myvalue'];
+        $filter->queryTemplate = $queryTemplate;
+
+        $factory = new FilterListFactory();
+        $filterList = $factory->create([$filter]);
+
+        $this->assertEquals(
+            [
+                new QueryTemplateFilter('myfield:{myvar}', ['myvar' => 'myvalue']),
             ],
             $filterList,
             'query filter expected',

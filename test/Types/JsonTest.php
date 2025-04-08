@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Types;
 
-use Atoolo\GraphQL\Search\Types\GeoJson;
+use Atoolo\GraphQL\Search\Types\Json;
 use GraphQL\Language\AST\NameNode;
 use GraphQL\Language\AST\NodeList;
 use GraphQL\Language\AST\ObjectFieldNode;
@@ -15,14 +15,14 @@ use JsonException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(GeoJson::class)]
-class GeoJsonTest extends TestCase
+#[CoversClass(Json::class)]
+class JsonTest extends TestCase
 {
     public function testSerialize(): void
     {
         self::assertEquals(
             ['data' => 'x'],
-            GeoJson::serialize(['data' => 'x']),
+            Json::serialize(['data' => 'x']),
         );
     }
 
@@ -30,7 +30,7 @@ class GeoJsonTest extends TestCase
     {
         self::assertEquals(
             ['data' => 'x'],
-            GeoJson::parseValue(['data' => 'x']),
+            Json::parseValue(['data' => 'x']),
         );
     }
 
@@ -45,7 +45,7 @@ class GeoJsonTest extends TestCase
         $valueNode = new ObjectValueNode([]);
         $valueNode->fields = $nodeList;
 
-        $value = GeoJson::parseLiteral($valueNode);
+        $value = Json::parseLiteral($valueNode);
         $this->assertEquals(['myfield' => 'myvalue'], $value, 'Parsed value does not match expected');
     }
 
@@ -56,7 +56,6 @@ class GeoJsonTest extends TestCase
     {
         $valueNode = new StringValueNode(['value' => 'abc']);
         $this->expectException(InvalidArgumentException::class);
-        GeoJson::parseLiteral($valueNode);
+        Json::parseLiteral($valueNode);
     }
-
 }
