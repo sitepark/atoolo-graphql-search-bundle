@@ -14,6 +14,7 @@ use Atoolo\Search\Dto\Search\Query\Facet\Facet;
 use Atoolo\Search\Dto\Search\Query\Facet\GroupFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\ObjectTypeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\QueryFacet;
+use Atoolo\Search\Dto\Search\Query\Facet\QueryTemplateFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\RelativeDateRangeFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\SiteFacet;
 use Atoolo\Search\Dto\Search\Query\Facet\SourceFacet;
@@ -48,6 +49,7 @@ class FacetListFactory
             ?? $this->tryCreateRelativeDateRangeFacet($facet)
             ?? $this->tryCreateGeoDistanceRangeFacet($facet)
             ?? $this->tryCreateQueryFacet($facet)
+            ?? $this->tryCreateQueryTemplateFacet($facet)
             ?? (throw new InvalidArgumentException(
                 "Unable to create facet\n" . print_r($facet, true),
             ));
@@ -209,6 +211,19 @@ class FacetListFactory
             ? new QueryFacet(
                 $facet->key,
                 $facet->query,
+                $facet->excludeFilter ?? [],
+            )
+            : null;
+    }
+
+    private function tryCreateQueryTemplateFacet(
+        InputFacet $facet,
+    ): ?QueryTemplateFacet {
+        return !empty($facet->queryTemplate)
+            ? new QueryTemplateFacet(
+                $facet->key,
+                $facet->queryTemplate->query ?? '',
+                $facet->queryTemplate->variables ?? [],
                 $facet->excludeFilter ?? [],
             )
             : null;

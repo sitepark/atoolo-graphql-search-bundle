@@ -7,12 +7,13 @@ services:
     public: true
     arguments:
       - '@atoolo_search.search'
-      - '@atoolo_rewrite.url_rewrite_context'
+      - '@atoolo_graphql_search.query_context_dispatcher'
 
   Atoolo\GraphQL\Search\Query\MoreLikeThis:
     public: true
     arguments:
       - '@atoolo_search.more_like_this'
+      - '@atoolo_graphql_search.query_context_dispatcher'
 
   Atoolo\GraphQL\Search\Query\Suggest:
     public: true
@@ -28,6 +29,11 @@ services:
     public: true
     arguments:
       - '@atoolo_search.indexer.internal_resource_indexer'
+
+  atoolo_graphql_search.query_context_dispatcher:
+    class: Atoolo\GraphQL\Search\Query\Context\ContextDispatcher
+    arguments:
+      - '@atoolo_rewrite.url_rewrite_context'
 
   Atoolo\GraphQL\Search\Resolver\ClassNameTypeResolver:
     tags:
@@ -86,10 +92,10 @@ services:
     tags:
       - { name: 'atoolo_graphql_search.resolver' }
 
-  atoolo_graphql_search.resolver.resource.resource_action_link_resolver:
-    class: Atoolo\GraphQL\Search\Resolver\Resource\ResourceActionLinkResolver
+  atoolo_graphql_search.resolver.resource.resource_teaser_feature_resolver:
+    class: Atoolo\GraphQL\Search\Resolver\Resource\ResourceTeaserFeatureResolver
     arguments:
-      - !tagged_iterator { tag: 'atoolo_graphql_search.action_link_factory' }
+      - !tagged_iterator { tag: 'atoolo_graphql_search.teaser_feature_factory' }
     tags:
       - { name: 'atoolo_graphql_search.resolver' }
 
@@ -102,7 +108,7 @@ services:
       - '@atoolo_graphql_search.resolver.resource.resource_symbolic_asset_resolver'
       - '@atoolo_graphql_search.resolver.resource.resource_kicker_resolver'
       - '@atoolo_graphql_search.resolver.resource.resource_datetime_resolver'
-      - '@atoolo_graphql_search.resolver.resource.resource_action_link_resolver'
+      - '@atoolo_graphql_search.resolver.resource.resource_teaser_feature_resolver'
     tags:
       - { name: 'atoolo_graphql_search.resolver' }
 
@@ -113,7 +119,7 @@ services:
       - '@atoolo_graphql_search.resolver.resource.resource_symbolic_asset_resolver'
       - '@atoolo_graphql_search.resolver.resource.resource_kicker_resolver'
       - '@atoolo_graphql_search.resolver.resource.resource_datetime_resolver'
-      - '@atoolo_graphql_search.resolver.resource.resource_action_link_resolver'
+      - '@atoolo_graphql_search.resolver.resource.resource_teaser_feature_resolver'
     tags:
       - { name: 'atoolo_graphql_search.resolver' }
 
@@ -123,7 +129,7 @@ services:
       - '@atoolo_graphql_search.resolver.resource.resource_asset_resolver'
       - '@atoolo_graphql_search.resolver.resource.resource_symbolic_asset_resolver'
       - '@atoolo_graphql_search.resolver.resource.resource_kicker_resolver'
-      - '@atoolo_graphql_search.resolver.resource.resource_action_link_resolver'
+      - '@atoolo_graphql_search.resolver.resource.resource_teaser_feature_resolver'
     tags:
       - { name: 'atoolo_graphql_search.resolver' }
 

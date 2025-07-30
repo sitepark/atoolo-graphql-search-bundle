@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Test\Resolver\Teaser;
 
-use Atoolo\GraphQL\Search\Resolver\Resource\ResourceActionLinkResolver;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceTeaserFeatureResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceAssetResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceKickerResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceSymbolicAssetResolver;
@@ -28,7 +28,7 @@ class MediaTeaserResolverTest extends TestCase
 
     private ResourceKickerResolver&MockObject $kickerResolver;
 
-    private ResourceActionLinkResolver&MockObject $actionLinkResolver;
+    private ResourceTeaserFeatureResolver&MockObject $teaserFeatureResolver;
 
     public function setUp(): void
     {
@@ -41,14 +41,14 @@ class MediaTeaserResolverTest extends TestCase
         $this->kickerResolver = $this->createMock(
             ResourceKickerResolver::class,
         );
-        $this->actionLinkResolver = $this->createMock(
-            ResourceActionLinkResolver::class,
+        $this->teaserFeatureResolver = $this->createMock(
+            ResourceTeaserFeatureResolver::class,
         );
         $this->mediaTeaserResolver = new MediaTeaserResolver(
             $this->assetResolver,
             $this->symbolicAssetResolver,
             $this->kickerResolver,
-            $this->actionLinkResolver,
+            $this->teaserFeatureResolver,
         );
     }
 
@@ -121,10 +121,10 @@ class MediaTeaserResolverTest extends TestCase
         $this->mediaTeaserResolver->getKicker($teaser, $args);
     }
 
-    public function testGetActions(): void
+    public function testGetFeatures(): void
     {
-        $this->actionLinkResolver->expects($this->once())
-            ->method('getActionLinks');
+        $this->teaserFeatureResolver->expects($this->once())
+            ->method('getTeaserFeatures');
         $teaser = new MediaTeaser(
             null,
             null,
@@ -134,6 +134,6 @@ class MediaTeaserResolverTest extends TestCase
             $this->createStub(Resource::class),
         );
         $args = $this->createStub(ArgumentInterface::class);
-        $this->mediaTeaserResolver->getActions($teaser, $args);
+        $this->mediaTeaserResolver->getFeatures($teaser, $args);
     }
 }

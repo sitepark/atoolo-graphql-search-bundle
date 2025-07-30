@@ -114,6 +114,7 @@ Image:
       original: { type: "ImageSource!" }
       characteristic: { type: "ImageCharacteristic" }
       sources: { type: "[ImageSource!]!" }
+      static: { type: "ImageSource!" }
 
 ImageSource:
   type: "object"
@@ -154,6 +155,12 @@ IndexerStatus:
       updated: { type: "Int" }
       errors: { type: "Int" }
       statusLine: { type: "String" }
+
+TeaserFeature:
+  type: "interface"
+  config:
+    fields:
+      label : { type: "String" }
 
 Link:
   type: "object"

@@ -75,4 +75,7 @@ class InputFacet
     #[GQL\Field(type: "String")]
     public ?string $query = null;
 
+    #[GQL\Field(type: "QueryTemplateInput")]
+    public ?QueryTemplateInput $queryTemplate = null;
+
 }

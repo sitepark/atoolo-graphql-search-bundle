@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Test\Query;
 
 use Atoolo\GraphQL\Search\Input\MoreLikeThisInput;
+use Atoolo\GraphQL\Search\Input\SearchContextInput;
+use Atoolo\GraphQL\Search\Query\Context\ContextDispatcher;
 use Atoolo\GraphQL\Search\Query\MoreLikeThis;
 use Atoolo\Resource\ResourceLanguage;
-use Atoolo\Rewrite\Service\UrlRewriteContext;
 use Atoolo\Search\Dto\Search\Query\MoreLikeThisQuery;
 use Atoolo\Search\Dto\Search\Result\SearchResult;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -20,7 +21,9 @@ class MoreLikeThisTest extends TestCase
     {
         $input = new MoreLikeThisInput();
         $input->id = '123';
-        $input->urlBasePath = '/test';
+        $context = new SearchContextInput();
+        $context->urlBasePath = '/test';
+        $input->context = $context;
 
         $query = new MoreLikeThisQuery(
             id: '123',
@@ -33,11 +36,11 @@ class MoreLikeThisTest extends TestCase
             ->with($query)
             ->willReturn($this->createMock(SearchResult::class));
 
-        $urlRewriteContext = $this->createMock(UrlRewriteContext::class);
-        $urlRewriteContext->expects($this->once())
-            ->method('setBasePath')
-            ->with('/test');
-        $select = new MoreLikeThis($searcher, $urlRewriteContext);
+        $contextDispatcher = $this->createMock(ContextDispatcher::class);
+        $contextDispatcher->expects($this->once())
+            ->method('dispatch');
+
+        $select = new MoreLikeThis($searcher, $contextDispatcher);
         $select->moreLikeThis($input);
     }
 }

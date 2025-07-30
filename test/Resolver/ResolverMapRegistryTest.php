@@ -6,9 +6,11 @@ namespace Atoolo\GraphQL\Search\Test\Resolver;
 
 use ArrayObject;
 use Atoolo\GraphQL\Search\Resolver\ResolverMapRegistry;
+use Atoolo\GraphQL\Search\Test\Types\FakeTeaserFeature;
 use Atoolo\GraphQL\Search\Types\ArticleTeaser;
 use Atoolo\GraphQL\Search\Types\Image;
 use Atoolo\GraphQL\Search\Types\Link;
+use Atoolo\GraphQL\Search\Types\TeaserFeature;
 use Atoolo\Resource\Resource;
 use GraphQL\Type\Definition\ResolveInfo;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
@@ -130,12 +132,30 @@ class ResolverMapRegistryTest extends TestCase
             null,
             null,
             [],
+            null,
         );
 
         $type = $fn($image);
 
         $this->assertEquals(
             'Image',
+            $type,
+            'unexpected type',
+        );
+    }
+
+    public function testResolveTypeForTeaserFeatureInterface(): void
+    {
+        $registry = new ResolverMapRegistry([]);
+
+        $fn = $registry->resolve('TeaserFeature', ResolverMapInterface::RESOLVE_TYPE);
+
+        $fakeTeaserFeature = new FakeTeaserFeature('');
+
+        $type = $fn($fakeTeaserFeature);
+
+        $this->assertEquals(
+            'FakeTeaserFeature',
             $type,
             'unexpected type',
         );

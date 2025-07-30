@@ -15,8 +15,8 @@ class MoreLikeThisInput
     #[GQL\Field(type: "String!")]
     public string $id;
 
-    #[GQL\Field(type: "String")]
-    public ?string $urlBasePath = null;
+    #[GQL\Field(type: "SearchContextInput")]
+    public ?SearchContextInput $context = null;
 
     #[GQL\Field(type: "String")]
     public ?string $lang = null;
