@@ -114,7 +114,10 @@ Image:
       original: { type: "ImageSource!" }
       characteristic: { type: "ImageCharacteristic" }
       sources: { type: "[ImageSource!]!" }
-      static: { type: "ImageSource!" }
+      static:
+        deprecationReason: "'static' might be a reserved keyword. Use field 'staticImage' instead"
+        type: "ImageSource!"
+      staticImage: { type: "ImageSource!" }
 
 ImageSource:
   type: "object"
