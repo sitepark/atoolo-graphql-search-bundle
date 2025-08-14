@@ -133,6 +133,13 @@ services:
     tags:
       - { name: 'atoolo_graphql_search.resolver' }
 
+  # Other resolvers
+
+  atoolo_graphql_search.resolver.asset.image_resolver:
+    class: Atoolo\GraphQL\Search\Resolver\Asset\ImageResolver
+    tags:
+      - { name: 'atoolo_graphql_search.resolver' }
+
   # Factories
 
   atoolo_graphql_search.factory.link_factory:
