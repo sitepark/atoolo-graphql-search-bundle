@@ -207,7 +207,9 @@ class FacetListFactoryTest extends TestCase
         $facet->key = 'key';
         $facet->relativeDateRange = new RelativeDateRangeInputFacet();
         $facet->relativeDateRange->base =
-            new DateTime('2021-01-01T00:00:00+00:00');
+            new DateTime('2021-01-02T00:00:00+00:00');
+        $facet->relativeDateRange->baseOffset = new \DateInterval('P1D');
+        $facet->relativeDateRange->baseOffset->invert = 1;
         $facet->relativeDateRange->gap =
             new DateInterval('P1D');
         $facet->relativeDateRange->before =

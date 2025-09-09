@@ -151,7 +151,7 @@ class FacetListFactory
         ) {
             throw new InvalidArgumentException(
                 'At least `from` or `to` must be specified for ' .
-                'the `absoluteDateRange`',
+                    'the `absoluteDateRange`',
             );
         }
         return new AbsoluteDateRangeFacet(
@@ -166,19 +166,23 @@ class FacetListFactory
     private function tryCreateRelativeDateRangeFacet(
         InputFacet $facet,
     ): ?RelativeDateRangeFacet {
-
-        return !empty($facet->relativeDateRange)
-            ? new RelativeDateRangeFacet(
-                $facet->key,
-                $facet->relativeDateRange->base,
-                $facet->relativeDateRange->before,
-                $facet->relativeDateRange->after,
-                $facet->relativeDateRange->gap,
-                $this->mapDateRangeRound($facet->relativeDateRange->roundStart),
-                $this->mapDateRangeRound($facet->relativeDateRange->roundEnd),
-                $facet->excludeFilter ?? [],
-            )
-            : null;
+        if ($facet->relativeDateRange === null) {
+            return null;
+        }
+        $base = $facet->relativeDateRange->base ?? new \DateTime('now');
+        if ($facet->relativeDateRange->baseOffset !== null) {
+            $base->add($facet->relativeDateRange->baseOffset);
+        }
+        return new RelativeDateRangeFacet(
+            $facet->key,
+            $base,
+            $facet->relativeDateRange->before,
+            $facet->relativeDateRange->after,
+            $facet->relativeDateRange->gap,
+            $this->mapDateRangeRound($facet->relativeDateRange->roundStart),
+            $this->mapDateRangeRound($facet->relativeDateRange->roundEnd),
+            $facet->excludeFilter ?? [],
+        );
     }
 
     private function tryCreateGeoDistanceRangeFacet(

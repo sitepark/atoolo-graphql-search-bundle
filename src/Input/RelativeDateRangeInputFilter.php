@@ -16,6 +16,9 @@ class RelativeDateRangeInputFilter
     #[GQL\Field(type: "DateTime")]
     public ?\DateTime $base = null;
 
+    #[GQL\Field(type: "SignedDateInterval")]
+    public ?\DateInterval $baseOffset = null;
+
     #[GQL\Field(type: "DateInterval")]
     public ?\DateInterval $before = null;
 

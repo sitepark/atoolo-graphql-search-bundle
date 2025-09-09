@@ -166,20 +166,25 @@ class FilterListFactory
     private function tryCreateRelativeDateRangeFilter(
         InputFilter $filter,
     ): ?RelativeDateRangeFilter {
-        return ($filter->relativeDateRange !== null)
-            ? new RelativeDateRangeFilter(
-                $filter->relativeDateRange->base,
-                $filter->relativeDateRange->before,
-                $filter->relativeDateRange->after,
-                $this->mapDateRangeRound(
-                    $filter->relativeDateRange->roundStart,
-                ),
-                $this->mapDateRangeRound(
-                    $filter->relativeDateRange->roundEnd,
-                ),
-                $filter->key,
-            )
-            : null;
+        if ($filter->relativeDateRange === null) {
+            return null;
+        }
+        $base = $filter->relativeDateRange->base ?? new \DateTime('now');
+        if ($filter->relativeDateRange->baseOffset !== null) {
+            $base->add($filter->relativeDateRange->baseOffset);
+        }
+        return new RelativeDateRangeFilter(
+            $base,
+            $filter->relativeDateRange->before,
+            $filter->relativeDateRange->after,
+            $this->mapDateRangeRound(
+                $filter->relativeDateRange->roundStart,
+            ),
+            $this->mapDateRangeRound(
+                $filter->relativeDateRange->roundEnd,
+            ),
+            $filter->key,
+        );
     }
 
     private function tryGeoLocatedFilter(
