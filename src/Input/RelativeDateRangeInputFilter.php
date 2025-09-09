@@ -14,6 +14,7 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 class RelativeDateRangeInputFilter
 {
     #[GQL\Field(type: "DateTime")]
+    #[GQL\Description("Defaults to the current datetime if null")]
     public ?\DateTime $base = null;
 
     #[GQL\Field(type: "SignedDateInterval")]
