@@ -197,6 +197,8 @@ class FilterListFactoryTest extends TestCase
     public function testCreateRelativeDateRangeFilter(): void
     {
         $dateRangeFilterInput = new RelativeDateRangeInputFilter();
+        $dateRangeFilterInput->base = new DateTime('2021-01-01T00:00:00+00:00');
+        $dateRangeFilterInput->baseOffset = new \DateInterval('P1Y2M3D');
         $dateRangeFilterInput->before = new DateInterval('P1D');
         $dateRangeFilterInput->roundStart =
             \Atoolo\GraphQL\Search\Types\DateRangeRound::START_OF_MONTH;
@@ -210,7 +212,7 @@ class FilterListFactoryTest extends TestCase
         $this->assertEquals(
             [
                 new RelativeDateRangeFilter(
-                    null,
+                    new DateTime('2022-03-04T00:00:00+00:00'),
                     new DateInterval('P1D'),
                     null,
                     DateRangeRound::START_OF_MONTH,
