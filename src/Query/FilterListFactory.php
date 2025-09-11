@@ -184,6 +184,8 @@ class FilterListFactory
                 $filter->relativeDateRange->roundEnd,
             ),
             $filter->key,
+            $filter->relativeDateRange->from,
+            $filter->relativeDateRange->to,
         );
     }
 
