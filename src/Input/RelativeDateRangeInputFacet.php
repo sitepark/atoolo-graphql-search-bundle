@@ -21,10 +21,22 @@ class RelativeDateRangeInputFacet
     public ?\DateInterval $baseOffset = null;
 
     #[GQL\Field(type: "DateInterval")]
+    #[GQL\Description("Sets the lower date boundary. Implicitely directed toward the past.")]
+    #[GQL\Deprecated("Use 'from' instead to controll the direction of the interval")]
     public ?\DateInterval $before = null;
 
     #[GQL\Field(type: "DateInterval")]
+    #[GQL\Description("Sets the upper date boundary. Implicitely directed toward the future.")]
+    #[GQL\Deprecated("Use 'to' instead  to controll the direction of the interval")]
     public ?\DateInterval $after = null;
+
+    #[GQL\Field(type: "SignedDateInterval")]
+    #[GQL\Description("Sets the lower date boundary")]
+    public ?\DateInterval $from = null;
+
+    #[GQL\Field(type: "SignedDateInterval")]
+    #[GQL\Description("Sets the upper date boundary")]
+    public ?\DateInterval $to = null;
 
     #[GQL\Field(type: "DateInterval")]
     public ?\DateInterval $gap = null;

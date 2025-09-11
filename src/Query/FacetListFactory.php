@@ -182,6 +182,8 @@ class FacetListFactory
             $this->mapDateRangeRound($facet->relativeDateRange->roundStart),
             $this->mapDateRangeRound($facet->relativeDateRange->roundEnd),
             $facet->excludeFilter ?? [],
+            $facet->relativeDateRange->from,
+            $facet->relativeDateRange->to,
         );
     }
 
