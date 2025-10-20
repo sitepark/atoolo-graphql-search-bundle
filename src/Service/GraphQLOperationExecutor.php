@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Service;
 
-use GraphQL\Executor\ExecutionResult;
+use Atoolo\GraphQL\Search\Dto\GraphQLResult;
 use Overblog\GraphQLBundle\Request\Executor;
 
 class GraphQLOperationExecutor
@@ -29,7 +29,7 @@ class GraphQLOperationExecutor
      * @param array<string, mixed> $variables Query variables
      * @throws \InvalidArgumentException If the requested operation was not found
      */
-    public function executeOperation(string $operationName, array $variables = []): ExecutionResult
+    public function executeOperation(string $operationName, array $variables = []): GraphQLResult
     {
         if (!$this->hasOperation($operationName)) {
             throw new \InvalidArgumentException(
@@ -50,9 +50,9 @@ class GraphQLOperationExecutor
      * @param string $operationName operation name of there query,
      * @param array<string,mixed> $variables query variables
      */
-    public function executeQueryString(string $queryString, string $operationName, array $variables = []): ExecutionResult
+    public function executeQueryString(string $queryString, string $operationName, array $variables = []): GraphQLResult
     {
-        return $this->executor->execute(
+        $overblogResult = $this->executor->execute(
             null,
             [
                 'query' => $queryString,
@@ -60,6 +60,11 @@ class GraphQLOperationExecutor
                 'operationName' => $operationName,
             ],
             null,
+        );
+        return new GraphQLResult(
+            $overblogResult->data ?? [],
+            $overblogResult->errors ?? [],
+            $overblogResult->extensions ?? [],
         );
     }
 }
