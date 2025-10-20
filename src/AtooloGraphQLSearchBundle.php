@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search;
 
+use Atoolo\GraphQL\Search\DependencyInjection\AtooloGraphQLSearchExtension;
+use Atoolo\GraphQL\Search\DependencyInjection\Compiler\GraphQLQueryLoaderCompilerPass;
 use Exception;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\GlobFileLoader;
@@ -22,30 +24,41 @@ class AtooloGraphQLSearchBundle extends Bundle
      */
     public function build(ContainerBuilder $container): void
     {
+        $configDir = realpath(__DIR__ . '/../config');
+        $srcDir = realpath(__DIR__ . '/../src');
+
+        if ($configDir === false) {
+            throw new \LogicException(sprintf('config dir "%s" does not exist', $configDir));
+        }
+        if ($srcDir === false) {
+            throw new \LogicException(sprintf('src dir "%s" does not exist', $configDir));
+        }
+
         $container->setParameter(
             'atoolo_graphql_search.src_dir',
-            __DIR__,
+            $srcDir,
         );
-
-        $configDir = __DIR__ . '/../config';
-
         $container->setParameter(
             'atoolo_graphql_search.config_dir',
             $configDir,
         );
-
-
-        $locator = new FileLocator($configDir);
-        $loader = new GlobFileLoader($locator);
+        $fileLocator = new FileLocator($configDir);
+        $loader = new GlobFileLoader($fileLocator);
         $loader->setResolver(
             new LoaderResolver(
                 [
-                    new YamlFileLoader($container, $locator),
+                    new YamlFileLoader($container, $fileLocator),
                 ],
             ),
         );
-
-        $loader->load('graphql.yaml');
         $loader->load('services.yaml');
+        $loader->load('graphql.yaml');
+
+        $container->addCompilerPass(new GraphQLQueryLoaderCompilerPass());
+    }
+
+    public function getContainerExtension(): ?AtooloGraphQLSearchExtension
+    {
+        return new AtooloGraphQLSearchExtension();
     }
 }

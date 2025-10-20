@@ -8,3 +8,4 @@ composer.lock
 !var/log/.gitkeep
 /tools
 .phpactor.json
+notes.local.md

@@ -1,5 +1,52 @@
 services:
 
+  # commands
+
+  Atoolo\GraphQL\Search\Console\Command\ListOperations:
+    public: true
+    arguments:
+      - '@Atoolo\GraphQL\Search\Service\GraphQLOperationManager'
+    tags:
+      - { name: 'console.command' }
+
+  Atoolo\GraphQL\Search\Console\Command\ListQueryDirs:
+    public: true
+    arguments:
+      - '@parameter_bag'
+    tags:
+      - { name: 'console.command' }
+
+  Atoolo\GraphQL\Search\Console\Command\ValidateOperations:
+    public: true
+    arguments:
+      - '@Atoolo\GraphQL\Search\Service\GraphQLOperationManager'
+      - '@Atoolo\GraphQL\Search\Service\GraphQLOperationValidator'
+    tags:
+      - { name: 'console.command' }
+
+  ##
+
+  Atoolo\GraphQL\Search\Service\GraphQLOperationManager: ~
+
+  Atoolo\GraphQL\Search\Service\GraphQLOperationExecutor:
+    arguments:
+      - '@Overblog\GraphQLBundle\Request\Executor'
+      - '@Atoolo\GraphQL\Search\Service\GraphQLOperationManager'
+
+  Atoolo\GraphQL\Search\Service\GraphQLOperationValidator:
+    arguments:
+      - '@Overblog\GraphQLBundle\Request\Executor'
+  
+  Atoolo\GraphQL\Search\DependencyInjection\Cache\GraphQLOperationValidationCacheWarmer:
+    arguments:
+      - '@Atoolo\GraphQL\Search\Service\GraphQLOperationManager'
+      - '@Atoolo\GraphQL\Search\Service\GraphQLOperationValidator'
+      - '%kernel.environment%'
+    tags:
+      - { name: 'kernel.cache_warmer' }
+
+  ##
+
   Atoolo\GraphQL\Search\Query\Ping:
     public: true
 
