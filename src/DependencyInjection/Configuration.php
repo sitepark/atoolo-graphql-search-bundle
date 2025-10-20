@@ -20,12 +20,12 @@ class Configuration implements ConfigurationInterface
 
         $treeBuilder->getRootNode()
             ->children()
-                ->arrayNode('graphql_query_dirs')
-                    ->info('A list of directories to scan for .graphql query files.'
-                        . ' Those will then be loaded and made availlable to the GraphQLOperationManager.')
-                    ->scalarPrototype()->cannotBeEmpty()->end()
-                    ->defaultValue([])
-                ->end()
+            ->arrayNode('graphql_query_dirs')
+            ->info('A list of directories to scan for .graphql query files.'
+                . ' Those will then be loaded and made availlable to the GraphQLOperationManager.')
+            ->scalarPrototype()->cannotBeEmpty()->end()
+            ->defaultValue([])
+            ->end()
             ->end();
 
         return $treeBuilder;
