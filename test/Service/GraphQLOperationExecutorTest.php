@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Test\Service;
 
 use Atoolo\GraphQL\Search\Dto\GraphQLOperation;
+use Atoolo\GraphQL\Search\Dto\GraphQLResult;
 use Atoolo\GraphQL\Search\Service\GraphQLOperationExecutor;
 use Atoolo\GraphQL\Search\Service\GraphQLOperationManager;
 use GraphQL\Executor\ExecutionResult;
@@ -61,13 +62,11 @@ class GraphQLOperationExecutorTest extends TestCase
             'variableA' => 12,
             'variableB' => false,
         ];
-        $fictionalGraphqlResult =  new ExecutionResult(
-            [
-                'someQuery' => [
-                    'id' => 13435,
-                ],
+        $fictionalGraphqlResultRaw = [
+            'someQuery' => [
+                'id' => 13435,
             ],
-        );
+        ];
         $this->overblogExecutor
             ->method('execute')
             ->with(
@@ -79,11 +78,11 @@ class GraphQLOperationExecutorTest extends TestCase
                 ],
                 null,
             )
-            ->willReturn($fictionalGraphqlResult);
+            ->willReturn(new ExecutionResult($fictionalGraphqlResultRaw));
 
         $this->assertEquals(
-            new ExecutionResult(
-                $fictionalGraphqlResult->data,
+            new GraphQLResult(
+                $fictionalGraphqlResultRaw,
             ),
             $this->executor->executeOperation($this->testOperation->name, $variables),
         );
