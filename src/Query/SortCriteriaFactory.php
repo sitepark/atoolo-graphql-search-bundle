@@ -40,11 +40,14 @@ class SortCriteriaFactory
         }
 
         if (isset($criteria->spatialDist)) {
-            if ($criteria->spatialPoint === null) {
+            if ($criteria->spatialDist->direction === null) {
+                throw new InvalidArgumentException('direction is required for sort criteria spatialDist');
+            }
+            if ($criteria->spatialDist->spatialPoint === null) {
                 throw new InvalidArgumentException('spatialPoint is required for sort criteria spatialDist');
             }
-            $direction = $this->mapDirection($criteria->spatialDist);
-            return new SpatialDist($direction, $criteria->spatialPoint->toGeoPoint());
+            $direction = $this->mapDirection($criteria->spatialDist->direction);
+            return new SpatialDist($direction, $criteria->spatialDist->spatialPoint->toGeoPoint());
         }
 
         throw new InvalidArgumentException('Sort criteria not found');
