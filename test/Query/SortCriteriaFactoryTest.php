@@ -6,6 +6,7 @@ namespace Atoolo\GraphQL\Search\Test\Query;
 
 use Atoolo\GraphQL\Search\Input\InputGeoPoint;
 use Atoolo\GraphQL\Search\Input\InputSortCriteria;
+use Atoolo\GraphQL\Search\Input\InputSortCriteriaSpatialDist;
 use Atoolo\GraphQL\Search\Query\SortCriteriaFactory;
 use Atoolo\GraphQL\Search\Types\SortDirection;
 use Atoolo\Search\Dto\Search\Query\GeoPoint;
@@ -80,10 +81,14 @@ class SortCriteriaFactoryTest extends TestCase
 
     public function testCreateWithSpatialDist(): void
     {
-        $criteria = $this->createSearchInputWithSort('spatialDist');
-        $criteria->spatialPoint = new InputGeoPoint();
-        $criteria->spatialPoint->lng = 1;
-        $criteria->spatialPoint->lat = 2;
+        $criteria = new InputSortCriteria();
+
+        $spatialDistCriteria = new InputSortCriteriaSpatialDist();
+        $spatialDistCriteria->direction = SortDirection::ASC;
+        $spatialDistCriteria->spatialPoint = new InputGeoPoint();
+        $spatialDistCriteria->spatialPoint->lng = 1;
+        $spatialDistCriteria->spatialPoint->lat = 2;
+        $criteria->spatialDist = $spatialDistCriteria;
 
         $factory = new SortCriteriaFactory();
         $sort = $factory->create($criteria);
@@ -97,7 +102,27 @@ class SortCriteriaFactoryTest extends TestCase
 
     public function testCreateWithSpatialDistAndMissingSpatialPoint(): void
     {
-        $criteria = $this->createSearchInputWithSort('spatialDist');
+        $criteria = new InputSortCriteria();
+
+        $spatialDistCriteria = new InputSortCriteriaSpatialDist();
+        $spatialDistCriteria->direction = SortDirection::ASC;
+        $criteria->spatialDist = $spatialDistCriteria;
+
+        $factory = new SortCriteriaFactory();
+
+        $this->expectException(InvalidArgumentException::class);
+        $factory->create($criteria);
+    }
+
+    public function testCreateWithSpatialDistAndMissingDirection(): void
+    {
+        $criteria = new InputSortCriteria();
+
+        $spatialDistCriteria = new InputSortCriteriaSpatialDist();
+        $spatialDistCriteria->spatialPoint = new InputGeoPoint();
+        $spatialDistCriteria->spatialPoint->lng = 1;
+        $spatialDistCriteria->spatialPoint->lat = 2;
+        $criteria->spatialDist = $spatialDistCriteria;
 
         $factory = new SortCriteriaFactory();
 

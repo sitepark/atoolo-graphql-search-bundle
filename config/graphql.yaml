@@ -1,5 +1,6 @@
 overblog_graphql:
   errors_handler:
+    rethrow_internal_exceptions: true
     exceptions:
       errors:
         - "InvalidArgumentException"
