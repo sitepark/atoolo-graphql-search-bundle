@@ -7,6 +7,7 @@ namespace Atoolo\GraphQL\Search\Input;
 use Atoolo\GraphQL\Search\Types\SortDirection;
 use Overblog\GraphQLBundle\Annotation as GQL;
 
+#[GQL\Input(name: "InputSortCriteriaSpatialDist")]
 class InputSortCriteriaSpatialDist
 {
     #[GQL\Field(type: "InputGeoPoint!")]
