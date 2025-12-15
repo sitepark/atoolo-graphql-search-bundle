@@ -7,6 +7,7 @@ namespace Atoolo\GraphQL\Search\Test\Query\Context;
 use Atoolo\GraphQL\Search\Input\SearchContextInput;
 use Atoolo\GraphQL\Search\Input\SearchContextOptionsInput;
 use Atoolo\GraphQL\Search\Query\Context\ContextDispatcher;
+use Atoolo\GraphQL\Search\Resolver\Resource\ResourceResolverContext;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
@@ -31,7 +32,13 @@ class ContextDispatcherTest extends TestCase
             ->method('setResourceLocation')
             ->with('/test.php');
 
-        $dispatcher = new ContextDispatcher($urlRewriteContext);
+        $resourceResolverContext = $this->createMock(ResourceResolverContext::class);
+        $resourceResolverContext->expects($this->once())
+            ->method('setResourceLocation')
+            ->with('/test.php');
+
+
+        $dispatcher = new ContextDispatcher($urlRewriteContext, $resourceResolverContext);
         $dispatcher->dispatch($context);
     }
 
@@ -48,7 +55,9 @@ class ContextDispatcherTest extends TestCase
             ->method('setBasePath')
             ->with('/test');
 
-        $dispatcher = new ContextDispatcher($urlRewriteContext);
+        $resourceResolverContext = $this->createMock(ResourceResolverContext::class);
+
+        $dispatcher = new ContextDispatcher($urlRewriteContext, $resourceResolverContext);
         $dispatcher->dispatch($context);
     }
 
@@ -64,7 +73,12 @@ class ContextDispatcherTest extends TestCase
             ->method('setSameNavigation')
             ->with(true);
 
-        $dispatcher = new ContextDispatcher($urlRewriteContext);
+        $resourceResolverContext = $this->createMock(ResourceResolverContext::class);
+        $resourceResolverContext->expects($this->once())
+            ->method('setSameNavigation')
+            ->with(true);
+
+        $dispatcher = new ContextDispatcher($urlRewriteContext, $resourceResolverContext);
         $dispatcher->dispatch($context);
     }
 }

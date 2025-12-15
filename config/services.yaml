@@ -36,7 +36,7 @@ services:
   Atoolo\GraphQL\Search\Service\GraphQLOperationValidator:
     arguments:
       - '@Overblog\GraphQLBundle\Request\Executor'
-  
+
   Atoolo\GraphQL\Search\DependencyInjection\Cache\GraphQLOperationValidationCacheWarmer:
     arguments:
       - '@Atoolo\GraphQL\Search\Service\GraphQLOperationManager'
@@ -81,6 +81,7 @@ services:
     class: Atoolo\GraphQL\Search\Query\Context\ContextDispatcher
     arguments:
       - '@atoolo_rewrite.url_rewrite_context'
+      - '@atoolo_graphql_search.resolver.resource.resource_resolver_context'
 
   Atoolo\GraphQL\Search\Resolver\ClassNameTypeResolver:
     tags:
@@ -100,6 +101,9 @@ services:
       - { name: 'atoolo_graphql_search.resolver' }
 
   # Resource resolvers
+
+  atoolo_graphql_search.resolver.resource.resource_resolver_context:
+    class: Atoolo\GraphQL\Search\Resolver\Resource\ResourceResolverContext
 
   atoolo_graphql_search.resolver.resource.resource_resolver:
     class: Atoolo\GraphQL\Search\Resolver\Resource\ResourceResolver
@@ -126,6 +130,8 @@ services:
     class: Atoolo\GraphQL\Search\Resolver\Resource\ResourceKickerResolver
     arguments:
       - '@atoolo_resource.navigation_hierarchy_loader'
+      - '@atoolo_graphql_search.resolver.resource.resource_resolver_context'
+      - '@atoolo_resource.resource_loader'
     tags:
       - { name: 'atoolo_graphql_search.resolver' }
 
