@@ -6,10 +6,12 @@ namespace Atoolo\GraphQL\Search\Test\Query;
 
 use Atoolo\GraphQL\Search\Input\InputGeoPoint;
 use Atoolo\GraphQL\Search\Input\InputSortCriteria;
+use Atoolo\GraphQL\Search\Input\InputSortCriteriaCustom;
 use Atoolo\GraphQL\Search\Input\InputSortCriteriaSpatialDist;
 use Atoolo\GraphQL\Search\Query\SortCriteriaFactory;
 use Atoolo\GraphQL\Search\Types\SortDirection;
 use Atoolo\Search\Dto\Search\Query\GeoPoint;
+use Atoolo\Search\Dto\Search\Query\Sort\CustomField;
 use Atoolo\Search\Dto\Search\Query\Sort\Date;
 use Atoolo\Search\Dto\Search\Query\Sort\Direction;
 use Atoolo\Search\Dto\Search\Query\Sort\Name;
@@ -128,6 +130,23 @@ class SortCriteriaFactoryTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $factory->create($criteria);
+    }
+
+    public function testCreateWithSortCustom(): void
+    {
+        $criteria = new InputSortCriteria();
+        $criteria->custom = new InputSortCriteriaCustom();
+        $criteria->custom->field = 'sp_custom_field';
+        $criteria->custom->direction = SortDirection::DESC;
+
+        $factory = new SortCriteriaFactory();
+        $sort = $factory->create($criteria);
+
+        $this->assertEquals(
+            new CustomField('sp_custom_field', Direction::DESC),
+            $sort,
+            'score sort expected',
+        );
     }
 
     public function testCreateWithInvalidSort(): void
