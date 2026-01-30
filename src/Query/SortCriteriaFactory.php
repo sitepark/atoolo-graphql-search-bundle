@@ -7,6 +7,7 @@ namespace Atoolo\GraphQL\Search\Query;
 use Atoolo\GraphQL\Search\Input\InputSortCriteria;
 use Atoolo\GraphQL\Search\Types\SortDirection;
 use Atoolo\Search\Dto\Search\Query\Sort\Criteria;
+use Atoolo\Search\Dto\Search\Query\Sort\CustomField;
 use Atoolo\Search\Dto\Search\Query\Sort\Date;
 use Atoolo\Search\Dto\Search\Query\Sort\Direction;
 use Atoolo\Search\Dto\Search\Query\Sort\Name;
@@ -48,6 +49,11 @@ class SortCriteriaFactory
             }
             $direction = $this->mapDirection($criteria->spatialDist->direction);
             return new SpatialDist($direction, $criteria->spatialDist->spatialPoint->toGeoPoint());
+        }
+
+        if (isset($criteria->custom?->field)) {
+            $direction = $this->mapDirection($criteria->custom->direction ?? SortDirection::ASC);
+            return new CustomField($criteria->custom->field, $direction);
         }
 
         throw new InvalidArgumentException('Sort criteria not found');
