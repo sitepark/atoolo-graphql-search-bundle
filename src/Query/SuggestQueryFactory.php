@@ -31,6 +31,7 @@ class SuggestQueryFactory
             $filterList,
             $input->limit ?? 10,
             $input->archive ?? false,
+            $input->minHitCount ?? 0,
         );
     }
 }

@@ -29,4 +29,7 @@ class SuggestInput
 
     #[GQL\Field(type: "Boolean")]
     public ?bool $archive = null;
+
+    #[GQL\Field(type: "Int")]
+    public ?int $minHitCount = null;
 }
