@@ -38,7 +38,7 @@ class LinkFactory
             )
             : $this->urlRewriter->rewrite(
                 UrlRewriteType::LINK,
-                $resource->location,
+                $resource->url,
                 UrlRewriteOptions::builder()->lang($resource->lang->code)->build(),
             );
     }

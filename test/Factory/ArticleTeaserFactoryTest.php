@@ -6,10 +6,8 @@ namespace Atoolo\GraphQL\Search\Test\Factory;
 
 use Atoolo\GraphQL\Search\Factory\ArticleTeaserFactory;
 use Atoolo\GraphQL\Search\Factory\LinkFactory;
+use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\GraphQL\Search\Types\Link;
-use Atoolo\Resource\DataBag;
-use Atoolo\Resource\Resource;
-use Atoolo\Resource\ResourceLanguage;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -30,14 +28,9 @@ class ArticleTeaserFactoryTest extends TestCase
 
     public function testLink(): void
     {
-        $resource = new Resource(
-            'originalUrl',
-            '',
-            '',
-            '',
-            ResourceLanguage::default(),
-            new DataBag([]),
-        );
+        $resource = TestResourceFactory::create([
+            'url' => 'originalUrl',
+        ]);
         $link = new Link('url');
         $this->linkFactory->method('create')
             ->willReturn($link);
@@ -54,15 +47,13 @@ class ArticleTeaserFactoryTest extends TestCase
     public function testHeadline(): void
     {
 
-        $resource = $this->createResource(
-            [
-                'base' => [
-                    'teaser' => [
-                        'headline' => 'Headline',
-                    ],
+        $resource = TestResourceFactory::create([
+            'base' => [
+                'teaser' => [
+                    'headline' => 'Headline',
                 ],
             ],
-        );
+        ]);
 
         $teaser = $this->factory->create($resource);
 
@@ -75,14 +66,10 @@ class ArticleTeaserFactoryTest extends TestCase
 
     public function testHeadlineFallback(): void
     {
-        $resource = new Resource(
-            '',
-            '',
-            'ResourceName',
-            '',
-            ResourceLanguage::default(),
-            new DataBag([]),
-        );
+
+        $resource = TestResourceFactory::create([
+            'name' => 'ResourceName',
+        ]);
 
         $teaser = $this->factory->create($resource);
 
@@ -95,15 +82,13 @@ class ArticleTeaserFactoryTest extends TestCase
 
     public function testText(): void
     {
-        $resource = $this->createResource(
-            [
-                'base' => [
-                    'teaser' => [
-                        'text' => 'Text',
-                    ],
+        $resource = TestResourceFactory::create([
+            'base' => [
+                'teaser' => [
+                    'text' => 'Text',
                 ],
             ],
-        );
+        ]);
 
         $teaser = $this->factory->create($resource);
 
@@ -111,18 +96,6 @@ class ArticleTeaserFactoryTest extends TestCase
             'Text',
             $teaser->text,
             'unexpected text',
-        );
-    }
-
-    private function createResource(array $data): Resource
-    {
-        return new Resource(
-            $data['url'] ?? '',
-            $data['id'] ?? '',
-            $data['name'] ?? '',
-            $data['objectType'] ?? '',
-            ResourceLanguage::default(),
-            new DataBag($data),
         );
     }
 }

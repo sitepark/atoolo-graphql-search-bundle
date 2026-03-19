@@ -14,6 +14,7 @@ class TestResourceFactory
     {
         return new Resource(
             $data['url'] ?? '',
+            $data['url'] ?? '',
             $data['id'] ?? '',
             $data['name'] ?? '',
             $data['objectType'] ?? '',

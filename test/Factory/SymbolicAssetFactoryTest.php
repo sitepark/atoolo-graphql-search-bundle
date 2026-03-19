@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Test\Factory;
 
 use Atoolo\GraphQL\Search\Factory\SymbolicAssetFactory;
-use Atoolo\Resource\DataBag;
-use Atoolo\Resource\Resource;
+use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\Resource\ResourceHierarchyLoader;
-use Atoolo\Resource\ResourceLanguage;
 use Atoolo\Rewrite\Dto\UrlRewriteType;
 use Atoolo\Rewrite\Service\UrlRewriter;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -40,7 +38,7 @@ class SymbolicAssetFactoryTest extends TestCase
 
     public function testGetAssetWithoutResult(): void
     {
-        $resource = $this->createResource([]);
+        $resource = TestResourceFactory::create([]);
         $symbolicAsset = $this->factory->create($resource);
         $this->assertNull(
             $symbolicAsset,
@@ -51,7 +49,7 @@ class SymbolicAssetFactoryTest extends TestCase
     public function testGetAssetWithResult(): void
     {
         $symbolicAssetUrl = '/some_url.svg';
-        $parentResource = $this->createResource([
+        $parentResource = TestResourceFactory::create([
             'base' => [
                 'symbolicAsset' => [
                     'content' => [
@@ -61,7 +59,7 @@ class SymbolicAssetFactoryTest extends TestCase
             ],
         ]);
         $parentResourceLocation = $parentResource->toLocation();
-        $childResource = $this->createResource([]);
+        $childResource = TestResourceFactory::create([]);
         $this->hierarchyLoader
             ->expects($this->atLeastOnce())
             ->method('getPrimaryParentLocation')
@@ -85,18 +83,6 @@ class SymbolicAssetFactoryTest extends TestCase
         $this->assertEquals(
             $symbolicAsset?->url,
             $symbolicAssetUrl,
-        );
-    }
-
-    private function createResource(array $data): Resource
-    {
-        return new Resource(
-            $data['url'] ?? '',
-            $data['id'] ?? '',
-            $data['name'] ?? '',
-            $data['objectType'] ?? '',
-            ResourceLanguage::default(),
-            new DataBag($data),
         );
     }
 }
