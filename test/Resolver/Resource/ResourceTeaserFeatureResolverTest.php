@@ -90,6 +90,6 @@ class ResourceTeaserFeatureResolverTest extends TestCase
      */
     private function createResource(array $data): Resource
     {
-        return TestResourceFactory::create($data);
+        return Resource::create($data);
     }
 }

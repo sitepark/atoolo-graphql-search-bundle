@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Test\Factory;
 
 use Atoolo\GraphQL\Search\Factory\ImageFactory;
+use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\GraphQL\Search\Types\CopyrightDetails;
 use Atoolo\GraphQL\Search\Types\Image;
 use Atoolo\GraphQL\Search\Types\ImageCharacteristic;
 use Atoolo\GraphQL\Search\Types\ImageSource;
 use Atoolo\GraphQL\Search\Types\Link;
-use Atoolo\Resource\DataBag;
 use Atoolo\Resource\Resource;
-use Atoolo\Resource\ResourceLanguage;
 use Atoolo\Rewrite\Service\UrlRewriter;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\Exception;
@@ -143,7 +142,7 @@ class ImageFactoryTest extends TestCase
 
     public function testCreateEmpty(): void
     {
-        $resource = $this->createResource([]);
+        $resource = Resource::create([]);
         $result = $this->factory->create($resource, 'teaser');
         $this->assertNull($result);
     }
@@ -154,17 +153,19 @@ class ImageFactoryTest extends TestCase
             ->expects($this->atLeastOnce())
             ->method('rewrite')
             ->willReturnArgument(1);
-        $resource = $this->createResource(['base' => [
-            'teaser' => [
-                'image' => [
-                    'original' => [
-                        'url' => '/some_image_url.original.png',
-                        'width' => 4000,
-                        'height' => 3000,
+        $resource = Resource::create([
+            'base' => [
+                'teaser' => [
+                    'image' => [
+                        'original' => [
+                            'url' => '/some_image_url.original.png',
+                            'width' => 4000,
+                            'height' => 3000,
+                        ],
                     ],
                 ],
             ],
-        ]]);
+        ]);
         $expectedImage = new Image(
             copyright: null,
             copyrightDetails: null,
@@ -202,21 +203,23 @@ class ImageFactoryTest extends TestCase
             ->expects($this->atLeastOnce())
             ->method('rewrite')
             ->willReturnArgument(1);
-        $resource = $this->createResource(['base' => [
-            'teaser' => [
-                'image' => [
-                    "copyrightDetails" => [
-                        "original" => [
-                            "label" => "Original Source",
-                            "url" => "https://www.images.test",
-                        ],
-                        "author" => [
-                            "label" => "Peter Pan",
+        $resource = Resource::create([
+            'base' => [
+                'teaser' => [
+                    'image' => [
+                        "copyrightDetails" => [
+                            "original" => [
+                                "label" => "Original Source",
+                                "url" => "https://www.images.test",
+                            ],
+                            "author" => [
+                                "label" => "Peter Pan",
+                            ],
                         ],
                     ],
                 ],
             ],
-        ]]);
+        ]);
         $expectedImage = new Image(
             copyright: null,
             copyrightDetails: new CopyrightDetails(
@@ -249,7 +252,7 @@ class ImageFactoryTest extends TestCase
 
     private function createResourceWithImage(string $characteristic = 'normal'): Resource
     {
-        return $this->createResource([
+        return Resource::create([
             'base' => [
                 'teaser' => [
                     'image' => [
@@ -297,17 +300,5 @@ class ImageFactoryTest extends TestCase
                 ],
             ],
         ]);
-    }
-
-    private function createResource(array $data): Resource
-    {
-        return new Resource(
-            $data['url'] ?? '',
-            $data['id'] ?? '',
-            $data['name'] ?? '',
-            $data['objectType'] ?? '',
-            ResourceLanguage::default(),
-            new DataBag($data),
-        );
     }
 }

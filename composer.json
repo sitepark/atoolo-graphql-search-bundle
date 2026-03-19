@@ -12,9 +12,9 @@
     "require": {
         "php": ">=8.1 <8.5.0",
         "ext-sysvsem": "*",
-        "atoolo/resource-bundle": "^1.5",
-        "atoolo/rewrite-bundle": "^1.2",
-        "atoolo/search-bundle": "^1.14",
+        "atoolo/resource-bundle": "dev-feature/id-based-resource-location",
+        "atoolo/rewrite-bundle": "dev-feature/id-based-resource-location",
+        "atoolo/search-bundle": "dev-feature/id-based-resource-location",
         "overblog/graphql-bundle": "^1.0",
         "symfony/config": "^6.3 || ^7.0",
         "symfony/dependency-injection": "^6.3 || ^7.0",

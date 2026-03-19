@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Test\Factory;
 
 use Atoolo\GraphQL\Search\Factory\LinkFactory;
-use Atoolo\Resource\DataBag;
 use Atoolo\Resource\Resource;
-use Atoolo\Resource\ResourceLanguage;
 use Atoolo\Rewrite\Dto\UrlRewriteType;
 use Atoolo\Rewrite\Service\UrlRewriter;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -37,7 +35,7 @@ class LinkFactoryTest extends TestCase
     {
         $url = '/some_url.php';
         $title = 'some_title';
-        $resource = $this->createResource([
+        $resource = Resource::create([
             'url' => $url,
             'base' => [
                 'title' => $title,
@@ -61,7 +59,7 @@ class LinkFactoryTest extends TestCase
     {
         $url = '/some_url.php';
         $name = 'some_name';
-        $resource = $this->createResource([
+        $resource = Resource::create([
             'url' => $url,
             'name' => $name,
         ]);
@@ -76,11 +74,11 @@ class LinkFactoryTest extends TestCase
     public function testCreateWithMediaResource(): void
     {
         $mediaUrl = '/some_url.jpg';
-        $resource = $this->createResource([
+        $resource = Resource::create([
             'objectType' => 'media',
             'mediaUrl' => $mediaUrl,
         ]);
-        $resource2 = $this->createResource([
+        $resource2 = Resource::create([
             'objectType' => 'embedded-media',
             'mediaUrl' => $mediaUrl,
         ]);
@@ -102,7 +100,7 @@ class LinkFactoryTest extends TestCase
         $label = 'external_label';
         $accessibilityLabel = 'accessibility_label';
         $description = 'description';
-        $resource = $this->createResource([
+        $resource = Resource::create([
             'url' => $url,
             'base' => [
                 'title' => 'some_title',
@@ -127,19 +125,5 @@ class LinkFactoryTest extends TestCase
         $this->assertEquals($description, $link->description);
         $this->assertTrue($link->opensNewWindow);
         $this->assertTrue($link->isExternal);
-    }
-
-
-
-    private function createResource(array $data): Resource
-    {
-        return new Resource(
-            $data['url'] ?? '',
-            $data['id'] ?? '',
-            $data['name'] ?? '',
-            $data['objectType'] ?? '',
-            ResourceLanguage::default(),
-            new DataBag($data),
-        );
     }
 }

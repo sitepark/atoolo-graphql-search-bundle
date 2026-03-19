@@ -6,8 +6,8 @@ namespace Atoolo\GraphQL\Search\Test\Factory;
 
 use Atoolo\GraphQL\Search\Factory\DelegatingTeaserFactory;
 use Atoolo\GraphQL\Search\Factory\TeaserFactory;
-use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\GraphQL\Search\Types\Teaser;
+use Atoolo\Resource\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -16,7 +16,7 @@ class DelegatingTeaserFactoryTest extends TestCase
 {
     public function testCreate(): void
     {
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'objectType' => 'myObjectType',
         ]);
 
@@ -41,7 +41,7 @@ class DelegatingTeaserFactoryTest extends TestCase
 
     public function testCreateWithTraversable(): void
     {
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'objectType' => 'myObjectType',
         ]);
 
@@ -73,7 +73,7 @@ class DelegatingTeaserFactoryTest extends TestCase
 
         $resolver = new DelegatingTeaserFactory([], $fallbackFactory);
 
-        $resource = TestResourceFactory::create([]);
+        $resource = Resource::create([]);
 
 
         $this->assertEquals(
