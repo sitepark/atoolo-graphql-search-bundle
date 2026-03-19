@@ -142,7 +142,7 @@ class ImageFactoryTest extends TestCase
 
     public function testCreateEmpty(): void
     {
-        $resource = TestResourceFactory::create([]);
+        $resource = Resource::create([]);
         $result = $this->factory->create($resource, 'teaser');
         $this->assertNull($result);
     }
@@ -153,7 +153,7 @@ class ImageFactoryTest extends TestCase
             ->expects($this->atLeastOnce())
             ->method('rewrite')
             ->willReturnArgument(1);
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'base' => [
                 'teaser' => [
                     'image' => [
@@ -203,7 +203,7 @@ class ImageFactoryTest extends TestCase
             ->expects($this->atLeastOnce())
             ->method('rewrite')
             ->willReturnArgument(1);
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'base' => [
                 'teaser' => [
                     'image' => [
@@ -252,7 +252,7 @@ class ImageFactoryTest extends TestCase
 
     private function createResourceWithImage(string $characteristic = 'normal'): Resource
     {
-        return TestResourceFactory::create([
+        return Resource::create([
             'base' => [
                 'teaser' => [
                     'image' => [

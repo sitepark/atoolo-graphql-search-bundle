@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Atoolo\GraphQL\Search\Test\TestResourceFactory;
+use Atoolo\Resource\Resource;
 
-return TestResourceFactory::create([
+return Resource::create([
     'url' => '/changed-navigation-parent.php',
     'id' => 'changed-navigation-parent',
     'name' => 'changed-navigation-parent',

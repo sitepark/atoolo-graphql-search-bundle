@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 
-return TestResourceFactory::create([
+use Atoolo\Resource\Resource;
+
+return Resource::create([
     'url' => '/parent.php',
     'id' => 'parent',
     'name' => 'parent',

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Test\Factory;
 
 use Atoolo\GraphQL\Search\Factory\SymbolicAssetFactory;
-use Atoolo\GraphQL\Search\Test\TestResourceFactory;
+use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceHierarchyLoader;
 use Atoolo\Rewrite\Dto\UrlRewriteType;
 use Atoolo\Rewrite\Service\UrlRewriter;
@@ -38,7 +38,7 @@ class SymbolicAssetFactoryTest extends TestCase
 
     public function testGetAssetWithoutResult(): void
     {
-        $resource = TestResourceFactory::create([]);
+        $resource = Resource::create([]);
         $symbolicAsset = $this->factory->create($resource);
         $this->assertNull(
             $symbolicAsset,
@@ -49,7 +49,7 @@ class SymbolicAssetFactoryTest extends TestCase
     public function testGetAssetWithResult(): void
     {
         $symbolicAssetUrl = '/some_url.svg';
-        $parentResource = TestResourceFactory::create([
+        $parentResource = Resource::create([
             'base' => [
                 'symbolicAsset' => [
                     'content' => [
@@ -59,7 +59,7 @@ class SymbolicAssetFactoryTest extends TestCase
             ],
         ]);
         $parentResourceLocation = $parentResource->toLocation();
-        $childResource = TestResourceFactory::create([]);
+        $childResource = Resource::create([]);
         $this->hierarchyLoader
             ->expects($this->atLeastOnce())
             ->method('getPrimaryParentLocation')

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Test\Factory;
 
 use Atoolo\GraphQL\Search\Factory\LinkFactory;
-use Atoolo\GraphQL\Search\Test\TestResourceFactory;
+use Atoolo\Resource\Resource;
 use Atoolo\Rewrite\Dto\UrlRewriteType;
 use Atoolo\Rewrite\Service\UrlRewriter;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -35,7 +35,7 @@ class LinkFactoryTest extends TestCase
     {
         $url = '/some_url.php';
         $title = 'some_title';
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'url' => $url,
             'base' => [
                 'title' => $title,
@@ -59,7 +59,7 @@ class LinkFactoryTest extends TestCase
     {
         $url = '/some_url.php';
         $name = 'some_name';
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'url' => $url,
             'name' => $name,
         ]);
@@ -74,11 +74,11 @@ class LinkFactoryTest extends TestCase
     public function testCreateWithMediaResource(): void
     {
         $mediaUrl = '/some_url.jpg';
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'objectType' => 'media',
             'mediaUrl' => $mediaUrl,
         ]);
-        $resource2 = TestResourceFactory::create([
+        $resource2 = Resource::create([
             'objectType' => 'embedded-media',
             'mediaUrl' => $mediaUrl,
         ]);
@@ -100,7 +100,7 @@ class LinkFactoryTest extends TestCase
         $label = 'external_label';
         $accessibilityLabel = 'accessibility_label';
         $description = 'description';
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'url' => $url,
             'base' => [
                 'title' => 'some_title',
