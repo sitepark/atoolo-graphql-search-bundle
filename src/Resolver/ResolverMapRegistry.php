@@ -212,8 +212,8 @@ class ResolverMapRegistry extends ResolverMap
         if ($paramLength === 2) {
             $argumentsType = $params[1]->getType();
             if (
-                !($argumentsType instanceof ReflectionNamedType) ||
-                $argumentsType->getName() !== ArgumentInterface::class
+                !($argumentsType instanceof ReflectionNamedType)
+                || $argumentsType->getName() !== ArgumentInterface::class
             ) {
                 return [];
             }

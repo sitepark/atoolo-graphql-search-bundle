@@ -28,8 +28,8 @@ class ResourceKickerResolverTest extends TestCase
     public function setUp(): void
     {
         $resourceBaseDir = realpath(
-            __DIR__ . '/../../resources/' .
-                'ArticleTeaserResolver',
+            __DIR__ . '/../../resources/'
+                . 'ArticleTeaserResolver',
         );
         $resourceLoader = $this->createStub(
             ResourceLoader::class,

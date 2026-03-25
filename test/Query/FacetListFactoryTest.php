@@ -162,12 +162,12 @@ class FacetListFactoryTest extends TestCase
         $facet = new InputFacet();
         $facet->key = 'key';
         $facet->absoluteDateRange = new AbsoluteDateRangeInputFacet();
-        $facet->absoluteDateRange->from =
-            new DateTime('2021-01-01T00:00:00+00:00');
-        $facet->absoluteDateRange->to =
-            new DateTime('2021-01-02T00:00:00+00:00');
-        $facet->absoluteDateRange->gap =
-            new DateInterval('P1D');
+        $facet->absoluteDateRange->from
+            = new DateTime('2021-01-01T00:00:00+00:00');
+        $facet->absoluteDateRange->to
+            = new DateTime('2021-01-02T00:00:00+00:00');
+        $facet->absoluteDateRange->gap
+            = new DateInterval('P1D');
         $facet->excludeFilter = ['exclude'];
 
         $factory = new FacetListFactory();
@@ -206,20 +206,20 @@ class FacetListFactoryTest extends TestCase
         $facet = new InputFacet();
         $facet->key = 'key';
         $facet->relativeDateRange = new RelativeDateRangeInputFacet();
-        $facet->relativeDateRange->base =
-            new DateTime('2021-01-02T00:00:00+00:00');
+        $facet->relativeDateRange->base
+            = new DateTime('2021-01-02T00:00:00+00:00');
         $facet->relativeDateRange->baseOffset = new \DateInterval('P1D');
         $facet->relativeDateRange->baseOffset->invert = 1;
-        $facet->relativeDateRange->gap =
-            new DateInterval('P1D');
-        $facet->relativeDateRange->before =
-            new DateInterval('P2D');
-        $facet->relativeDateRange->after =
-            new DateInterval('P4D');
-        $facet->relativeDateRange->roundStart =
-            DateRangeRound::START_OF_YEAR;
-        $facet->relativeDateRange->roundEnd =
-            DateRangeRound::END_OF_MONTH;
+        $facet->relativeDateRange->gap
+            = new DateInterval('P1D');
+        $facet->relativeDateRange->before
+            = new DateInterval('P2D');
+        $facet->relativeDateRange->after
+            = new DateInterval('P4D');
+        $facet->relativeDateRange->roundStart
+            = DateRangeRound::START_OF_YEAR;
+        $facet->relativeDateRange->roundEnd
+            = DateRangeRound::END_OF_MONTH;
         $facet->excludeFilter = ['exclude'];
 
         $factory = new FacetListFactory();

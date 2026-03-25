@@ -17,9 +17,9 @@ class MediaTeaserFactory implements TeaserFactory
     public function create(Resource $resource): Teaser
     {
         if (!$this->isMedia($resource)) {
-            throw new \InvalidArgumentException('Resource is not a media: ' .
-                $resource->location . ', ' .
-                'objectType: ' . $resource->objectType);
+            throw new \InvalidArgumentException('Resource is not a media: '
+                . $resource->location . ', '
+                . 'objectType: ' . $resource->objectType);
         }
 
         $link = $this->linkFactory->create(
