@@ -36,7 +36,7 @@ class GraphQLOperationManager
     }
 
     /**
-     * Checks wether a pre-loaded GraphQL operation exists or not
+     * Checks whether a pre-loaded GraphQL operation exists or not
      */
     public function hasOperation(string $operationName): bool
     {

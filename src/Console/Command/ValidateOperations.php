@@ -27,7 +27,7 @@ class ValidateOperations extends Command
 
     protected function configure()
     {
-        $this->setDescription('Validates all availlable graphql operations loaded from'
+        $this->setDescription('Validates all available graphql operations loaded from'
             . ' .graphql files.');
     }
 
