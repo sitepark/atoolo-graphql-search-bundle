@@ -64,7 +64,7 @@ class ResourceAssetResolverTest extends TestCase
         $this->assertEquals(
             $asset,
             $result,
-            'resolver should return the asset created by the first successfully factory',
+            'resolver should return the asset created by the first successful factory',
         );
     }
 
