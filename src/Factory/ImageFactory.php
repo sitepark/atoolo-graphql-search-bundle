@@ -121,7 +121,7 @@ class ImageFactory implements AssetFactory
                 $static = $source;
             }
         }
-        // if no static is set available, use first source or original
+        // if no static is set explicitly, use first source or original
         $static ??= $sources[0] ?? $original;
 
         return new Image(
