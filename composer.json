@@ -14,7 +14,7 @@
         "ext-sysvsem": "*",
         "atoolo/resource-bundle": "^1",
         "atoolo/rewrite-bundle": "^1",
-        "atoolo/search-bundle": "dev-feature/nestedDocuments as 1.14.0",
+        "atoolo/search-bundle": "dev-feature/nestedDocuments",
         "overblog/graphql-bundle": "^1.9",
         "symfony/config": "^6.3 || ^7.4.7",
         "symfony/dependency-injection": "^6.3 || ^7.4.7",
