@@ -14,13 +14,13 @@
         "ext-sysvsem": "*",
         "atoolo/resource-bundle": "^1",
         "atoolo/rewrite-bundle": "^1",
-        "atoolo/search-bundle": "^1",
+        "atoolo/search-bundle": "1.15.0",
         "overblog/graphql-bundle": "^1.9",
         "symfony/config": "^6.3 || ^7.4.7",
         "symfony/dependency-injection": "^6.3 || ^7.4.7",
         "symfony/dotenv": "^6.3 || ^7.4.7",
         "symfony/http-kernel": "^6.3 || ^7.4.7",
-        "symfony/yaml": "^6.3 || ^7.4.6"
+        "symfony/yaml": "^6.3 || ^7.4.7"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^1.2",
