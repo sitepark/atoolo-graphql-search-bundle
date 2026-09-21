@@ -51,7 +51,7 @@ class SortCriteriaFactory
             return new SpatialDist($direction, $criteria->spatialDist->spatialPoint->toGeoPoint());
         }
 
-        if (isset($criteria->custom?->field)) {
+        if (isset($criteria->custom->field)) {
             $direction = $this->mapDirection($criteria->custom->direction ?? SortDirection::ASC);
             return new CustomField($criteria->custom->field, $direction);
         }

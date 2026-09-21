@@ -21,9 +21,9 @@ class DelegatingTeaserFactory implements TeaserFactory
         iterable $factories,
         private readonly TeaserFactory $fallbackFactory,
     ) {
-        $this->factories = $factories instanceof \Traversable ?
-            iterator_to_array($factories) :
-            $factories;
+        $this->factories = $factories instanceof \Traversable
+            ? iterator_to_array($factories)
+            : $factories;
     }
 
     public function create(Resource $resource): Teaser

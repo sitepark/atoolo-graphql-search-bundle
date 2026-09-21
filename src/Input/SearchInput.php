@@ -56,6 +56,8 @@ class SearchInput
     #[GQL\Field(type: "Boolean")]
     public ?bool $archive = null;
 
+    public ?bool $expandByDate = null;
+
     #[GQL\Field(type: "DateTimeZone")]
     public ?DateTimeZone $timeZone = null;
 

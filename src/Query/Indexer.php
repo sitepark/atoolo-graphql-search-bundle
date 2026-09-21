@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Query;
 
-use Atoolo\Search\Dto\Indexer\IndexerStatus;
-use Atoolo\Search\Service\Indexer\InternalResourceIndexer;
+use Atoolo\Index\Dto\Indexer\IndexerStatus;
+use Atoolo\Index\Service\Indexer\InternalResourceIndexer;
 use Overblog\GraphQLBundle\Annotation as GQL;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 

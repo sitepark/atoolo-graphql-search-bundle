@@ -23,7 +23,7 @@ class ListOperations extends Command
 
     protected function configure()
     {
-        $this->setDescription('Lists all availlable graphql query operations loaded from the available .graphql files');
+        $this->setDescription('Lists all available graphql query operations loaded from the available .graphql files');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -36,7 +36,7 @@ class ListOperations extends Command
             return Command::SUCCESS;
         }
 
-        $output->writeln('<info>Availlable GraphQL operations:</info>');
+        $output->writeln('<info>Available GraphQL operations:</info>');
         foreach ($operations as $operation) {
             $output->writeln(
                 ' - ' . $operation->name . ' (location: ' . $operation->sourceLocation . ')',

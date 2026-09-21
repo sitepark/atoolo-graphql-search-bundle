@@ -22,7 +22,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->arrayNode('graphql_query_dirs')
                     ->info('A list of directories to scan for .graphql query files.'
-                        . ' Those will then be loaded and made availlable to the GraphQLOperationManager.')
+                        . ' Those will then be loaded and made available to the GraphQLOperationManager.')
                     ->scalarPrototype()->cannotBeEmpty()->end()
                     ->defaultValue([])
                 ->end()

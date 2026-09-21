@@ -118,14 +118,11 @@ class ResolverMapRegistry extends ResolverMap
         ) use ($fieldMap) {
             $fieldName = $info->fieldName;
             if (isset($fieldMap[$fieldName])) {
-                $resolverMethod = $fieldMap[$fieldName];
-                if ($resolverMethod instanceof ResolverMethod) {
-                    return $this->invokeGetter(
-                        $resolverMethod,
-                        $value,
-                        $args,
-                    );
-                }
+                return $this->invokeGetter(
+                    $fieldMap[$fieldName],
+                    $value,
+                    $args,
+                );
             }
 
             return $this->resolveProperty($value, $fieldName);
@@ -212,8 +209,8 @@ class ResolverMapRegistry extends ResolverMap
         if ($paramLength === 2) {
             $argumentsType = $params[1]->getType();
             if (
-                !($argumentsType instanceof ReflectionNamedType) ||
-                $argumentsType->getName() !== ArgumentInterface::class
+                !($argumentsType instanceof ReflectionNamedType)
+                || $argumentsType->getName() !== ArgumentInterface::class
             ) {
                 return [];
             }

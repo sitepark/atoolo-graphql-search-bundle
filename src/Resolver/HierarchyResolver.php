@@ -74,8 +74,8 @@ class HierarchyResolver implements Resolver
             return $this->categoryHierarchyLoader;
         }
         throw new InvalidArgumentException(
-            'unknown tree type ' .
-            '"' . $type . '"',
+            'unknown tree type '
+            . '"' . $type . '"',
         );
     }
 }

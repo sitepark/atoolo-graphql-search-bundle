@@ -6,7 +6,7 @@ namespace Atoolo\GraphQL\Search\Test\Mutation;
 
 use Atoolo\GraphQL\Search\Mutation\Indexer;
 use Atoolo\GraphQL\Search\Service\PhpLimitIncreaser;
-use Atoolo\Search\Service\Indexer\InternalResourceIndexer;
+use Atoolo\Index\Service\Indexer\InternalResourceIndexer;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

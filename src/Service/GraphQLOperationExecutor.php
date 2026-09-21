@@ -15,7 +15,7 @@ class GraphQLOperationExecutor
     ) {}
 
     /**
-     * Checks wether a pre-loaded GraphQL operation exists or not
+     * Checks whether a pre-loaded GraphQL operation exists or not
      */
     public function hasOperation(string $operationName): bool
     {
@@ -63,7 +63,7 @@ class GraphQLOperationExecutor
         );
         return new GraphQLResult(
             $overblogResult->data ?? [],
-            $overblogResult->errors ?? [],
+            $overblogResult->errors,
             $overblogResult->extensions ?? [],
         );
     }

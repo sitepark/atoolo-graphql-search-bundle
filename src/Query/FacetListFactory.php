@@ -146,12 +146,12 @@ class FacetListFactory
             return null;
         }
         if (
-            $facet->absoluteDateRange->from === null &&
-            $facet->absoluteDateRange->to === null
+            $facet->absoluteDateRange->from === null
+            && $facet->absoluteDateRange->to === null
         ) {
             throw new InvalidArgumentException(
-                'At least `from` or `to` must be specified for ' .
-                    'the `absoluteDateRange`',
+                'At least `from` or `to` must be specified for '
+                    . 'the `absoluteDateRange`',
             );
         }
         return new AbsoluteDateRangeFacet(

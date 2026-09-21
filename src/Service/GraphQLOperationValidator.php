@@ -17,7 +17,7 @@ class GraphQLOperationValidator
     ) {}
 
     /**
-     * @return array<string> error messages, empty if no error occured
+     * @return array<string> error messages, empty if no error occurred
      */
     public function validate(GraphQLOperation $operation): array
     {

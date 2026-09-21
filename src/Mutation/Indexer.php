@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Atoolo\GraphQL\Search\Mutation;
 
-use Atoolo\Search\Dto\Indexer\IndexerStatus;
-use Atoolo\Search\Service\Indexer\InternalResourceIndexer;
+use Atoolo\Index\Dto\Indexer\IndexerStatus;
+use Atoolo\Index\Service\Indexer\InternalResourceIndexer;
 use Overblog\GraphQLBundle\Annotation as GQL;
 
 #[GQL\Provider]

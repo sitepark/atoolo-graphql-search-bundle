@@ -49,8 +49,8 @@ class ResourceResolverTest extends TestCase
         $this->assertEquals(
             $expected,
             $hierarchy,
-            'Should return a Hierarchy with the navigation ' .
-            'type and the resource',
+            'Should return a Hierarchy with the navigation '
+            . 'type and the resource',
         );
     }
 
