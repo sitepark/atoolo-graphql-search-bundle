@@ -14,6 +14,7 @@
         "ext-sysvsem": "*",
         "atoolo/resource-bundle": "dev-feature/id-based-resource-location",
         "atoolo/rewrite-bundle": "dev-feature/id-based-resource-location",
+        "atoolo/index-bundle": "dev-feature/id-based-resource-location",
         "atoolo/search-bundle": "dev-feature/id-based-resource-location",
         "overblog/graphql-bundle": "^1.10",
         "symfony/config": "^6.3 || ^7.4.17",
