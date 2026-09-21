@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Test\Query;
 
 use Atoolo\GraphQL\Search\Query\Indexer;
-use Atoolo\Search\Dto\Indexer\IndexerStatus;
-use Atoolo\Search\Service\Indexer\InternalResourceIndexer;
+use Atoolo\Index\Dto\Indexer\IndexerStatus;
+use Atoolo\Index\Service\Indexer\InternalResourceIndexer;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
