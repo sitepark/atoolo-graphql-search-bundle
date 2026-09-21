@@ -63,7 +63,7 @@ class GraphQLOperationExecutor
         );
         return new GraphQLResult(
             $overblogResult->data ?? [],
-            $overblogResult->errors ?? [],
+            $overblogResult->errors,
             $overblogResult->extensions ?? [],
         );
     }
