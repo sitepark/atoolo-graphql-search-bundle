@@ -12,24 +12,25 @@
     "require": {
         "php": ">=8.1 <8.6.0",
         "ext-sysvsem": "*",
-        "atoolo/resource-bundle": "^1",
-        "atoolo/rewrite-bundle": "^1",
-        "atoolo/search-bundle": "dev-main",
-        "overblog/graphql-bundle": "^1.9",
-        "symfony/config": "^6.3 || ^7.4.7",
-        "symfony/dependency-injection": "^6.3 || ^7.4.7",
-        "symfony/dotenv": "^6.3 || ^7.4.7",
-        "symfony/http-kernel": "^6.3 || ^7.4.7",
-        "symfony/yaml": "^6.3 || ^7.4.7"
+        "atoolo/resource-bundle": "dev-feature/id-based-resource-location",
+        "atoolo/rewrite-bundle": "dev-feature/id-based-resource-location",
+        "atoolo/index-bundle": "dev-feature/id-based-resource-location",
+        "atoolo/search-bundle": "dev-feature/id-based-resource-location",
+        "overblog/graphql-bundle": "^1.10",
+        "symfony/config": "^6.3 || ^7.4.17",
+        "symfony/dependency-injection": "^6.3 || ^7.4.17",
+        "symfony/dotenv": "^6.3 || ^7.4.18",
+        "symfony/http-kernel": "^6.3 || ^7.4.19",
+        "symfony/yaml": "^6.3 || ^7.4.18"
     },
     "require-dev": {
-        "dealerdirect/phpcodesniffer-composer-installer": "^1.2",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.2.1",
         "infection/infection": "^0.27.11",
-        "overtrue/phplint": "^9.7.1",
+        "overtrue/phplint": "^9.7.2",
         "phpcompatibility/php-compatibility": "^9.3.5",
         "phpunit/phpunit": "^10.5.64",
         "roave/security-advisories": "dev-latest",
-        "squizlabs/php_codesniffer": "^3.13.5"
+        "squizlabs/php_codesniffer": "^3.13.6"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

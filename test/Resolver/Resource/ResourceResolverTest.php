@@ -60,7 +60,7 @@ class ResourceResolverTest extends TestCase
             $this->createStub(DelegatingTeaserFactory::class),
         );
 
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'contentSectionTypes' => ['type1'],
         ]);
 
@@ -80,7 +80,7 @@ class ResourceResolverTest extends TestCase
             $this->createStub(DelegatingTeaserFactory::class),
         );
 
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'explain' => [
                 'score' => 5.0,
                 'type' => 'score',
@@ -108,7 +108,7 @@ class ResourceResolverTest extends TestCase
             $this->createStub(DelegatingTeaserFactory::class),
         );
 
-        $resource = TestResourceFactory::create([]);
+        $resource = Resource::create([]);
 
         $this->assertNull(
             $resolver->getExplain($resource),

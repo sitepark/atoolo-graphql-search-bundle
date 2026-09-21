@@ -5,6 +5,7 @@ Resource:
       id: { type: "ID!" }
       name: { type: "String!" }
       location: { type: "String!" }
+      url: { type: "String!" }
       objectType: { type: "String!" }
       contentSectionTypes: { type: "[String!]" }
       teaser: { type: "Teaser!" }
