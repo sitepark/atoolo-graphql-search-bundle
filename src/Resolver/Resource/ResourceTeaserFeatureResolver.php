@@ -29,7 +29,6 @@ class ResourceTeaserFeatureResolver implements Resolver
             foreach ($factory->create($resource) as $createdFeature) {
                 // the declared type says non null, but a factory may still
                 // yield null and the tests rely on those being dropped
-                // @phpstan-ignore notIdentical.alwaysTrue
                 if ($createdFeature !== null) {
                     $links[] = $createdFeature;
                 }
