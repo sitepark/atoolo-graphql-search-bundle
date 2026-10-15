@@ -6,7 +6,6 @@ namespace Atoolo\GraphQL\Search\Test\Resolver\Resource;
 
 use Atoolo\GraphQL\Search\Factory\TeaserFeatureFactory;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceTeaserFeatureResolver;
-use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\GraphQL\Search\Types\TeaserFeature;
 use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
