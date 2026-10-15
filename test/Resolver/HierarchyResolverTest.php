@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Test\Resolver;
 
 use Atoolo\GraphQL\Search\Resolver\HierarchyResolver;
-use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\GraphQL\Search\Types\Hierarchy;
+use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceHierarchyLoader;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -36,7 +36,7 @@ class HierarchyResolverTest extends TestCase
 
     public function testGetCategoryRoot(): void
     {
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'url' => 'location',
         ]);
         $hierarchy = new Hierarchy('category', $resource);
@@ -50,7 +50,7 @@ class HierarchyResolverTest extends TestCase
 
     public function testGetNavigationRoot(): void
     {
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'url' => 'location',
         ]);
         $hierarchy = new Hierarchy('navigation', $resource);
@@ -64,7 +64,7 @@ class HierarchyResolverTest extends TestCase
 
     public function testGetRootWithInvalidHierarchyType(): void
     {
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'url' => 'location',
         ]);
         $hierarchy = new Hierarchy('test', $resource);
@@ -77,7 +77,7 @@ class HierarchyResolverTest extends TestCase
 
     public function testGetParent(): void
     {
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'url' => 'location',
         ]);
         $hierarchy = new Hierarchy('category', $resource);
@@ -91,7 +91,7 @@ class HierarchyResolverTest extends TestCase
 
     public function testGetPath(): void
     {
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'url' => 'location',
         ]);
         $hierarchy = new Hierarchy('category', $resource);
@@ -105,7 +105,7 @@ class HierarchyResolverTest extends TestCase
 
     public function testGetChildren(): void
     {
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'url' => 'location',
         ]);
         $hierarchy = new Hierarchy('category', $resource);

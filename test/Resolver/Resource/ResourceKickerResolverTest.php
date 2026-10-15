@@ -6,7 +6,6 @@ namespace Atoolo\GraphQL\Search\Test\Resolver\Resource;
 
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceKickerResolver;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceResolverContext;
-use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\Resource\Loader\SiteKitNavigationHierarchyLoader;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceLoader;
@@ -58,7 +57,7 @@ class ResourceKickerResolverTest extends TestCase
 
     public function testGetKickerInTeaserData(): void
     {
-        $resource = $this->createResource([
+        $resource = Resource::create([
             'base' => [
                 'teaser' => [
                     'kicker' => 'Teaser-Kicker',
@@ -75,7 +74,7 @@ class ResourceKickerResolverTest extends TestCase
 
     public function testGetKickerInBaseData(): void
     {
-        $teaser = $this->createResource([
+        $teaser = Resource::create([
             'base' => [
                 'kicker' => 'Base-Kicker',
             ],
@@ -89,7 +88,7 @@ class ResourceKickerResolverTest extends TestCase
 
     public function testGetKickerInherited(): void
     {
-        $teaser = $this->createResource([
+        $teaser = Resource::create([
             'base' => [
                 'trees' => [
                     'navigation' => [
@@ -112,7 +111,7 @@ class ResourceKickerResolverTest extends TestCase
 
     public function testGetKickerNotFound(): void
     {
-        $teaser = $this->createResource([]);
+        $teaser = Resource::create([]);
         $this->assertNull(
             $this->resolver->getKicker($teaser),
             'kicker should be null',
@@ -121,7 +120,7 @@ class ResourceKickerResolverTest extends TestCase
 
     public function testGetKickerWithSameNavigation(): void
     {
-        $teaser = $this->createResource([
+        $teaser = Resource::create([
             'base' => [
                 'trees' => [
                     'navigation' => [
@@ -151,7 +150,7 @@ class ResourceKickerResolverTest extends TestCase
 
     public function testGetKickerWithSameNavigationButNullLocation(): void
     {
-        $teaser = $this->createResource([
+        $teaser = Resource::create([
             'base' => [
                 'trees' => [
                     'navigation' => [
@@ -177,12 +176,5 @@ class ResourceKickerResolverTest extends TestCase
             $this->resolver->getKicker($teaser),
             'unexpected teaser kicker',
         );
-    }
-    /**
-     * @param array<string,mixed> $data
-     */
-    private function createResource(array $data): Resource
-    {
-        return TestResourceFactory::create($data);
     }
 }

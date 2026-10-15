@@ -13,5 +13,6 @@ class Resource
         public readonly ?string $id,
         public readonly ?string $name,
         public readonly ?string $location,
+        public readonly ?string $url,
     ) {}
 }

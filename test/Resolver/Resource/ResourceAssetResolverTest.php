@@ -6,7 +6,6 @@ namespace Atoolo\GraphQL\Search\Test\Resolver\Resource;
 
 use Atoolo\GraphQL\Search\Factory\AssetFactory;
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceAssetResolver;
-use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\GraphQL\Search\Types\Asset;
 use Atoolo\Resource\Resource;
 use Overblog\GraphQLBundle\Definition\ArgumentInterface;
@@ -110,6 +109,6 @@ class ResourceAssetResolverTest extends TestCase
      */
     private function createResource(array $data): Resource
     {
-        return TestResourceFactory::create($data);
+        return Resource::create($data);
     }
 }

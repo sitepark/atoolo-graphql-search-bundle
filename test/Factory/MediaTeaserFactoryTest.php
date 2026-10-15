@@ -6,9 +6,9 @@ namespace Atoolo\GraphQL\Search\Test\Factory;
 
 use Atoolo\GraphQL\Search\Factory\LinkFactory;
 use Atoolo\GraphQL\Search\Factory\MediaTeaserFactory;
-use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\GraphQL\Search\Types\Link;
 use Atoolo\GraphQL\Search\Types\MediaTeaser;
+use Atoolo\Resource\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -27,7 +27,7 @@ class MediaTeaserFactoryTest extends TestCase
 
     public function testCreateWithUnsupportedObjectType(): void
     {
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'objectType' => 'other',
         ]);
 
@@ -37,7 +37,7 @@ class MediaTeaserFactoryTest extends TestCase
 
     public function testLink(): void
     {
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'objectType' => 'media',
         ]);
         $link = new Link('url');
@@ -55,7 +55,7 @@ class MediaTeaserFactoryTest extends TestCase
 
     public function testResolveWithHeadline(): void
     {
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'objectType' => 'embedded-media',
             'base' => [
                 'teaser' => [
@@ -76,7 +76,7 @@ class MediaTeaserFactoryTest extends TestCase
 
     public function testResolveWithFallbackHeadline(): void
     {
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'objectType' => 'media',
             'name' => 'ResourceName',
         ]);
@@ -97,7 +97,7 @@ class MediaTeaserFactoryTest extends TestCase
         $this->linkFactory->method('create')
             ->willReturn($link);
 
-        $resource = TestResourceFactory::create([
+        $resource = Resource::create([
             'objectType' => 'media',
             'base' => [
                 'teaser' => [

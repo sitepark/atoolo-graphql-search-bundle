@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Test\Resolver\Resource;
 
 use Atoolo\GraphQL\Search\Resolver\Resource\ResourceGeoResolver;
-use Atoolo\GraphQL\Search\Test\TestResourceFactory;
 use Atoolo\GraphQL\Search\Types\Geo;
 use Atoolo\GraphQL\Search\Types\GeoPoint;
 use Atoolo\Resource\Resource;
@@ -212,6 +211,6 @@ class ResourceGeoResolverTest extends TestCase
      */
     private function createResource(array $data): Resource
     {
-        return TestResourceFactory::create($data);
+        return Resource::create($data);
     }
 }
