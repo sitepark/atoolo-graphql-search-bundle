@@ -114,6 +114,27 @@ class GraphQLDocumentLinkerTest extends TestCase
         );
     }
 
+    public function testPrintsFragmentWithoutLocation(): void
+    {
+        $sources = [
+            'a.graphql' => 'query a { search { ...result } }',
+            'b.graphql' => 'fragment result on Result { id }',
+        ];
+
+        $linked = (new GraphQLDocumentLinker())->link($sources, [
+            'a.graphql' => Parser::parse($sources['a.graphql']),
+            'b.graphql' => Parser::parse($sources['b.graphql'], ['noLocation' => true]),
+        ]);
+
+        $this->assertSame(
+            "query a { search { ...result } }\n"
+                . "\n# fragment result from b.graphql\n"
+                . "fragment result on Result {\n  id\n}\n",
+            $linked['a.graphql'],
+        );
+        $this->assertValid($linked['a.graphql']);
+    }
+
     public function testUnknownFragmentIsLeftToValidation(): void
     {
         $source = 'query a { search { ...unknown } }';
