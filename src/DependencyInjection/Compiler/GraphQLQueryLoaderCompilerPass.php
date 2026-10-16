@@ -33,11 +33,13 @@ class GraphQLQueryLoaderCompilerPass implements CompilerPassInterface
 
         $finder = new Finder();
         $finder->files()->in($queryDirs)->name('*.graphql');
-        $operations = [];
+        $sources = [];
+        $documents = [];
         foreach ($finder as $file) {
+            $path = $file->getPathname();
             $fileContents = $file->getContents();
             try {
-                $abstractSyntaxTree = Parser::parse($fileContents);
+                $documents[$path] = Parser::parse($fileContents);
             } catch (\Exception $e) {
                 throw new InvalidArgumentException(
                     sprintf(
@@ -49,7 +51,14 @@ class GraphQLQueryLoaderCompilerPass implements CompilerPassInterface
                     $e,
                 );
             }
+            $sources[$path] = $fileContents;
+        }
 
+        // complete each file with the fragments it uses from other files
+        $linkedSources = (new GraphQLDocumentLinker())->link($sources, $documents);
+
+        $operations = [];
+        foreach ($documents as $path => $abstractSyntaxTree) {
             foreach ($abstractSyntaxTree->definitions as $astDefinition) {
                 // We only care about executable operations (query, mutation)
                 if ($astDefinition instanceof OperationDefinitionNode) {
@@ -60,14 +69,14 @@ class GraphQLQueryLoaderCompilerPass implements CompilerPassInterface
                                 'Duplicate GraphQL operation name "%s" found in file "%s".'
                                     . ' Operation names must be unique.',
                                 $operationName,
-                                $file->getRealPath(),
+                                realpath($path),
                             ),
                         );
                     }
                     $operations[$operationName] = [
                         'name' => $operationName,
-                        'source' => $fileContents,
-                        'sourceLocation' => $file->getPathname(),
+                        'source' => $linkedSources[$path],
+                        'sourceLocation' => $path,
                     ];
                 }
             }
