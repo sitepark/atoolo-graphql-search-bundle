@@ -27,20 +27,15 @@ class ResourceKickerResolver implements Resolver
         Resource $resource,
     ): ?string {
 
-        $teaserKicker = $resource->data->getString('base.teaser.kicker');
-        if ($teaserKicker !== '') {
-            return $teaserKicker;
-        }
-
-        // A resource of another site is introduced by the kicker of that site's root.
-        $foreignRoot = $this->getForeignSiteRoot($resource);
-        if ($foreignRoot !== null) {
-            return $this->getDirectKicker($foreignRoot);
-        }
-
         $kickerText = $this->getDirectKicker($resource);
         if ($kickerText !== null) {
             return $kickerText;
+        }
+
+        // Without an own kicker, a resource of another site is introduced by the kicker of that site's root.
+        $foreignRoot = $this->getForeignSiteRoot($resource);
+        if ($foreignRoot !== null) {
+            return $this->getDirectKicker($foreignRoot);
         }
 
         $changedNavigationParent = $this->getChangedNavigationParentResource($resource->lang);

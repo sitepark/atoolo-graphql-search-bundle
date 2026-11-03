@@ -153,7 +153,7 @@ class ResourceKickerResolverTest extends TestCase
 
     public function testGetKickerOfForeignSite(): void
     {
-        $teaser = $this->resourceLoader->load(ResourceLocation::of('/site-page.php'));
+        $teaser = $this->resourceLoader->load(ResourceLocation::of('/site-section-page.php'));
 
         $this->resourceResolverContext->method('getResourceLocation')
             ->willReturn('/other-root.php');
@@ -167,29 +167,43 @@ class ResourceKickerResolverTest extends TestCase
 
     public function testGetKickerOfSameSite(): void
     {
-        $teaser = $this->resourceLoader->load(ResourceLocation::of('/site-page.php'));
+        $teaser = $this->resourceLoader->load(ResourceLocation::of('/site-section-page.php'));
 
         $this->resourceResolverContext->method('getResourceLocation')
             ->willReturn('/site-root.php');
 
         $this->assertEquals(
+            'Site-Section-Kicker',
+            $this->resolver->getKicker($teaser),
+            'inherited kicker expected within the same site',
+        );
+    }
+
+    public function testGetOwnKickerOfForeignSite(): void
+    {
+        $teaser = $this->resourceLoader->load(ResourceLocation::of('/site-page.php'));
+
+        $this->resourceResolverContext->method('getResourceLocation')
+            ->willReturn('/other-root.php');
+
+        $this->assertEquals(
             'Site-Page-Kicker',
             $this->resolver->getKicker($teaser),
-            'own kicker expected within the same site',
+            'own kicker expected also for a foreign site',
         );
     }
 
     public function testGetKickerWithContextWithoutRoot(): void
     {
-        $teaser = $this->resourceLoader->load(ResourceLocation::of('/site-page.php'));
+        $teaser = $this->resourceLoader->load(ResourceLocation::of('/site-section-page.php'));
 
         $this->resourceResolverContext->method('getResourceLocation')
             ->willReturn('/parent.php');
 
         $this->assertEquals(
-            'Site-Page-Kicker',
+            'Site-Section-Kicker',
             $this->resolver->getKicker($teaser),
-            'own kicker expected if the context has no root',
+            'inherited kicker expected if the context has no root',
         );
     }
 
