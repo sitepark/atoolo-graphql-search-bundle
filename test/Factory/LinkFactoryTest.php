@@ -126,4 +126,23 @@ class LinkFactoryTest extends TestCase
         $this->assertTrue($link->opensNewWindow);
         $this->assertTrue($link->isExternal);
     }
+
+    public function testCreateWithExternalUrl(): void
+    {
+        $externalUrl = 'https://www.example.com';
+        $resource = Resource::create([
+            'url' => '/some_url.php',
+            'external' => [
+                'url' => $externalUrl,
+            ],
+        ]);
+        $this->urlRewriter
+            ->expects($this->once())
+            ->method('rewrite')
+            ->with(UrlRewriteType::LINK, $externalUrl)
+            ->willReturn($externalUrl);
+        $link = $this->factory->create($resource);
+
+        $this->assertEquals($externalUrl, $link->url);
+    }
 }
