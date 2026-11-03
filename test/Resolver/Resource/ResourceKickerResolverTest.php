@@ -179,6 +179,20 @@ class ResourceKickerResolverTest extends TestCase
         );
     }
 
+    public function testGetKickerWithContextWithoutRoot(): void
+    {
+        $teaser = $this->resourceLoader->load(ResourceLocation::of('/site-page.php'));
+
+        $this->resourceResolverContext->method('getResourceLocation')
+            ->willReturn('/parent.php');
+
+        $this->assertEquals(
+            'Site-Page-Kicker',
+            $this->resolver->getKicker($teaser),
+            'own kicker expected if the context has no root',
+        );
+    }
+
     public function testGetTeaserKickerOfForeignSite(): void
     {
         $teaser = Resource::create([
