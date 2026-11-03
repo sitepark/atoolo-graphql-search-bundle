@@ -30,6 +30,14 @@ class LinkFactory
 
     protected function getUrl(Resource $resource): string
     {
+        $externalUrl = $resource->data->getString('external.url');
+        if ($externalUrl !== '') {
+            return $this->urlRewriter->rewrite(
+                UrlRewriteType::LINK,
+                $externalUrl,
+                UrlRewriteOptions::builder()->lang($resource->lang->code)->build(),
+            );
+        }
         return $this->isMedia($resource)
             ? $this->urlRewriter->rewrite(
                 UrlRewriteType::MEDIA,
