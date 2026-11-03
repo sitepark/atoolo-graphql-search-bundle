@@ -9,6 +9,7 @@ use Atoolo\GraphQL\Search\Resolver\Resource\ResourceResolverContext;
 use Atoolo\Resource\Loader\SiteKitNavigationHierarchyLoader;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceLoader;
+use Atoolo\Resource\ResourceLocation;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -47,6 +48,8 @@ class ResourceKickerResolverTest extends TestCase
         $this->hierarchyLoader = new SiteKitNavigationHierarchyLoader(
             $resourceLoader,
         );
+
+        $this->resourceLoader = $resourceLoader;
 
         $this->resolver = new ResourceKickerResolver(
             $this->hierarchyLoader,
@@ -145,6 +148,68 @@ class ResourceKickerResolverTest extends TestCase
             'Changed-Navigation-Parent-Kicker',
             $this->resolver->getKicker($teaser),
             'unexpected teaser kicker',
+        );
+    }
+
+    public function testGetKickerOfForeignSite(): void
+    {
+        $teaser = $this->resourceLoader->load(ResourceLocation::of('/site-page.php'));
+
+        $this->resourceResolverContext->method('getResourceLocation')
+            ->willReturn('/other-root.php');
+
+        $this->assertEquals(
+            'Site-Root-Kicker',
+            $this->resolver->getKicker($teaser),
+            'kicker of the foreign site root expected',
+        );
+    }
+
+    public function testGetKickerOfSameSite(): void
+    {
+        $teaser = $this->resourceLoader->load(ResourceLocation::of('/site-page.php'));
+
+        $this->resourceResolverContext->method('getResourceLocation')
+            ->willReturn('/site-root.php');
+
+        $this->assertEquals(
+            'Site-Page-Kicker',
+            $this->resolver->getKicker($teaser),
+            'own kicker expected within the same site',
+        );
+    }
+
+    public function testGetKickerWithContextWithoutRoot(): void
+    {
+        $teaser = $this->resourceLoader->load(ResourceLocation::of('/site-page.php'));
+
+        $this->resourceResolverContext->method('getResourceLocation')
+            ->willReturn('/parent.php');
+
+        $this->assertEquals(
+            'Site-Page-Kicker',
+            $this->resolver->getKicker($teaser),
+            'own kicker expected if the context has no root',
+        );
+    }
+
+    public function testGetTeaserKickerOfForeignSite(): void
+    {
+        $teaser = Resource::create([
+            'base' => [
+                'teaser' => [
+                    'kicker' => 'Teaser-Kicker',
+                ],
+            ],
+        ]);
+
+        $this->resourceResolverContext->method('getResourceLocation')
+            ->willReturn('/other-root.php');
+
+        $this->assertEquals(
+            'Teaser-Kicker',
+            $this->resolver->getKicker($teaser),
+            'teaser kicker expected',
         );
     }
 

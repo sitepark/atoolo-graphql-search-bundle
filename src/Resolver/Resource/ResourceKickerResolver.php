@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Atoolo\GraphQL\Search\Resolver\Resource;
 
 use Atoolo\GraphQL\Search\Resolver\Resolver;
+use Atoolo\Resource\Exception\InvalidResourceException;
+use Atoolo\Resource\Exception\ResourceNotFoundException;
+use Atoolo\Resource\Exception\RootMissingException;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceHierarchyLoader;
 use Atoolo\Resource\ResourceHierarchyWalker;
@@ -23,6 +26,17 @@ class ResourceKickerResolver implements Resolver
     public function getKicker(
         Resource $resource,
     ): ?string {
+
+        $teaserKicker = $resource->data->getString('base.teaser.kicker');
+        if ($teaserKicker !== '') {
+            return $teaserKicker;
+        }
+
+        // A resource of another site is introduced by the kicker of that site's root.
+        $foreignRoot = $this->getForeignSiteRoot($resource);
+        if ($foreignRoot !== null) {
+            return $this->getDirectKicker($foreignRoot);
+        }
 
         $kickerText = $this->getDirectKicker($resource);
         if ($kickerText !== null) {
@@ -53,6 +67,32 @@ class ResourceKickerResolver implements Resolver
             }
         }
         return null;
+    }
+
+    /**
+     * Returns the navigation root of the resource if it differs from the
+     * navigation root of the resource in the context (e.g. a page of the
+     * main site listed in a microsite). Not for `sameNavigation`, where the
+     * resource is shown as part of the context's navigation.
+     */
+    private function getForeignSiteRoot(Resource $resource): ?Resource
+    {
+        if ($this->resourceResolverContext->isSameNavigation()) {
+            return null;
+        }
+        $contextLocation = $this->resourceResolverContext->getResourceLocation();
+        if ($contextLocation === null) {
+            return null;
+        }
+        try {
+            $contextRoot = $this->hierarchyLoader->loadRoot(
+                ResourceLocation::of($contextLocation, $resource->lang),
+            );
+            $root = $this->hierarchyLoader->loadRoot($resource->toLocation());
+        } catch (ResourceNotFoundException|InvalidResourceException|RootMissingException) {
+            return null;
+        }
+        return $root->location !== $contextRoot->location ? $root : null;
     }
 
     private function getChangedNavigationParentResource(ResourceLanguage $lang): ?Resource
