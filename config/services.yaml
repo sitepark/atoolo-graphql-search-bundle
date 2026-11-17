@@ -55,17 +55,20 @@ services:
     arguments:
       - '@atoolo_search.search'
       - '@atoolo_graphql_search.query_context_dispatcher'
+      - '@logger'
 
   Atoolo\GraphQL\Search\Query\MoreLikeThis:
     public: true
     arguments:
       - '@atoolo_search.more_like_this'
       - '@atoolo_graphql_search.query_context_dispatcher'
+      - '@logger'
 
   Atoolo\GraphQL\Search\Query\Suggest:
     public: true
     arguments:
       - '@atoolo_search.suggest'
+      - '@logger'
 
   Atoolo\GraphQL\Search\Query\Indexer:
     public: true
